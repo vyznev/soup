@@ -1,0 +1,104 @@
+// ==UserScript==
+// @name        Stack Overflow Unofficial Patch
+// @namespace   https://github.com/vyznev/
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @include     *stackexchange.com*
+// @include     *stackoverflow.com*
+// @include     *superuser.com*
+// @include     *serverfault.com*
+// @include     *stackapps.com*
+// @include     *mathoverflow.net*
+// @include     *askubuntu.com*
+// @version     1.0.2
+// @grant       none
+// ==/UserScript==
+
+
+//
+// CSS-only fixes:
+//
+var styles = "";
+
+// All Stack Exchange sites in a small window causing display problems?
+// http://meta.stackoverflow.com/q/114636
+// XXX: .new-topbar keeps this from applying to the mobile version
+styles += "body.new-topbar { min-width: 1024px }\n";
+
+// Add a non-breaking space to "reopen (1)" and its ilk
+// http://meta.stackoverflow.com/q/215473
+styles += ".post-menu a { white-space: nowrap }\n";
+styles += ".post-menu .lsep:after { content: ' '; font-size: 0px }\n";
+
+// Ignoring somebody screws up the avatar list
+// http://meta.stackoverflow.com/q/155308
+styles += "#present-users > .present-user.ignored { height: 16px }\n";
+
+// Layout fix for Firefox in “Zoom text only” mode
+// http://meta.stackoverflow.com/q/138685
+styles += "#question-mini-list, .user-header-left, .user-panel > .user-panel-content > table { clear: both }\n";
+
+// add collected styles to page
+var styleElem = document.createElement( 'style' );
+styleElem.id = 'soup-styles';
+styleElem.type = 'text/css';
+styleElem.textContent = styles;
+document.head.appendChild( styleElem );
+
+
+//
+// Fixes that need scripting (run in page context):
+//
+var scripts = function () {
+	var ajaxHooks = [];
+
+	// Cannot navigate into the multicollider with keyboard - so cannot access main / meta anymore
+	// http://meta.stackoverflow.com/q/207526
+	hookAjax( /^\/topbar\//, function () {
+		$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
+		$('.js-inbox-button').after($('.inbox-dialog'));
+		$('.js-achievements-button').after($('.achievements-dialog'));
+	} );
+
+	// Un-fade low-score answers on rollover or click
+	// http://meta.stackoverflow.com/q/129593
+	$('#answers').on('mouseover', '.downvoted-answer',
+		function () { $(this).addClass('downvoted-answer-hover').removeClass('downvoted-answer') }
+	).on('mouseout',  '.downvoted-answer-hover:not(.clicked)',
+		function () { $(this).addClass('downvoted-answer').removeClass('downvoted-answer-hover') }
+	).on('click', '.downvoted-answer-hover',
+		function () { $(this).toggleClass('clicked') }
+	);
+	
+	// 10k tools fixes:
+	if ( /^\/tools\b/.test( location.pathname ) ) {
+		// Can we have the "50 more" link return items of the same type, please?
+		// http://meta.stackoverflow.com/q/150069
+		$('body.tools-page .bottom-notice a[href="/tools/flagged"]').attr('href', location.href);
+
+		// Render MathJax in the 10k tools
+		// http://meta.stackoverflow.com/q/209393
+		hookAjax( /^\/tools\b/, function () {
+			typeof(MathJax) !== 'undefined' && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+		} );
+		// similar but unrelated issue: MathJax not shown in already flagged posts
+		$('.flagged-posts .already-flagged.dno').hide().removeClass('dno');
+	}
+	
+	// utility: run code after any matching AJAX request
+	function hookAjax ( regex, code ) {
+		ajaxHooks.push( { regex: regex, code: code } );
+	}
+	$( document ).ajaxSuccess( function( event, xhr, settings ) {
+		for (var i = 0; i < ajaxHooks.length; i++) {
+			if ( ajaxHooks[i].regex.test( settings.url ) ) {
+				setTimeout( ajaxHooks[i].code, 100 );
+			}
+		}
+	} );
+};
+
+var scriptElem = document.createElement( 'script' );
+scriptElem.id = 'soup-scripts';
+scriptElem.type = 'text/javascript';
+scriptElem.textContent = "StackExchange.ready(" + scripts + ");";
+document.body.appendChild( scriptElem );
