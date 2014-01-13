@@ -2,14 +2,16 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @include     *stackexchange.com*
-// @include     *stackoverflow.com*
-// @include     *superuser.com*
-// @include     *serverfault.com*
-// @include     *stackapps.com*
-// @include     *mathoverflow.net*
-// @include     *askubuntu.com*
-// @version     1.0.2
+// @match       *://*.stackexchange.com/*
+// @match       *://*.stackoverflow.com/*
+// @match       *://*.superuser.com/*
+// @match       *://*.serverfault.com/*
+// @match       *://*.stackapps.com/*
+// @match       *://*.mathoverflow.net/*
+// @match       *://*.askubuntu.com/*
+// @version     1.0.3
+// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
+// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
 // ==/UserScript==
 
@@ -69,6 +71,19 @@ var scripts = function () {
 		function () { $(this).toggleClass('clicked') }
 	);
 	
+	// Allow flagging a comment after upvoting it
+	// http://meta.stackoverflow.com/q/104184
+	hookAjax( /^\/posts\/\d+\/comments\b/, function () {
+		$('.comment-up-on').closest('table').not(':has(.comment-flag)').append(
+			// better hardcode this, so it'll break cleanly rather than mysteriously if SE code changes
+			'<tr><td>&nbsp;</td><td><a class="comment-flag soup-injected-fake"' +
+			' title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr>'
+		);
+	} ).code();
+	hookAjax( /^\/posts\/comments\/\d+\/vote\b/, function () {
+		$('.comment-up-on').closest('tr').siblings('tr:has(.comment-flag)').show();
+	} );
+	
 	// 10k tools fixes:
 	if ( /^\/tools\b/.test( location.pathname ) ) {
 		// Can we have the "50 more" link return items of the same type, please?
@@ -86,7 +101,9 @@ var scripts = function () {
 	
 	// utility: run code after any matching AJAX request
 	function hookAjax ( regex, code ) {
-		ajaxHooks.push( { regex: regex, code: code } );
+		var hook = { regex: regex, code: code };
+		ajaxHooks.push( hook );
+		return hook;  // for chaining
 	}
 	$( document ).ajaxSuccess( function( event, xhr, settings ) {
 		for (var i = 0; i < ajaxHooks.length; i++) {
