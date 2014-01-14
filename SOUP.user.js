@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.0.5
+// @version     1.0.6
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -90,9 +90,11 @@ var scripts = function () {
 	// SSL breaks TeX rendering
 	// http://meta.stackoverflow.com/q/215450
 	if ( 'https:' == location.protocol && 'undefined' === typeof(MathJax) ) {
-		$('script[src^="http://cdn.mathjax.org/"]').remove().attr(
-			'src', function (i,v) { return v.replace('http://cdn.mathjax.org', 'https://c328740.ssl.cf1.rackcdn.com') }
-		).appendTo(document.head);
+		var mjs = $('script[src^="http://cdn.mathjax.org/"]').remove();
+		if ( mjs.length > 0 ) $.ajax( {
+			dataType: "script", cache: true,
+			url: mjs[0].src.replace('http://cdn.mathjax.org', 'https://c328740.ssl.cf1.rackcdn.com')
+		} );
 	}
 	
 	// 10k tools fixes:
