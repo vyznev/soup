@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.0.7
+// @version     1.0.8
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -61,10 +61,15 @@ var scripts = function () {
 		$('.js-achievements-button').after($('.achievements-dialog'));
 	} );
 	// fix bug causing clicks on the site search box to close the menu
-    $(document).off('click').on('click', function (e) {
-		if ( $(e.target).closest('.topbar-dialog').length > 0 ) return;
-		$('.topbar-icon-on').click();
-	} );
+    // XXX: this would be a lot easier if jQuery bubbled middle/right clicks properly :-(
+	$._data(document, 'events').click.forEach( function (h) {
+		if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
+		var oldHandler = h.handler;
+		h.handler = function (e) {
+			if ( $(e.target).closest('.topbar-dialog').length ) return;
+			return oldHandler.apply(this, arguments);
+		};
+    } );
 
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593
