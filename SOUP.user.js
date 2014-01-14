@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.0.3
+// @version     1.0.4
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -63,12 +63,13 @@ var scripts = function () {
 
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593
+	// XXX: this is ugly, but avoids assuming anything about how downvoted answers are styled on each site
 	$('#answers').on('mouseover', '.downvoted-answer',
 		function () { $(this).addClass('downvoted-answer-hover').removeClass('downvoted-answer') }
 	).on('mouseout',  '.downvoted-answer-hover:not(.clicked)',
 		function () { $(this).addClass('downvoted-answer').removeClass('downvoted-answer-hover') }
-	).on('click', '.downvoted-answer-hover',
-		function () { $(this).toggleClass('clicked') }
+	).on('click', '.downvoted-answer-hover .post-text',
+		function () { $(this).closest('.downvoted-answer-hover').toggleClass('clicked') }
 	);
 	
 	// Allow flagging a comment after upvoting it
@@ -83,6 +84,14 @@ var scripts = function () {
 	hookAjax( /^\/posts\/comments\/\d+\/vote\b/, function () {
 		$('.comment-up-on').closest('tr').siblings('tr:has(.comment-flag)').show();
 	} );
+	
+	// SSL breaks TeX rendering
+	// http://meta.stackoverflow.com/q/215450
+	if ( 'https:' == location.protocol && 'undefined' === typeof(MathJax) ) {
+		$('script[src^="http://cdn.mathjax.org/"]').remove().attr(
+			'src', function (i,v) { return v.replace('http://cdn.mathjax.org', 'https://c328740.ssl.cf1.rackcdn.com') }
+		).appendTo(document.head);
+	}
 	
 	// 10k tools fixes:
 	if ( /^\/tools\b/.test( location.pathname ) ) {

@@ -28,6 +28,7 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
 * [Allow flagging a comment after upvoting it](http://meta.stackoverflow.com/q/104184)
+* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450)
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([10k][10k])
 
