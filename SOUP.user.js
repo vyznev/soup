@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.0.6
+// @version     1.0.7
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -61,7 +61,10 @@ var scripts = function () {
 		$('.js-achievements-button').after($('.achievements-dialog'));
 	} );
 	// fix bug causing clicks on the site search box to close the menu
-	$('.topbar').on( 'click', '.topbar-dialog', function (e) { e.stopPropagation() } );
+    $(document).off('click').on('click', function (e) {
+		if ( $(e.target).closest('.topbar-dialog').length > 0 ) return;
+		$('.topbar-icon-on').click();
+	} );
 
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593
@@ -125,6 +128,8 @@ var scripts = function () {
 			}
 		}
 	} );
+	
+	console.log('soup loaded');
 };
 
 var scriptElem = document.createElement( 'script' );
