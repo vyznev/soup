@@ -60,7 +60,7 @@ var scripts = function () {
 		$('.js-inbox-button').after($('.inbox-dialog'));
 		$('.js-achievements-button').after($('.achievements-dialog'));
 	} );
-    // fix bug causing clicks on the site search box to close the menu
+	// fix bug causing clicks on the site search box to close the menu
 	$('.topbar').on( 'click', '.topbar-dialog', function (e) { e.stopPropagation() } );
 
 	// Un-fade low-score answers on rollover or click
