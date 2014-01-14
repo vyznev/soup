@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.0.4
+// @version     1.0.5
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -60,6 +60,8 @@ var scripts = function () {
 		$('.js-inbox-button').after($('.inbox-dialog'));
 		$('.js-achievements-button').after($('.achievements-dialog'));
 	} );
+    // fix bug causing clicks on the site search box to close the menu
+	$('.topbar').on( 'click', '.topbar-dialog', function (e) { e.stopPropagation() } );
 
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593
