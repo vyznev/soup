@@ -9,10 +9,11 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.1.0
+// @version     1.1.1
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
+// @run-at      document-start
 // ==/UserScript==
 
 
@@ -42,13 +43,6 @@ styles += "#question-mini-list, .user-header-left, .user-panel > .user-panel-con
 // Topbar text are pushed down on beta sites
 // http://meta.stackoverflow.com/q/211547
 styles += ".topbar { line-height: 1 }"
-
-// add collected styles to page
-var styleElem = document.createElement( 'style' );
-styleElem.id = 'soup-styles';
-styleElem.type = 'text/css';
-styleElem.textContent = styles;
-document.head.appendChild( styleElem );
 
 
 //
@@ -139,11 +133,51 @@ var scripts = function () {
 		}
 	} );
 	
-	console.log('soup loaded');
+	console.log('soup scripts loaded');
 };
 
-var scriptElem = document.createElement( 'script' );
-scriptElem.id = 'soup-scripts';
-scriptElem.type = 'text/javascript';
-scriptElem.textContent = "StackExchange.ready(" + scripts + ");";
-document.body.appendChild( scriptElem );
+
+//
+// MathJax config tweaks (need to be injected early):
+//
+var mathJaxSetup = function () {
+	// The scope of \newcommand is the entire page
+	// http://meta.math.stackexchange.com/q/4130
+	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
+	MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
+		$(message[1]).find('.post-text, .comment-text, .summary').andSelf().filter( function () {
+			return 0 == $(this).children('.soup-mathjax-reset').length;
+		} ).prepend( '<span class="soup-mathjax-reset">$\\endgroup$ $\\begingroup$</span>' );
+	} );
+};
+
+styles += ".soup-mathjax-reset { display: none }";
+
+var configScript = document.createElement( 'script' );
+configScript.id = 'soup-mathjax-config';
+configScript.type = 'text/x-mathjax-config';
+configScript.textContent = "(" + mathJaxSetup + ")();";
+(document.head || document.documentElement).appendChild( configScript );
+
+
+//
+// add collected styles and scripts to page
+//
+var injectScripts = function () {
+	var styleElem = document.createElement( 'style' );
+	styleElem.id = 'soup-styles';
+	styleElem.type = 'text/css';
+	styleElem.textContent = styles;
+	document.head.appendChild( styleElem );
+
+	var scriptElem = document.createElement( 'script' );
+	scriptElem.id = 'soup-scripts';
+	scriptElem.type = 'text/javascript';
+	scriptElem.textContent = "StackExchange.ready(" + scripts + ");";
+	document.body.appendChild( scriptElem );
+
+	console.log('soup styles and scripts injected');
+};
+if (document.body) injectScripts();
+else document.addEventListener( 'DOMContentLoaded', injectScripts );
+

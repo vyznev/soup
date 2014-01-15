@@ -32,6 +32,7 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
 * [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547)
+* [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
 
 Notes:
 
