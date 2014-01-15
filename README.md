@@ -34,6 +34,7 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547) ([CSS][CSS])
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
 * [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) ([CSS][CSS])
+* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
 
 Notes:
 

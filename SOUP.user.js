@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.1.2
+// @version     1.1.3
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -47,6 +47,7 @@ styles += ".topbar { line-height: 1 }\n";
 // Background in OP's user name can obscure text in multiline comments
 // http://meta.stackoverflow.com/q/114109
 styles += ".comment-copy { position: relative }\n";
+
 
 //
 // Fixes that need scripting (run in page context):
@@ -106,8 +107,17 @@ var scripts = function () {
 			} );
 		} );
 	}
-	
+
+	// Can we have the suggested questions' titles parsed by default?
+	// http://meta.math.stackexchange.com/q/11036
+	hookAjax( /^\/search\/titles\b/, function () {
+		typeof(MathJax) !== 'undefined' && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
+	} );
+
+
+	//
 	// 10k tools fixes:
+	//
 	if ( /^\/tools\b/.test( location.pathname ) ) {
 		// Can we have the "50 more" link return items of the same type, please?
 		// http://meta.stackoverflow.com/q/150069
@@ -147,11 +157,18 @@ var mathJaxSetup = function () {
 	// The scope of \newcommand is the entire page
 	// http://meta.math.stackexchange.com/q/4130
 	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
+	var select = '.post-text, .comment-text, .summary, #sidebar';
+	var reset = '<span class="soup-mathjax-reset">$\\endgroup$ $\\begingroup$</span>';
 	MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
-		$(message[1]).find('.post-text, .comment-text, .summary').andSelf().filter( function () {
+		//console.log( 'typesetting ' + message[1].tagName + '.' + message[1].className );
+		var n = $(message[1]).find(select).andSelf().filter( function () {
 			return 0 == $(this).children('.soup-mathjax-reset').length;
-		} ).prepend( '<span class="soup-mathjax-reset">$\\endgroup$ $\\begingroup$</span>' );
+		} ).prepend(reset).length;
+		//console.log( 'fixed ' + n + ' elements' );
 	} );
+	// debug
+	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
+	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
 };
 
 styles += ".soup-mathjax-reset { display: none }\n";
