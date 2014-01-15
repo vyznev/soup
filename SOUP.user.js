@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.1.3
+// @version     1.1.4
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -157,20 +157,15 @@ var mathJaxSetup = function () {
 	// The scope of \newcommand is the entire page
 	// http://meta.math.stackexchange.com/q/4130
 	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
-	var select = '.post-text, .comment-text, .summary, #sidebar';
-	var reset = '<span class="soup-mathjax-reset">$\\endgroup$ $\\begingroup$</span>';
-	MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
-		//console.log( 'typesetting ' + message[1].tagName + '.' + message[1].className );
-		var n = $(message[1]).find(select).andSelf().filter( function () {
+	var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
+	var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\endgroup</script>' +
+		'<script type="math/tex">\\begingroup</script></span>';
+	MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
+		var n = $(message[1]).find(select).andSelf().has('script').filter( function () {
 			return 0 == $(this).children('.soup-mathjax-reset').length;
 		} ).prepend(reset).length;
-		//console.log( 'fixed ' + n + ' elements' );
 	} );
-	// debug
-	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
-	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
 };
-
 styles += ".soup-mathjax-reset { display: none }\n";
 
 var configScript = document.createElement( 'script' );
