@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.1.1
+// @version     1.1.2
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -42,8 +42,11 @@ styles += "#question-mini-list, .user-header-left, .user-panel > .user-panel-con
 
 // Topbar text are pushed down on beta sites
 // http://meta.stackoverflow.com/q/211547
-styles += ".topbar { line-height: 1 }"
+styles += ".topbar { line-height: 1 }\n";
 
+// Background in OP's user name can obscure text in multiline comments
+// http://meta.stackoverflow.com/q/114109
+styles += ".comment-copy { position: relative }\n";
 
 //
 // Fixes that need scripting (run in page context):
@@ -151,7 +154,7 @@ var mathJaxSetup = function () {
 	} );
 };
 
-styles += ".soup-mathjax-reset { display: none }";
+styles += ".soup-mathjax-reset { display: none }\n";
 
 var configScript = document.createElement( 'script' );
 configScript.id = 'soup-mathjax-config';
