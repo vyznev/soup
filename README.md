@@ -28,14 +28,16 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
 * [Allow flagging a comment after upvoting it](http://meta.stackoverflow.com/q/104184)
-* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450)
+* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
-* [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([10k][10k])
+* [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
+* [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547)
 
 Notes:
 
 * <b id="note-css">CSS</b>: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * <b id="note-chat">chat</b>: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
+* <b id="note-math">math</b>: This fix applies only to sites using MathJax for LaTeX math rendering.
 * <b id="note-10k">10k</b>: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
 
 
@@ -80,6 +82,7 @@ See also
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
    [CSS]: #note-css "This is a pure CSS fix.  It will be applied even if site JavaScript is disabled."
    [chat]: #note-chat "This fix applies to the Stack Exchange Network chat (chat.stackexchange.com)."
+   [math]: #note-math "This fix applies only to sites using MathJax for LaTeX math rendering."
    [10k]: #note-10k " This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites)."
    [vyznev]: http://meta.stackoverflow.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Overflow"
    [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"

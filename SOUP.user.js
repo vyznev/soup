@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.0.8
+// @version     1.1.0
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -39,6 +39,10 @@ styles += "#present-users > .present-user.ignored { height: 16px }\n";
 // http://meta.stackoverflow.com/q/138685
 styles += "#question-mini-list, .user-header-left, .user-panel > .user-panel-content > table { clear: both }\n";
 
+// Topbar text are pushed down on beta sites
+// http://meta.stackoverflow.com/q/211547
+styles += ".topbar { line-height: 1 }"
+
 // add collected styles to page
 var styleElem = document.createElement( 'style' );
 styleElem.id = 'soup-styles';
@@ -61,7 +65,7 @@ var scripts = function () {
 		$('.js-achievements-button').after($('.achievements-dialog'));
 	} );
 	// fix bug causing clicks on the site search box to close the menu
-    // XXX: this would be a lot easier if jQuery bubbled middle/right clicks properly :-(
+	// XXX: this would be a lot easier if jQuery bubbled middle/right clicks properly :-(
 	$._data(document, 'events').click.forEach( function (h) {
 		if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
 		var oldHandler = h.handler;
@@ -69,7 +73,7 @@ var scripts = function () {
 			if ( $(e.target).closest('.topbar-dialog').length ) return;
 			return oldHandler.apply(this, arguments);
 		};
-    } );
+	} );
 
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593
@@ -98,10 +102,11 @@ var scripts = function () {
 	// SSL breaks TeX rendering
 	// http://meta.stackoverflow.com/q/215450
 	if ( 'https:' == location.protocol && 'undefined' === typeof(MathJax) ) {
-		var mjs = $('script[src^="http://cdn.mathjax.org/"]').remove();
-		if ( mjs.length > 0 ) $.ajax( {
-			dataType: "script", cache: true,
-			url: mjs[0].src.replace('http://cdn.mathjax.org', 'https://c328740.ssl.cf1.rackcdn.com')
+		$('script[src^="http://cdn.mathjax.org/"]').remove().each( function () {
+			$.ajax( {
+				dataType: "script", cache: true,
+				url: this.src.replace('http://cdn.mathjax.org', 'https://c328740.ssl.cf1.rackcdn.com')
+			} );
 		} );
 	}
 	
