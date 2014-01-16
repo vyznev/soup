@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.1.4
+// @version     1.1.5
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -157,14 +157,50 @@ var mathJaxSetup = function () {
 	// The scope of \newcommand is the entire page
 	// http://meta.math.stackexchange.com/q/4130
 	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
-	var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
-	var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\endgroup</script>' +
-		'<script type="math/tex">\\begingroup</script></span>';
-	MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
-		var n = $(message[1]).find(select).andSelf().has('script').filter( function () {
-			return 0 == $(this).children('.soup-mathjax-reset').length;
-		} ).prepend(reset).length;
+	MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
+		var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
+			NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
+		var resetCmd = "resetstack";
+		// tweak the ns stack code so that user defs on stack can't clobber system defs in TEXDEF
+		NSSTACK.Augment( {
+			// don't store system defs on root stack...
+			Init: function (eqn) {
+				this.isEqn = eqn; this.stack = []; this.Push(NSFRAME());
+			},
+			// ...but fall back to them if nothing is found on the root stack
+			Find: function (name, type) {
+				// kluge: don't let the reset command be redefined
+				if (type == "macros" && name == resetCmd) return "SoupResetStack";
+				for (var i = this.top-1; i >= 0; i--) {
+					var def = this.stack[i].Find(name,type);
+					if (def) {return def}
+				}
+				// somebody needs to be hit with a giant "S"...
+				if (type == "environments") type = "environment";
+				return (this.isEqn ? null : TEXDEF[type][name]);
+			}
+		} );
+		// reset the TeX macro definition stack and prevent further changes to system defs
+		var resetStack = function () {
+			TEX.rootStack.Init();
+			TEX.eqnStack.Init(true);
+		};
+		resetStack();
+		TEX.Parse.Augment( { SoupResetStack: resetStack } );
+		// before processing, inject the reset command to any elements that should be isolated
+		var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
+		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' + resetCmd + '</script></span>';
+		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
+			resetStack();
+			$(message[1]).find(select).has('script').filter( function () {
+				return 0 == $(this).children('.soup-mathjax-reset').length;
+			} ).prepend(reset);
+		} );
+		MathJax.Hub.Startup.signal.Post("TeX SOUP reset Ready");
 	} );
+	// debug
+	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
+	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
 };
 styles += ".soup-mathjax-reset { display: none }\n";
 
