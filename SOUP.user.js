@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.1.5
+// @version     1.2.0
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
