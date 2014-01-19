@@ -25,16 +25,18 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
 * [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackoverflow.com/q/138685) ([CSS][CSS])
+* [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547) ([CSS][CSS])
+* [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) ([CSS][CSS])
+* [Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackoverflow.com/q/143973) ([CSS][CSS])
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
 * [Allow flagging a comment after upvoting it](http://meta.stackoverflow.com/q/104184)
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
+* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
+* [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
-* [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547) ([CSS][CSS])
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
-* [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) ([CSS][CSS])
-* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
 
 Notes:
 

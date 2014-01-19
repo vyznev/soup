@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
+// @version     1.3.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -9,12 +10,26 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.2.0
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
+
+
+// Copyright (C) 2014 Ilmari Karonen
+//
+// Permission to use, copy, modify, and/or distribute this software for any
+// purpose with or without fee is hereby granted, provided that the above
+// copyright notice and this permission notice appear in all copies.
+//
+// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+// REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+// AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+// INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+// LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+// OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+// PERFORMANCE OF THIS SOFTWARE.
 
 
 //
@@ -23,7 +38,7 @@
 var styles = "";
 
 // All Stack Exchange sites in a small window causing display problems?
-// http://meta.stackoverflow.com/q/114636
+// http://meta.stackoverflow.com/q/114636 (credit: Ben Brocka)
 // XXX: .new-topbar keeps this from applying to the mobile version
 styles += "body.new-topbar { min-width: 1024px }\n";
 
@@ -33,20 +48,25 @@ styles += ".post-menu a { white-space: nowrap }\n";
 styles += ".post-menu .lsep:after { content: ' '; font-size: 0px }\n";
 
 // Ignoring somebody screws up the avatar list
-// http://meta.stackoverflow.com/q/155308
+// http://meta.stackoverflow.com/q/155308 (credit: DaveRandom)
 styles += "#present-users > .present-user.ignored { height: 16px }\n";
 
 // Layout fix for Firefox in “Zoom text only” mode
-// http://meta.stackoverflow.com/q/138685
-styles += "#question-mini-list, .user-header-left, .user-panel > .user-panel-content > table { clear: both }\n";
+// http://meta.stackoverflow.com/q/138685 (credit: jakub.g)
+styles += "#question-mini-list, .user-header-left," +
+	" .user-panel > .user-panel-content > table { clear: both }\n";
 
 // Topbar text are pushed down on beta sites
-// http://meta.stackoverflow.com/q/211547
+// http://meta.stackoverflow.com/q/211547 (credit: hims056)
 styles += ".topbar { line-height: 1 }\n";
 
 // Background in OP's user name can obscure text in multiline comments
 // http://meta.stackoverflow.com/q/114109
 styles += ".comment-copy { position: relative }\n";
+
+// Images can be pushed outside the boundaries of a post by using nested lists
+// http://meta.stackoverflow.com/q/143973 (credit: animuson)
+styles += ".post-text img, .wmd-preview img { max-width: 100% }\n";
 
 
 //
@@ -55,7 +75,7 @@ styles += ".comment-copy { position: relative }\n";
 var scripts = function () {
 	var ajaxHooks = [];
 
-	// Cannot navigate into the multicollider with keyboard - so cannot access main / meta anymore
+	// Cannot navigate into the multicollider with keyboard
 	// http://meta.stackoverflow.com/q/207526
 	hookAjax( /^\/topbar\//, function () {
 		$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
@@ -63,7 +83,7 @@ var scripts = function () {
 		$('.js-achievements-button').after($('.achievements-dialog'));
 	} );
 	// fix bug causing clicks on the site search box to close the menu
-	// XXX: this would be a lot easier if jQuery bubbled middle/right clicks properly :-(
+	// XXX: this would be a lot easier if jQuery bubbled middle/right clicks :-(
 	$._data(document, 'events').click.forEach( function (h) {
 		if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
 		var oldHandler = h.handler;
@@ -74,23 +94,24 @@ var scripts = function () {
 	} );
 
 	// Un-fade low-score answers on rollover or click
-	// http://meta.stackoverflow.com/q/129593
-	// XXX: this is ugly, but avoids assuming anything about how downvoted answers are styled on each site
-	$('#answers').on('mouseover', '.downvoted-answer',
-		function () { $(this).addClass('downvoted-answer-hover').removeClass('downvoted-answer') }
-	).on('mouseout',  '.downvoted-answer-hover:not(.clicked)',
-		function () { $(this).addClass('downvoted-answer').removeClass('downvoted-answer-hover') }
-	).on('click', '.downvoted-answer-hover .post-text',
-		function () { $(this).closest('.downvoted-answer-hover').toggleClass('clicked') }
-	);
+	// http://meta.stackoverflow.com/q/129593 (based on fix by Manishearth)
+	// XXX: this is ugly, but avoids assuming anything about site styles
+	$('#answers').on('mouseover', '.downvoted-answer', function () {
+		$(this).addClass('downvoted-answer-hover').removeClass('downvoted-answer');
+	} ).on('mouseout',  '.downvoted-answer-hover:not(.clicked)', function () {
+		$(this).addClass('downvoted-answer').removeClass('downvoted-answer-hover');
+	} ).on('click', '.downvoted-answer-hover .post-text', function () {
+		$(this).closest('.downvoted-answer-hover').toggleClass('clicked');
+	} );
 	
 	// Allow flagging a comment after upvoting it
 	// http://meta.stackoverflow.com/q/104184
 	hookAjax( /^\/posts\/\d+\/comments\b/, function () {
 		$('.comment-up-on').closest('table').not(':has(.comment-flag)').append(
-			// better hardcode this, so it'll break cleanly rather than mysteriously if SE code changes
+			// better hardcode this, so it'll break cleanly if SE code changes
 			'<tr><td>&nbsp;</td><td><a class="comment-flag soup-injected-fake"' +
-			' title="flag this comment as unconstructive, offensive, or spam">flag</a></td></tr>'
+			' title="flag this comment as unconstructive, offensive, or spam">' +
+			'flag</a></td></tr>'
 		);
 	} ).code();
 	hookAjax( /^\/posts\/comments\/\d+\/vote\b/, function () {
@@ -103,7 +124,8 @@ var scripts = function () {
 		$('script[src^="http://cdn.mathjax.org/"]').remove().each( function () {
 			$.ajax( {
 				dataType: "script", cache: true,
-				url: this.src.replace('http://cdn.mathjax.org', 'https://c328740.ssl.cf1.rackcdn.com')
+				url: this.src.replace('http://cdn.mathjax.org',
+					'https://c328740.ssl.cf1.rackcdn.com')
 			} );
 		} );
 	}
@@ -111,9 +133,22 @@ var scripts = function () {
 	// Can we have the suggested questions' titles parsed by default?
 	// http://meta.math.stackexchange.com/q/11036
 	hookAjax( /^\/search\/titles\b/, function () {
-		typeof(MathJax) !== 'undefined' && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
+		typeof(MathJax) !== 'undefined' &&
+			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
 	} );
-
+	// similar issue in user profiles:
+	hookAjax( /^\/ajax\/users\/panel\/\b/, function () {
+		if ( typeof(MathJax) === 'undefined' ) return;
+		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
+		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
+	} );
+	
+	// The branch prediction answer is overflowing
+	// http://meta.stackoverflow.com/q/214706
+	$('.stats .vote-count-post strong').filter( function () {
+		return this.textContent.length > 4
+	} ).css( 'font-size', '80%' );
+	
 
 	//
 	// 10k tools fixes:
@@ -121,14 +156,16 @@ var scripts = function () {
 	if ( /^\/tools\b/.test( location.pathname ) ) {
 		// Can we have the "50 more" link return items of the same type, please?
 		// http://meta.stackoverflow.com/q/150069
-		$('body.tools-page .bottom-notice a[href="/tools/flagged"]').attr('href', location.href);
+		$('body.tools-page .bottom-notice a[href="/tools/flagged"]').
+			attr('href', location.href);
 
 		// Render MathJax in the 10k tools
 		// http://meta.stackoverflow.com/q/209393
 		hookAjax( /^\/tools\b/, function () {
-			typeof(MathJax) !== 'undefined' && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+			typeof(MathJax) !== 'undefined' &&
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 		} );
-		// similar but unrelated issue: MathJax not shown in already flagged posts
+		// similar unrelated issue: MathJax not shown in already flagged posts
 		$('.flagged-posts .already-flagged.dno').hide().removeClass('dno');
 	}
 	
@@ -155,13 +192,13 @@ var scripts = function () {
 //
 var mathJaxSetup = function () {
 	// The scope of \newcommand is the entire page
-	// http://meta.math.stackexchange.com/q/4130
+	// http://meta.math.stackexchange.com/q/4130 (idea by Davide Cervone)
 	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
 	MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
 		var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
 			NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
 		var resetCmd = "resetstack";
-		// tweak the ns stack code so that user defs on stack can't clobber system defs in TEXDEF
+		// make sure user defs on stack can't clobber system defs in TEXDEF
 		NSSTACK.Augment( {
 			// don't store system defs on root stack...
 			Init: function (eqn) {
@@ -180,16 +217,17 @@ var mathJaxSetup = function () {
 				return (this.isEqn ? null : TEXDEF[type][name]);
 			}
 		} );
-		// reset the TeX macro definition stack and prevent further changes to system defs
+		// reset definition stack and prevent further changes to system defs
 		var resetStack = function () {
 			TEX.rootStack.Init();
 			TEX.eqnStack.Init(true);
 		};
 		resetStack();
 		TEX.Parse.Augment( { SoupResetStack: resetStack } );
-		// before processing, inject the reset command to any elements that should be isolated
+		// before processing, inject reset to any elements that should be isolated
 		var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
-		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' + resetCmd + '</script></span>';
+		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' +
+			resetCmd + '</script></span>';
 		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
 			resetStack();
 			$(message[1]).find(select).has('script').filter( function () {
