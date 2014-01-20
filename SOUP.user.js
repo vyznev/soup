@@ -9,7 +9,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @version     1.2.0
+// @version     1.2.1
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @grant       none
@@ -156,11 +156,14 @@ var scripts = function () {
 var mathJaxSetup = function () {
 	// The scope of \newcommand is the entire page
 	// http://meta.math.stackexchange.com/q/4130
-	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
+	var resetCmd = "resetstack";
+	MathJax.Hub.Config( { TeX: {
+		extensions: ["begingroup.js"],
+		Macros: { resetstack: ["Extension", "begingroup"] }
+	} } );
 	MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
 		var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
 			NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
-		var resetCmd = "resetstack";
 		// tweak the ns stack code so that user defs on stack can't clobber system defs in TEXDEF
 		NSSTACK.Augment( {
 			// don't store system defs on root stack...
@@ -187,17 +190,17 @@ var mathJaxSetup = function () {
 		};
 		resetStack();
 		TEX.Parse.Augment( { SoupResetStack: resetStack } );
-		// before processing, inject the reset command to any elements that should be isolated
-		var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
-		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' + resetCmd + '</script></span>';
-		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
-			resetStack();
-			$(message[1]).find(select).has('script').filter( function () {
-				return 0 == $(this).children('.soup-mathjax-reset').length;
-			} ).prepend(reset);
-		} );
 		MathJax.Hub.Startup.signal.Post("TeX SOUP reset Ready");
 	} );
+	// before processing, inject the reset command to any elements that should be isolated
+	var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
+	var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' + resetCmd + '</script></span>';
+	MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
+		$(message[1]).find(select).andSelf().has('script').filter( function () {
+			return 0 == $(this).children('.soup-mathjax-reset').length;
+		} ).prepend(reset);
+	} );
+
 	// debug
 	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
 	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
