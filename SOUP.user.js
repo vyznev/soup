@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.0
+// @version     1.3.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -193,11 +193,14 @@ var scripts = function () {
 var mathJaxSetup = function () {
 	// The scope of \newcommand is the entire page
 	// http://meta.math.stackexchange.com/q/4130 (idea by Davide Cervone)
-	MathJax.Hub.Config( { TeX: { extensions: ["begingroup.js"] } } );
+	var resetCmd = "resetstack";
+	MathJax.Hub.Config( { TeX: {
+		extensions: ["begingroup.js"],
+		Macros: { resetstack: ["Extension", "begingroup"] }
+	} } );
 	MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
 		var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
 			NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
-		var resetCmd = "resetstack";
 		// make sure user defs on stack can't clobber system defs in TEXDEF
 		NSSTACK.Augment( {
 			// don't store system defs on root stack...
@@ -224,21 +227,37 @@ var mathJaxSetup = function () {
 		};
 		resetStack();
 		TEX.Parse.Augment( { SoupResetStack: resetStack } );
-		// before processing, inject reset to any elements that should be isolated
-		var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
-		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' +
-			resetCmd + '</script></span>';
-		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
-			resetStack();
-			$(message[1]).find(select).has('script').filter( function () {
-				return 0 == $(this).children('.soup-mathjax-reset').length;
-			} ).prepend(reset);
-		} );
 		MathJax.Hub.Startup.signal.Post("TeX SOUP reset Ready");
 	} );
+	// before processing, inject the reset command to any elements that should be isolated
+	var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
+	var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' +
+		resetCmd + '</script></span>';
+	MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
+		$(message[1]).find(select).andSelf().has('script').filter( function () {
+			return 0 == $(this).children('.soup-mathjax-reset').length;
+		} ).prepend(reset);
+	} );
+
+	// MathJax preview broken when equations contain `\label`s
+	// http://meta.math.stackexchange.com/q/11392 (credit: Davide Cervone)
+	MathJax.Hub.Register.MessageHook("Begin Process",function (message) {
+		if (message[1].id && message[1].id.match(/^wmd-preview/)) {
+			if ( MathJax.InputJax.TeX.resetEquationNumbers )
+				MathJax.InputJax.TeX.resetEquationNumbers();
+			MathJax.Hub.Config({TeX:{noErrors:{disabled:true}}});
+		}
+	});
+	MathJax.Hub.Register.MessageHook("End Process",function (message) {
+		if (message[1].id && message[1].id.match(/^wmd-preview/)) {
+			MathJax.Hub.Config({TeX:{noErrors:{disabled:false}}});
+		}
+	});
+
 	// debug
 	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
 	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
+	console.log( 'soup mathjax fixes applied' );
 };
 styles += ".soup-mathjax-reset { display: none }\n";
 
