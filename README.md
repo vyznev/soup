@@ -13,8 +13,9 @@ If your browser supports user scripts (directly or via an extension), clicking t
 
 For detailed instructions on how to enable and install user script on different browsers (including the workaround needed for Google Chrome), see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
 
-SOUP has been tested on Mozilla Firefox (with [GreaseMonkey][GM]) and Google Chrome.  It may work on other browsers with compatible user script functionality &mdash; if you get it working, please let me know (and, if necessary, send a patch).
+SOUP has been tested on Mozilla Firefox (with [GreaseMonkey][GM]), Google Chrome and Opera.  It may work on other browsers with compatible user script functionality &mdash; if you get it working, please let me know (and, if necessary, send a patch).
 
+Note: When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable GreaseMonkey compatibility mode.  While SOUP will run in either native or compatibility mode, a few MathJax-related fixes require native mode.
 
 Included fixes
 --------------
@@ -34,6 +35,7 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
 * [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
+* [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])

@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.3
+// @version     1.3.4
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -153,11 +153,11 @@ var scripts = function () {
 	// http://meta.stackoverflow.com/q/66646
 	if ( !StackExchange.options.desc) {
 		StackExchange.options.desc = true;  // disable SE keyup/press handler
-		$('body').on( 'keydown keypress', 'form[id^="add-comment-"] textarea',
+		$('body').on( 'keydown', 'form[id^="add-comment-"] textarea',
 			function (e) {
 				if ( e.which != 13 || e.shiftKey ) return;
-				if ( e.type === 'keypress' ) e.preventDefault();
-				else if ( $(this).prev('#tabcomplete:visible').length == 0 )
+				e.preventDefault();
+				if ( $(this).prev('#tabcomplete:visible').length == 0 )
 					$(this).closest('form[id^="add-comment-"]').submit();
 			}
 		);
@@ -195,7 +195,7 @@ var scripts = function () {
 		}
 	} );
 	
-	console.log('soup scripts loaded');
+	if (window.console) console.log('soup scripts loaded');
 };
 
 
@@ -269,7 +269,7 @@ var mathJaxSetup = function () {
 	// debug
 	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
 	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
-	console.log( 'soup mathjax fixes applied' );
+	if (window.console) console.log( 'soup mathjax fixes applied' );
 };
 styles += ".soup-mathjax-reset { display: none }\n";
 
@@ -288,7 +288,7 @@ var injectScripts = function () {
 	styleElem.id = 'soup-styles';
 	styleElem.type = 'text/css';
 	styleElem.textContent = styles;
-	document.head.appendChild( styleElem );
+	(document.head || document.documentElement).appendChild( styleElem );
 
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
@@ -296,8 +296,8 @@ var injectScripts = function () {
 	scriptElem.textContent = "StackExchange.ready(" + scripts + ");";
 	document.body.appendChild( scriptElem );
 
-	console.log('soup styles and scripts injected');
+	if (window.console) console.log('soup styles and scripts injected');
 };
 if (document.body) injectScripts();
+else if (window.opera) addEventListener( 'load', injectScripts, false );
 else document.addEventListener( 'DOMContentLoaded', injectScripts );
-
