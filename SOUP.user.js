@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.2
+// @version     1.3.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -149,20 +149,19 @@ var scripts = function () {
 		return this.textContent.length > 4
 	} ).css( 'font-size', '80%' );
 	
-	// TESTING: Confirming context menu entries via Enter when entering comments triggers comment to be posted
-    // http://meta.stackoverflow.com/q/66646
-    if ( !StackExchange.options.desc) {
-        StackExchange.options.desc = true;  // disable SE keyup / keypress handler
-        // add our own keydown handler to do the same thing instead:
-        $('body').on('keydown', 'form[id^="add-comment-"] textarea', function (e) {
-            if ( e.which != 13 || e.shiftKey ) return;
-            console.log( 'enter key pressed on' + $(this).closest('form[id^="add-comment-"]').attr('id') );
-            if ( !$(this).prev('#tabcomplete:visible').length ) return;
-            $(this).closest('form[id^="add-comment-"]').submit();
-        } );
-        console.log( 'soup comment enter handler installed' );
-    }
-
+	// Confirming context menu entries via Enter triggers comment to be posted
+	// http://meta.stackoverflow.com/q/66646
+	if ( !StackExchange.options.desc) {
+		StackExchange.options.desc = true;  // disable SE keyup/press handler
+		$('body').on( 'keydown keypress', 'form[id^="add-comment-"] textarea',
+			function (e) {
+				if ( e.which != 13 || e.shiftKey ) return;
+				if ( e.type === 'keypress' ) e.preventDefault();
+				else if ( $(this).prev('#tabcomplete:visible').length == 0 )
+					$(this).closest('form[id^="add-comment-"]').submit();
+			}
+		);
+	}
 	//
 	// 10k tools fixes:
 	//
