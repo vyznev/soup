@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.5
+// @version     1.3.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -152,7 +152,7 @@ var scripts = function () {
 	// Confirming context menu entries via Enter triggers comment to be posted
 	// http://meta.stackoverflow.com/q/66646
 	StackExchange.options.desc = true;  // disable SE keyup/press handler
-	$('body').on( 'keydown keypress', 'form[*="-comment-"] textarea',
+	$('body').on( 'keydown keypress', 'form[id*="-comment-"] textarea',
 		function (e) {
 			if ( e.which != 13 || e.shiftKey ) return;
 			if (window.console) console.log('soup comment ' + e.type);
