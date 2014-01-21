@@ -151,18 +151,18 @@ var scripts = function () {
 	
 	// Confirming context menu entries via Enter triggers comment to be posted
 	// http://meta.stackoverflow.com/q/66646
-	if ( !StackExchange.options.desc ) {
-		StackExchange.options.desc = true;  // disable SE keyup/press handler
-		$('body').on( 'keydown keypress', 'form[*="-comment-"] textarea',
-			function (e) {
-				if ( e.which != 13 || e.shiftKey ) return;
-				if (window.console) console.log('soup comment ' + e.type);
-				e.preventDefault();
-				if ( e.type == 'keydown' && $(this).prev('#tabcomplete:visible').length == 0 )
-					$(this).closest('form').submit();
-			}
-		);
-	}
+	StackExchange.options.desc = true;  // disable SE keyup/press handler
+	$('body').on( 'keydown keypress', 'form[*="-comment-"] textarea',
+		function (e) {
+			if ( e.which != 13 || e.shiftKey ) return;
+			if (window.console) console.log('soup comment ' + e.type);
+			e.preventDefault();
+			if ( e.type == 'keydown' && $(this).prev('#tabcomplete:visible').length == 0 )
+				$(this).closest('form').submit();
+		}
+	);
+	
+	
 	//
 	// 10k tools fixes:
 	//
