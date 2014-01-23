@@ -6,16 +6,17 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-If your browser supports user scripts (directly or via an extension), clicking the "download / install" button below should bring up a prompt asking you if you want to install SOUP.  Answer "yes".
+The easiest way to install SOUP is to use the [GreaseMonkey][GM] (for Firefox) or [TamperMonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install</kbd>][DL]  
 > <sup>[View source][source] / [GitHub repo][github] / [StackApps post][SA]</sup>
 
-For detailed instructions on how to enable and install user script on different browsers (including the workaround needed for Google Chrome), see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
+SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
 
-SOUP has been tested on Mozilla Firefox (with [GreaseMonkey][GM]), Google Chrome and Opera.  It may work on other browsers with compatible user script functionality &mdash; if you get it working, please let me know (and, if necessary, send a patch).
+Notes:
 
-Note: When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable GreaseMonkey compatibility mode.  While SOUP will run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+* When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable GreaseMonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+* SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
 
 Included fixes
 --------------
@@ -24,28 +25,35 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 
 * [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) ([CSS][CSS])
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
-* [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
 * [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackoverflow.com/q/138685) ([CSS][CSS])
 * [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547) ([CSS][CSS])
 * [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) ([CSS][CSS])
 * [Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackoverflow.com/q/143973) ([CSS][CSS])
+* [Ugly overflows when editing a deleted answer inline](http://meta.stackoverflow.com/q/217120) ([CSS][CSS])
+* [<hr/>'s do not get rendered in deleted answers](http://meta.stackoverflow.com/q/145819) ([CSS][CSS])
+* [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
+* [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
+* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268/174699) ([chat][chat])
+* [Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
 * [Allow flagging a comment after upvoting it](http://meta.stackoverflow.com/q/104184)
-* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
-* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
 * [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
+* [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
+* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
+* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
+* [MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) ([math][math])
 
 Notes:
 
 * <b id="note-css">CSS</b>: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * <b id="note-chat">chat</b>: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
-* <b id="note-math">math</b>: This fix applies only to sites using MathJax for LaTeX math rendering.
 * <b id="note-10k">10k</b>: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
+* <b id="note-math">math</b>: This fix applies only to sites using MathJax for LaTeX math rendering.
 
 
 Credits

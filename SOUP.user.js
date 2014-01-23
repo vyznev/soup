@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.6
+// @version     1.3.7
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -47,10 +47,6 @@ styles += "body.new-topbar { min-width: 1024px }\n";
 styles += ".post-menu a { white-space: nowrap }\n";
 styles += ".post-menu .lsep:after { content: ' '; font-size: 0px }\n";
 
-// Ignoring somebody screws up the avatar list
-// http://meta.stackoverflow.com/q/155308 (credit: DaveRandom)
-styles += "#present-users > .present-user.ignored { height: 16px }\n";
-
 // Layout fix for Firefox in “Zoom text only” mode
 // http://meta.stackoverflow.com/q/138685 (credit: jakub.g)
 styles += "#question-mini-list, .user-header-left," +
@@ -68,6 +64,27 @@ styles += ".comment-copy { position: relative }\n";
 // http://meta.stackoverflow.com/q/143973 (credit: animuson)
 styles += ".post-text img, .wmd-preview img { max-width: 100% }\n";
 
+// Ugly overflows when editing a deleted answer inline
+// http://meta.stackoverflow.com/q/217120
+styles += ".inline-editor { margin-left: -4px }\n";
+
+// <hr/>'s do not get rendered in deleted answers
+// http://meta.stackoverflow.com/q/145819
+styles += ".wmd-preview hr { background-color: #ddd; color: #ddd }\n";
+styles += ".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr" +
+	"{ background-color: #c3c3c3; color: #c3c3c3 }\n";
+
+//
+// Chat CSS fixes (currently just mixing with general CSS fixes):
+//
+// Ignoring somebody screws up the avatar list
+// http://meta.stackoverflow.com/q/155308 (credit: DaveRandom)
+styles += "#present-users > .present-user.ignored { height: 16px }\n";
+
+// The reply buttons in chat shouldn't reposition themselves on pinged messages
+// http://meta.stackoverflow.com/q/216760
+styles += ".message.highlight { margin-right: 0px }\n";
+
 
 //
 // Fixes that need scripting (run in page context):
@@ -75,7 +92,25 @@ styles += ".post-text img, .wmd-preview img { max-width: 100% }\n";
 var scripts = function () {
 	var ajaxHooks = [];
 
-	// Cannot navigate into the multicollider with keyboard
+	// U+0008 inserted into chat @-pings (chat)
+	// http://meta.stackoverflow.com/q/134268/174699
+	// TODO: separate chat fixes from main SE fixes?
+	$('body#chat-body').on( 'keypress', function (e) {
+		if ( e.ctrlKey || e.altKey || e.metaKey ) return;
+		if ( !e.which || e.which == 32 || e.which >= 32 ) return;
+		e.stopPropagation();
+	} );
+
+	// Clicking on tags broken?
+	// http://meta.stackoverflow.com/q/78989
+	if ( !/[?&]sort[=]/.test( location.search ) &&
+		$('body').hasClass('tagged-questions-page') &&
+		$('#tabs a.youarehere').length == 0 ) {
+		var href = $('#tabs a[href*="?sort="]:first').attr('href');
+		if ( href ) location.replace( href );
+	}
+
+    // Cannot navigate into the multicollider with keyboard
 	// http://meta.stackoverflow.com/q/207526
 	hookAjax( /^\/topbar\//, function () {
 		$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
@@ -118,31 +153,6 @@ var scripts = function () {
 		$('.comment-up-on').closest('tr').siblings('tr:has(.comment-flag)').show();
 	} );
 	
-	// SSL breaks TeX rendering
-	// http://meta.stackoverflow.com/q/215450
-	if ( 'https:' == location.protocol && 'undefined' === typeof(MathJax) ) {
-		$('script[src^="http://cdn.mathjax.org/"]').remove().each( function () {
-			$.ajax( {
-				dataType: "script", cache: true,
-				url: this.src.replace('http://cdn.mathjax.org',
-					'https://c328740.ssl.cf1.rackcdn.com')
-			} );
-		} );
-	}
-
-	// Can we have the suggested questions' titles parsed by default?
-	// http://meta.math.stackexchange.com/q/11036
-	hookAjax( /^\/search\/titles\b/, function () {
-		typeof(MathJax) !== 'undefined' &&
-			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
-	} );
-	// similar issue in user profiles:
-	hookAjax( /^\/ajax\/users\/panel\/\b/, function () {
-		if ( typeof(MathJax) === 'undefined' ) return;
-		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
-		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
-	} );
-	
 	// The branch prediction answer is overflowing
 	// http://meta.stackoverflow.com/q/214706
 	$('.stats .vote-count-post strong').filter( function () {
@@ -161,19 +171,23 @@ var scripts = function () {
 				$(this).closest('form').submit();
 		}
 	);
+
+	// New top bar should render avatar with a transparent background
+	// http://meta.stackoverflow.com/q/210132
+	$('.topbar img.avatar-me[src^="http://i.stack.imgur.com/"]').attr(
+		'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
+	);
 	
-	
-	//
-	// 10k tools fixes:
-	//
+	// Can we have the "50 more" link return items of the same type, please? (10k)
+	// http://meta.stackoverflow.com/q/150069
 	if ( /^\/tools\b/.test( location.pathname ) ) {
-		// Can we have the "50 more" link return items of the same type, please?
-		// http://meta.stackoverflow.com/q/150069
 		$('body.tools-page .bottom-notice a[href="/tools/flagged"]').
 			attr('href', location.href);
-
-		// Render MathJax in the 10k tools
-		// http://meta.stackoverflow.com/q/209393
+	}
+	
+	// Render MathJax in the 10k tools (10k, math)
+	// http://meta.stackoverflow.com/q/209393
+	if ( /^\/tools\b/.test( location.pathname ) ) {
 		hookAjax( /^\/tools\b/, function () {
 			typeof(MathJax) !== 'undefined' &&
 				MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
@@ -181,6 +195,32 @@ var scripts = function () {
 		// similar unrelated issue: MathJax not shown in already flagged posts
 		$('.flagged-posts .already-flagged.dno').hide().removeClass('dno');
 	}
+	
+	// SSL breaks TeX rendering (math, SSL)
+	// http://meta.stackoverflow.com/q/215450
+	if ( 'https:' == location.protocol && 'undefined' === typeof(MathJax) ) {
+		$('script[src^="http://cdn.mathjax.org/"]').remove().each( function () {
+			$.ajax( {
+				dataType: "script", cache: true,
+				url: this.src.replace('http://cdn.mathjax.org',
+					'https://c328740.ssl.cf1.rackcdn.com')
+			} );
+		} );
+	}
+
+	// Can we have the suggested questions' titles parsed by default? (math)
+	// http://meta.math.stackexchange.com/q/11036
+	hookAjax( /^\/search\/titles\b/, function () {
+		typeof(MathJax) !== 'undefined' &&
+			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
+	} );
+	// similar issue in user profiles:
+	hookAjax( /^\/ajax\/users\/panel\/\b/, function () {
+		if ( typeof(MathJax) === 'undefined' ) return;
+		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
+		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
+	} );
+	
 	
 	// utility: run code after any matching AJAX request
 	function hookAjax ( regex, code ) {
@@ -294,7 +334,7 @@ var injectScripts = function () {
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
-	scriptElem.textContent = "StackExchange.ready(" + scripts + ");";
+	scriptElem.textContent = "(window.StackExchange || $(document)).ready(" + scripts + ");";
 	document.body.appendChild( scriptElem );
 
 	if (window.console) console.log('soup styles and scripts injected');
