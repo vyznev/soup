@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.7
+// @version     1.3.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -73,6 +73,10 @@ styles += ".inline-editor { margin-left: -4px }\n";
 styles += ".wmd-preview hr { background-color: #ddd; color: #ddd }\n";
 styles += ".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr" +
 	"{ background-color: #c3c3c3; color: #c3c3c3 }\n";
+
+// Mouse cursor doesn't change to pointer when hovering “full site” on mobile
+// http://meta.stackoverflow.com/q/108046
+styles += "a[onclick] { cursor: pointer }\n";
 
 //
 // Chat CSS fixes (currently just mixing with general CSS fixes):
