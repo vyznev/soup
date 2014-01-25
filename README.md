@@ -13,15 +13,16 @@ The easiest way to install SOUP is to use the [GreaseMonkey][GM] (for Firefox) o
 
 SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
 
-Notes:
+**Notes:**
 
 * When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable GreaseMonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+
 * SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
 
 Included fixes
 --------------
 
-Currently, SOUP includes fixes or workarounds for the following issues:
+SOUP v1.4 includes fixes or workarounds for the following issues:
 
 * [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) ([CSS][CSS])
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
