@@ -184,14 +184,18 @@ var scripts = function () {
 	// Allow moderators to reply to a flag (mod)
 	// http://meta.stackoverflow.com/q/160338 (credit: Manishearth)
 	function injectCustomHelpfulField (postid) {
-		var html =
-			'<input id=soupCustomHelpfulButton type=button value="custom"/>' +
-			' the flags are helpful for the following reason:<br/>' +
-			'<input id=soupCustomHelpfulText type=text maxlength=200' +
+		var html='<input id=soupCustomHelpfulButton type=button value="helpful"/>'
+		var html2 = '<input id=soupCustomHelpfulText type=text placeholder="Optional message for helpful" maxlength=200' +
 			' style="width:100%"/><br/>';
-		$('.popup input[type="button"][value="helpful"] ~ br:first').after(html);
+		var hButton=$('.popup input[type="button"][value="helpful"]')
+		hButton.hide().after(html)
+		$('.popup input[type="button"][value="helpful"] ~ br:first').after(html2);
 		$('.popup:has(#soupCustomHelpfulButton) input[type="button"]').css('width', '5em');
 		$('#soupCustomHelpfulButton').click( function () {
+			if($('#soupCustomHelpfulText').val()==""){
+				hButton.click();
+				return;
+			}
 			$.post( "/messages/delete-moderator-messages/" + postid +
 				"/" + renderTimeTicks + "?valid=true", {
 				fkey: StackExchange.options.user.fkey,
