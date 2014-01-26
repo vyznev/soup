@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.3.8
+// @version     1.5.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -169,7 +169,6 @@ var scripts = function () {
 	$('body').on( 'keydown keypress', 'form[id*="-comment-"] textarea',
 		function (e) {
 			if ( e.which != 13 || e.shiftKey ) return;
-			if (window.console) console.log('soup comment ' + e.type);
 			e.preventDefault();
 			if ( e.type == 'keydown' && $(this).prev('#tabcomplete:visible').length == 0 )
 				$(this).closest('form').submit();
@@ -196,8 +195,6 @@ var scripts = function () {
 			typeof(MathJax) !== 'undefined' &&
 				MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 		} );
-		// similar unrelated issue: MathJax not shown in already flagged posts
-		$('.flagged-posts .already-flagged.dno').hide().removeClass('dno');
 	}
 	
 	// SSL breaks TeX rendering (math, SSL)
@@ -224,9 +221,22 @@ var scripts = function () {
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
 	} );
+
+	// Missing MathJaX in the duplicate subtab of the close review queue (math)
+	// http://meta.cs.stackexchange.com/q/537 (and similar issues)
+	var oldShow = $.fn.show;
+	$.fn.show = function () {
+		this.filter('.dno').hide().removeClass('dno').each( function () {
+			typeof(MathJax) !== 'undefined' &&
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
+		} );
+		return oldShow.apply(this, arguments);
+	};
+
 	
-	
+	//
 	// utility: run code after any matching AJAX request
+	//
 	function hookAjax ( regex, code ) {
 		var hook = { regex: regex, code: code };
 		ajaxHooks.push( hook );

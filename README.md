@@ -21,7 +21,7 @@ Notes:
 Included fixes
 --------------
 
-Currently, SOUP includes fixes or workarounds for the following issues:
+SOUP v1.5 (devel) includes fixes or workarounds for the following issues:
 
 * [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) ([CSS][CSS])
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
@@ -46,6 +46,7 @@ Currently, SOUP includes fixes or workarounds for the following issues:
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
+* [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) ([math][math])
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
 * [MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) ([math][math])
 
