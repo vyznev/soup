@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.5.1
+// @version     1.5.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -184,25 +184,36 @@ var scripts = function () {
 	// Allow moderators to reply to a flag (mod)
 	// http://meta.stackoverflow.com/q/160338 (credit: Manishearth)
 	function injectCustomHelpfulField (postid) {
-		var html='<input id=soupCustomHelpfulButton type=button value="helpful"/>'
-		var html2 = '<input id=soupCustomHelpfulText type=text placeholder="Optional message for helpful" maxlength=200' +
-			' style="width:100%"/><br/>';
-		var hButton=$('.popup input[type="button"][value="helpful"]')
-		hButton.hide().after(html)
-		$('.popup input[type="button"][value="helpful"] ~ br:first').after(html2);
-		$('.popup:has(#soupCustomHelpfulButton) input[type="button"]').css('width', '5em');
+		var html1 = '<input id=soupCustomHelpfulButton type=button value="helpful"/>';
+		var html2 = '<input id=soupCustomHelpfulText type=text maxlength=200' +
+			' style="width:100%" placeholder="Optional message for helpful flags..."/><br/>';
+		var hButton = $('.popup input[type="button"][value="helpful"]:first');
+		hButton.hide().after(html1);
+		$('#soupCustomHelpfulButton ~ br:first').after(html2);
 		$('#soupCustomHelpfulButton').click( function () {
-			if($('#soupCustomHelpfulText').val()==""){
-				hButton.click();
-				return;
+			if( !/\S/.test( $('#soupCustomHelpfulText').val() ) ) {
+				hButton.click(); return;
 			}
+			var dismiss = $('#flagged-' + postid + ' .dismiss-options');
 			$.post( "/messages/delete-moderator-messages/" + postid +
 				"/" + renderTimeTicks + "?valid=true", {
 				fkey: StackExchange.options.user.fkey,
 				comment: $('#soupCustomHelpfulText').val()
+			} ).done( function (json) {
+				if (window.console) console.log('helpful flag done');
+				if ( json == 'ok' || json.Success || json.success ) {
+					$('#flagged-' + postid).hide();
+				} else {
+					var msg = json.Message || json.message;
+					StackExchange.helpers.showErrorMessage( dismiss, msg );
+				}
+			} ).fail( function (res) {
+				if (window.console) console.log('helpful flag fail');
+				var msg = ( res.responseText && res.responseText.length < 100
+					? res.responseText : "An unknown error occurred" );
+				StackExchange.helpers.showErrorMessage( dismiss, msg );
 			} );
 			$(this).closest('.popup').find('.popup-close a').click();
-			$('#flagged-' + postid).hide();
 		} );
 	};
 	$("table.flagged-posts.moderator .dismiss-all").click( function () {
