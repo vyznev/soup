@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.5.0
+// @version     1.5.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -95,7 +95,7 @@ styles += ".message.highlight { margin-right: 0px }\n";
 //
 var scripts = function () {
 	var ajaxHooks = [];
-
+	
 	// U+0008 inserted into chat @-pings (chat)
 	// http://meta.stackoverflow.com/q/134268/174699
 	// TODO: separate chat fixes from main SE fixes?
@@ -104,7 +104,7 @@ var scripts = function () {
 		if ( !e.which || e.which == 32 || e.which >= 32 ) return;
 		e.stopPropagation();
 	} );
-
+	
 	// Clicking on tags broken?
 	// http://meta.stackoverflow.com/q/78989
 	if ( !/[?&]sort[=]/.test( location.search ) &&
@@ -113,8 +113,8 @@ var scripts = function () {
 		var href = $('#tabs a[href*="?sort="]:first').attr('href');
 		if ( href ) location.replace( href );
 	}
-
-    // Cannot navigate into the multicollider with keyboard
+	
+	// Cannot navigate into the multicollider with keyboard
 	// http://meta.stackoverflow.com/q/207526
 	hookAjax( /^\/topbar\//, function () {
 		$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
@@ -131,7 +131,7 @@ var scripts = function () {
 			return oldHandler.apply(this, arguments);
 		};
 	} );
-
+	
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593 (based on fix by Manishearth)
 	// XXX: this is ugly, but avoids assuming anything about site styles
@@ -174,12 +174,37 @@ var scripts = function () {
 				$(this).closest('form').submit();
 		}
 	);
-
+	
 	// New top bar should render avatar with a transparent background
 	// http://meta.stackoverflow.com/q/210132
 	$('.topbar img.avatar-me[src^="http://i.stack.imgur.com/"]').attr(
 		'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
 	);
+	
+	// Allow moderators to reply to a flag (mod)
+	// http://meta.stackoverflow.com/q/160338 (credit: Manishearth)
+	function injectCustomHelpfulField (postid) {
+		var html =
+			'<input id=soupCustomHelpfulButton type=button value="custom"/>' +
+			' the flags are helpful for the following reason:<br/>' +
+			'<input id=soupCustomHelpfulText type=text maxlength=200' +
+			' style="width:100%"/><br/>';
+		$('.popup input[type="button"][value="helpful"] ~ br:first').after(html);
+		$('.popup:has(#soupCustomHelpfulButton) input[type="button"]').css('width', '5em');
+		$('#soupCustomHelpfulButton').click( function () {
+			$.post( "/messages/delete-moderator-messages/" + postid +
+				"/" + renderTimeTicks + "?valid=true", {
+				fkey: StackExchange.options.user.fkey,
+				comment: $('#soupCustomHelpfulText').val()
+			} );
+			$(this).closest('.popup').find('.popup-close a').click();
+			$('#flagged-' + postid).hide();
+		} );
+	};
+	$("table.flagged-posts.moderator .dismiss-all").click( function () {
+		var postid = $(this).closest('tr[id^="flagged-"]').attr('id').replace("flagged-", "");
+		if (postid) setTimeout( function () { injectCustomHelpfulField(postid) }, 200 );
+	} );
 	
 	// Can we have the "50 more" link return items of the same type, please? (10k)
 	// http://meta.stackoverflow.com/q/150069
@@ -208,7 +233,7 @@ var scripts = function () {
 			} );
 		} );
 	}
-
+	
 	// Can we have the suggested questions' titles parsed by default? (math)
 	// http://meta.math.stackexchange.com/q/11036
 	hookAjax( /^\/search\/titles\b/, function () {
@@ -221,7 +246,7 @@ var scripts = function () {
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
 	} );
-
+	
 	// Missing MathJaX in the duplicate subtab of the close review queue (math)
 	// http://meta.cs.stackexchange.com/q/537 (and similar issues)
 	var oldShow = $.fn.show;
@@ -232,7 +257,7 @@ var scripts = function () {
 		} );
 		return oldShow.apply(this, arguments);
 	};
-
+	
 	
 	//
 	// utility: run code after any matching AJAX request
@@ -305,7 +330,7 @@ var mathJaxSetup = function () {
 			return 0 == $(this).children('.soup-mathjax-reset').length;
 		} ).prepend(reset);
 	} );
-
+	
 	// MathJax preview broken when equations contain `\label`s
 	// http://meta.math.stackexchange.com/q/11392 (credit: Davide Cervone)
 	MathJax.Hub.Register.MessageHook("Begin Process",function (message) {
@@ -320,7 +345,7 @@ var mathJaxSetup = function () {
 			MathJax.Hub.Config({TeX:{noErrors:{disabled:false}}});
 		}
 	});
-
+	
 	// debug
 	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
 	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
@@ -344,13 +369,13 @@ var injectScripts = function () {
 	styleElem.type = 'text/css';
 	styleElem.textContent = styles;
 	(document.head || document.documentElement).appendChild( styleElem );
-
+	
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
 	scriptElem.textContent = "(window.StackExchange || $(document)).ready(" + scripts + ");";
 	document.body.appendChild( scriptElem );
-
+	
 	if (window.console) console.log('soup styles and scripts injected');
 };
 if (document.body) injectScripts();

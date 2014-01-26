@@ -42,6 +42,7 @@ SOUP v1.5 (devel) includes fixes or workarounds for the following issues:
 * [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
+* [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) ([mod][mod])
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
@@ -55,6 +56,7 @@ Notes:
 * <b id="note-css">CSS</b>: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * <b id="note-chat">chat</b>: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
 * <b id="note-10k">10k</b>: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
+* <b id="note-mod">mod</b>: This fix applies to the full moderator interface available only to ♦ moderators.
 * <b id="note-math">math</b>: This fix applies only to sites using MathJax for LaTeX math rendering.
 
 
@@ -101,6 +103,7 @@ See also
    [chat]: #note-chat "This fix applies to the Stack Exchange Network chat (chat.stackexchange.com)."
    [math]: #note-math "This fix applies only to sites using MathJax for LaTeX math rendering."
    [10k]: #note-10k " This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites)."
+   [mod]: #note-mod "This fix applies to the full moderator interface available only to ♦ moderators."
    [vyznev]: http://meta.stackoverflow.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Overflow"
    [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on StackApps"
