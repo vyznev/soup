@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.5.2
+// @version     1.5.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -71,12 +71,33 @@ styles += ".inline-editor { margin-left: -4px }\n";
 // <hr/>'s do not get rendered in deleted answers
 // http://meta.stackoverflow.com/q/145819
 styles += ".wmd-preview hr { background-color: #ddd; color: #ddd }\n";
-styles += ".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr" +
+styles += ".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr " +
 	"{ background-color: #c3c3c3; color: #c3c3c3 }\n";
 
 // Mouse cursor doesn't change to pointer when hovering “full site” on mobile
 // http://meta.stackoverflow.com/q/108046
 styles += "a[onclick] { cursor: pointer }\n";
+
+// The monospace formatting in a spoiler quote on a beta site is evil
+// http://meta.stackoverflow.com/q/136589
+styles += ".spoiler:hover code { background-color: #eee }\n";
+
+// Code samples inside of spoilers are still visible on some sites
+// http://meta.stackoverflow.com/q/112305
+styles += ".spoiler:not(:hover), .spoiler:not(:hover) * " +
+	"{ color: #eee; background: #eee; border-color: #eee }\n";
+
+// Does the spoiler markdown work on images?
+// http://meta.stackoverflow.com/q/110566
+styles += ".spoiler:not(:hover) img { visibility: hidden }\n";
+
+// The CSS for spoilers is a mess. Let's fix it!
+// http://meta.stackoverflow.com/q/217779
+// XXX: This makes the three preceding fixes redundant, but requires supporting
+// JS code below to replace replace the old styles with the new ones
+styles += ".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }\n";
+styles += ".soup-spoiler:hover > * { opacity: 1 }\n";
+
 
 //
 // Chat CSS fixes (currently just mixing with general CSS fixes):
@@ -88,6 +109,7 @@ styles += "#present-users > .present-user.ignored { height: 16px }\n";
 // The reply buttons in chat shouldn't reposition themselves on pinged messages
 // http://meta.stackoverflow.com/q/216760
 styles += ".message.highlight { margin-right: 0px }\n";
+
 
 
 //
@@ -272,6 +294,26 @@ var scripts = function () {
 		} );
 		return oldShow.apply(this, arguments);
 	};
+
+	// The CSS for spoilers is a mess. Let's fix it!
+	// http://meta.stackoverflow.com/q/217779
+	// This JS code replaces the "spoiler" class with "soup-spoiler", in effect
+	// disabling all the existing broken spoiler styles.
+	if ( !StackExchange.mobile ) {
+		function fixSpoilers () {
+			$('.spoiler').addClass('soup-spoiler').removeClass('spoiler').
+				wrapInner('<div></div>');
+		};
+		hookAjax( /^\/posts\b/, fixSpoilers );
+		$(document).on( 'mouseover', '.spoiler', fixSpoilers ); // fallback
+		fixSpoilers();
+		// XXX: this could be generally useful; split into utility function?
+		StackExchange.ifUsing( 'editor', function () {
+			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
+				ed.hooks.chain( 'onPreviewRefresh', fixSpoilers );
+			} );
+		} );
+	}
 	
 	
 	//
