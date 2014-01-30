@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.5.3
+// @version     1.5.4
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -201,7 +201,7 @@ var scripts = function () {
 	// http://meta.stackoverflow.com/q/210132
 	$('.topbar img.avatar-me[src^="http://i.stack.imgur.com/"]').attr(
 		'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
-	);
+	).css( { 'max-width': '24px', 'max-height': '24px' } );
 	
 	// Allow moderators to reply to a flag (mod)
 	// http://meta.stackoverflow.com/q/160338 (credit: Manishearth)
@@ -316,18 +316,24 @@ var scripts = function () {
 	}
 	
 	
+	
 	//
 	// utility: run code after any matching AJAX request
 	//
-	function hookAjax ( regex, code ) {
-		var hook = { regex: regex, code: code };
+	function hookAjax ( regex, code, delay ) {
+		if ( typeof(delay) === 'undefined' ) delay = 100;
+		var hook = { regex: regex, code: code, delay: delay };
 		ajaxHooks.push( hook );
 		return hook;  // for chaining
 	}
-	$( document ).ajaxSuccess( function( event, xhr, settings ) {
+	function runAjaxHook ( hook, event, xhr, settings ) {
+		if ( !hook.delay ) hook.code( event, xhr, settings );
+		else setTimeout( function () { hook.code( event, xhr, settings ) }, hook.delay );
+	}
+	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for (var i = 0; i < ajaxHooks.length; i++) {
 			if ( ajaxHooks[i].regex.test( settings.url ) ) {
-				setTimeout( ajaxHooks[i].code, 100 );
+				runAjaxHook( ajaxHooks[i], event, xhr, settings );
 			}
 		}
 	} );
