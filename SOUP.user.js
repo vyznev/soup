@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.5.4
+// @version     1.5.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -98,6 +98,9 @@ styles += ".spoiler:not(:hover) img { visibility: hidden }\n";
 styles += ".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }\n";
 styles += ".soup-spoiler:hover > * { opacity: 1 }\n";
 
+// <kbd> (yes, still <kbd>) doesn't play nice with lists
+// http://meta.stackoverflow.com/q/58760 (credit: Krazer)
+styles += "kdb { display: inline-block }\n";
 
 //
 // Chat CSS fixes (currently just mixing with general CSS fixes):
