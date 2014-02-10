@@ -9,7 +9,7 @@ Installing
 The easiest way to install SOUP is to use the [GreaseMonkey][GM] (for Firefox) or [TamperMonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install</kbd>][DL]  
-> <sup>[View source][source] / [GitHub repo][github] / [StackApps post][SA]</sup>
+> <sup>[View source][source] / [GitHub repo][github] / [StackApps post][SA] / [UserScripts.org][US]</sup>
 
 SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
 
@@ -37,7 +37,7 @@ SOUP v1.6 includes fixes or workarounds for the following issues:
 * [Code samples inside of spoilers are still visible on some sites](http://meta.stackoverflow.com/q/112305) ([CSS][CSS])
 * [Does the spoiler markdown work on images?](http://meta.stackoverflow.com/q/110566) ([CSS][CSS])
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes preceding three fixes)
-* [&lt;kbd&gt; (yes, still &gt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) ([CSS][CSS])
+* [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) ([CSS][CSS])
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
 * [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268/174699) ([chat][chat])
@@ -113,3 +113,4 @@ See also
    [vyznev]: http://meta.stackoverflow.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Overflow"
    [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on StackApps"
+   [US]: http://userscripts.org/scripts/show/293219 "Stack Overflow Unofficial Patch on UserScripts.org"
