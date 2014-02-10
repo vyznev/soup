@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.4.0
+// @version     1.6.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -71,12 +71,37 @@ styles += ".inline-editor { margin-left: -4px }\n";
 // <hr/>'s do not get rendered in deleted answers
 // http://meta.stackoverflow.com/q/145819
 styles += ".wmd-preview hr { background-color: #ddd; color: #ddd }\n";
-styles += ".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr" +
+styles += ".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr " +
 	"{ background-color: #c3c3c3; color: #c3c3c3 }\n";
 
 // Mouse cursor doesn't change to pointer when hovering “full site” on mobile
 // http://meta.stackoverflow.com/q/108046
 styles += "a[onclick] { cursor: pointer }\n";
+
+// The monospace formatting in a spoiler quote on a beta site is evil
+// http://meta.stackoverflow.com/q/136589
+styles += ".spoiler:hover code { background-color: #eee }\n";
+
+// Code samples inside of spoilers are still visible on some sites
+// http://meta.stackoverflow.com/q/112305
+styles += ".spoiler:not(:hover), .spoiler:not(:hover) * " +
+	"{ color: #eee; background: #eee; border-color: #eee }\n";
+
+// Does the spoiler markdown work on images?
+// http://meta.stackoverflow.com/q/110566
+styles += ".spoiler:not(:hover) img { visibility: hidden }\n";
+
+// The CSS for spoilers is a mess. Let's fix it!
+// http://meta.stackoverflow.com/q/217779
+// XXX: This makes the three preceding fixes redundant, but requires supporting
+// JS code below to replace replace the old styles with the new ones
+styles += ".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }\n";
+styles += ".soup-spoiler:hover > * { opacity: 1 }\n";
+
+// <kbd> (yes, still <kbd>) doesn't play nice with lists
+// http://meta.stackoverflow.com/q/58760 (credit: Krazer)
+styles += "kbd { display: inline-block }\n";
+
 
 //
 // Chat CSS fixes (currently just mixing with general CSS fixes):
@@ -90,12 +115,13 @@ styles += "#present-users > .present-user.ignored { height: 16px }\n";
 styles += ".message.highlight { margin-right: 0px }\n";
 
 
+
 //
 // Fixes that need scripting (run in page context):
 //
 var scripts = function () {
 	var ajaxHooks = [];
-
+	
 	// U+0008 inserted into chat @-pings (chat)
 	// http://meta.stackoverflow.com/q/134268/174699
 	// TODO: separate chat fixes from main SE fixes?
@@ -104,7 +130,7 @@ var scripts = function () {
 		if ( !e.which || e.which == 32 || e.which >= 32 ) return;
 		e.stopPropagation();
 	} );
-
+	
 	// Clicking on tags broken?
 	// http://meta.stackoverflow.com/q/78989
 	if ( !/[?&]sort[=]/.test( location.search ) &&
@@ -113,8 +139,8 @@ var scripts = function () {
 		var href = $('#tabs a[href*="?sort="]:first').attr('href');
 		if ( href ) location.replace( href );
 	}
-
-    // Cannot navigate into the multicollider with keyboard
+	
+	// Cannot navigate into the multicollider with keyboard
 	// http://meta.stackoverflow.com/q/207526
 	hookAjax( /^\/topbar\//, function () {
 		$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
@@ -131,7 +157,7 @@ var scripts = function () {
 			return oldHandler.apply(this, arguments);
 		};
 	} );
-
+	
 	// Un-fade low-score answers on rollover or click
 	// http://meta.stackoverflow.com/q/129593 (based on fix by Manishearth)
 	// XXX: this is ugly, but avoids assuming anything about site styles
@@ -169,18 +195,57 @@ var scripts = function () {
 	$('body').on( 'keydown keypress', 'form[id*="-comment-"] textarea',
 		function (e) {
 			if ( e.which != 13 || e.shiftKey ) return;
-			if (window.console) console.log('soup comment ' + e.type);
 			e.preventDefault();
 			if ( e.type == 'keydown' && $(this).prev('#tabcomplete:visible').length == 0 )
 				$(this).closest('form').submit();
 		}
 	);
-
+	
 	// New top bar should render avatar with a transparent background
 	// http://meta.stackoverflow.com/q/210132
 	$('.topbar img.avatar-me[src^="http://i.stack.imgur.com/"]').attr(
 		'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
-	);
+	).css( { 'max-width': '24px', 'max-height': '24px' } );
+	
+	// Allow moderators to reply to a flag (mod)
+	// http://meta.stackoverflow.com/q/160338 (credit: Manishearth)
+	function injectCustomHelpfulField (postid) {
+		var html1 = '<input id=soupCustomHelpfulButton type=button value="helpful"/>';
+		var html2 = '<input id=soupCustomHelpfulText type=text maxlength=200' +
+			' style="width:100%" placeholder="Optional message for helpful flags..."/><br/>';
+		var hButton = $('.popup input[type="button"][value="helpful"]:first');
+		hButton.hide().after(html1);
+		$('#soupCustomHelpfulButton ~ br:first').after(html2);
+		$('#soupCustomHelpfulButton').click( function () {
+			if( !/\S/.test( $('#soupCustomHelpfulText').val() ) ) {
+				hButton.click(); return;
+			}
+			var dismiss = $('#flagged-' + postid + ' .dismiss-options');
+			$.post( "/messages/delete-moderator-messages/" + postid +
+				"/" + renderTimeTicks + "?valid=true", {
+				fkey: StackExchange.options.user.fkey,
+				comment: $('#soupCustomHelpfulText').val()
+			} ).done( function (json) {
+				if (window.console) console.log('helpful flag done');
+				if ( json == 'ok' || json.Success || json.success ) {
+					$('#flagged-' + postid).hide();
+				} else {
+					var msg = json.Message || json.message;
+					StackExchange.helpers.showErrorMessage( dismiss, msg );
+				}
+			} ).fail( function (res) {
+				if (window.console) console.log('helpful flag fail');
+				var msg = ( res.responseText && res.responseText.length < 100
+					? res.responseText : "An unknown error occurred" );
+				StackExchange.helpers.showErrorMessage( dismiss, msg );
+			} );
+			$(this).closest('.popup').find('.popup-close a').click();
+		} );
+	};
+	$("table.flagged-posts.moderator .dismiss-all").click( function () {
+		var postid = $(this).closest('tr[id^="flagged-"]').attr('id').replace("flagged-", "");
+		if (postid) setTimeout( function () { injectCustomHelpfulField(postid) }, 200 );
+	} );
 	
 	// Can we have the "50 more" link return items of the same type, please? (10k)
 	// http://meta.stackoverflow.com/q/150069
@@ -196,8 +261,6 @@ var scripts = function () {
 			typeof(MathJax) !== 'undefined' &&
 				MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 		} );
-		// similar unrelated issue: MathJax not shown in already flagged posts
-		$('.flagged-posts .already-flagged.dno').hide().removeClass('dno');
 	}
 	
 	// SSL breaks TeX rendering (math, SSL)
@@ -211,7 +274,7 @@ var scripts = function () {
 			} );
 		} );
 	}
-
+	
 	// Can we have the suggested questions' titles parsed by default? (math)
 	// http://meta.math.stackexchange.com/q/11036
 	hookAjax( /^\/search\/titles\b/, function () {
@@ -225,17 +288,56 @@ var scripts = function () {
 		MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
 	} );
 	
+	// Missing MathJaX in the duplicate subtab of the close review queue (math)
+	// http://meta.cs.stackexchange.com/q/537 (and similar issues)
+	var oldShow = $.fn.show;
+	$.fn.show = function () {
+		this.filter('.dno').hide().removeClass('dno').each( function () {
+			typeof(MathJax) !== 'undefined' &&
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
+		} );
+		return oldShow.apply(this, arguments);
+	};
+
+	// The CSS for spoilers is a mess. Let's fix it!
+	// http://meta.stackoverflow.com/q/217779
+	// This JS code replaces the "spoiler" class with "soup-spoiler", in effect
+	// disabling all the existing broken spoiler styles.
+	if ( !StackExchange.mobile ) {
+		function fixSpoilers () {
+			$('.spoiler').addClass('soup-spoiler').removeClass('spoiler').
+				wrapInner('<div></div>');
+		};
+		hookAjax( /^\/posts\b/, fixSpoilers );
+		$(document).on( 'mouseover', '.spoiler', fixSpoilers ); // fallback
+		fixSpoilers();
+		// XXX: this could be generally useful; split into utility function?
+		StackExchange.ifUsing( 'editor', function () {
+			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
+				ed.hooks.chain( 'onPreviewRefresh', fixSpoilers );
+			} );
+		} );
+	}
 	
+	
+	
+	//
 	// utility: run code after any matching AJAX request
-	function hookAjax ( regex, code ) {
-		var hook = { regex: regex, code: code };
+	//
+	function hookAjax ( regex, code, delay ) {
+		if ( typeof(delay) === 'undefined' ) delay = 100;
+		var hook = { regex: regex, code: code, delay: delay };
 		ajaxHooks.push( hook );
 		return hook;  // for chaining
 	}
-	$( document ).ajaxSuccess( function( event, xhr, settings ) {
+	function runAjaxHook ( hook, event, xhr, settings ) {
+		if ( !hook.delay ) hook.code( event, xhr, settings );
+		else setTimeout( function () { hook.code( event, xhr, settings ) }, hook.delay );
+	}
+	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for (var i = 0; i < ajaxHooks.length; i++) {
 			if ( ajaxHooks[i].regex.test( settings.url ) ) {
-				setTimeout( ajaxHooks[i].code, 100 );
+				runAjaxHook( ajaxHooks[i], event, xhr, settings );
 			}
 		}
 	} );
@@ -295,7 +397,7 @@ var mathJaxSetup = function () {
 			return 0 == $(this).children('.soup-mathjax-reset').length;
 		} ).prepend(reset);
 	} );
-
+	
 	// MathJax preview broken when equations contain `\label`s
 	// http://meta.math.stackexchange.com/q/11392 (credit: Davide Cervone)
 	MathJax.Hub.Register.MessageHook("Begin Process",function (message) {
@@ -310,7 +412,7 @@ var mathJaxSetup = function () {
 			MathJax.Hub.Config({TeX:{noErrors:{disabled:false}}});
 		}
 	});
-
+	
 	// debug
 	//MathJax.Hub.Startup.signal.Interest(function (message) {console.log("Startup: "+message)});
 	//MathJax.Hub.signal.Interest(function (message) {console.log("Hub: "+message)});
@@ -334,13 +436,13 @@ var injectScripts = function () {
 	styleElem.type = 'text/css';
 	styleElem.textContent = styles;
 	(document.head || document.documentElement).appendChild( styleElem );
-
+	
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
 	scriptElem.textContent = "(window.StackExchange || $(document)).ready(" + scripts + ");";
 	document.body.appendChild( scriptElem );
-
+	
 	if (window.console) console.log('soup styles and scripts injected');
 };
 if (document.body) injectScripts();

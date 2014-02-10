@@ -22,7 +22,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.4 includes fixes or workarounds for the following issues:
+SOUP v1.6 includes fixes or workarounds for the following issues:
 
 * [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) ([CSS][CSS])
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
@@ -33,6 +33,11 @@ SOUP v1.4 includes fixes or workarounds for the following issues:
 * [Ugly overflows when editing a deleted answer inline](http://meta.stackoverflow.com/q/217120) ([CSS][CSS])
 * [&lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackoverflow.com/q/145819) ([CSS][CSS])
 * [Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackoverflow.com/q/108046) ([CSS][CSS])
+* [The monospace formatting in a spoiler quote on a beta site is evil](http://meta.stackoverflow.com/q/136589) ([CSS][CSS])
+* [Code samples inside of spoilers are still visible on some sites](http://meta.stackoverflow.com/q/112305) ([CSS][CSS])
+* [Does the spoiler markdown work on images?](http://meta.stackoverflow.com/q/110566) ([CSS][CSS])
+* [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes preceding three fixes)
+* [&lt;kbd&gt; (yes, still &gt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) ([CSS][CSS])
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
 * [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268/174699) ([chat][chat])
@@ -43,10 +48,12 @@ SOUP v1.4 includes fixes or workarounds for the following issues:
 * [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
+* [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) ([mod][mod])
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
+* [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) ([math][math])
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
 * [MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) ([math][math])
 
@@ -55,6 +62,7 @@ Notes:
 * <b id="note-css">CSS</b>: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * <b id="note-chat">chat</b>: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
 * <b id="note-10k">10k</b>: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
+* <b id="note-mod">mod</b>: This fix applies to the full moderator interface available only to ♦ moderators.
 * <b id="note-math">math</b>: This fix applies only to sites using MathJax for LaTeX math rendering.
 
 
@@ -101,6 +109,7 @@ See also
    [chat]: #note-chat "This fix applies to the Stack Exchange Network chat (chat.stackexchange.com)."
    [math]: #note-math "This fix applies only to sites using MathJax for LaTeX math rendering."
    [10k]: #note-10k " This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites)."
+   [mod]: #note-mod "This fix applies to the full moderator interface available only to ♦ moderators."
    [vyznev]: http://meta.stackoverflow.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Overflow"
    [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on StackApps"
