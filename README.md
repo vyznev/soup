@@ -51,6 +51,7 @@ SOUP v1.7 includes fixes or workarounds for the following issues:
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
 * [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
+* [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
 * [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) ([mod][mod])
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
