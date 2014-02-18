@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.6.0
+// @version     1.6.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -113,6 +113,7 @@ styles += "#present-users > .present-user.ignored { height: 16px }\n";
 // The reply buttons in chat shouldn't reposition themselves on pinged messages
 // http://meta.stackoverflow.com/q/216760
 styles += ".message.highlight { margin-right: 0px }\n";
+styles += ".message.highlight .flash { right: -38px }\n";
 
 
 
