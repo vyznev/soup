@@ -528,9 +528,11 @@ head.appendChild( mathjaxScript );
 var styleElem = document.createElement( 'style' );
 styleElem.id = 'soup-styles';
 styleElem.type = 'text/css';
+var code = "";
 for (var id in fixes) {
-	if ( fixes[id].css ) styleElem.textContent += fixes[id].css.replace( /[}]/g, "}\n" );
+	if ( fixes[id].css ) code += fixes[id].css;
 }
+styleElem.textContent = code.replace( /[}]/g, "}\n" )
 head.appendChild( styleElem );
 
 // JS fixes (injected on document load, run after SE framework is ready):
