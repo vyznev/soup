@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.7.4
+// @version     1.7.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -141,7 +141,9 @@ fixes.mso155308 = {
 fixes.mso216760 = {
 	title:	"The reply buttons in chat shouldn't reposition themselves on pinged messages",
 	url:	"http://meta.stackoverflow.com/q/216760",
-	css:	".message.highlight { margin-right: 0px }"
+	// "body" added to increase selector precedence above conflicting SE style
+	css:	"body .message.highlight { margin-right: 0px }" +
+		"body .message.highlight .flash { right: -38px }"  // regression: http://meta.stackoverflow.com/q/221733
 };
 
 
@@ -154,7 +156,7 @@ fixes.mso217779 = {
 	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > * { opacity: 1 }",
 	script:	function () {
-		if ( StackExchange.mobile ) return;
+		if ( !window.StackExchange || StackExchange.mobile ) return;
 		var fixSpoilers = function () {
 			$('.spoiler').addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>');
 		};
@@ -509,6 +511,7 @@ var soupInit = function () {
 	
 	// utility: run code whenever the editor preview is updated
 	SOUP.hookEditPreview = function ( code ) {
+		if ( !window.StackExchange ) return;
 		StackExchange.ifUsing( 'editor', function () {
 			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
 				ed.hooks.chain( 'onPreviewRefresh', code );
