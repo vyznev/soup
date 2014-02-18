@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.7.1
+// @version     1.7.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -90,6 +90,7 @@ fixes.mso108046 = {
 	url:	"http://meta.stackoverflow.com/q/108046",
 	css:	"a[onclick] { cursor: pointer }"
 };
+
 // The following three fixes are mostly made redundant by mso217779, but are
 // included for users with site JS disabled, and to mitigate the loading delay
 // of the JS component of mso217779:
@@ -111,6 +112,7 @@ fixes.mso110566 = {
 	url:	"http://meta.stackoverflow.com/q/110566",
 	css:	".spoiler:not(:hover) img { visibility: hidden }"
 };
+
 fixes.mso58760 = {
 	title:	"<kbd> (yes, still <kbd>) doesn't play nice with lists",
 	url:	"http://meta.stackoverflow.com/q/58760",
@@ -122,6 +124,11 @@ fixes.mso60390 = {
 	url:	"http://meta.stackoverflow.com/q/60390",
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body code { padding: 1px 5px } pre code { padding: 0 }"
+};
+fixes.mso219740 = {
+	title:	"Add spacing / padding to “Protected By…” and “Not the answer you're looking for”",
+	url:	"http://meta.stackoverflow.com/q/219740",
+	css:	".question-status + .bottom-notice { margin-top: 15px }"
 };
 
 // chat CSS fixes:
@@ -179,7 +186,7 @@ fixes.mso78989 = {
 			if ( href ) location.replace( href );
 		}
 	}
-};	
+};
 fixes.mso207526 = {
 	title:	"Cannot navigate into the multicollider with keyboard",
 	url:	"http://meta.stackoverflow.com/q/207526",
@@ -200,7 +207,7 @@ fixes.mso207526 = {
 			};
 		} );
 	}
-};	
+};
 fixes.mso129593 = {
 	title:	"Un-fade low-score answers on rollover or click",
 	url:	"http://meta.stackoverflow.com/q/129593",
@@ -232,7 +239,7 @@ fixes.mso104184 = {
 			$('.comment-up-on').closest('tr').siblings('tr:has(.comment-flag)').show();
 		} );
 	}
-};	
+};
 fixes.mso214706 = {
 	title:	"The branch prediction answer is overflowing",
 	url:	"http://meta.stackoverflow.com/q/214706",
@@ -241,7 +248,7 @@ fixes.mso214706 = {
 			return this.textContent.length > 4
 		} ).css( 'font-size', '80%' );
 	}
-};	
+};
 fixes.mso66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"http://meta.stackoverflow.com/q/66646",
@@ -257,7 +264,7 @@ fixes.mso66646 = {
 			}
 		);
 	}
-};	
+};
 fixes.mso210132 = {
 	title:	"New top bar should render avatar with a transparent background",
 	url:	"http://meta.stackoverflow.com/q/210132",
@@ -266,7 +273,23 @@ fixes.mso210132 = {
 			'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
 		).css( { 'max-width': '24px', 'max-height': '24px' } );
 	}
-};	
+};
+fixes.mso220470 = {
+	title:	"CSS for daily site access calendar on profile page fails to load over HTTPS",
+	url:	"http://meta.stackoverflow.com/q/220470",
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		SOUP.hookAjax( /^\/users\/daily-site-access\b/, function (event, xhr, settings) {
+			$('link[rel=stylesheet][href^="http://ajax.googleapis.com"]').attr(
+				'href', function (i, href) {
+					return href.replace('http:', 'https:');
+				}
+			);
+		} );
+	}
+};
+
+// moderator / 10k fixes:
 fixes.mso160338 = {
 	title:	"Allow moderators to reply to a flag",
 	url:	"http://meta.stackoverflow.com/q/160338",
@@ -310,7 +333,7 @@ fixes.mso160338 = {
 			if (postid) setTimeout( function () { injectCustomHelpfulField(postid) }, 200 );
 		} );
 	}
-};	
+};
 fixes.mso150069 = {
 	title:	"Can we have the \"50 more\" link return items of the same type, please?",
 	url:	"http://meta.stackoverflow.com/q/150069",
@@ -318,7 +341,9 @@ fixes.mso150069 = {
 		if ( !/^\/tools\b/.test( location.pathname ) ) return;
 		$('body.tools-page .bottom-notice a[href="/tools/flagged"]').attr('href', location.href);
 	}
-};	
+};
+
+// MathJax fixes:
 fixes.mso209393 = {
 	title:	"Render MathJax in the 10k tools",
 	url:	"http://meta.stackoverflow.com/q/209393",
@@ -328,7 +353,7 @@ fixes.mso209393 = {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 		} );
 	}
-};	
+};
 fixes.mso215450 = {
 	title:	"SSL breaks TeX rendering",
 	url:	"http://meta.stackoverflow.com/q/215450",
@@ -342,7 +367,7 @@ fixes.mso215450 = {
 			} );
 		} );
 	}
-};	
+};
 fixes.math11036 = {
 	title:	"Can we have the suggested questions' titles parsed by default?",
 	url:	"http://meta.math.stackexchange.com/q/11036",
@@ -357,7 +382,7 @@ fixes.math11036 = {
 			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
 		} );
 	}
-};	
+};
 fixes.cs537 = {
 	title:	"Missing MathJaX in the duplicate subtab of the close review queue",
 	url:	"http://meta.cs.stackexchange.com/q/537",
@@ -480,7 +505,7 @@ var soupInit = function () {
 	
 	// utility: run code after any matching AJAX request
 	SOUP.hookAjax = function ( regex, code, delay ) {
-		if ( typeof(delay) === 'undefined' ) delay = 100;
+		if ( typeof(delay) === 'undefined' ) delay = 10;
 		var hook = { regex: regex, code: code, delay: delay };
 		SOUP.ajaxHooks.push( hook );
 		return hook;  // for chaining
@@ -501,7 +526,7 @@ var soupLateSetup = function () {
 	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for (var i = 0; i < SOUP.ajaxHooks.length; i++) {
 			if ( SOUP.ajaxHooks[i].regex.test( settings.url ) ) {
-				SOUP.runAjaxHook( ajaxHooks[i], event, xhr, settings );
+				SOUP.runAjaxHook( SOUP.ajaxHooks[i], event, xhr, settings );
 			}
 		}
 	} );
