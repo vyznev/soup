@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.7.0
+// @version     1.7.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -34,7 +34,7 @@
 var fixes = {};
 
 //
-// CSS-only fixes:
+// CSS-only fixes (injected *before* site CSS!):
 //
 fixes.mso114636 = {
 	title:	"All Stack Exchange sites in a small window causing display problems?",
@@ -70,6 +70,7 @@ fixes.mso143973 = {
 	title:	"Images can be pushed outside the boundaries of a post by using nested lists",
 	url:	"http://meta.stackoverflow.com/q/143973",
 	credit:	"animuson",
+	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .post-text img, body .wmd-preview img { max-width: 100% }"
 };
 fixes.mso217120 = {
@@ -95,6 +96,7 @@ fixes.mso108046 = {
 fixes.mso136589 = {
 	title:	"The monospace formatting in a spoiler quote on a beta site is evil",
 	url:	"http://meta.stackoverflow.com/q/136589",
+	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .spoiler:hover code { background-color: #eee }"
 };
 fixes.mso112305 = {
@@ -115,6 +117,13 @@ fixes.mso58760 = {
 	credit:	"Krazer",
 	css:	"kbd { display: inline-block }"
 };
+fixes.mso60390 = {
+	title:	"Inconsistent padding of inline code",
+	url:	"http://meta.stackoverflow.com/q/60390",
+	// "body" added to increase selector precedence above conflicting SE style
+	css:	"body code { padding: 1px 5px } pre code { padding: 0 }"
+};
+
 // chat CSS fixes:
 fixes.mso155308 = {
 	title:	"Ignoring somebody screws up the avatar list",
@@ -532,7 +541,7 @@ var code = "";
 for (var id in fixes) {
 	if ( fixes[id].css ) code += fixes[id].css;
 }
-styleElem.textContent = code.replace( /[}]/g, "}\n" )
+styleElem.textContent = code.replace( /[}] */g, "}\n" )
 head.appendChild( styleElem );
 
 // JS fixes (injected on document load, run after SE framework is ready):
