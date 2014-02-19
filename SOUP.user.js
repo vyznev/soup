@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.7.5
+// @version     1.7.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -130,6 +130,13 @@ fixes.mso219740 = {
 	url:	"http://meta.stackoverflow.com/q/219740",
 	css:	".question-status + .bottom-notice { margin-top: 15px }"
 };
+fixes.mso212372 = {
+	title:	"Top bar should be consistent on all sites… but it's not",
+	url:	"http://meta.stackoverflow.com/q/212372",
+	// the SE style sheet uses !important, so we must too :-(
+	css:	".topbar .hotbg { color: white !important; background-color: #cf7721 !important }" +
+		".topbar .supernovabg { color: white !important; background-color: #fe7a15 !important }"
+};
 
 // chat CSS fixes:
 fixes.mso155308 = {
@@ -148,7 +155,7 @@ fixes.mso216760 = {
 
 
 //
-// Fixes that need scripting (run in page context):
+// Fixes that need scripting (run in page context after jQuery / SE framework is ready):
 //
 fixes.mso217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
@@ -156,7 +163,7 @@ fixes.mso217779 = {
 	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > * { opacity: 1 }",
 	script:	function () {
-		if ( !window.StackExchange || StackExchange.mobile ) return;
+		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers diffrently
 		var fixSpoilers = function () {
 			$('.spoiler').addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>');
 		};
@@ -167,9 +174,10 @@ fixes.mso217779 = {
 	}
 };
 fixes.mso134268 = {
-	title:	"U+0008 inserted into chat @-pings", // chat
+	title:	"U+0008 inserted into chat @-pings",
 	url:	"http://meta.stackoverflow.com/q/134268",
 	script:	function () {
+		if ( !SOUP.isChat ) return;
 		$('body#chat-body').on( 'keypress', function (e) {
 			if ( e.ctrlKey || e.altKey || e.metaKey ) return;
 			if ( !e.which || e.which == 32 || e.which >= 32 ) return;
@@ -502,6 +510,7 @@ var soupInit = function () {
 	SOUP.ready = function ( code ) {
 		if ( window.StackExchange ) StackExchange.ready( code );
 		else if ( window.$ ) $(document).ready( code );
+		// else we do nothing; this may happen e.g. in iframes
 	};
 	
 	// wrapper for console.log(), does nothing on old Opera w/o console
@@ -539,6 +548,12 @@ var soupInit = function () {
 
 // setup code to execute after jQuery has loaded:
 var soupLateSetup = function () {
+	// basic environment detection
+	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mso215450)
+	SOUP.isChat   = /^chat\./.test( location.hostname );
+	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
+	
+	// attach global AJAX hooks
 	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for (var i = 0; i < SOUP.ajaxHooks.length; i++) {
 			if ( SOUP.ajaxHooks[i].regex.test( settings.url ) ) {
@@ -546,7 +561,8 @@ var soupLateSetup = function () {
 			}
 		}
 	} );
-	SOUP.log( 'soup ajax hooks set up' );
+	
+	SOUP.log( 'soup setup complete' );
 };
 
 
@@ -590,8 +606,7 @@ function injectScripts () {
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
-	var code = "SOUP.log( 'soup scripts loading' );\n";
-	code += "SOUP.ready(" + soupLateSetup + ");\n";
+	var code = "SOUP.ready(" + soupLateSetup + ");\n";
 	for (var id in fixes) {
 		if ( fixes[id].script ) code += "SOUP.ready(" + fixes[id].script + ");\n";
 	}

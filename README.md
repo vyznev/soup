@@ -39,6 +39,7 @@ SOUP v1.7 includes fixes or workarounds for the following issues:
 * [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) ([CSS][CSS])
 * [Inconsistent padding of inline code](http://meta.stackoverflow.com/q/60390) ([CSS][CSS])
 * [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackoverflow.com/q/219740) ([CSS][CSS])
+* [Top bar should be consistent on all sites… but it's not](http://meta.stackoverflow.com/q/212372) ([CSS][CSS])
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
