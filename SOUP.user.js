@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.7.6
+// @version     1.7.7
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -152,7 +152,11 @@ fixes.mso216760 = {
 	css:	"body .message.highlight { margin-right: 0px }" +
 		"body .message.highlight .flash { right: -38px }"  // regression: http://meta.stackoverflow.com/q/221733
 };
-
+fixes.mso222509 = {
+	title:	"Getting Red Line under tags",
+	url:	"http://meta.stackoverflow.com/q/222509",
+	css:	".ob-post-tags a:hover, .ob-user-tags a:hover { text-decoration: none }"
+};
 
 //
 // Fixes that need scripting (run in page context after jQuery / SE framework is ready):

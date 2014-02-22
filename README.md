@@ -43,6 +43,7 @@ SOUP v1.7 includes fixes or workarounds for the following issues:
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
+* [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) ([CSS][CSS], [chat][chat])
 * [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268/174699) ([chat][chat])
 * [Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
