@@ -22,7 +22,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.6 includes fixes or workarounds for the following issues:
+SOUP v1.8 includes fixes or workarounds for the following issues:
 
 * [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) ([CSS][CSS])
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
@@ -36,11 +36,15 @@ SOUP v1.6 includes fixes or workarounds for the following issues:
 * [The monospace formatting in a spoiler quote on a beta site is evil](http://meta.stackoverflow.com/q/136589) ([CSS][CSS])
 * [Code samples inside of spoilers are still visible on some sites](http://meta.stackoverflow.com/q/112305) ([CSS][CSS])
 * [Does the spoiler markdown work on images?](http://meta.stackoverflow.com/q/110566) ([CSS][CSS])
-* [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes preceding three fixes)
 * [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) ([CSS][CSS])
+* [Inconsistent padding of inline code](http://meta.stackoverflow.com/q/60390) ([CSS][CSS])
+* [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackoverflow.com/q/219740) ([CSS][CSS])
+* [Top bar should be consistent on all sites… but it's not](http://meta.stackoverflow.com/q/212372) ([CSS][CSS])
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
+* [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
-* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268/174699) ([chat][chat])
+* [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) ([CSS][CSS], [chat][chat])
+* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268) ([chat][chat])
 * [Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
@@ -48,6 +52,8 @@ SOUP v1.6 includes fixes or workarounds for the following issues:
 * [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
+* [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
+* [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
 * [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) ([mod][mod])
 * [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
