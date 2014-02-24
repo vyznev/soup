@@ -49,7 +49,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso145819: &lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackoverflow.com/q/145819) ([CSS][CSS])
 * [mso108046: Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackoverflow.com/q/108046) ([CSS][CSS])
 * [mso216760: The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
-* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268/174699) ([chat][chat])
+* [mso134268: U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268) ([chat][chat])
 * [mso78989: Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
 * [mso214706: The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [mso66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
