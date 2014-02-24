@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.7.7
+// @version     1.7.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -309,10 +309,16 @@ fixes.mso220337 = {
 	script:	function () {
 		if ( !/^\/election\b/.test( location.pathname ) ) return;
 		var base = ( $('#tabs .youarehere').attr('href') || "" ).replace( /#.*/, "" );
-		$('.comment-date').not(':has(a)').wrapInner( function () {
-			var id = $(this).closest('.comment').attr('id');
-			return $('<a class="comment-link"></a>').attr('href', base + '#' + id);
-		})
+		SOUP.hookAjax( /^\/posts\/\d+\/comments\b/, function () {
+			$('.comment-date').not(':has(a)').wrapInner( function () {
+				var id = $(this).closest('.comment').attr('id');
+				return $('<a class="comment-link"></a>').attr('href', base + '#' + id);
+			} );
+		} ).code();
+		// fix post links too, while we're at it
+		$('.post-menu a:contains("link")').attr( 'href', function (i, href) {
+			return href.replace( /^[^#]*/, base );
+		} );
 	}
 };
 
