@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.8.0
+// @version     1.8.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -130,13 +130,7 @@ fixes.mso219740 = {
 	url:	"http://meta.stackoverflow.com/q/219740",
 	css:	".question-status + .bottom-notice { margin-top: 15px }"
 };
-fixes.mso212372 = {
-	title:	"Top bar should be consistent on all sites… but it's not",
-	url:	"http://meta.stackoverflow.com/q/212372",
-	// the SE style sheet uses !important, so we must too :-(
-	css:	".topbar .hotbg { color: white !important; background-color: #cf7721 !important }" +
-		".topbar .supernovabg { color: white !important; background-color: #fe7a15 !important }"
-};
+
 
 // chat CSS fixes:
 fixes.mso155308 = {
@@ -241,6 +235,7 @@ fixes.mso104184 = {
 	title:	"Allow flagging a comment after upvoting it",
 	url:	"http://meta.stackoverflow.com/q/104184",
 	script:	function () {
+		if ( SOUP.isMobile ) return;  // mobile view has no flag links; see http://meta.stackoverflow.com/q/213709
 		SOUP.hookAjax( /^\/posts\/\d+\/comments\b/, function () {
 			$('.comment-up-on').closest('table').not(':has(.comment-flag)').append(
 				// better hardcode this, so it'll break cleanly if SE code changes

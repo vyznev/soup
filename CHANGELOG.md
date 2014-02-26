@@ -5,6 +5,12 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.8
 ===
 
+**Changes in 1.8.1:**
+
+* The fix for [mso212372](http://meta.stackoverflow.com/q/219740) is no longer needed, and has been removed.
+* The fix for [mso104184](http://meta.stackoverflow.com/q/104184) is no longer applied in the mobile view; see [this feature request](http://meta.stackoverflow.com/q/213709) for details.
+* The README Markdown has been simplified for better compatibility between GitHub, StackApps and UserScripts.org.
+
 **New fixes in 1.8.0:**
 
 * [mso60390: Inconsistent padding of inline code](http://meta.stackoverflow.com/q/60390) ([CSS][CSS])
@@ -17,7 +23,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Other changes:**
 
 * The code has been reorganized into self-contained modules, each corresponding to one bugfix / workaround.  Currently, this has little effect on functionality, but it could be used e.g. to allow toggling individual fixes on/off.
-* Utility functions are now contained in a page-global <code>SOUP</code> object.
+* Utility functions like <code>hookAjax()</code> are now contained in a page-global <code>SOUP</code> object.
 * A new <code>SOUP.hookEditPreview()</code> utility function has been added to allow easier editing fixes.
 * CSS fixes are now injected before the document is loaded, reducing the risk of "flickering".  As a side effect, a few selectors had to be adjusted to increase their specificity over conflicting SE default styles.
 * Added a change log, with retroactive logging for earlier releases.

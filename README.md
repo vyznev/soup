@@ -1,3 +1,5 @@
+<!-- version: 1.8.1 -->
+
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
 The intent of SOUP is not to make any substantial or controversial changes to the Stack Exchange user interface, but to fix minor problems and omissions that the SE developers have overlooked or haven't got around to fixing yet.  By combining these minor patches into a single user script, they become easier to install and maintain.
@@ -22,29 +24,28 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.8 includes fixes or workarounds for the following issues:
+SOUP v1.8.1 includes fixes or workarounds for the following issues:
 
-* [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) ([CSS][CSS])
-* [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) ([CSS][CSS])
-* [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackoverflow.com/q/138685) ([CSS][CSS])
-* [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547) ([CSS][CSS])
-* [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) ([CSS][CSS])
-* [Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackoverflow.com/q/143973) ([CSS][CSS])
-* [Ugly overflows when editing a deleted answer inline](http://meta.stackoverflow.com/q/217120) ([CSS][CSS])
-* [&lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackoverflow.com/q/145819) ([CSS][CSS])
-* [Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackoverflow.com/q/108046) ([CSS][CSS])
-* [The monospace formatting in a spoiler quote on a beta site is evil](http://meta.stackoverflow.com/q/136589) ([CSS][CSS])
-* [Code samples inside of spoilers are still visible on some sites](http://meta.stackoverflow.com/q/112305) ([CSS][CSS])
-* [Does the spoiler markdown work on images?](http://meta.stackoverflow.com/q/110566) ([CSS][CSS])
-* [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) ([CSS][CSS])
-* [Inconsistent padding of inline code](http://meta.stackoverflow.com/q/60390) ([CSS][CSS])
-* [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackoverflow.com/q/219740) ([CSS][CSS])
-* [Top bar should be consistent on all sites… but it's not](http://meta.stackoverflow.com/q/212372) ([CSS][CSS])
-* [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) ([CSS][CSS], [chat][chat])
+* [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) (CSS)
+* [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) (CSS)
+* [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackoverflow.com/q/138685) (CSS)
+* [Topbar text are pushed down on beta sites](http://meta.stackoverflow.com/q/211547) (CSS)
+* [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) (CSS)
+* [Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackoverflow.com/q/143973) (CSS)
+* [Ugly overflows when editing a deleted answer inline](http://meta.stackoverflow.com/q/217120) (CSS)
+* [&lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackoverflow.com/q/145819) (CSS)
+* [Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackoverflow.com/q/108046) (CSS)
+* [The monospace formatting in a spoiler quote on a beta site is evil](http://meta.stackoverflow.com/q/136589) (CSS)
+* [Code samples inside of spoilers are still visible on some sites](http://meta.stackoverflow.com/q/112305) (CSS)
+* [Does the spoiler markdown work on images?](http://meta.stackoverflow.com/q/110566) (CSS)
+* [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) (CSS)
+* [Inconsistent padding of inline code](http://meta.stackoverflow.com/q/60390) (CSS)
+* [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackoverflow.com/q/219740) (CSS)
+* [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) (CSS, chat)
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
-* [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) ([CSS][CSS], [chat][chat])
-* [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) ([CSS][CSS], [chat][chat])
-* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268) ([chat][chat])
+* [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) (CSS, chat)
+* [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) (CSS, chat)
+* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268) (chat)
 * [Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
@@ -54,22 +55,22 @@ SOUP v1.8 includes fixes or workarounds for the following issues:
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
 * [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
 * [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
-* [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) ([mod][mod])
-* [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) ([10k][10k])
-* [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) ([math][math], [10k][10k])
-* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) ([math][math])
-* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) ([math][math])
-* [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) ([math][math])
-* [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) ([math][math])
-* [MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) ([math][math])
+* [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) (mod)
+* [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) (10k)
+* [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math, 10k)
+* [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) (math)
+* [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
+* [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (math)
+* [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) (math)
+* [MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) (math)
 
 Notes:
 
-* <b id="note-css">CSS</b>: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
-* <b id="note-chat">chat</b>: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
-* <b id="note-10k">10k</b>: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
-* <b id="note-mod">mod</b>: This fix applies to the full moderator interface available only to ♦ moderators.
-* <b id="note-math">math</b>: This fix applies only to sites using MathJax for LaTeX math rendering.
+* **CSS**: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
+* **chat**: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
+* **10k**: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
+* **mod**: This fix applies to the full moderator interface available only to ♦ moderators.
+* **math**: This fix applies only to sites using MathJax for LaTeX math rendering.
 
 
 Credits
@@ -111,11 +112,6 @@ See also
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: GreaseMonkey"
    [TM]: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo "Chrome Web Store: Tampermonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
-   [CSS]: #note-css "This is a pure CSS fix.  It will be applied even if site JavaScript is disabled."
-   [chat]: #note-chat "This fix applies to the Stack Exchange Network chat (chat.stackexchange.com)."
-   [math]: #note-math "This fix applies only to sites using MathJax for LaTeX math rendering."
-   [10k]: #note-10k " This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites)."
-   [mod]: #note-mod "This fix applies to the full moderator interface available only to ♦ moderators."
    [vyznev]: http://meta.stackoverflow.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Overflow"
    [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on StackApps"
