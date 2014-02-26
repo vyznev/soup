@@ -7,7 +7,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Changes in 1.8.1:**
 
-* The fix for [mso212372](http://meta.stackoverflow.com/q/219740) is no longer needed, and has been removed.
+* The fix for [mso212372](http://meta.stackoverflow.com/q/212372) is no longer needed, and has been removed.
 * The fix for [mso104184](http://meta.stackoverflow.com/q/104184) is no longer applied in the mobile view; see [this feature request](http://meta.stackoverflow.com/q/213709) for details.
 * The README Markdown has been simplified for better compatibility between GitHub, StackApps and UserScripts.org.
 
