@@ -1,4 +1,4 @@
-<!-- version: 1.8.1 -->
+<!-- version: 1.8.2 -->
 
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
@@ -56,7 +56,6 @@ SOUP v1.8.1 includes fixes or workarounds for the following issues:
 * [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
 * [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
 * [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) (mod)
-* [Can we have the "50 more" link return items of the same type, please?](http://meta.stackoverflow.com/q/150069) (10k)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math, 10k)
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
@@ -68,7 +67,7 @@ Notes:
 
 * **CSS**: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * **chat**: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
-* **10k**: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (3,000+ on beta sites).
+* **10k**: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (2,000+ on beta sites).
 * **mod**: This fix applies to the full moderator interface available only to ♦ moderators.
 * **math**: This fix applies only to sites using MathJax for LaTeX math rendering.
 

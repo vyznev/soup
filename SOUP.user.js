@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.8.1
+// @version     1.8.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -360,14 +360,6 @@ fixes.mso160338 = {
 			var postid = $(this).closest('tr[id^="flagged-"]').attr('id').replace("flagged-", "");
 			if (postid) setTimeout( function () { injectCustomHelpfulField(postid) }, 200 );
 		} );
-	}
-};
-fixes.mso150069 = {
-	title:	"Can we have the \"50 more\" link return items of the same type, please?",
-	url:	"http://meta.stackoverflow.com/q/150069",
-	script:	function () {
-		if ( !/^\/tools\b/.test( location.pathname ) ) return;
-		$('body.tools-page .bottom-notice a[href="/tools/flagged"]').attr('href', location.href);
 	}
 };
 
