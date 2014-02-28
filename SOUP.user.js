@@ -317,51 +317,7 @@ fixes.mso220337 = {
 	}
 };
 
-// moderator / 10k fixes:
-fixes.mso160338 = {
-	title:	"Allow moderators to reply to a flag",
-	url:	"http://meta.stackoverflow.com/q/160338",
-	credit:	"Manishearth",
-	script:	function () {
-		var html1 = '<input id=soupCustomHelpfulButton type=button value="helpful"/>';
-		var html2 = '<input id=soupCustomHelpfulText type=text maxlength=200' +
-			' style="width:100%" placeholder="Optional message for helpful flags..."/><br/>';
-		function injectCustomHelpfulField (postid) {
-			var hButton = $('.popup input[type="button"][value="helpful"]:first');
-			hButton.hide().after(html1);
-			$('#soupCustomHelpfulButton ~ br:first').after(html2);
-			$('#soupCustomHelpfulButton').click( function () {
-				if( !/\S/.test( $('#soupCustomHelpfulText').val() ) ) {
-					hButton.click(); return;
-				}
-				var dismiss = $('#flagged-' + postid + ' .dismiss-options');
-				$.post( "/messages/delete-moderator-messages/" + postid +
-					"/" + renderTimeTicks + "?valid=true", {
-					fkey: StackExchange.options.user.fkey,
-					comment: $('#soupCustomHelpfulText').val()
-				} ).done( function (json) {
-					SOUP.log('helpful flag done');
-					if ( json == 'ok' || json.Success || json.success ) {
-						$('#flagged-' + postid).hide();
-					} else {
-						var msg = json.Message || json.message;
-						StackExchange.helpers.showErrorMessage( dismiss, msg );
-					}
-				} ).fail( function (res) {
-					SOUP.log('helpful flag fail');
-					var msg = ( res.responseText && res.responseText.length < 100
-						? res.responseText : "An unknown error occurred" );
-					StackExchange.helpers.showErrorMessage( dismiss, msg );
-				} );
-				$(this).closest('.popup').find('.popup-close a').click();
-			} );
-		};
-		$("table.flagged-posts.moderator .dismiss-all").click( function () {
-			var postid = $(this).closest('tr[id^="flagged-"]').attr('id').replace("flagged-", "");
-			if (postid) setTimeout( function () { injectCustomHelpfulField(postid) }, 200 );
-		} );
-	}
-};
+
 
 // MathJax fixes:
 fixes.mso209393 = {
