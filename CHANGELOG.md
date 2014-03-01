@@ -5,6 +5,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.8
 ===
 
+**Changes in 1.8.3:**
+
+* The fix for [mso160338](http://meta.stackoverflow.com/q/160338) is no longer needed, and has been removed.  (Thanks, Manish!)
+
 **Changes in 1.8.2:**
 
 * The fix for [mso150069](http://meta.stackoverflow.com/q/150069) is no longer needed, and has been removed.

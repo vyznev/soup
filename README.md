@@ -55,7 +55,6 @@ SOUP v1.8.1 includes fixes or workarounds for the following issues:
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
 * [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
 * [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
-* [Allow moderators to reply to a flag](http://meta.stackoverflow.com/q/160338) (mod)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math, 10k)
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
@@ -68,7 +67,6 @@ Notes:
 * **CSS**: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * **chat**: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
 * **10k**: This fix applies to the "moderator tools" interface available to users with 10,000+ rep (2,000+ on beta sites).
-* **mod**: This fix applies to the full moderator interface available only to ♦ moderators.
 * **math**: This fix applies only to sites using MathJax for LaTeX math rendering.
 
 
