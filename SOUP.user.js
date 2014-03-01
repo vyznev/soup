@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.8.3
+// @version     1.9.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -316,8 +316,27 @@ fixes.mso220337 = {
 		} );
 	}
 };
-
-
+fixes.mso223725 = {
+	title:	"All internal links on Stack Exchange sites should be protocol-relative",
+	url:	"http://meta.stackoverflow.com/q/223725",
+	//css:	'a.soup-https-fixed { color: green !important }',  // uncomment to highlight affected links
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		var selector = 'a[href^="http://"]';
+		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		var exclude  = /^(chat|blog|area51)\./;  // these sites still load their JS/CSS over HTTP :-(
+		var fixLink  = function () {
+			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
+			this.protocol = 'https:';
+			$(this).addClass( 'soup-https-fixed' );
+			// workaround for permalink redirect bug (http://meta.stackoverflow.com/q/223728)
+			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
+		};
+		var fixAllLinks = function () { $(selector).each( fixLink ) };
+		$(document).on( 'mouseover click', selector, fixLink );
+		SOUP.hookAjax( /^/, fixAllLinks ).code();
+	}
+};
 
 // MathJax fixes:
 fixes.mso209393 = {
