@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.0
+// @version     1.9.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -262,7 +262,7 @@ fixes.mso66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"http://meta.stackoverflow.com/q/66646",
 	script:	function () {
-		if ( !window.StackExchange ) return;
+		if ( !window.StackExchange || !StackExchange.options ) return;
 		StackExchange.options.desc = true;  // disable SE keyup/press handler
 		$('body').on( 'keydown keypress', 'form[id*="-comment-"] textarea',
 			function (e) {
@@ -319,7 +319,7 @@ fixes.mso220337 = {
 fixes.mso223725 = {
 	title:	"All internal links on Stack Exchange sites should be protocol-relative",
 	url:	"http://meta.stackoverflow.com/q/223725",
-	//css:	'a.soup-https-fixed { color: green !important }',  // uncomment to highlight affected links
+	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
@@ -328,13 +328,45 @@ fixes.mso223725 = {
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
 			this.protocol = 'https:';
-			$(this).addClass( 'soup-https-fixed' );
 			// workaround for permalink redirect bug (http://meta.stackoverflow.com/q/223728)
 			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
+			$(this).addClass( 'soup-https-fixed' );
 		};
 		var fixAllLinks = function () { $(selector).each( fixLink ) };
 		$(document).on( 'mouseover click', selector, fixLink );
 		SOUP.hookAjax( /^/, fixAllLinks ).code();
+	}
+};
+fixes.mso172931 = {
+	title:	"Please put answers underneath questions in Close review queue",
+	url:	"http://meta.stackoverflow.com/q/172931",
+	script:	function () {
+		if ( ! /^\/review\/close\b/.test( location.pathname ) ) return;
+		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
+			$('.reviewable-post').not(':has(.answer)').each( function () {
+				SOUP.log( 'soup found reviewable post without answers' );
+				var $post = $(this);
+				// initial check to see if there are any answers to load
+				var answers = $post.find('.reviewable-post-stats td.label-key:contains("answers")').
+					next('td.label-value');
+				if ( answers.length == 1 && answers.text() < 1 ) return;
+				// FIXME: this kluge fails if the question has no upvoted / accepted answers!
+				// if anyone knows a cleaner way to load the answers, please let me know
+				var url = '/posts/popup/close/search-originals/1?q=' +
+					$post.find('h1[itemprop=name] a.question-hyperlink')[0].pathname;
+				SOUP.log( 'soup loading missing answers from ' + url );
+				$.ajax( {
+					method: 'GET', url: url, dataType: 'html',
+					success: function (html) {
+						SOUP.log( 'soup loaded missing answers from ' + url );
+						$post.find('.question').after( $(html).find('.answer-count, .answer') );
+						// fix answer count styling
+						$post.find('.answer-count').attr( 'id', 'answers-header' ).
+							wrapInner( '<div class="subheader answers-subheader"><h2>' );
+					}
+				} );
+			} );
+		} ).code();
 	}
 };
 
@@ -478,28 +510,37 @@ var soupInit = function () {
 	window.SOUP = {};
 	
 	// run code after jQuery and/or SE framework have loaded
-	// (basically same as StackExchange.ready(), but works in chat too)
-	SOUP.ready = function ( code ) {
-		if ( window.StackExchange ) StackExchange.ready( code );
-		else if ( window.$ ) $(document).ready( code );
-		// else we do nothing; this may happen e.g. in iframes
+	SOUP.readyQueue = {};
+	SOUP.ready = function ( key, code ) {
+		if ( SOUP.isReady ) SOUP.try( key, code );
+		else SOUP.readyQueue[key] = code;
 	};
-	
+	SOUP.runReadyQueue = function () {
+		if ( SOUP.isReady ) return;
+		SOUP.isReady = true;
+		for ( var key in SOUP.readyQueue ) {
+			SOUP.try( key, SOUP.readyQueue[key] );
+		}
+		SOUP.log( 'soup JS fixes applied' );
+	};
+	// try to run some code, log errors
+	SOUP.try = function ( key, code ) {
+		try { code() }
+		catch (e) { SOUP.log( 'SOUP ' + key + ': ' + e ) }
+	};
 	// wrapper for console.log(), does nothing on old Opera w/o console
 	SOUP.log = function ( msg ) {
 		if ( window.console ) console.log( msg );
 	};
-	
 	// utility: run code whenever the editor preview is updated
 	SOUP.hookEditPreview = function ( code ) {
-		if ( !window.StackExchange ) return;
+		if ( !window.StackExchange || !StackExchange.ifUsing ) return;
 		StackExchange.ifUsing( 'editor', function () {
 			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
 				ed.hooks.chain( 'onPreviewRefresh', code );
 			} );
 		} );
 	};
-	
 	// utility: run code after any matching AJAX request
 	SOUP.hookAjax = function ( regex, code, delay ) {
 		if ( typeof(delay) === 'undefined' ) delay = 10;
@@ -507,7 +548,6 @@ var soupInit = function () {
 		SOUP.ajaxHooks.push( hook );
 		return hook;  // for chaining
 	};
-	
 	// infrastructure for SOUP.hookAjax()
 	SOUP.ajaxHooks = [];
 	SOUP.runAjaxHook = function ( hook, event, xhr, settings ) {
@@ -525,8 +565,13 @@ var soupLateSetup = function () {
 	SOUP.isChat   = /^chat\./.test( location.hostname );
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
 	
+	// run ready queue after jQuery and/or SE framework have loaded
+	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( SOUP.runReadyQueue );
+	else if ( window.$ ) $(document).ready( SOUP.runReadyQueue );
+	// else we do nothing; this may happen e.g. in iframes
+	
 	// attach global AJAX hooks
-	$( document ).ajaxComplete( function( event, xhr, settings ) {
+	if ( window.$ ) $( document ).ajaxComplete( function( event, xhr, settings ) {
 		for (var i = 0; i < SOUP.ajaxHooks.length; i++) {
 			if ( SOUP.ajaxHooks[i].regex.test( settings.url ) ) {
 				SOUP.runAjaxHook( SOUP.ajaxHooks[i], event, xhr, settings );
@@ -578,11 +623,11 @@ function injectScripts () {
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
-	var code = "SOUP.ready(" + soupLateSetup + ");\n";
+	var code = "(" + soupLateSetup + ")();\n";
 	for (var id in fixes) {
-		if ( fixes[id].script ) code += "SOUP.ready(" + fixes[id].script + ");\n";
+		if ( ! fixes[id].script ) continue;
+		code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
 	}
-	code += "SOUP.ready( function () { SOUP.log( 'soup scripts loaded' ) } );\n";
 	scriptElem.textContent = code;
 	document.body.appendChild( scriptElem );
 }
