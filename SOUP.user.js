@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.1
+// @version     1.9.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -346,25 +346,26 @@ fixes.mso172931 = {
 			$('.reviewable-post').not(':has(.answer)').each( function () {
 				SOUP.log( 'soup found reviewable post without answers' );
 				var $post = $(this);
+				
 				// initial check to see if there are any answers to load
-				var answers = $post.find('.reviewable-post-stats td.label-key:contains("answers")').
-					next('td.label-value');
-				if ( answers.length == 1 && answers.text() < 1 ) return;
-				// FIXME: this kluge fails if the question has no upvoted / accepted answers!
-				// if anyone knows a cleaner way to load the answers, please let me know
-				var url = '/posts/popup/close/search-originals/1?q=' +
-					$post.find('h1[itemprop=name] a.question-hyperlink')[0].pathname;
+				var answers = $post.find('.reviewable-post-stats td.label-key:contains("answers")').next('td.label-value');
+				if ( answers.length == 1 && answers.text().trim() < 1 ) return;
+				
+				var url = $post.find('h1 a.question-hyperlink').attr('href');
 				SOUP.log( 'soup loading missing answers from ' + url );
-				$.ajax( {
-					method: 'GET', url: url, dataType: 'html',
-					success: function (html) {
-						SOUP.log( 'soup loaded missing answers from ' + url );
-						$post.find('.question').after( $(html).find('.answer-count, .answer') );
-						// fix answer count styling
-						$post.find('.answer-count').attr( 'id', 'answers-header' ).
-							wrapInner( '<div class="subheader answers-subheader"><h2>' );
-					}
-				} );
+				
+				var injectAnswers = function ( html ) {
+					SOUP.log( 'soup loaded missing answers from ' + url );
+					// kluge: disable script tags; $.parseHTML() would be better, but needs jQuery 1.8+
+					var $html = $( html.replace( /(<\/?)(script)/ig, '$1disabled$2' ) );
+					// mangle the answer wrappers to look like the review page before injecting them
+					$html.find('#tabs, .votecell a[class^="vote-"], .post-menu, .comments, .comments-link').remove();
+					$html.find('.vote-count-post').after( function () {
+						return '<div>vote' + (this.textContent.trim() == 1 ? '' : 's') + '</div>';
+					} );
+					$post.find('.question').after( $html.find('#answers-header, .answer') );
+				};
+				$.ajax( { method: 'GET', url: url, dataType: 'html', success: injectAnswers } );
 			} );
 		} ).code();
 	}
