@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.2
+// @version     1.9.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -363,7 +363,7 @@ fixes.mso172931 = {
 					$html.find('.vote-count-post').after( function () {
 						return '<div>vote' + (this.textContent.trim() == 1 ? '' : 's') + '</div>';
 					} );
-					$post.find('.question').after( $html.find('#answers-header, .answer') );
+					$html.find('#answers-header, .answer').insertAfter( $post.find('.question') ).mathjax();
 				};
 				$.ajax( { method: 'GET', url: url, dataType: 'html', success: injectAnswers } );
 			} );
@@ -552,8 +552,12 @@ var soupInit = function () {
 	// infrastructure for SOUP.hookAjax()
 	SOUP.ajaxHooks = [];
 	SOUP.runAjaxHook = function ( hook, event, xhr, settings ) {
-		if ( !hook.delay ) hook.code( event, xhr, settings );
-		else setTimeout( function () { hook.code( event, xhr, settings ) }, hook.delay );
+		var tryIt = function () {
+			try { hook.code( event, xhr, settings ) }
+			catch (e) { SOUP.log( 'SOUP ajax hook for ' + hook.regex + ' failed: ' + e ) }
+		};
+		if ( !hook.delay ) tryIt();
+		else setTimeout( tryIt, hook.delay );
 	};
 	
 	SOUP.log( 'soup init complete' );
