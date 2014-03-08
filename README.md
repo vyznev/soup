@@ -1,4 +1,4 @@
-<!-- version: 1.9.0 -->
+<!-- version: 1.9.x -->
 
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
@@ -24,7 +24,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.8.1 includes fixes or workarounds for the following issues:
+SOUP v1.9.x includes fixes or workarounds for the following issues:
 
 * [All Stack Exchange sites in a small window causing display problems?](http://meta.stackoverflow.com/q/114636) (CSS)
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) (CSS)
@@ -56,6 +56,8 @@ SOUP v1.8.1 includes fixes or workarounds for the following issues:
 * [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
 * [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725)
+* [Please put answers underneath questions in Close review queue](http://meta.stackoverflow.com/q/172931)
+* [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math)
 * [SSL breaks TeX rendering](http://meta.stackoverflow.com/q/215450) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)

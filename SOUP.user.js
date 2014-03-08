@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.3
+// @version     1.9.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -30,6 +30,7 @@
 // LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 // OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 // PERFORMANCE OF THIS SOFTWARE.
+
 
 var fixes = {};
 
@@ -370,6 +371,22 @@ fixes.mso172931 = {
 		} ).code();
 	}
 };
+fixes.mso224533 = {
+	title:	"Soft-hyphen hides subsequent text when using Opera 12.16",
+	url:	"http://meta.stackoverflow.com/q/224533",
+	script:	function () {
+		if ( ! window.opera ) return;
+		var fixSoftHyphens = function () {
+			var preBlocks = $('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed')
+			SOUP.forEachTextNode( preBlocks, function () {
+				this.nodeValue = this.nodeValue.replace( /\xAD/g, '' );
+			} );
+		};
+		SOUP.hookAjax( /^/, fixSoftHyphens ).code();
+		SOUP.hookEditPreview( fixSoftHyphens );
+	}
+};
+
 
 // MathJax fixes:
 fixes.mso209393 = {
@@ -559,6 +576,13 @@ var soupInit = function () {
 		if ( !hook.delay ) tryIt();
 		else setTimeout( tryIt, hook.delay );
 	};
+	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
+	SOUP.forEachTextNode = function ( where, code ) {
+		$(where).contents().each( function () {
+			if ( this.nodeType === 1 ) SOUP.forEachTextNode( this, code );
+			else if ( this.nodeType === 3 ) code.apply( this );
+		} );
+	};
 	
 	SOUP.log( 'soup init complete' );
 };
@@ -587,55 +611,60 @@ var soupLateSetup = function () {
 	SOUP.log( 'soup setup complete' );
 };
 
-
 //
-// Inject scripts and styles into the page:
+// do nothing if the @match lines are not respected (seems to happen on Opera)
 //
-if ( window.console ) console.log( 'soup injecting fixes' );
-var head = document.head || document.documentElement;
-
-// SOUP object init:
-var initScript = document.createElement( 'script' );
-initScript.id = 'soup-init';
-initScript.type = 'text/javascript';
-initScript.textContent = "(" + soupInit + ")();\n";
-head.appendChild( initScript );
-
-// MathJax config:
-var mathjaxScript = document.createElement( 'script' );
-mathjaxScript.id = 'soup-mathjax-config';
-mathjaxScript.type = 'text/x-mathjax-config';
-var code = "SOUP.log( 'soup mathjax config loading' );\n";
-for (var id in fixes) {
-	if ( fixes[id].mathjax ) code += "(" + fixes[id].mathjax + ")();\n";
-}
-mathjaxScript.textContent = code;
-head.appendChild( mathjaxScript );
-
-// CSS styles:
-var styleElem = document.createElement( 'style' );
-styleElem.id = 'soup-styles';
-styleElem.type = 'text/css';
-var code = "";
-for (var id in fixes) {
-	if ( fixes[id].css ) code += fixes[id].css;
-}
-styleElem.textContent = code.replace( /[}] */g, "}\n" )
-head.appendChild( styleElem );
-
-// JS fixes (injected on document load, run after SE framework is ready):
-function injectScripts () {
-	var scriptElem = document.createElement( 'script' );
-	scriptElem.id = 'soup-scripts';
-	scriptElem.type = 'text/javascript';
-	var code = "(" + soupLateSetup + ")();\n";
+var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+if ( include_re.test( location.hostname ) ) {
+	//
+	// Inject scripts and styles into the page:
+	//
+	if ( window.console ) console.log( 'soup injecting fixes' );
+	var head = document.head || document.documentElement;
+	
+	// SOUP object init:
+	var initScript = document.createElement( 'script' );
+	initScript.id = 'soup-init';
+	initScript.type = 'text/javascript';
+	initScript.textContent = "(" + soupInit + ")();\n";
+	head.appendChild( initScript );
+	
+	// MathJax config:
+	var mathjaxScript = document.createElement( 'script' );
+	mathjaxScript.id = 'soup-mathjax-config';
+	mathjaxScript.type = 'text/x-mathjax-config';
+	var code = "SOUP.log( 'soup mathjax config loading' );\n";
 	for (var id in fixes) {
-		if ( ! fixes[id].script ) continue;
-		code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
+		if ( fixes[id].mathjax ) code += "(" + fixes[id].mathjax + ")();\n";
 	}
-	scriptElem.textContent = code;
-	document.body.appendChild( scriptElem );
+	mathjaxScript.textContent = code;
+	head.appendChild( mathjaxScript );
+	
+	// CSS styles:
+	var styleElem = document.createElement( 'style' );
+	styleElem.id = 'soup-styles';
+	styleElem.type = 'text/css';
+	var code = "";
+	for (var id in fixes) {
+		if ( fixes[id].css ) code += fixes[id].css;
+	}
+	styleElem.textContent = code.replace( /[}] */g, "}\n" )
+	head.appendChild( styleElem );
+	
+	// JS fixes (injected on document load, run after SE framework is ready):
+	var injectScripts = function () {
+		var scriptElem = document.createElement( 'script' );
+		scriptElem.id = 'soup-scripts';
+		scriptElem.type = 'text/javascript';
+		var code = "(" + soupLateSetup + ")();\n";
+		for (var id in fixes) {
+			if ( ! fixes[id].script ) continue;
+			code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
+		}
+		scriptElem.textContent = code;
+		document.body.appendChild( scriptElem );
+	};
+	if (document.body) injectScripts();
+	else if (window.opera) addEventListener( 'load', injectScripts, false );
+	else document.addEventListener( 'DOMContentLoaded', injectScripts );
 }
-if (document.body) injectScripts();
-else if (window.opera) addEventListener( 'load', injectScripts, false );
-else document.addEventListener( 'DOMContentLoaded', injectScripts );

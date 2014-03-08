@@ -9,10 +9,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mso223725: All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725)
 * [mso172931: Please put answers underneath questions in Close review queue](http://meta.stackoverflow.com/q/172931)
+* [mso224533: Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
 
 **Other changes:**
 
 * JS fixes are now isolated from each other, one fix failing will no longer break others.
+* New utility function `SOUP.forEachTextNode()` for easier page text manipulation.
+* Bugfix: SOUP no longer runs outside the SE network on Opera.
 
 1.8
 ===
