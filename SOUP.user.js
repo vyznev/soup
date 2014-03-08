@@ -380,7 +380,7 @@ fixes.mso224533 = {
 	title:	"Soft-hyphen hides subsequent text when using Opera 12.16",
 	url:	"http://meta.stackoverflow.com/q/224533",
 	script:	function () {
-		if ( ! window.opera ) return;
+		if ( SOUP.isMobile || ! window.opera ) return;
 		var fixSoftHyphens = function () {
 			var preBlocks = $('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed');
 			SOUP.forEachTextNode( preBlocks, function () {
