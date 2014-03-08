@@ -377,7 +377,7 @@ fixes.mso224533 = {
 	script:	function () {
 		if ( ! window.opera ) return;
 		var fixSoftHyphens = function () {
-			var preBlocks = $('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed')
+			var preBlocks = $('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed');
 			SOUP.forEachTextNode( preBlocks, function () {
 				this.nodeValue = this.nodeValue.replace( /\xAD/g, '' );
 			} );
@@ -551,11 +551,14 @@ var soupInit = function () {
 		if ( window.console ) console.log( msg );
 	};
 	// utility: run code whenever the editor preview is updated
+	// FIXME: this doesn't always work; find out why and fix it!
 	SOUP.hookEditPreview = function ( code ) {
 		if ( !window.StackExchange || !StackExchange.ifUsing ) return;
 		StackExchange.ifUsing( 'editor', function () {
+			SOUP.log( 'soup registering editor callback ' + code );
 			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
 				ed.hooks.chain( 'onPreviewRefresh', code );
+				SOUP.log( 'soup registered editor callback ' + code + ' on ' + ed );
 			} );
 		} );
 	};
