@@ -45,6 +45,7 @@ SOUP v1.9.x includes fixes or workarounds for the following issues:
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) (CSS, chat)
 * [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) (CSS, chat)
+* [Old top bar site icons are too big in chat lobby](http://meta.stackoverflow.com/q/224411) (CSS, chat)
 * [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268) (chat)
 * [Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)

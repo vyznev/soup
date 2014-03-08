@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.5
+// @version     1.9.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -151,6 +151,11 @@ fixes.mso222509 = {
 	title:	"Getting Red Line under tags",
 	url:	"http://meta.stackoverflow.com/q/222509",
 	css:	".ob-post-tags a:hover, .ob-user-tags a:hover { text-decoration: none }"
+};
+fixes.mso224411 = {
+	title:	"Old top bar site icons are too big in chat lobby",
+	url:	"http://meta.stackoverflow.com/q/224411",
+	css:	"#portalLink .siteFavicon img { width: 16px; height: 16px }"
 };
 
 //
@@ -555,10 +560,10 @@ var soupInit = function () {
 	SOUP.hookEditPreview = function ( code ) {
 		if ( !window.StackExchange || !StackExchange.ifUsing ) return;
 		StackExchange.ifUsing( 'editor', function () {
-			SOUP.log( 'soup registering editor callback ' + code );
+			// SOUP.log( 'soup registering editor callback ' + code );
 			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
 				ed.hooks.chain( 'onPreviewRefresh', code );
-				SOUP.log( 'soup registered editor callback ' + code + ' on ' + ed );
+				// SOUP.log( 'soup registered editor callback ' + code + ' on ' + ed );
 			} );
 		} );
 	};
