@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.8
+// @version     1.9.9
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -433,6 +433,28 @@ fixes.mso223866 = {
 		} );
 	}
 };
+fixes.mso224628 = {
+	title:	"Add delete button on-the-fly when reviewing flags",
+	url:	"http://meta.stackoverflow.com/q/224628",
+	script:	function () {
+		if ( ! $('body.tools-page.flag-page').length ) return;
+		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
+		SOUP.log( 'soup adding review vote event handler' );
+		var html = '<input title="vote to delete this answer" class="delete-post" value="delete answer" type="button">';
+		SOUP.hookAjax( /^\/posts\/\d+\/vote\/[023]\b/, function ( event, xhr, settings ) {
+			var score = $.parseJSON( xhr.responseText ).NewScore;
+			var pid = Number( settings.url.replace( /^\/posts\/(\d+)\/.*/, '$1' ) );
+			// if it's not an answer, do nothing
+			if ( ! $('#flagged-' + pid + ' #answer-' + pid).length ) return;
+			// find *all* the delete buttons/links; there may be several!
+			var button = $('[id="delete-post-' + pid + '"]');
+			SOUP.log( 'answer ' + pid + ' has new score ' + score + ' (url = ' + settings.url + '; ' + button.length + ' delete buttons found)' );
+			if ( score >= 0 ) button.hide();
+			else if ( button.length ) button.show();
+			else $(html).attr('id', 'delete-post-' + pid).insertAfter('#flagged-' + pid + ' .flag-post-button').before(' ');
+		} );
+	}
+};
 
 //
 // MathJax fixes:
@@ -644,6 +666,12 @@ var soupLateSetup = function () {
 	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mso215450)
 	SOUP.isChat   = /^chat\./.test( location.hostname );
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
+	
+	// detect user rep and site beta status; together, these can be user to determine user privileges
+	if ( window.$ ) {
+		SOUP.userRep = Number( $('.topbar .reputation').text().replace(/[^0-9]+/g, '') );
+		SOUP.isBeta = !!( $('#header .beta-title').length );
+	}
 	
 	// run ready queue after jQuery and/or SE framework have loaded
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( SOUP.runReadyQueue );
