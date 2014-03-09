@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.10
+// @version     1.9.11
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -145,6 +145,12 @@ fixes.mso203405 = {
 		".privileges-page .privilege-table-row div:not(.checkmark)" +
 		" { display: table-cell; padding: 1em 0.2em }"
 }
+fixes.mso210165 = {
+	title:	"Extra blue line appearing in the top bar (Firefox only)",
+	url:	"http://meta.stackoverflow.com/q/210165",
+	css:	".topbar .hidden-text { display: none }" +
+		".topbar .topbar-icon, .topbar .profile-me { color: #e0e0e0 }"
+};
 
 
 // chat CSS fixes:
