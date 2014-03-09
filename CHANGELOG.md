@@ -17,6 +17,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso224628: Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
 * [mso203405: Excerpt of privilege is below privilege instead of in front](http://meta.stackoverflow.com/q/203405) (CSS)
 * [mso210165: Extra blue line appearing in the top bar (Firefox only)](http://meta.stackoverflow.com/q/210165) (CSS)
+* [stats1987: Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
 
 **Other changes:**
 

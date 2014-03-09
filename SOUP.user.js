@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.11
+// @version     1.9.12
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -151,7 +151,15 @@ fixes.mso210165 = {
 	css:	".topbar .hidden-text { display: none }" +
 		".topbar .topbar-icon, .topbar .profile-me { color: #e0e0e0 }"
 };
-
+fixes.stats1987 = {
+	title:	"Long math expressions cause comments to overlap sidebar",
+	url:	"http://meta.stats.stackexchange.com/q/1987",
+	css:	".comments > table { table-layout: fixed }" +
+		 // can't use .comment-actions on next line, since the class name is missing from self-posted comments
+		"tr.comment > td:first-of-type { width: 30px }" +
+		".comment-actions > table { float: right }" +
+		".comments td { vertical-align: top }"
+};
 
 // chat CSS fixes:
 fixes.mso155308 = {
@@ -737,7 +745,7 @@ styleElem.id = 'soup-styles';
 styleElem.type = 'text/css';
 var code = "";
 for (var id in fixes) {
-	if ( fixes[id].css ) code += fixes[id].css;
+	if ( fixes[id].css ) code += "/* " + id + " */\n" + fixes[id].css;
 }
 styleElem.textContent = code.replace( /[}] */g, "}\n" )
 head.appendChild( styleElem );
