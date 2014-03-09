@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.7
+// @version     1.9.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -193,6 +193,19 @@ fixes.mso134268 = {
 			if ( !e.which || e.which == 32 || e.which >= 32 ) return;
 			e.stopPropagation();
 		} );
+	}
+};
+fixes.mso224233 = {
+	title:	"Problem in css style loading in Search Bar after refresh page when using FF",
+	url:	"http://meta.stackoverflow.com/q/224233",
+	script:	function () {
+		if ( ! SOUP.isChat ) return;
+		$('#searchbox, #search').off('focus blur').attr( 'placeholder', function () {
+			var $this = $(this);
+			if ( $this.closest('#roomsearch').length ) return 'filter rooms';
+			else if ( $this.closest('#usersearch').length ) return 'filter users';
+			else return 'search';
+		} ).filter('.watermark').val('').removeClass('watermark');
 	}
 };
 fixes.mso78989 = {
@@ -411,7 +424,15 @@ fixes.mso224328 = {
 		} );
 	}
 };
-
+fixes.mso223866 = {
+	title:	"Add thousand separator for helpful flags count in user profiles",
+	url:	"http://meta.stackoverflow.com/q/223866",
+	script:	function () {
+		$('body.user-page #user-info-container a[href^="/users/flag-summary/"]').text( function (i, txt) {
+			return parseInt( txt.replace( /[^0-9]+/g, '' ) ).toLocaleString( 'en-US' );
+		} );
+	}
+};
 
 //
 // MathJax fixes:

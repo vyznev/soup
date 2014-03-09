@@ -10,8 +10,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso223725: All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725)
 * [mso172931: Please put answers underneath questions in Close review queue](http://meta.stackoverflow.com/q/172931)
 * [mso224533: Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
-* [mso224411: Old top bar site icons are too big in chat lobby](http://meta.stackoverflow.com/q/224411)
+* [mso224411: Old top bar site icons are too big in chat lobby](http://meta.stackoverflow.com/q/224411) (CSS)
 * [mso224328: Enter from password field doesn't submit SE login form](http://meta.stackoverflow.com/q/224328)
+* [mso224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackoverflow.com/q/224233) (chat)
+* [mso223866: Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
 
 **Other changes:**
 
