@@ -15,12 +15,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackoverflow.com/q/224233) (chat)
 * [mso223866: Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
 * [mso224628: Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
+* [mso203405: Excerpt of privilege is below privilege instead of in front](http://meta.stackoverflow.com/q/203405) (CSS)
 
 **Other changes:**
 
 * JS fixes are now isolated from each other, one fix failing will no longer break others.
 * New utility function `SOUP.forEachTextNode()` for easier page text manipulation.
-* New `SOUP.userRep` and `SOUP.isBeta` properties for user privilege checking.
+* New `SOUP.userRep`, `SOUP.isBeta` and `SOUP.isMeta` properties for user privilege checking.
 * Bugfix: SOUP no longer leaks variable or runs outside the SE network on Opera.
 
 1.8

@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.9
+// @version     1.9.10
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -137,6 +137,14 @@ fixes.mso219740 = {
 	url:	"http://meta.stackoverflow.com/q/219740",
 	css:	".question-status + .bottom-notice { margin-top: 15px }"
 };
+fixes.mso203405 = {
+	title:	"Excerpt of privilege is below privilege instead of in front",
+	url:	"http://meta.stackoverflow.com/q/203405",
+	css:	".privileges-page #privilege-table { display: table }" +
+		".privileges-page .privilege-table-row { display: table-row }" +
+		".privileges-page .privilege-table-row div:not(.checkmark)" +
+		" { display: table-cell; padding: 1em 0.2em }"
+}
 
 
 // chat CSS fixes:
@@ -163,6 +171,7 @@ fixes.mso224411 = {
 	url:	"http://meta.stackoverflow.com/q/224411",
 	css:	"#portalLink .siteFavicon img { width: 16px; height: 16px }"
 };
+
 
 //
 // Fixes that need scripting (run in page context after jQuery / SE framework is ready):
@@ -665,12 +674,14 @@ var soupLateSetup = function () {
 	// basic environment detection
 	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mso215450)
 	SOUP.isChat   = /^chat\./.test( location.hostname );
+	SOUP.isMeta   = /^meta\./.test( location.hostname );
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
 	
 	// detect user rep and site beta status; together, these can be user to determine user privileges
+	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
 	if ( window.$ ) {
-		SOUP.userRep = Number( $('.topbar .reputation').text().replace(/[^0-9]+/g, '') );
-		SOUP.isBeta = !!( $('#header .beta-title').length );
+		SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
+		SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('.container').css('background-image') );
 	}
 	
 	// run ready queue after jQuery and/or SE framework have loaded
