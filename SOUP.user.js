@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.13
+// @version     1.9.14
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -413,7 +413,7 @@ fixes.mso172931 = {
 					// kluge: disable script tags; $.parseHTML() would be better, but needs jQuery 1.8+
 					var $html = $( html.replace( /(<\/?)(script)/ig, '$1disabled$2' ) );
 					// mangle the answer wrappers to look like the review page before injecting them
-					$html.find('#tabs, .votecell a[class^="vote-"], .post-menu, .comments, .comments-link').remove();
+					$html.find('#tabs, .votecell a[class^="vote-"], .post-menu > *, .comments, .comments-link').hide();
 					$html.find('.vote-count-post').after( function () {
 						return '<div>vote' + (this.textContent.trim() == 1 ? '' : 's') + '</div>';
 					} );
