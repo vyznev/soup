@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.14
+// @version     1.9.15
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -155,8 +155,8 @@ fixes.stats1987 = {
 	title:	"Long math expressions cause comments to overlap sidebar",
 	url:	"http://meta.stats.stackexchange.com/q/1987",
 	css:	".comments > table { table-layout: fixed }" +
-		 // can't use .comment-actions on next line, since the class name is missing from self-posted comments
-		"tr.comment > td:first-of-type { width: 30px }" +
+		// can't use .comment-actions on next line, since the class name is missing from self-posted comments
+		".comments > table > * > tr > td:first-of-type { width: 30px }" +
 		".comment-actions > table { float: right }" +
 		".comments td { vertical-align: top }"
 };
@@ -166,6 +166,12 @@ if ( /^(meta\.)?workplace\./.test( location.hostname ) ) fixes.workplace2437 = {
 	css:	".container #header { z-index: auto }" +
 		".container #header:after { z-index: 2 }"
 };
+if ( /^(meta\.)?skeptics\./.test( location.hostname ) ) fixes.skeptics2636 = {
+	title:	"Links in promotion ads are black on black, thus invisible (skeptics.SE only)",
+	url:	"http://meta.skeptics.stackexchange.com/q/2636",
+	css:	"#sidebar .ad-container a, #sidebar .ad-container a:visited { color: #EAD29A }"
+};
+
 
 // chat CSS fixes:
 fixes.mso155308 = {

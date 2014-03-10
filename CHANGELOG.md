@@ -19,6 +19,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso210165: Extra blue line appearing in the top bar (Firefox only)](http://meta.stackoverflow.com/q/210165) (CSS)
 * [stats1987: Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
 * [workplace2437: Add image doesn't work on Chrome](http://meta.workplace.stackexchange.com/q/2437) (CSS, workplace.SE only)
+* [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 
 **Other changes:**
 
