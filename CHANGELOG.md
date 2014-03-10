@@ -18,6 +18,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso203405: Excerpt of privilege is below privilege instead of in front](http://meta.stackoverflow.com/q/203405) (CSS)
 * [mso210165: Extra blue line appearing in the top bar (Firefox only)](http://meta.stackoverflow.com/q/210165) (CSS)
 * [stats1987: Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
+* [workplace2437: Add image doesn't work on Chrome](http://meta.workplace.stackexchange.com/q/2437) (CSS, workplace.SE only)
 
 **Other changes:**
 

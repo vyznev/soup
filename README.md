@@ -44,6 +44,7 @@ SOUP v1.9.x includes fixes or workarounds for the following issues:
 * [Excerpt of privilege is below privilege instead of in front](http://meta.stackoverflow.com/q/203405) (CSS)
 * [Extra blue line appearing in the top bar (Firefox only)](http://meta.stackoverflow.com/q/210165) (CSS)
 * [Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
+* [Add image doesn't work on Chrome](http://meta.workplace.stackexchange.com/q/2437) (CSS, workplace.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) (CSS, chat)
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) (CSS, chat)

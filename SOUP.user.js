@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.9.12
+// @version     1.9.13
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -159,6 +159,12 @@ fixes.stats1987 = {
 		"tr.comment > td:first-of-type { width: 30px }" +
 		".comment-actions > table { float: right }" +
 		".comments td { vertical-align: top }"
+};
+if ( /^(meta\.)?workplace\./.test( location.hostname ) ) fixes.workplace2437 = {
+	title:	"Add image doesn't work on Chrome (workplace.SE only)",
+	url:	"http://meta.workplace.stackexchange.com/q/2437",
+	css:	".container #header { z-index: auto }" +
+		".container #header:after { z-index: 2 }"
 };
 
 // chat CSS fixes:
