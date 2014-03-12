@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.10.0
+// @version     1.11.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -401,29 +401,39 @@ fixes.mso172931 = {
 	title:	"Please put answers underneath questions in Close review queue",
 	url:	"http://meta.stackoverflow.com/q/172931",
 	script:	function () {
-		if ( ! /^\/review\/close\b/.test( location.pathname ) ) return;
+		if ( ! /^\/review\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			$('.reviewable-post').not(':has(.answer)').each( function () {
-				SOUP.log( 'soup found reviewable post without answers' );
-				var $post = $(this);
+				var post = $(this), question = post.find('.question');
 				
 				// initial check to see if there are any answers to load
-				var answers = $post.find('.reviewable-post-stats td.label-key:contains("answers")').next('td.label-value');
-				if ( answers.length == 1 && answers.text().trim() < 1 ) return;
+				var label = post.find('.reviewable-post-stats td.label-key:contains("answers")');
+				var count = label.first().next('td.label-value').text().trim();
+				var shown = $('.reviewable-answer').length;  // XXX: don't needlessly reload sole answers in answer review
+				if ( count - shown < 1 ) return;
 				
-				var url = $post.find('h1 a.question-hyperlink').attr('href');
-				SOUP.log( 'soup loading missing answers from ' + url );
+				// find question URL
+				var url = post.find('h1 a.question-hyperlink').attr('href');
+				SOUP.log( 'soup loading ' + (count - shown) + ' missing answers from ' + url );
 				
 				var injectAnswers = function ( html ) {
-					SOUP.log( 'soup loaded missing answers from ' + url );
 					// kluge: disable script tags; $.parseHTML() would be better, but needs jQuery 1.8+
-					var $html = $( html.replace( /(<\/?)(script)/ig, '$1disabled$2' ) );
+					var answers = $( html.replace( /(<\/?)(script)/ig, '$1disabled$2' ) ).find('.answer').filter( function () {
+						return ! document.getElementById( this.id );
+					} ), n = answers.length;
+					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
+					
 					// mangle the answer wrappers to look like the review page before injecting them
-					$html.find('#tabs, .votecell a[class^="vote-"], .post-menu > *, .comments, .comments-link').hide();
-					$html.find('.vote-count-post').after( function () {
-						return '<div>vote' + (this.textContent.trim() == 1 ? '' : 's') + '</div>';
+					answers.find('.votecell a[class^="vote-"], .post-menu > *, .comments, .comments-link').remove();
+					answers.find('.vote-count-post').after( function () {
+						return '<div>vote' + ( this.textContent.trim() == 1 ? '' : 's' ) + '</div>';
 					} );
-					$html.find('#answers-header, .answer').insertAfter( $post.find('.question') ).mathjax();
+					
+					// inject answers into the review page
+					var header = $('<div id="answers-header"><div class="subheader answers-subheader"><h2></h2></div></div>');
+					header.find('h2').text( n + ( shown ? ' Other' : '') + ' Answer' + ( n == 1 ? '' : 's' ) );
+					header.insertAfter( question );
+					answers.insertAfter( header ).mathjax();
 				};
 				$.ajax( { method: 'GET', url: url, dataType: 'html', success: injectAnswers } );
 			} );
