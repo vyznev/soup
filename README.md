@@ -1,4 +1,4 @@
-<!-- version: 1.10.0 -->
+<!-- version: 1.10.1 -->
 
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 

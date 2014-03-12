@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.10.0
+// @version     1.10.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -158,7 +158,9 @@ fixes.stats1987 = {
 		// can't use .comment-actions on next line, since the class name is missing from self-posted comments
 		".comments > table > * > tr > td:first-of-type { width: 30px }" +
 		".comment-actions > table { float: right }" +
-		".comments td { vertical-align: top }"
+		".comments td { vertical-align: top }" +
+		// XXX: fix horizontal alignment of votes on self-posted comments
+		".comment-actions tr:first-of-type td:not(.comment-score) { width: 16px }"
 };
 if ( /^(meta\.)?workplace\./.test( location.hostname ) ) fixes.workplace2437 = {
 	title:	"Add image doesn't work on Chrome (workplace.SE only)",
