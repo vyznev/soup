@@ -5,6 +5,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.10
 ====
 
+**Changes in 1.10.2:**
+
+* Removed [workplace2437](http://meta.workplace.stackexchange.com/q/2437) CSS fix, no longer needed.
+* The fix for [mso223866](http://meta.stackoverflow.com/q/223866) caused a formatting regression for moderators, rewrote the code to be more careful. (Thanks, Monica Cellio!)
+
 **Changes in 1.10.1:**
 
 * Fixed minor issue with [stats1987](http://meta.stats.stackexchange.com/q/1987) causing vote counts on self-posted comments to be misaligned. (Thanks, Jonathan Hobbs!)

@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.10.1
+// @version     1.10.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -161,12 +161,6 @@ fixes.stats1987 = {
 		".comments td { vertical-align: top }" +
 		// XXX: fix horizontal alignment of votes on self-posted comments
 		".comment-actions tr:first-of-type td:not(.comment-score) { width: 16px }"
-};
-if ( /^(meta\.)?workplace\./.test( location.hostname ) ) fixes.workplace2437 = {
-	title:	"Add image doesn't work on Chrome (workplace.SE only)",
-	url:	"http://meta.workplace.stackexchange.com/q/2437",
-	css:	".container #header { z-index: auto }" +
-		".container #header:after { z-index: 2 }"
 };
 if ( /^(meta\.)?skeptics\./.test( location.hostname ) ) fixes.skeptics2636 = {
 	title:	"Links in promotion ads are black on black, thus invisible (skeptics.SE only)",
@@ -465,8 +459,12 @@ fixes.mso223866 = {
 	title:	"Add thousand separator for helpful flags count in user profiles",
 	url:	"http://meta.stackoverflow.com/q/223866",
 	script:	function () {
-		$('body.user-page #user-info-container a[href^="/users/flag-summary/"]').text( function (i, txt) {
-			return parseInt( txt.replace( /[^0-9]+/g, '' ) ).toLocaleString( 'en-US' );
+		// XXX: moderators see more than just a simple number here
+		var links = $('body.user-page #user-info-container a[href^="/users/flag-summary/"]');
+		SOUP.forEachTextNode( links, function () {
+			this.nodeValue = this.nodeValue.replace( /[0-9]{4,}/g, function (digits) {
+				return Number( digits ).toLocaleString( 'en-US' );
+			} );
 		} );
 	}
 };

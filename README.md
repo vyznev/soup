@@ -1,4 +1,4 @@
-<!-- version: 1.10.1 -->
+<!-- version: 1.10.2 -->
 
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
@@ -44,7 +44,6 @@ SOUP v1.10 includes fixes or workarounds for the following issues:
 * [Excerpt of privilege is below privilege instead of in front](http://meta.stackoverflow.com/q/203405) (CSS)
 * [Extra blue line appearing in the top bar (Firefox only)](http://meta.stackoverflow.com/q/210165) (CSS)
 * [Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
-* [Add image doesn't work on Chrome](http://meta.workplace.stackexchange.com/q/2437) (CSS, workplace.SE only)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) (CSS, chat)
 * [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes other spoiler fixes)
