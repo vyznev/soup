@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.0
+// @version     1.11.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -160,16 +160,28 @@ fixes.stats1987 = {
 		".comment-actions > table { float: right }" +
 		".comments td { vertical-align: top }"
 };
-if ( /^(meta\.)?workplace\./.test( location.hostname ) ) fixes.workplace2437 = {
+
+
+// site-specific CSS fixes:
+fixes.workplace2437 = {
 	title:	"Add image doesn't work on Chrome (workplace.SE only)",
 	url:	"http://meta.workplace.stackexchange.com/q/2437",
+	sites:	["workplace"],
 	css:	".container #header { z-index: auto }" +
 		".container #header:after { z-index: 2 }"
 };
-if ( /^(meta\.)?skeptics\./.test( location.hostname ) ) fixes.skeptics2636 = {
+fixes.skeptics2636 = {
 	title:	"Links in promotion ads are black on black, thus invisible (skeptics.SE only)",
 	url:	"http://meta.skeptics.stackexchange.com/q/2636",
+	sites:	["skeptics"],
 	css:	"#sidebar .ad-container a, #sidebar .ad-container a:visited { color: #EAD29A }"
+};
+fixes.math12803 = {
+	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (math.SE only)",
+	url:	"http://meta.math.stackexchange.com/q/12803",
+	sites:	["math"],
+	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }" +
+		"#newsletter-signup-container { margin: 0 -15px }"  // just in case it still overflows
 };
 
 
@@ -178,11 +190,13 @@ fixes.mso155308 = {
 	title:	"Ignoring somebody screws up the avatar list",
 	url:	"http://meta.stackoverflow.com/q/155308",
 	credit:	"DaveRandom",
+	sites:	["chat"],
 	css:	"#present-users > .present-user.ignored { height: 16px }"
 };
 fixes.mso216760 = {
 	title:	"The reply buttons in chat shouldn't reposition themselves on pinged messages",
 	url:	"http://meta.stackoverflow.com/q/216760",
+	sites:	["chat"],
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .message.highlight { margin-right: 0px }" +
 		"body .message.highlight .flash { right: -38px }"  // regression: http://meta.stackoverflow.com/q/221733
@@ -190,11 +204,13 @@ fixes.mso216760 = {
 fixes.mso222509 = {
 	title:	"Getting Red Line under tags",
 	url:	"http://meta.stackoverflow.com/q/222509",
+	sites:	["chat"],
 	css:	".ob-post-tags a:hover, .ob-user-tags a:hover { text-decoration: none }"
 };
 fixes.mso224411 = {
 	title:	"Old top bar site icons are too big in chat lobby",
 	url:	"http://meta.stackoverflow.com/q/224411",
+	sites:	["chat"],
 	css:	"#portalLink .siteFavicon img { width: 16px; height: 16px }"
 };
 
@@ -221,6 +237,7 @@ fixes.mso217779 = {
 fixes.mso134268 = {
 	title:	"U+0008 inserted into chat @-pings",
 	url:	"http://meta.stackoverflow.com/q/134268",
+	sites:	["chat"],
 	script:	function () {
 		if ( !SOUP.isChat ) return;
 		$('body#chat-body').on( 'keypress', function (e) {
@@ -233,6 +250,7 @@ fixes.mso134268 = {
 fixes.mso224233 = {
 	title:	"Problem in css style loading in Search Bar after refresh page when using FF",
 	url:	"http://meta.stackoverflow.com/q/224233",
+	sites:	["chat"],
 	script:	function () {
 		if ( ! SOUP.isChat ) return;
 		$('#searchbox, #search').off('focus blur').attr( 'placeholder', function () {
@@ -514,20 +532,6 @@ fixes.mso209393 = {
 		} );
 	}
 };
-fixes.mso215450 = {
-	title:	"SSL breaks TeX rendering",
-	url:	"http://meta.stackoverflow.com/q/215450",
-	script:	function () {
-		if ( 'https:' != location.protocol || window.MathJax ) return;
-		$('script[src^="http://cdn.mathjax.org/"]').remove().each( function () {
-			$.ajax( {
-				dataType: "script", cache: true,
-				url: this.src.replace('http://cdn.mathjax.org',
-					'https://c328740.ssl.cf1.rackcdn.com')
-			} );
-		} );
-	}
-};
 fixes.math11036 = {
 	title:	"Can we have the suggested questions' titles parsed by default?",
 	url:	"http://meta.math.stackexchange.com/q/11036",
@@ -738,6 +742,17 @@ var soupLateSetup = function () {
 };
 
 //
+// Check if a fix should run on this site
+//
+var siteName = ( /^(?:meta\.)?([^.]*)/.exec( location.hostname ) )[1];
+var fixIsEnabled = function ( fix ) {
+	if ( fix.sites && fix.sites.indexOf( siteName ) < 0 ) return false;
+	if ( fix.exclude && fix.exclude.indexOf( siteName ) >= 0 ) return false;
+	return true;
+};
+
+
+//
 // Inject scripts and styles into the page:
 //
 if ( window.console ) console.log( 'soup injecting fixes' );
@@ -756,6 +771,7 @@ mathjaxScript.id = 'soup-mathjax-config';
 mathjaxScript.type = 'text/x-mathjax-config';
 var code = "SOUP.log( 'soup mathjax config loading' );\n";
 for (var id in fixes) {
+	if ( ! fixIsEnabled( fixes[id] ) ) continue;
 	if ( fixes[id].mathjax ) code += "(" + fixes[id].mathjax + ")();\n";
 }
 mathjaxScript.textContent = code;
@@ -767,6 +783,7 @@ styleElem.id = 'soup-styles';
 styleElem.type = 'text/css';
 var code = "";
 for (var id in fixes) {
+	if ( ! fixIsEnabled( fixes[id] ) ) continue;
 	if ( fixes[id].css ) code += "/* " + id + " */\n" + fixes[id].css;
 }
 styleElem.textContent = code.replace( /[}] */g, "}\n" )
@@ -779,7 +796,7 @@ var injectScripts = function () {
 	scriptElem.type = 'text/javascript';
 	var code = "(" + soupLateSetup + ")();\n";
 	for (var id in fixes) {
-		if ( ! fixes[id].script ) continue;
+		if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].script ) continue;
 		code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
 	}
 	scriptElem.textContent = code;
