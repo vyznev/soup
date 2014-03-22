@@ -158,18 +158,13 @@ fixes.stats1987 = {
 		// can't use .comment-actions on next line, since the class name is missing from self-posted comments
 		".comments > table > * > tr > td:first-of-type { width: 30px }" +
 		".comment-actions > table { float: right }" +
-		".comments td { vertical-align: top }"
+		".comments td { vertical-align: top }" +
+		// XXX: fix horizontal alignment of votes on self-posted comments
+		".comment-actions tr:first-of-type td:not(.comment-score) { width: 16px }"
 };
 
 
 // site-specific CSS fixes:
-fixes.workplace2437 = {
-	title:	"Add image doesn't work on Chrome (workplace.SE only)",
-	url:	"http://meta.workplace.stackexchange.com/q/2437",
-	sites:	["workplace"],
-	css:	".container #header { z-index: auto }" +
-		".container #header:after { z-index: 2 }"
-};
 fixes.skeptics2636 = {
 	title:	"Links in promotion ads are black on black, thus invisible (skeptics.SE only)",
 	url:	"http://meta.skeptics.stackexchange.com/q/2636",
@@ -491,8 +486,12 @@ fixes.mso223866 = {
 	title:	"Add thousand separator for helpful flags count in user profiles",
 	url:	"http://meta.stackoverflow.com/q/223866",
 	script:	function () {
-		$('body.user-page #user-info-container a[href^="/users/flag-summary/"]').text( function (i, txt) {
-			return parseInt( txt.replace( /[^0-9]+/g, '' ) ).toLocaleString( 'en-US' );
+		// XXX: moderators see more than just a simple number here
+		var links = $('body.user-page #user-info-container a[href^="/users/flag-summary/"]');
+		SOUP.forEachTextNode( links, function () {
+			this.nodeValue = this.nodeValue.replace( /[0-9]{4,}/g, function (digits) {
+				return Number( digits ).toLocaleString( 'en-US' );
+			} );
 		} );
 	}
 };
