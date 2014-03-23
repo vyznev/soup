@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.1
+// @version     1.11.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -178,6 +178,14 @@ fixes.math12803 = {
 	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }" +
 		"#newsletter-signup-container { margin: 0 -15px }"  // just in case it still overflows
 };
+fixes.japanese1023 = {
+	title:	"Preformatted text in Japanese doesn't line up properly",
+	url:	"http://meta.japanese.stackexchange.com/q/1023",
+	sites:	["japanese"],
+	css:	"body pre, body code, body textarea {" +  // "body" added to increase specificity
+		" font-family: 'Kochi Gothic', 'Sazanami Gothic', 'VL Gothic', 'Ume Gothic', 'MS Gothic'," +
+		" IPAGothic, 'WenQuanYi Zen Hei Mono', 'Osaka Mono', 'M+ 1m', monospace }"
+}
 
 
 // chat CSS fixes:
