@@ -70,6 +70,7 @@ SOUP v1.11 includes fixes or workarounds for the following issues:
 * [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
 * [Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
+* [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
 * [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (math)

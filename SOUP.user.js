@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.4
+// @version     1.11.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -521,6 +521,18 @@ fixes.mso224628 = {
 			else if ( button.length ) button.show();
 			else $(html).attr('id', 'delete-post-' + pid).insertAfter('#flagged-' + pid + ' .flag-post-button').before(' ');
 		} );
+	}
+};
+fixes.mso226343 = {
+	title:	"Chat link in top bar isn't site-specific when using HTTPS",
+	url:	"http://meta.stackoverflow.com/q/226343",
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		$('.siteSwitcher-dialog a[href="http://chat.stackexchange.com"]').attr(
+			// XXX: can't use a protocol-relative link here, chat still doesn't work over HTTPS
+			'href', 'http://chat.stackexchange.com/?tab=site&host=' +
+				location.hostname.replace(/(^|\.)meta\./, '')
+		);
 	}
 };
 
