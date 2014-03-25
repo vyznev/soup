@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.2
+// @version     1.11.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -185,7 +185,19 @@ fixes.japanese1023 = {
 	css:	"body pre, body code, body textarea {" +  // "body" added to increase specificity
 		" font-family: 'Kochi Gothic', 'Sazanami Gothic', 'VL Gothic', 'Ume Gothic', 'MS Gothic'," +
 		" IPAGothic, 'WenQuanYi Zen Hei Mono', 'Osaka Mono', 'M+ 1m', monospace }"
-}
+};
+fixes.gaming8530 = {
+	title:	"Hovering over the community links changes the header height",
+	url:	"http://meta.gaming.stackexchange.com/q/8530",
+	// should be safe to apply on all sites, even if the issue has only been reported on gaming.SE
+	css:	".topbar-dialog h3 a:hover { border-bottom: none }"
+};
+fixes.workplace2475 = {
+	title:	"Layout (z-order?) bug when flagging questions",
+	url:	"http://meta.workplace.stackexchange.com/q/2475",
+	sites:	["workplace"],
+	css:	"body #content { z-index: auto; position: static }"
+};
 
 
 // chat CSS fixes:
