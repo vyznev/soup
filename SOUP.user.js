@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.3
+// @version     1.11.4
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -486,20 +486,6 @@ fixes.mso224533 = {
 		};
 		SOUP.hookAjax( /^/, fixSoftHyphens ).code();
 		SOUP.hookEditPreview( fixSoftHyphens );
-	}
-};
-fixes.mso224328 = {
-	title:	"Enter from password field doesn't submit SE login form",
-	url:	"http://meta.stackoverflow.com/q/224328",
-	script:	function () {
-		var inputs = 'input[name=email], input[name=password]';
-		$('.login-page #se-login-form').on( 'keypress', inputs, function (e) {
-			if ( e.which != 13 || e.shiftKey || e.defaultPrevented ) return;
-			e.preventDefault(); e.stopImmediatePropagation();
-			var empty = $(e.delegateTarget).find(inputs).filter('[value=""]');
-			if ( empty.length > 0 ) empty.first().focus();
-			else $(e.delegateTarget).find('#submit-button').click();
-		} );
 	}
 };
 fixes.mso223866 = {

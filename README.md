@@ -68,7 +68,6 @@ SOUP v1.11 includes fixes or workarounds for the following issues:
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725)
 * [Please put answers underneath questions in Close review queue](http://meta.stackoverflow.com/q/172931)
 * [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
-* [Enter from password field doesn't submit SE login form](http://meta.stackoverflow.com/q/224328)
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
 * [Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math)
