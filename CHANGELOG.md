@@ -15,7 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* The fixes for [mso215450](http://meta.stackoverflow.com/q/215450) and [mso224328](http://meta.stackoverflow.com/q/224328) are no longer needed, and have been removed.
+* The fixes for [mso114636](http://meta.stackoverflow.com/q/114636), [mso211547](http://meta.stackoverflow.com/q/211547), [mso136589](http://meta.stackoverflow.com/q/136589), [mso112305](http://meta.stackoverflow.com/q/112305), [mso60390](http://meta.stackoverflow.com/q/60390), [mso224411](http://meta.stackoverflow.com/q/224411), [mso215450](http://meta.stackoverflow.com/q/215450) and [mso224328](http://meta.stackoverflow.com/q/224328) are no longer needed, and have been removed.
 * Fixes can now be more easily limited to or excluded from specific sites.
 * Caught exceptions are no longer stringified before logging.
 

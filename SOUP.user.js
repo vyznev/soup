@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.7
+// @version     1.11.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -43,12 +43,6 @@ var fixes = {};
 //
 // CSS-only fixes (injected *before* site CSS!):
 //
-fixes.mso114636 = {
-	title:	"All Stack Exchange sites in a small window causing display problems?",
-	url:	"http://meta.stackoverflow.com/q/114636",
-	credit:	"Ben Brocka",
-	css:	"body.new-topbar { min-width: 1024px }" // .new-topbar keeps this from applying to the mobile version
-};
 fixes.mso215473 = {
 	title:	"Add a non-breaking space to “reopen (1)” and its ilk",
 	url:	"http://meta.stackoverflow.com/q/215473",
@@ -61,12 +55,6 @@ fixes.mso138685 = {
 	credit:	"jakub.g",
 	css:	"#question-mini-list, .user-header-left," +
 		" .user-panel > .user-panel-content > table { clear: both }"
-};
-fixes.mso211547 = {
-	title:	"Topbar text are pushed down on beta sites",
-	url:	"http://meta.stackoverflow.com/q/211547",
-	credit:	"hims056",
-	css:	".topbar { line-height: 1 }"
 };
 fixes.mso114109 = {
 	title:	"Background in OP's user name can obscure text in multiline comments",
@@ -98,22 +86,9 @@ fixes.mso108046 = {
 	css:	"a[onclick] { cursor: pointer }"
 };
 
-// The following three fixes are mostly made redundant by mso217779, but are
-// included for users with site JS disabled, and to mitigate the loading delay
-// of the JS component of mso217779:
-fixes.mso136589 = {
-	title:	"The monospace formatting in a spoiler quote on a beta site is evil",
-	url:	"http://meta.stackoverflow.com/q/136589",
-	// "body" added to increase selector precedence above conflicting SE style
-	css:	"body .spoiler:hover code { background-color: #eee }"
-};
-fixes.mso112305 = {
-	title:	"Code samples inside of spoilers are still visible on some sites",
-	url:	"http://meta.stackoverflow.com/q/112305",
-	css:	".spoiler:not(:hover), .spoiler:not(:hover) * " +
-		"{ color: #eee; background: #eee; border-color: #eee }" +
-		".spoiler:hover { color: #000 }" // related issue: text after code block remains invisible on hover
-};
+// The following fix is mostly made redundant by mso217779, but is included for
+// users with site JS disabled, and to mitigate the loading delay of the JS
+// component of mso217779:
 fixes.mso110566 = {
 	title:	"Does the spoiler markdown work on images?",
 	url:	"http://meta.stackoverflow.com/q/110566",
@@ -126,16 +101,10 @@ fixes.mso58760 = {
 	credit:	"Krazer",
 	css:	"kbd { display: inline-block }"
 };
-fixes.mso60390 = {
-	title:	"Inconsistent padding of inline code",
-	url:	"http://meta.stackoverflow.com/q/60390",
-	// "body" added to increase selector precedence above conflicting SE style
-	css:	"body code { padding: 1px 5px } pre code { padding: 0 }"
-};
 fixes.mso219740 = {
 	title:	"Add spacing / padding to “Protected By…” and “Not the answer you're looking for”",
 	url:	"http://meta.stackoverflow.com/q/219740",
-	css:	".question-status + .bottom-notice { margin-top: 15px }"
+	css:	".question-status + .bottom-notice { margin-top: 20px }"
 };
 fixes.mso203405 = {
 	title:	"Excerpt of privilege is below privilege instead of in front",
@@ -214,13 +183,14 @@ fixes.mso222509 = {
 	title:	"Getting Red Line under tags",
 	url:	"http://meta.stackoverflow.com/q/222509",
 	sites:	["chat"],
-	css:	".ob-post-tags a:hover, .ob-user-tags a:hover { text-decoration: none }"
-};
-fixes.mso224411 = {
-	title:	"Old top bar site icons are too big in chat lobby",
-	url:	"http://meta.stackoverflow.com/q/224411",
-	sites:	["chat"],
-	css:	"#portalLink .siteFavicon img { width: 16px; height: 16px }"
+	css:	".ob-post-tags a:hover, .ob-user-tags a:hover, " +
+		"a.soup-mso222509-fix:hover { text-decoration: none }",
+	script:	function () {
+		if ( ! SOUP.isChat ) return;
+		$('#chat').on('mouseover', '.ob-post-tag, .ob-user-tag', function () {
+			$(this).closest('a').not('.soup-mso222509-fix').addClass('soup-mso222509-fix');
+		} );
+	}
 };
 
 
@@ -262,7 +232,7 @@ fixes.mso224233 = {
 	sites:	["chat"],
 	script:	function () {
 		if ( ! SOUP.isChat ) return;
-		$('#searchbox, #search').off('focus blur').attr( 'placeholder', function () {
+		$('#search:not([placeholder])').off('focus blur').attr( 'placeholder', function () {
 			var $this = $(this);
 			if ( $this.closest('#roomsearch').length ) return 'filter rooms';
 			else if ( $this.closest('#usersearch').length ) return 'filter users';
