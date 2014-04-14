@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.8
+// @version     1.11.9
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -622,13 +622,11 @@ fixes.mso229363 = {
 	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
 	url:	"http://meta.stackoverflow.com/q/229363",
 	mathjax:	function () {
-		// jQuery might not be available yet at this stage
-		var elems = document.querySelectorAll(
-			'#hot-network-questions a[href*="//tex.stackexchange.com/"]'
-		);
-		for (var i = 0; i < elems.length; i++) {
-			elems[i].className += ' tex2jax_ignore';
-		}
+		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
+			SOUP.try( 'mso229363', function () {
+				$('#hot-network-questions a[href*="//tex.stackexchange.com/"]:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
+			} );
+		} );
 	}
 };
 
