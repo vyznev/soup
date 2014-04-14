@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.9
+// @version     1.11.10
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -187,7 +187,7 @@ fixes.mso222509 = {
 		"a.soup-mso222509-fix:hover { text-decoration: none }",
 	script:	function () {
 		if ( ! SOUP.isChat ) return;
-		$('#chat').on('mouseover', '.ob-post-tag, .ob-user-tag', function () {
+		$('#main').on('mouseover', '.ob-post-tag, .ob-user-tag', function () {
 			$(this).closest('a').not('.soup-mso222509-fix').addClass('soup-mso222509-fix');
 		} );
 	}
