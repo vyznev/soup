@@ -10,7 +10,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, math.SE only)
 * [japanese1023: Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)
 * [gaming8530: Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (CSS)
-* [workplace2475: Layout (z-order?) bug when flagging questions](http://meta.workplace.stackexchange.com/q/2475) (CSS, workplace.SE only)
 * [mso226343: Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343)
 * [mso229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackoverflow.com/q/229363) (math)
 
