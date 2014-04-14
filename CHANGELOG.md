@@ -12,11 +12,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [gaming8530: Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (CSS)
 * [workplace2475: Layout (z-order?) bug when flagging questions](http://meta.workplace.stackexchange.com/q/2475) (CSS, workplace.SE only)
 * [mso226343: Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343)
+* [mso229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackoverflow.com/q/229363) (math)
 
 **Other changes:**
 
 * The fixes for [mso215450](http://meta.stackoverflow.com/q/215450) and [mso224328](http://meta.stackoverflow.com/q/224328) are no longer needed, and have been removed.
 * Fixes can now be more easily limited to or excluded from specific sites.
+* Caught exceptions are no longer stringified before logging.
 
 1.10
 ====

@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.11.5
+// @version     1.11.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -635,7 +635,6 @@ fixes.math4130 = {
 	},
 	css:	".soup-mathjax-reset { display: none }"
 };
-
 fixes.math11392 = {
 	title:	"MathJax preview broken when equations contain `\\label`s",
 	url:	"http://meta.math.stackexchange.com/q/11392",
@@ -653,6 +652,19 @@ fixes.math11392 = {
 				MathJax.Hub.Config({TeX:{noErrors:{disabled:false}}});
 			}
 		});
+	}
+};
+fixes.mso229363 = {
+	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
+	url:	"http://meta.stackoverflow.com/q/229363",
+	mathjax:	function () {
+		// jQuery might not be available yet at this stage
+		var elems = document.querySelectorAll(
+			'#hot-network-questions a[href*="//tex.stackexchange.com/"]'
+		);
+		for (var i = 0; i < elems.length; i++) {
+			elems[i].className += ' tex2jax_ignore';
+		}
 	}
 };
 
@@ -680,11 +692,11 @@ var soupInit = function () {
 	// try to run some code, log errors
 	SOUP.try = function ( key, code ) {
 		try { code() }
-		catch (e) { SOUP.log( 'SOUP ' + key + ': ' + e ) }
+		catch (e) { SOUP.log( 'SOUP ' + key + ': ', e ) }
 	};
 	// wrapper for console.log(), does nothing on old Opera w/o console
-	SOUP.log = function ( msg ) {
-		if ( window.console ) console.log( msg );
+	SOUP.log = function () {
+		if ( window.console ) console.log.apply( console, arguments );
 	};
 	// utility: run code whenever the editor preview is updated
 	// FIXME: this doesn't always work; find out why and fix it!
@@ -710,7 +722,7 @@ var soupInit = function () {
 	SOUP.runAjaxHook = function ( hook, event, xhr, settings ) {
 		var tryIt = function () {
 			try { hook.code( event, xhr, settings ) }
-			catch (e) { SOUP.log( 'SOUP ajax hook for ' + hook.regex + ' failed: ' + e ) }
+			catch (e) { SOUP.log( 'SOUP ajax hook for ' + hook.regex + ' failed: ', e ) }
 		};
 		if ( !hook.delay ) tryIt();
 		else setTimeout( tryIt, hook.delay );
@@ -788,8 +800,8 @@ mathjaxScript.id = 'soup-mathjax-config';
 mathjaxScript.type = 'text/x-mathjax-config';
 var code = "SOUP.log( 'soup mathjax config loading' );\n";
 for (var id in fixes) {
-	if ( ! fixIsEnabled( fixes[id] ) ) continue;
-	if ( fixes[id].mathjax ) code += "(" + fixes[id].mathjax + ")();\n";
+	if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].mathjax ) continue;
+	code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].mathjax + ");\n";
 }
 mathjaxScript.textContent = code;
 head.appendChild( mathjaxScript );
