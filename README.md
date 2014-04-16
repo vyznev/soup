@@ -1,4 +1,4 @@
-<!-- version: 1.12.0 -->
+<!-- version: 1.13.x -->
 
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
@@ -24,7 +24,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.12 includes fixes or workarounds for the following issues:
+SOUP v1.13 includes fixes or workarounds for the following issues:
 
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) (CSS)
 * [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackoverflow.com/q/138685) (CSS)
@@ -64,6 +64,7 @@ SOUP v1.12 includes fixes or workarounds for the following issues:
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
 * [Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
 * [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343)
+* [Make all i.stack.imgur.com links protocol-relative](http://meta.stackoverflow.com/q/221304)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
 * [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (math)

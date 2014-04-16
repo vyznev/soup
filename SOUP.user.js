@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.12.0
+// @version     1.13.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -499,6 +499,33 @@ fixes.mso226343 = {
 		);
 	}
 };
+fixes.mso221304 = {
+	title:	"Make all i.stack.imgur.com links protocol-relative",
+	url:	"http://meta.stackoverflow.com/q/221304",
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
+		var retryWithHTTPS = function () {
+			var newUrl = this.src.replace( urlRegex, 'https://$1/' );
+			SOUP.log( 'soup mso221304 fixing img ' + this.src + ' -> ' + newUrl );
+			$(this).off('error', retryWithHTTPS).attr('src', newUrl);
+		};
+		var fixImages = function (target) {
+			var n = $(target).find('img[src^="http://"]').filter( function () {
+				if ( ! urlRegex.test( this.src ) ) return false;
+				else if ( ! this.complete ) return true;
+				else if ( this.naturalWidth === 0 ) retryWithHTTPS.apply(this);
+				return false;
+			} ).on( 'error', retryWithHTTPS ).length;
+			SOUP.log( 'soup mso221304 queued '+n+' images for deferred fixing' );
+		};
+		$(document).on( 'mouseenter', '#user-menu', function () { fixImages(this) } );
+		SOUP.hookEditPreview( function () { fixImages('.wmd-preview') } );
+		SOUP.hookAjax( /^\/posts\/ajax-load-realtime\b/, function () { fixImages('#mainbar') }, 200 );
+		fixImages(document);
+	}
+};
+
 
 //
 // MathJax fixes:

@@ -2,6 +2,13 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
+1.13 (development)
+==================
+
+**New fixes in 1.13.x:**
+
+* [mso221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackoverflow.com/q/221304)
+
 1.12
 ====
 
