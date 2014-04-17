@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.0
+// @version     1.13.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -504,7 +504,7 @@ fixes.mso221304 = {
 	url:	"http://meta.stackoverflow.com/q/221304",
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
-		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
+		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
 		var retryWithHTTPS = function () {
 			var newUrl = this.src.replace( urlRegex, 'https://$1/' );
 			SOUP.log( 'soup mso221304 fixing img ' + this.src + ' -> ' + newUrl );
