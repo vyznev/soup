@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.5
+// @version     1.13.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -456,6 +456,16 @@ fixes.mse224628 = {
 			else if ( button.length ) button.show();
 			else $(html).attr('id', 'delete-post-' + pid).insertAfter('#flagged-' + pid + ' .flag-post-button').before(' ');
 		} );
+	}
+};
+fixes.mse227975 = {
+	title:	"Why does the logo not show up when signing up for a site and confirming the account?",
+	url:	"http://meta.stackexchange.com/q/227975",
+	script:	function () {
+		if ( !/^\/users\/(login|signup)\b/.test( location.pathname ) ) return;
+		$('img.site-logo[src="//cdn.sstatic.net/beta/img/apple-touch-icon.png"]').attr(
+			'src', '//cdn.sstatic.net/' + location.hostname.split('.')[0] + '/img/icon-48.png'
+		);
 	}
 };
 

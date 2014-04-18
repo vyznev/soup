@@ -62,6 +62,7 @@ SOUP v1.13 includes fixes or workarounds for the following issues:
 * [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackexchange.com/q/223866)
 * [Add delete button on-the-fly when reviewing flags](http://meta.stackexchange.com/q/224628)
+* [Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
 * [Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304) (https)
 * [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343) (https)
