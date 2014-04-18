@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.1
+// @version     1.13.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -521,7 +521,7 @@ fixes.mso221304 = {
 		};
 		$(document).on( 'mouseenter', '#user-menu', function () { fixImages(this) } );
 		SOUP.hookEditPreview( function () { fixImages('.wmd-preview') } );
-		SOUP.hookAjax( /^\/posts\/ajax-load-realtime\b/, function () { fixImages('#mainbar') }, 200 );
+		SOUP.hookAjax( /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\//, function () { fixImages('#mainbar') }, 200 );
 		fixImages(document);
 	}
 };
