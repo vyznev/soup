@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.3
+// @version     1.13.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -43,80 +43,80 @@ var fixes = {};
 //
 // CSS-only fixes (injected *before* site CSS!):
 //
-fixes.mso215473 = {
+fixes.mse215473 = {
 	title:	"Add a non-breaking space to “reopen (1)” and its ilk",
-	url:	"http://meta.stackoverflow.com/q/215473",
+	url:	"http://meta.stackexchange.com/q/215473",
 	css:	".post-menu a { white-space: nowrap }" +
 		".post-menu .lsep:after { content: ' '; font-size: 0px }"
 };
-fixes.mso138685 = {
+fixes.mse138685 = {
 	title:	"Layout fix for Firefox in “Zoom text only” mode",
-	url:	"http://meta.stackoverflow.com/q/138685",
+	url:	"http://meta.stackexchange.com/q/138685",
 	credit:	"jakub.g",
 	css:	"#question-mini-list, .user-header-left," +
 		" .user-panel > .user-panel-content > table { clear: both }"
 };
-fixes.mso114109 = {
+fixes.mse114109 = {
 	title:	"Background in OP's user name can obscure text in multiline comments",
-	url:	"http://meta.stackoverflow.com/q/114109",
+	url:	"http://meta.stackexchange.com/q/114109",
 	css:	".comment-copy { position: relative }"
 };
-fixes.mso143973 = {
+fixes.mse143973 = {
 	title:	"Images can be pushed outside the boundaries of a post by using nested lists",
-	url:	"http://meta.stackoverflow.com/q/143973",
+	url:	"http://meta.stackexchange.com/q/143973",
 	credit:	"animuson",
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .post-text img, body .wmd-preview img { max-width: 100% }"
 };
-fixes.mso217120 = {
+fixes.mse217120 = {
 	title:	"Ugly overflows when editing a deleted answer inline",
-	url:	"http://meta.stackoverflow.com/q/217120",
+	url:	"http://meta.stackexchange.com/q/217120",
 	css:	".inline-editor { margin-left: -4px }"
 };
-fixes.mso145819 = {
+fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",
-	url:	"http://meta.stackoverflow.com/q/145819",
+	url:	"http://meta.stackexchange.com/q/145819",
 	css:	".wmd-preview hr { background-color: #ddd; color: #ddd }" +
 		".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr " +
 		"{ background-color: #c3c3c3; color: #c3c3c3 }"
 };
-fixes.mso108046 = {
+fixes.mse108046 = {
 	title:	"Mouse cursor doesn't change to pointer when hovering “full site” on mobile",
-	url:	"http://meta.stackoverflow.com/q/108046",
+	url:	"http://meta.stackexchange.com/q/108046",
 	css:	"a[onclick] { cursor: pointer }"
 };
 
-// The following fix is mostly made redundant by mso217779, but is included for
+// The following fix is mostly made redundant by mse217779, but is included for
 // users with site JS disabled, and to mitigate the loading delay of the JS
-// component of mso217779:
-fixes.mso110566 = {
+// component of mse217779:
+fixes.mse110566 = {
 	title:	"Does the spoiler markdown work on images?",
-	url:	"http://meta.stackoverflow.com/q/110566",
+	url:	"http://meta.stackexchange.com/q/110566",
 	css:	".spoiler:not(:hover) img { visibility: hidden }"
 };
 
-fixes.mso58760 = {
+fixes.mse58760 = {
 	title:	"<kbd> (yes, still <kbd>) doesn't play nice with lists",
-	url:	"http://meta.stackoverflow.com/q/58760",
+	url:	"http://meta.stackexchange.com/q/58760",
 	credit:	"Krazer",
 	css:	"kbd { display: inline-block }"
 };
-fixes.mso219740 = {
+fixes.mse219740 = {
 	title:	"Add spacing / padding to “Protected By…” and “Not the answer you're looking for”",
-	url:	"http://meta.stackoverflow.com/q/219740",
+	url:	"http://meta.stackexchange.com/q/219740",
 	css:	".question-status + .bottom-notice { margin-top: 20px }"
 };
-fixes.mso203405 = {
+fixes.mse203405 = {
 	title:	"Excerpt of privilege is below privilege instead of in front",
-	url:	"http://meta.stackoverflow.com/q/203405",
+	url:	"http://meta.stackexchange.com/q/203405",
 	css:	".privileges-page #privilege-table { display: table }" +
 		".privileges-page .privilege-table-row { display: table-row }" +
 		".privileges-page .privilege-table-row div:not(.checkmark)" +
 		" { display: table-cell; padding: 1em 0.2em }"
 }
-fixes.mso210165 = {
+fixes.mse210165 = {
 	title:	"Extra blue line appearing in the top bar (Firefox only)",
-	url:	"http://meta.stackoverflow.com/q/210165",
+	url:	"http://meta.stackexchange.com/q/210165",
 	css:	".topbar .hidden-text { display: none }" +
 		".topbar .topbar-icon, .topbar .profile-me { color: #e0e0e0 }"
 };
@@ -170,31 +170,31 @@ fixes.codegolf959 = {
 
 
 // chat CSS fixes:
-fixes.mso155308 = {
+fixes.mse155308 = {
 	title:	"Ignoring somebody screws up the avatar list",
-	url:	"http://meta.stackoverflow.com/q/155308",
+	url:	"http://meta.stackexchange.com/q/155308",
 	credit:	"DaveRandom",
 	sites:	["chat"],
 	css:	"#present-users > .present-user.ignored { height: 16px }"
 };
-fixes.mso216760 = {
+fixes.mse216760 = {
 	title:	"The reply buttons in chat shouldn't reposition themselves on pinged messages",
-	url:	"http://meta.stackoverflow.com/q/216760",
+	url:	"http://meta.stackexchange.com/q/216760",
 	sites:	["chat"],
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .message.highlight { margin-right: 0px }" +
-		"body .message.highlight .flash { right: -38px }"  // regression: http://meta.stackoverflow.com/q/221733
+		"body .message.highlight .flash { right: -38px }"  // regression: http://meta.stackexchange.com/q/221733
 };
-fixes.mso222509 = {
+fixes.mse222509 = {
 	title:	"Getting Red Line under tags",
-	url:	"http://meta.stackoverflow.com/q/222509",
+	url:	"http://meta.stackexchange.com/q/222509",
 	sites:	["chat"],
 	css:	".ob-post-tags a:hover, .ob-user-tags a:hover, " +
-		"a.soup-mso222509-fix:hover { text-decoration: none }",
+		"a.soup-mse222509-fix:hover { text-decoration: none }",
 	script:	function () {
 		if ( ! SOUP.isChat ) return;
 		$('#main').on('mouseover', '.ob-post-tag, .ob-user-tag', function () {
-			$(this).closest('a').not('.soup-mso222509-fix').addClass('soup-mso222509-fix');
+			$(this).closest('a').not('.soup-mse222509-fix').addClass('soup-mse222509-fix');
 		} );
 	}
 };
@@ -203,9 +203,9 @@ fixes.mso222509 = {
 //
 // Fixes that need scripting (run in page context after jQuery / SE framework is ready):
 //
-fixes.mso217779 = {
+fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
-	url:	"http://meta.stackoverflow.com/q/217779",
+	url:	"http://meta.stackexchange.com/q/217779",
 	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > * { opacity: 1 }",
 	script:	function () {
@@ -219,9 +219,9 @@ fixes.mso217779 = {
 		fixSpoilers();
 	}
 };
-fixes.mso134268 = {
+fixes.mse134268 = {
 	title:	"U+0008 inserted into chat @-pings",
-	url:	"http://meta.stackoverflow.com/q/134268",
+	url:	"http://meta.stackexchange.com/q/134268",
 	sites:	["chat"],
 	script:	function () {
 		if ( !SOUP.isChat ) return;
@@ -232,9 +232,9 @@ fixes.mso134268 = {
 		} );
 	}
 };
-fixes.mso224233 = {
+fixes.mse224233 = {
 	title:	"Problem in css style loading in Search Bar after refresh page when using FF",
-	url:	"http://meta.stackoverflow.com/q/224233",
+	url:	"http://meta.stackexchange.com/q/224233",
 	sites:	["chat"],
 	script:	function () {
 		if ( ! SOUP.isChat ) return;
@@ -246,9 +246,9 @@ fixes.mso224233 = {
 		} ).filter('.watermark').val('').removeClass('watermark');
 	}
 };
-fixes.mso78989 = {
+fixes.mse78989 = {
 	title:	"Clicking on tags broken?",
-	url:	"http://meta.stackoverflow.com/q/78989",
+	url:	"http://meta.stackexchange.com/q/78989",
 	script:	function () {
 		if ( !/[?&]sort[=]/.test( location.search ) &&
 			$('body').hasClass('tagged-questions-page') &&
@@ -258,9 +258,9 @@ fixes.mso78989 = {
 		}
 	}
 };
-fixes.mso207526 = {
+fixes.mse207526 = {
 	title:	"Cannot navigate into the multicollider with keyboard",
-	url:	"http://meta.stackoverflow.com/q/207526",
+	url:	"http://meta.stackexchange.com/q/207526",
 	script:	function () {
 		SOUP.hookAjax( /^\/topbar\//, function () {
 			$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
@@ -279,9 +279,9 @@ fixes.mso207526 = {
 		} );
 	}
 };
-fixes.mso129593 = {
+fixes.mse129593 = {
 	title:	"Un-fade low-score answers on rollover or click",
-	url:	"http://meta.stackoverflow.com/q/129593",
+	url:	"http://meta.stackexchange.com/q/129593",
 	credit:	"based on fix by Manishearth",
 	script:	function () {
 		// XXX: this is ugly, but avoids assuming anything about site styles
@@ -294,11 +294,11 @@ fixes.mso129593 = {
 		} );
 	}
 };
-fixes.mso104184 = {
+fixes.mse104184 = {
 	title:	"Allow flagging a comment after upvoting it",
-	url:	"http://meta.stackoverflow.com/q/104184",
+	url:	"http://meta.stackexchange.com/q/104184",
 	script:	function () {
-		if ( SOUP.isMobile ) return;  // mobile view has no flag links; see http://meta.stackoverflow.com/q/213709
+		if ( SOUP.isMobile ) return;  // mobile view has no flag links; see http://meta.stackexchange.com/q/213709
 		SOUP.hookAjax( /^\/posts\/\d+\/comments\b/, function () {
 			$('.comment-up-on').closest('table').not(':has(.comment-flag)').append(
 				// better hardcode this, so it'll break cleanly if SE code changes
@@ -312,18 +312,18 @@ fixes.mso104184 = {
 		} );
 	}
 };
-fixes.mso214706 = {
+fixes.mse214706 = {
 	title:	"The branch prediction answer is overflowing",
-	url:	"http://meta.stackoverflow.com/q/214706",
+	url:	"http://meta.stackexchange.com/q/214706",
 	script:	function () {
 		$('.stats .vote-count-post strong').filter( function () {
 			return this.textContent.length > 4
 		} ).css( 'font-size', '80%' );
 	}
 };
-fixes.mso66646 = {
+fixes.mse66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
-	url:	"http://meta.stackoverflow.com/q/66646",
+	url:	"http://meta.stackexchange.com/q/66646",
 	script:	function () {
 		if ( !window.StackExchange || !StackExchange.options ) return;
 		StackExchange.options.desc = true;  // disable SE keyup/press handler
@@ -337,18 +337,18 @@ fixes.mso66646 = {
 		);
 	}
 };
-fixes.mso210132 = {
+fixes.mse210132 = {
 	title:	"New top bar should render avatar with a transparent background",
-	url:	"http://meta.stackoverflow.com/q/210132",
+	url:	"http://meta.stackexchange.com/q/210132",
 	script:	function () {
 		$('.topbar img.avatar-me[src^="http://i.stack.imgur.com/"]').attr(
 			'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
 		).css( { 'max-width': '24px', 'max-height': '24px' } );
 	}
 };
-fixes.mso220337 = {
+fixes.mse220337 = {
 	title:	"Election comments have no permalink link",
-	url:	"http://meta.stackoverflow.com/q/220337",
+	url:	"http://meta.stackexchange.com/q/220337",
 	credit:	"FEichinger",
 	script:	function () {
 		if ( !/^\/election\b/.test( location.pathname ) ) return;
@@ -365,9 +365,9 @@ fixes.mso220337 = {
 		} );
 	}
 };
-fixes.mso172931 = {
+fixes.mse172931 = {
 	title:	"Please put answers underneath questions in Close review queue",
-	url:	"http://meta.stackoverflow.com/q/172931",
+	url:	"http://meta.stackexchange.com/q/172931",
 	script:	function () {
 		if ( ! /^\/review\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
@@ -408,9 +408,9 @@ fixes.mso172931 = {
 		} ).code();
 	}
 };
-fixes.mso224533 = {
+fixes.mse224533 = {
 	title:	"Soft-hyphen hides subsequent text when using Opera 12.16",
-	url:	"http://meta.stackoverflow.com/q/224533",
+	url:	"http://meta.stackexchange.com/q/224533",
 	script:	function () {
 		if ( SOUP.isMobile || ! window.opera ) return;
 		var fixSoftHyphens = function () {
@@ -423,9 +423,9 @@ fixes.mso224533 = {
 		SOUP.hookEditPreview( fixSoftHyphens );
 	}
 };
-fixes.mso223866 = {
+fixes.mse223866 = {
 	title:	"Add thousand separator for helpful flags count in user profiles",
-	url:	"http://meta.stackoverflow.com/q/223866",
+	url:	"http://meta.stackexchange.com/q/223866",
 	script:	function () {
 		// XXX: moderators see more than just a simple number here
 		var links = $('body.user-page #user-info-container a[href^="/users/flag-summary/"]');
@@ -436,9 +436,9 @@ fixes.mso223866 = {
 		} );
 	}
 };
-fixes.mso224628 = {
+fixes.mse224628 = {
 	title:	"Add delete button on-the-fly when reviewing flags",
-	url:	"http://meta.stackoverflow.com/q/224628",
+	url:	"http://meta.stackexchange.com/q/224628",
 	script:	function () {
 		if ( ! $('body.tools-page.flag-page').length ) return;
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
@@ -463,9 +463,9 @@ fixes.mso224628 = {
 //
 // HTTPS fixes:
 //
-fixes.mso223725 = {
+fixes.mse223725 = {
 	title:	"All internal links on Stack Exchange sites should be protocol-relative",
-	url:	"http://meta.stackoverflow.com/q/223725",
+	url:	"http://meta.stackexchange.com/q/223725",
 	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
@@ -475,7 +475,7 @@ fixes.mso223725 = {
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
 			this.protocol = 'https:';
-			// workaround for permalink redirect bug (http://meta.stackoverflow.com/q/223728)
+			// workaround for permalink redirect bug (http://meta.stackexchange.com/q/223728)
 			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
 			$(this).addClass( 'soup-https-fixed' );
 		};
@@ -484,15 +484,15 @@ fixes.mso223725 = {
 		SOUP.hookAjax( /^/, fixAllLinks ).code();
 	}
 };
-fixes.mso221304 = {
+fixes.mse221304 = {
 	title:	"Make all i.stack.imgur.com links protocol-relative",
-	url:	"http://meta.stackoverflow.com/q/221304",
+	url:	"http://meta.stackexchange.com/q/221304",
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
 		var retryWithHTTPS = function () {
 			var newUrl = this.src.replace( urlRegex, 'https://$1/' );
-			SOUP.log( 'soup mso221304 fixing img ' + this.src + ' -> ' + newUrl );
+			SOUP.log( 'soup mse221304 fixing img ' + this.src + ' -> ' + newUrl );
 			$(this).off('error', retryWithHTTPS).attr('src', newUrl);
 		};
 		var fixImages = function (target) {
@@ -502,7 +502,7 @@ fixes.mso221304 = {
 				else if ( this.naturalWidth === 0 ) retryWithHTTPS.apply(this);
 				return false;
 			} ).on( 'error', retryWithHTTPS ).length;
-			SOUP.log( 'soup mso221304 queued '+n+' images for deferred fixing' );
+			SOUP.log( 'soup mse221304 queued '+n+' images for deferred fixing' );
 		};
 		$(document).on( 'mouseenter', '#user-menu', function () { fixImages(this) } );
 		SOUP.hookEditPreview( function () { fixImages('.wmd-preview') } );
@@ -510,9 +510,9 @@ fixes.mso221304 = {
 		fixImages(document);
 	}
 };
-fixes.mso226343 = {
+fixes.mse226343 = {
 	title:	"Chat link in top bar isn't site-specific when using HTTPS",
-	url:	"http://meta.stackoverflow.com/q/226343",
+	url:	"http://meta.stackexchange.com/q/226343",
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		$('.siteSwitcher-dialog a[href="http://chat.stackexchange.com"]').attr(
@@ -522,9 +522,9 @@ fixes.mso226343 = {
 		);
 	}
 };
-fixes.mso220470 = {
+fixes.mse220470 = {
 	title:	"CSS for daily site access calendar on profile page fails to load over HTTPS",
-	url:	"http://meta.stackoverflow.com/q/220470",
+	url:	"http://meta.stackexchange.com/q/220470",
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		SOUP.hookAjax( /^\/users\/daily-site-access\b/, function (event, xhr, settings) {
@@ -541,9 +541,9 @@ fixes.mso220470 = {
 //
 // MathJax fixes:
 //
-fixes.mso209393 = {
+fixes.mse209393 = {
 	title:	"Render MathJax in the 10k tools",
-	url:	"http://meta.stackoverflow.com/q/209393",
+	url:	"http://meta.stackexchange.com/q/209393",
 	script:	function () {
 		if ( !/^\/tools\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/tools\b/, function () {
@@ -656,12 +656,12 @@ fixes.math11392 = {
 		});
 	}
 };
-fixes.mso229363 = {
+fixes.mse229363 = {
 	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
-	url:	"http://meta.stackoverflow.com/q/229363",
+	url:	"http://meta.stackexchange.com/q/229363",
 	mathjax:	function () {
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
-			SOUP.try( 'mso229363', function () {
+			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a[href*="//tex.stackexchange.com/"]:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
 			} );
 		} );
@@ -741,7 +741,7 @@ var soupInit = function () {
 // setup code to execute after jQuery has loaded:
 var soupLateSetup = function () {
 	// basic environment detection
-	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mso215450)
+	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mse215450)
 	SOUP.isChat   = /^chat\./.test( location.hostname );
 	SOUP.isMeta   = /^meta\./.test( location.hostname );
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );

@@ -26,52 +26,52 @@ Included fixes
 
 SOUP v1.13 includes fixes or workarounds for the following issues:
 
-* [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackoverflow.com/q/215473) (CSS)
-* [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackoverflow.com/q/138685) (CSS)
-* [Background in OP's user name can obscure text in multiline comments](http://meta.stackoverflow.com/q/114109) (CSS)
-* [Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackoverflow.com/q/143973) (CSS)
-* [Ugly overflows when editing a deleted answer inline](http://meta.stackoverflow.com/q/217120) (CSS)
-* [&lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackoverflow.com/q/145819) (CSS)
-* [Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackoverflow.com/q/108046) (CSS)
-* [Does the spoiler markdown work on images?](http://meta.stackoverflow.com/q/110566) (CSS)
-* [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackoverflow.com/q/217779) (*not* CSS only, supersedes above fix)
-* [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackoverflow.com/q/58760) (CSS)
-* [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackoverflow.com/q/219740) (CSS)
-* [Excerpt of privilege is below privilege instead of in front](http://meta.stackoverflow.com/q/203405) (CSS)
-* [Extra blue line appearing in the top bar (Firefox only)](http://meta.stackoverflow.com/q/210165) (CSS)
+* [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackexchange.com/q/215473) (CSS)
+* [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackexchange.com/q/138685) (CSS)
+* [Background in OP's user name can obscure text in multiline comments](http://meta.stackexchange.com/q/114109) (CSS)
+* [Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackexchange.com/q/143973) (CSS)
+* [Ugly overflows when editing a deleted answer inline](http://meta.stackexchange.com/q/217120) (CSS)
+* [&lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackexchange.com/q/145819) (CSS)
+* [Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackexchange.com/q/108046) (CSS)
+* [Does the spoiler markdown work on images?](http://meta.stackexchange.com/q/110566) (CSS)
+* [The CSS for spoilers is a mess. Let's fix it!](http://meta.stackexchange.com/q/217779) (*not* CSS only, supersedes above fix)
+* [&lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackexchange.com/q/58760) (CSS)
+* [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackexchange.com/q/219740) (CSS)
+* [Excerpt of privilege is below privilege instead of in front](http://meta.stackexchange.com/q/203405) (CSS)
+* [Extra blue line appearing in the top bar (Firefox only)](http://meta.stackexchange.com/q/210165) (CSS)
 * [Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 * [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, math.SE only)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)
 * [Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (CSS)
 * [Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
-* [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) (CSS, chat)
-* [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) (CSS, chat)
-* [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) (CSS, chat)
-* [U+0008 inserted into chat @-pings](http://meta.stackoverflow.com/q/134268) (chat)
-* [Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackoverflow.com/q/224233) (chat)
-* [Clicking on tags broken?](http://meta.stackoverflow.com/q/78989)
-* [Cannot navigate into the multicollider with keyboard](http://meta.stackoverflow.com/q/207526)
-* [Un-fade low-score answers on rollover or click](http://meta.stackoverflow.com/q/129593)
-* [Allow flagging a comment after upvoting it](http://meta.stackoverflow.com/q/104184)
-* [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
-* [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
-* [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
-* [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
-* [Please put answers underneath questions in Close review queue](http://meta.stackoverflow.com/q/172931)
-* [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
-* [Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
-* [Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
-* [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725) (https)
-* [Make all i.stack.imgur.com links protocol-relative](http://meta.stackoverflow.com/q/221304) (https)
-* [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343) (https)
-* [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470) (https)
-* [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math)
+* [Ignoring somebody screws up the avatar list](http://meta.stackexchange.com/q/155308) (CSS, chat)
+* [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackexchange.com/q/216760) (CSS, chat)
+* [Getting Red Line under tags](http://meta.stackexchange.com/q/222509) (CSS, chat)
+* [U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268) (chat)
+* [Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233) (chat)
+* [Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
+* [Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
+* [Un-fade low-score answers on rollover or click](http://meta.stackexchange.com/q/129593)
+* [Allow flagging a comment after upvoting it](http://meta.stackexchange.com/q/104184)
+* [The branch prediction answer is overflowing](http://meta.stackexchange.com/q/214706)
+* [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)
+* [New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
+* [Election comments have no permalink link](http://meta.stackexchange.com/q/220337)
+* [Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)
+* [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)
+* [Add thousand separator for helpful flags count in user profiles](http://meta.stackexchange.com/q/223866)
+* [Add delete button on-the-fly when reviewing flags](http://meta.stackexchange.com/q/224628)
+* [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
+* [Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304) (https)
+* [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343) (https)
+* [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackexchange.com/q/220470) (https)
+* [Render MathJax in the 10k tools](http://meta.stackexchange.com/q/209393) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
 * [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (math)
 * [The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130) (math)
 * [MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) (math)
-* [Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackoverflow.com/q/229363) (math)
+* [Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363) (math)
 
 Notes:
 
@@ -94,11 +94,11 @@ If you know a user script or stylesheet patch for SO or other SE sites that woul
 
 To be included in SOUP, a patch should:
 
-* **address a known unfixed issue:** If you find a new interface bug on SO, please [report it on MSO](http://meta.stackoverflow.com/questions/ask) first, and give the devs some time to fix it.  There's no hard limit on this, but there's not much point in patching something via SOUP if it's going to be fixed by the devs in a few minutes / hours / days anyway.
+* **address a known unfixed issue:** If you find a new interface bug on SO, please [report it on MSE](http://meta.stackexchange.com/questions/ask) first, and give the devs some time to fix it.  There's no hard limit on this, but there's not much point in patching something via SOUP if it's going to be fixed by the devs in a few minutes / hours / days anyway.
 
 * **be simple and fast:** The mean length of individual patches in SOUP (excluding shared infrastructure) is currently around three lines of code.  If adding a new patch would significantly increase the length of SOUP, cause a noticeable performance impact or introduce a significant external dependency (e.g. new syntax highlighting rules), it's probably not suitable.
 
-* **be uncontroversial:** SOUP is intended to be a "least common denominator" patch set for everyone.  While a simple [`[status-declined]`](http://meta.stackoverflow.com/tags/status-declined/info "'status-declined' tag wiki - Meta Stack Overflow") doesn't necessarily disqualify an issue from being included in SOUP (sometimes it just means the devs are feeling lazy ;-), if a substantial number of people say they don't want it, it doesn't go in.  In particular, patches that add significant new functionality, significantly change the appearance of the site or [repaint the bikeshed](http://en.wikipedia.org/wiki/Parkinson%27s_Law_of_Triviality) are not suitable for SOUP.
+* **be uncontroversial:** SOUP is intended to be a "least common denominator" patch set for everyone.  While a simple [`[status-declined]`](http://meta.stackexchange.com/tags/status-declined/info "'status-declined' tag wiki - Meta Stack Overflow") doesn't necessarily disqualify an issue from being included in SOUP (sometimes it just means the devs are feeling lazy ;-), if a substantial number of people say they don't want it, it doesn't go in.  In particular, patches that add significant new functionality, significantly change the appearance of the site or [repaint the bikeshed](http://en.wikipedia.org/wiki/Parkinson%27s_Law_of_Triviality) are not suitable for SOUP.
 
 * **be safe and unobtrusive:** This goes with the above points: if any patch in SOUP turns out to cause undesirable side effects (including usability or performance issues) on some platforms, it should be either fixed or removed.
 
@@ -120,7 +120,7 @@ See also
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: GreaseMonkey"
    [TM]: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo "Chrome Web Store: Tampermonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
-   [vyznev]: http://meta.stackoverflow.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Overflow"
+   [vyznev]: http://meta.stackexchange.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Exchange"
    [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on StackApps"
    [US]: http://userscripts.org/scripts/show/293219 "Stack Overflow Unofficial Patch on UserScripts.org"
