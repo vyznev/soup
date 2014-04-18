@@ -8,6 +8,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.13.x:**
 
 * [mso221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackoverflow.com/q/221304)
+* [codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
 
 1.12
 ====

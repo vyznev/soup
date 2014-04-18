@@ -44,6 +44,7 @@ SOUP v1.13 includes fixes or workarounds for the following issues:
 * [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, math.SE only)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)
 * [Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (CSS)
+* [Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackoverflow.com/q/155308) (CSS, chat)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackoverflow.com/q/216760) (CSS, chat)
 * [Getting Red Line under tags](http://meta.stackoverflow.com/q/222509) (CSS, chat)
@@ -56,15 +57,15 @@ SOUP v1.13 includes fixes or workarounds for the following issues:
 * [The branch prediction answer is overflowing](http://meta.stackoverflow.com/q/214706)
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackoverflow.com/q/66646)
 * [New top bar should render avatar with a transparent background](http://meta.stackoverflow.com/q/210132)
-* [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470)
+* [CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackoverflow.com/q/220470) (https)
 * [Election comments have no permalink link](http://meta.stackoverflow.com/q/220337)
-* [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725)
+* [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackoverflow.com/q/223725) (https)
 * [Please put answers underneath questions in Close review queue](http://meta.stackoverflow.com/q/172931)
 * [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackoverflow.com/q/224533)
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackoverflow.com/q/223866)
 * [Add delete button on-the-fly when reviewing flags](http://meta.stackoverflow.com/q/224628)
-* [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343)
-* [Make all i.stack.imgur.com links protocol-relative](http://meta.stackoverflow.com/q/221304)
+* [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackoverflow.com/q/226343) (https)
+* [Make all i.stack.imgur.com links protocol-relative](http://meta.stackoverflow.com/q/221304) (https)
 * [Render MathJax in the 10k tools](http://meta.stackoverflow.com/q/209393) (math)
 * [Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
 * [Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (math)
@@ -76,6 +77,7 @@ Notes:
 
 * **CSS**: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
 * **chat**: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
+* **https**: This fix is applied when using Stack Exchange over HTTPS.  Note that [HTTPS support for Stack Exchange is still experimental.](http://meta.stackexchange.com/questions/116782/better-https-support-for-stack-exchange-sites)
 * **math**: This fix applies only to sites using MathJax for LaTeX math rendering.
 
 

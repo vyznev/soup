@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.2
+// @version     1.13.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -160,6 +160,12 @@ fixes.gaming8530 = {
 	url:	"http://meta.gaming.stackexchange.com/q/8530",
 	// should be safe to apply on all sites, even if the issue has only been reported on gaming.SE
 	css:	".topbar-dialog h3 a:hover { border-bottom: none }"
+};
+fixes.codegolf959 = {
+	title:	"Add line-height shortener to the ascii-art tag",
+	url:	"http://meta.codegolf.stackexchange.com/q/959",
+	sites:	["codegolf"],
+	css:	"pre { line-height: 1.15 }"
 };
 
 
