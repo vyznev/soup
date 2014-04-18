@@ -346,20 +346,6 @@ fixes.mso210132 = {
 		).css( { 'max-width': '24px', 'max-height': '24px' } );
 	}
 };
-fixes.mso220470 = {
-	title:	"CSS for daily site access calendar on profile page fails to load over HTTPS",
-	url:	"http://meta.stackoverflow.com/q/220470",
-	script:	function () {
-		if ( 'https:' != location.protocol ) return;
-		SOUP.hookAjax( /^\/users\/daily-site-access\b/, function (event, xhr, settings) {
-			$('link[rel=stylesheet][href^="http://ajax.googleapis.com"]').attr(
-				'href', function (i, href) {
-					return href.replace('http:', 'https:');
-				}
-			);
-		} );
-	}
-};
 fixes.mso220337 = {
 	title:	"Election comments have no permalink link",
 	url:	"http://meta.stackoverflow.com/q/220337",
@@ -377,27 +363,6 @@ fixes.mso220337 = {
 		$('.post-menu a:contains("link")').attr( 'href', function (i, href) {
 			return href.replace( /^[^#]*/, base );
 		} );
-	}
-};
-fixes.mso223725 = {
-	title:	"All internal links on Stack Exchange sites should be protocol-relative",
-	url:	"http://meta.stackoverflow.com/q/223725",
-	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
-	script:	function () {
-		if ( 'https:' != location.protocol ) return;
-		var selector = 'a[href^="http://"]';
-		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
-		var exclude  = /^(chat|blog|area51)\./;  // these sites still load their JS/CSS over HTTP :-(
-		var fixLink  = function () {
-			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
-			this.protocol = 'https:';
-			// workaround for permalink redirect bug (http://meta.stackoverflow.com/q/223728)
-			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
-			$(this).addClass( 'soup-https-fixed' );
-		};
-		var fixAllLinks = function () { $(selector).each( fixLink ) };
-		$(document).on( 'mouseover click', selector, fixLink );
-		SOUP.hookAjax( /^/, fixAllLinks ).code();
 	}
 };
 fixes.mso172931 = {
@@ -493,16 +458,30 @@ fixes.mso224628 = {
 		} );
 	}
 };
-fixes.mso226343 = {
-	title:	"Chat link in top bar isn't site-specific when using HTTPS",
-	url:	"http://meta.stackoverflow.com/q/226343",
+
+
+//
+// HTTPS fixes:
+//
+fixes.mso223725 = {
+	title:	"All internal links on Stack Exchange sites should be protocol-relative",
+	url:	"http://meta.stackoverflow.com/q/223725",
+	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
-		$('.siteSwitcher-dialog a[href="http://chat.stackexchange.com"]').attr(
-			// XXX: can't use a protocol-relative link here, chat still doesn't work over HTTPS
-			'href', 'http://chat.stackexchange.com/?tab=site&host=' +
-				location.hostname.replace(/(^|\.)meta\./, '')
-		);
+		var selector = 'a[href^="http://"]';
+		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		var exclude  = /^(chat|blog|area51)\./;  // these sites still load their JS/CSS over HTTP :-(
+		var fixLink  = function () {
+			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
+			this.protocol = 'https:';
+			// workaround for permalink redirect bug (http://meta.stackoverflow.com/q/223728)
+			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
+			$(this).addClass( 'soup-https-fixed' );
+		};
+		var fixAllLinks = function () { $(selector).each( fixLink ) };
+		$(document).on( 'mouseover click', selector, fixLink );
+		SOUP.hookAjax( /^/, fixAllLinks ).code();
 	}
 };
 fixes.mso221304 = {
@@ -529,6 +508,32 @@ fixes.mso221304 = {
 		SOUP.hookEditPreview( function () { fixImages('.wmd-preview') } );
 		SOUP.hookAjax( /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\//, function () { fixImages('#mainbar') }, 200 );
 		fixImages(document);
+	}
+};
+fixes.mso226343 = {
+	title:	"Chat link in top bar isn't site-specific when using HTTPS",
+	url:	"http://meta.stackoverflow.com/q/226343",
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		$('.siteSwitcher-dialog a[href="http://chat.stackexchange.com"]').attr(
+			// XXX: can't use a protocol-relative link here, chat still doesn't work over HTTPS
+			'href', 'http://chat.stackexchange.com/?tab=site&host=' +
+				location.hostname.replace(/(^|\.)meta\./, '')
+		);
+	}
+};
+fixes.mso220470 = {
+	title:	"CSS for daily site access calendar on profile page fails to load over HTTPS",
+	url:	"http://meta.stackoverflow.com/q/220470",
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		SOUP.hookAjax( /^\/users\/daily-site-access\b/, function (event, xhr, settings) {
+			$('link[rel=stylesheet][href^="http://ajax.googleapis.com"]').attr(
+				'href', function (i, href) {
+					return href.replace('http:', 'https:');
+				}
+			);
+		} );
 	}
 };
 
