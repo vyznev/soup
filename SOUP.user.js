@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.9
+// @version     1.13.10
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -182,6 +182,12 @@ fixes.mse230607 = {
 	url:	"http://meta.stackexchange.com/q/230607",
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	"h1 { line-height: 1.3 }"
+};
+fixes.mse230370 = {
+	title:	"The entire answer is moving when hovering the bounty button",
+	url:	"http://meta.stackexchange.com/q/230370",
+	sites:	/^(meta|(meta\.)?academia)\.stackexchange\.com$/,
+	css:	".vote .bounty-award { padding: 0.2em 0.5em }"
 };
 
 
