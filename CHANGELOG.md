@@ -11,7 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
 * [mse227975: Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
 * [mse230607: There's something funky about some titles in revision histories here on meta](http://meta.stackexchange.com/q/230607) (CSS, meta.SE only)
-
+* [mse214830: Selecting text in profile activity comments causes unexpected clipping](http://meta.stackexchange.com/q/214830) (CSS)
 
 **Other changes:**
 

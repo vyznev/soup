@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.7
+// @version     1.13.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -130,6 +130,11 @@ fixes.stats1987 = {
 		".comments td { vertical-align: top }" +
 		// XXX: fix horizontal alignment of votes on self-posted comments
 		".comment-actions tr:first-of-type td:not(.comment-score) { width: 16px }"
+};
+fixes.mse214830 = {
+	title:	"Selecting text in profile activity comments causes unexpected clipping",
+	url:	"http://meta.stackexchange.com/q/214830",
+	css:	"span.comments { padding-bottom: 0 }"
 };
 
 
