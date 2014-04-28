@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.6
+// @version     1.13.7
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -137,20 +137,20 @@ fixes.stats1987 = {
 fixes.skeptics2636 = {
 	title:	"Links in promotion ads are black on black, thus invisible (skeptics.SE only)",
 	url:	"http://meta.skeptics.stackexchange.com/q/2636",
-	sites:	["skeptics"],
+	sites:	/^(meta\.)?skeptics\./,
 	css:	"#sidebar .ad-container a, #sidebar .ad-container a:visited { color: #EAD29A }"
 };
 fixes.math12803 = {
 	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (math.SE only)",
 	url:	"http://meta.math.stackexchange.com/q/12803",
-	sites:	["math"],
+	sites:	/^(meta\.)?math\./,
 	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }" +
 		"#newsletter-signup-container { margin: 0 -15px }"  // just in case it still overflows
 };
 fixes.japanese1023 = {
 	title:	"Preformatted text in Japanese doesn't line up properly",
 	url:	"http://meta.japanese.stackexchange.com/q/1023",
-	sites:	["japanese"],
+	sites:	/^(meta\.)?japanese\./,
 	css:	"body pre, body code, body textarea {" +  // "body" added to increase specificity
 		" font-family: 'Kochi Gothic', 'Sazanami Gothic', 'VL Gothic', 'Ume Gothic', 'MS Gothic'," +
 		" IPAGothic, 'WenQuanYi Zen Hei Mono', 'Osaka Mono', 'M+ 1m', monospace }"
@@ -164,23 +164,28 @@ fixes.gaming8530 = {
 fixes.codegolf959 = {
 	title:	"Add line-height shortener to the ascii-art tag",
 	url:	"http://meta.codegolf.stackexchange.com/q/959",
-	sites:	["codegolf"],
+	sites:	/^(meta\.)?codegolf\./,
 	css:	"pre { line-height: 1.15 }"
 };
-
+fixes.mse230607 = {
+	title:	"There's something funky about some titles in revision histories here on meta",
+	url:	"http://meta.stackexchange.com/q/230607",
+	sites:	/^meta\.stackexchange\.com$/,
+	css:	"h1 { line-height: 1.3 }"
+};
 
 // chat CSS fixes:
 fixes.mse155308 = {
 	title:	"Ignoring somebody screws up the avatar list",
 	url:	"http://meta.stackexchange.com/q/155308",
 	credit:	"DaveRandom",
-	sites:	["chat"],
+	sites:	/^chat\./,
 	css:	"#present-users > .present-user.ignored { height: 16px }"
 };
 fixes.mse216760 = {
 	title:	"The reply buttons in chat shouldn't reposition themselves on pinged messages",
 	url:	"http://meta.stackexchange.com/q/216760",
-	sites:	["chat"],
+	sites:	/^chat\./,
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .message.highlight { margin-right: 0px }" +
 		"body .message.highlight .flash { right: -38px }"  // regression: http://meta.stackexchange.com/q/221733
@@ -188,7 +193,7 @@ fixes.mse216760 = {
 fixes.mse222509 = {
 	title:	"Getting Red Line under tags",
 	url:	"http://meta.stackexchange.com/q/222509",
-	sites:	["chat"],
+	sites:	/^chat\./,
 	css:	".ob-post-tags a:hover, .ob-user-tags a:hover, " +
 		"a.soup-mse222509-fix:hover { text-decoration: none }",
 	script:	function () {
@@ -222,7 +227,7 @@ fixes.mse217779 = {
 fixes.mse134268 = {
 	title:	"U+0008 inserted into chat @-pings",
 	url:	"http://meta.stackexchange.com/q/134268",
-	sites:	["chat"],
+	sites:	/^chat\./,
 	script:	function () {
 		if ( !SOUP.isChat ) return;
 		$('body#chat-body').on( 'keypress', function (e) {
@@ -235,7 +240,7 @@ fixes.mse134268 = {
 fixes.mse224233 = {
 	title:	"Problem in css style loading in Search Bar after refresh page when using FF",
 	url:	"http://meta.stackexchange.com/q/224233",
-	sites:	["chat"],
+	sites:	/^chat\./,
 	script:	function () {
 		if ( ! SOUP.isChat ) return;
 		$('#search:not([placeholder])').off('focus blur').attr( 'placeholder', function () {
@@ -783,10 +788,9 @@ var soupLateSetup = function () {
 //
 // Check if a fix should run on this site
 //
-var siteName = ( /^(?:meta\.)?([^.]*)/.exec( location.hostname ) )[1];
 var fixIsEnabled = function ( fix ) {
-	if ( fix.sites && fix.sites.indexOf( siteName ) < 0 ) return false;
-	if ( fix.exclude && fix.exclude.indexOf( siteName ) >= 0 ) return false;
+	if ( fix.sites && !fix.sites.test( location.hostname ) ) return false;
+	if ( fix.exclude && fix.exclude.test( location.hostname ) ) return false;
 	return true;
 };
 

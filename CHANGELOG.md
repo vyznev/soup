@@ -10,10 +10,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)
 * [codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
 * [mse227975: Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
+* [mse230607: There's something funky about some titles in revision histories here on meta](http://meta.stackexchange.com/q/230607) (CSS, meta.SE only)
+
 
 **Other changes:**
 
 * Fix IDs and links now reflect the [MSO/MSE split](http://blog.stackoverflow.com/2014/04/announcing-the-launch-of-meta-stack-exchange/).
+* Site matching now uses regexps for extra flexibility.
 
 1.12
 ====
