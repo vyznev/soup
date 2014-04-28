@@ -41,6 +41,7 @@ SOUP v1.13 includes fixes or workarounds for the following issues:
 * [Extra blue line appearing in the top bar (Firefox only)](http://meta.stackexchange.com/q/210165) (CSS)
 * [Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
 * [Selecting text in profile activity comments causes unexpected clipping](http://meta.stackexchange.com/q/214830) (CSS)
+* [Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392) (CSS)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 * [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, math.SE only)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)

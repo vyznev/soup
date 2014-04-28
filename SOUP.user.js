@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.8
+// @version     1.13.9
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -136,6 +136,11 @@ fixes.mse214830 = {
 	url:	"http://meta.stackexchange.com/q/214830",
 	css:	"span.comments { padding-bottom: 0 }"
 };
+fixes.mse230392 = {
+	title:	"Layout bug while viewing vote count in Meta Stackexchange",
+	url:	"http://meta.stackexchange.com/q/230392",
+	css:	"div.vote-count-separator { margin: 5px auto }"
+};
 
 
 // site-specific CSS fixes:
@@ -178,6 +183,7 @@ fixes.mse230607 = {
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	"h1 { line-height: 1.3 }"
 };
+
 
 // chat CSS fixes:
 fixes.mse155308 = {
