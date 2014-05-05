@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.10
+// @version     1.13.11
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -188,6 +188,13 @@ fixes.mse230370 = {
 	url:	"http://meta.stackexchange.com/q/230370",
 	sites:	/^(meta|(meta\.)?academia)\.stackexchange\.com$/,
 	css:	".vote .bounty-award { padding: 0.2em 0.5em }"
+};
+fixes.english4719 = {
+	title:	"Background of long OP username looks ugly in comments",
+	url:	"http://meta.english.stackexchange.com/q/4719",
+	sites:	/^(meta\.)?english\./,
+	css:	"a.comment-user.owner { background-image: none }" +
+		"pre code { background: transparent }" // unrelated issue mentioned in same post
 };
 
 

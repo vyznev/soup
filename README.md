@@ -49,6 +49,7 @@ SOUP v1.13 includes fixes or workarounds for the following issues:
 * [Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
 * [There's something funky about some titles in revision histories here on meta](http://meta.stackexchange.com/q/230607) (CSS, meta.SE only)
 * [The entire answer is moving when hovering the bounty button](http://meta.stackexchange.com/q/230370) (CSS, meta.SE & academia.SE only)
+* [Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackexchange.com/q/155308) (CSS, chat)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackexchange.com/q/216760) (CSS, chat)
 * [Getting Red Line under tags](http://meta.stackexchange.com/q/222509) (CSS, chat)
