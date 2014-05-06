@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.11
+// @version     1.13.12
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -140,6 +140,11 @@ fixes.mse230392 = {
 	title:	"Layout bug while viewing vote count in Meta Stackexchange",
 	url:	"http://meta.stackexchange.com/q/230392",
 	css:	"div.vote-count-separator { margin: 5px auto }"
+};
+fixes.physics5773 = {
+	title:	"Bounty icon is poorly placed",
+	url:	"http://meta.physics.stackexchange.com/q/5773",
+	css:	".vote .bounty-award { margin: 5px auto }"
 };
 
 

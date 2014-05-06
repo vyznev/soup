@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse230392: Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392) (CSS)
 * [mse230370: The entire answer is moving when hovering the bounty button](http://meta.stackexchange.com/q/230370) (CSS, meta.SE & academia.SE only)
 * [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
+* [physics5773: Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)
 
 **Other changes:**
 
