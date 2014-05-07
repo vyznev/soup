@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse230392: Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392) (CSS)
 * [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
 * [physics5773: Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)
+* [skeptics2747: Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747",) (CSS, skeptics.SE only)
 
 **Other changes:**
 

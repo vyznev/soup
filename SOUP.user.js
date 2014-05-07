@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.13
+// @version     1.13.14
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -151,13 +151,13 @@ fixes.physics5773 = {
 
 // site-specific CSS fixes:
 fixes.skeptics2636 = {
-	title:	"Links in promotion ads are black on black, thus invisible (skeptics.SE only)",
+	title:	"Links in promotion ads are black on black, thus invisible",
 	url:	"http://meta.skeptics.stackexchange.com/q/2636",
 	sites:	/^(meta\.)?skeptics\./,
 	css:	"#sidebar .ad-container a, #sidebar .ad-container a:visited { color: #EAD29A }"
 };
 fixes.math12803 = {
-	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (math.SE only)",
+	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux",
 	url:	"http://meta.math.stackexchange.com/q/12803",
 	sites:	/^(meta\.)?math\./,
 	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }" +
@@ -196,7 +196,12 @@ fixes.english4719 = {
 	css:	"a.comment-user.owner { background-image: none }" +
 		"pre code { background: transparent }" // unrelated issue mentioned in same post
 };
-
+fixes.skeptics2747 = {
+	title:	"Links are not visible in On Hold message",
+	url:	"http://meta.skeptics.stackexchange.com/q/2747",
+	sites:	/^(meta\.)?skeptics\./,
+	css:	".question-status a { text-decoration: underline !important }"
+};
 
 // chat CSS fixes:
 fixes.mse155308 = {
