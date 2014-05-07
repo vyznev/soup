@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.12
+// @version     1.13.13
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -144,7 +144,8 @@ fixes.mse230392 = {
 fixes.physics5773 = {
 	title:	"Bounty icon is poorly placed",
 	url:	"http://meta.physics.stackexchange.com/q/5773",
-	css:	".vote .bounty-award { margin: 5px auto }"
+	css:	".vote .bounty-award-container { margin: 13px 0; text-align: center }" +
+		".vote .bounty-award, span.bounty-award { margin: 0; display: inline-block; padding: 0.2em 0.5em }"
 };
 
 
@@ -187,12 +188,6 @@ fixes.mse230607 = {
 	url:	"http://meta.stackexchange.com/q/230607",
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	"h1 { line-height: 1.3 }"
-};
-fixes.mse230370 = {
-	title:	"The entire answer is moving when hovering the bounty button",
-	url:	"http://meta.stackexchange.com/q/230370",
-	sites:	/^(meta|(meta\.)?academia)\.stackexchange\.com$/,
-	css:	".vote .bounty-award { padding: 0.2em 0.5em }"
 };
 fixes.english4719 = {
 	title:	"Background of long OP username looks ugly in comments",
