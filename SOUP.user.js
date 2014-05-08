@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.13.14
+// @version     1.13.15
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -704,9 +704,14 @@ fixes.mse229363 = {
 	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
 	url:	"http://meta.stackexchange.com/q/229363",
 	mathjax:	function () {
+		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
+		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
+		var mathJaxSites = /(^|\.)((astronomy|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|ham|math(educators|ematica)?|physics|quant|robotics|scicomp|space|stats)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
-				$('#hot-network-questions a[href*="//tex.stackexchange.com/"]:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
+				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
+					return mathJaxSites.test( this.hostname );
+				} ).addClass('tex2jax_ignore');
 			} );
 		} );
 	}

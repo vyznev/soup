@@ -21,6 +21,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Fix IDs and links now reflect the [MSO/MSE split](http://blog.stackoverflow.com/2014/04/announcing-the-launch-of-meta-stack-exchange/).
 * Site matching now uses regexps for extra flexibility.
+* The [mse229363](http://meta.stackexchange.com/q/229363) fix now applies to hot questions from all sites except those [explicitly known to use MathJax](http://meta.stackexchange.com/a/216607).
 
 1.12
 ====
