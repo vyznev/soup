@@ -1,4 +1,4 @@
-<!-- version: 1.14.0 -->
+<!-- version: 1.15.x -->
 
 The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
@@ -24,7 +24,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.14 includes fixes or workarounds for the following issues:
+SOUP v1.15 includes fixes or workarounds for the following issues:
 
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackexchange.com/q/215473) (CSS)
 * [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackexchange.com/q/138685) (CSS)
@@ -69,6 +69,7 @@ SOUP v1.14 includes fixes or workarounds for the following issues:
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackexchange.com/q/223866)
 * [Add delete button on-the-fly when reviewing flags](http://meta.stackexchange.com/q/224628)
 * [Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
+* [Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
 * [Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304) (https)
 * [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343) (https)

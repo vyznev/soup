@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.14.0
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
+// @version     1.15.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -500,6 +500,24 @@ fixes.mse227975 = {
 		$('img.site-logo[src="//cdn.sstatic.net/beta/img/apple-touch-icon.png"]').attr(
 			'src', '//cdn.sstatic.net/' + location.hostname.split('.')[0] + '/img/icon-48.png'
 		);
+	}
+};
+fixes.boardgames1152 = {
+	title:	"Can the Magic card auto link feature be improved?",
+	url:	"http://meta.boardgames.stackexchange.com/q/1152",
+	credit:	"Alex P",
+	sites:	/^(meta\.)?boardgames\./,
+	script:	function () {
+		var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
+		cardLinks.attr( 'href', function (i, href) {
+			return href.replace(
+				/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
+				'http://gatherer.wizards.com/Pages/Search/Default.aspx?name=%20%5B$1%5D'
+			).replace( /%26amp%3[Bb]/g, '%26' );
+		} );
+		SOUP.forEachTextNode( cardLinks, function () {
+			this.nodeValue = this.nodeValue.replace( /&amp;/g, '&' );
+		} );
 	}
 };
 
