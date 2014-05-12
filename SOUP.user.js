@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.0
+// @version     1.15.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -724,7 +724,7 @@ fixes.mse229363 = {
 	mathjax:	function () {
 		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
 		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|ham|math(educators|ematica)?|physics|quant|robotics|scicomp|space|stats)\.stackexchange\.com|mathoverflow\.net)$/;
+		var mathJaxSites = /(^|\.)((astronomy|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|earthscience|ham|math(educators|ematica)?|physics|quant|robotics|scicomp|space|stats)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
