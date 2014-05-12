@@ -12,6 +12,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.14
 ====
 
+**Changes in 1.14.1:**
+
+* The [mse230607](http://meta.stackexchange.com/q/230607) fix is now applied on academia.SE too.
+
 **New fixes in 1.14.0:**
 
 * [mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)

@@ -186,7 +186,7 @@ fixes.codegolf959 = {
 fixes.mse230607 = {
 	title:	"There's something funky about some titles in revision histories here on meta",
 	url:	"http://meta.stackexchange.com/q/230607",
-	sites:	/^meta\.stackexchange\.com$/,
+	sites:	/^(meta\.)?(meta|academia)\.stackexchange\.com$/,
 	css:	"h1 { line-height: 1.3 }"
 };
 fixes.english4719 = {
