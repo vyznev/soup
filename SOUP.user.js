@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
-// @version     1.14.0
+// @version     1.14.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -186,7 +186,7 @@ fixes.codegolf959 = {
 fixes.mse230607 = {
 	title:	"There's something funky about some titles in revision histories here on meta",
 	url:	"http://meta.stackexchange.com/q/230607",
-	sites:	/^meta\.stackexchange\.com$/,
+	sites:	/^(meta\.)?(meta|academia)\.stackexchange\.com$/,
 	css:	"h1 { line-height: 1.3 }"
 };
 fixes.english4719 = {
