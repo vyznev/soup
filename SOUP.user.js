@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.1
+// @version     1.15.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -202,6 +202,13 @@ fixes.skeptics2747 = {
 	sites:	/^(meta\.)?skeptics\./,
 	css:	".question-status a { text-decoration: underline !important }"
 };
+fixes.mse230388 = {
+	title:	"Horizontal overflow on my profile page",
+	url:	"http://meta.stackexchange.com/q/230388",
+	sites:	/^meta\.stackexchange\.com$/,
+	css:	"#tabs a:not(.youarehere) { font-weight: 400 }"
+};
+
 
 // chat CSS fixes:
 fixes.mse155308 = {

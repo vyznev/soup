@@ -8,6 +8,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.15.x:**
 
 * [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
+* [mse230388: Horizontal overflow on my profile page](http://meta.stackexchange.com/q/230388) (CSS, meta.SE only)
 
 **Other changes:**
 
