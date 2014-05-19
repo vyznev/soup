@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.2
+// @version     1.15.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -156,12 +156,18 @@ fixes.skeptics2636 = {
 	sites:	/^(meta\.)?skeptics\./,
 	css:	"#sidebar .ad-container a, #sidebar .ad-container a:visited { color: #EAD29A }"
 };
-fixes.math12803 = {
-	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux",
+fixes.math12803a = {
+	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 1)",
 	url:	"http://meta.math.stackexchange.com/q/12803",
+	// this part of the fix is only enabled on math.SE, since other sites use different fonts
 	sites:	/^(meta\.)?math\./,
-	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }" +
-		"#newsletter-signup-container { margin: 0 -15px }"  // just in case it still overflows
+	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }"
+};
+fixes.math12803b = {
+	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 2)",
+	url:	"http://meta.math.stackexchange.com/q/12803",
+	// this part of the fix is enabled globally, to fix minor overflows on various SE sites
+	css:	"#newsletter-signup-container { margin-left: -15px; margin-right: -15px }"
 };
 fixes.japanese1023 = {
 	title:	"Preformatted text in Japanese doesn't line up properly",

@@ -13,6 +13,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Other changes:**
 
 * [mse229363](http://meta.stackexchange.com/q/229363): MathJax is now also parsed in hot question titles from earthscience.SE.
+* The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
 
 1.14
 ====

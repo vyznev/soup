@@ -44,7 +44,7 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392) (CSS)
 * [Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
-* [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, math.SE only)
+* [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, partially math.SE specific)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)
 * [Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (CSS)
 * [Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
