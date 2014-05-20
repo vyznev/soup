@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.3
+// @version     1.15.4
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -213,6 +213,17 @@ fixes.mse230388 = {
 	url:	"http://meta.stackexchange.com/q/230388",
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	"#tabs a:not(.youarehere) { font-weight: 400 }"
+};
+fixes.mse229751 = {
+	title:	"Related questions with over 99 score display incorrectly",
+	url:	"http://meta.stackexchange.com/q/229751",
+	sites:	/^meta\.stackexchange\.com$/,
+	css:	".answer-votes { white-space: nowrap }" +
+		// rules resembling those below are already in the site CSS, they but do nothing without !important
+		"#sidebar .answer-votes.large { width: 32px !important }" +
+		"#sidebar .answer-votes.extra-large { font-size: 11px !important; width: 32px !important }" +
+		// related bug: inappropriate padding for high answers scores in user profile
+		".user-show-new .answer-votes { padding: 4px 4px 5px !important }"
 };
 
 
