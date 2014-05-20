@@ -11,6 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse230388: Horizontal overflow on my profile page](http://meta.stackexchange.com/q/230388) (CSS, meta.SE only)
 * [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
+* [mse229903: Haalp! Really long question titles are a bit borked! You can see the bug in action right here](http://meta.stackexchange.com/q/229903) (CSS, meta.SE only)
 
 **Other changes:**
 

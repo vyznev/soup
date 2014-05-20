@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.5
+// @version     1.15.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -224,6 +224,13 @@ fixes.mse229751 = {
 		"#sidebar .answer-votes.extra-large { font-size: 11px !important; width: 32px !important }" +
 		// related bug: inappropriate padding for high answers scores in user profile
 		".user-show-new .answer-votes { padding: 4px 4px 5px !important }"
+};
+fixes.mse229903 = {
+	title:	"Haalp! Really long question titles are a bit borked! You can see the bug in action right here",
+	url:	"http://meta.stackexchange.com/q/229903",
+	credit:	"animuson",
+	sites:	/^meta\.stackexchange\.com$/,
+	css:	"body #question-header { padding-left: 0; padding-right: 0 }"  // "body" added to increase specificity
 };
 
 
