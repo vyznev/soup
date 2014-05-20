@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.4
+// @version     1.15.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -622,6 +622,19 @@ fixes.mse220470 = {
 		} );
 	}
 };
+fixes.mse231150 = {
+	title:	"Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher",
+	url:	"http://meta.stackexchange.com/q/231150",
+	early:	function () {
+		var buttonRegex = /(^|\s)js-(site-switcher|inbox|achievements|help)-button(\s|$)/;
+		document.addEventListener( 'click', function (event) {
+			if ( event.button != 0 ) return;  // ignore right/middle clicks
+			var elem = event.target;
+			while ( elem && !buttonRegex.test(elem.className) ) elem = elem.parentNode;
+			if ( elem ) event.preventDefault();
+		}, false );
+	}
+};
 
 
 //
@@ -877,11 +890,16 @@ var fixIsEnabled = function ( fix ) {
 if ( window.console ) console.log( 'soup injecting fixes' );
 var head = document.head || document.documentElement;
 
-// SOUP object init:
+// SOUP object init and early scripts:
 var initScript = document.createElement( 'script' );
 initScript.id = 'soup-init';
 initScript.type = 'text/javascript';
-initScript.textContent = "(" + soupInit + ")();\n";
+var code = "(" + soupInit + ")();\n";
+for (var id in fixes) {
+	if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].early ) continue;
+	code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
+}
+initScript.textContent = code;
 head.appendChild( initScript );
 
 // MathJax config:

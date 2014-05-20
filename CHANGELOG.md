@@ -10,11 +10,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
 * [mse230388: Horizontal overflow on my profile page](http://meta.stackexchange.com/q/230388) (CSS, meta.SE only)
 * [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
+* [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
 
 **Other changes:**
 
 * [mse229363](http://meta.stackexchange.com/q/229363): MathJax is now also parsed in hot question titles from earthscience.SE.
 * The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
+* Fixes can now run scripts early, before the document loads, by specifiying them in the `early` property.  Note that jQuery is typically not yet available at that stage.
 
 1.14
 ====
