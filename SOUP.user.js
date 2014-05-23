@@ -2,7 +2,7 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.6
+// @version     1.15.7
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -543,7 +543,7 @@ fixes.boardgames1152 = {
 		cardLinks.attr( 'href', function (i, href) {
 			return href.replace(
 				/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
-				'http://gatherer.wizards.com/Pages/Search/Default.aspx?name=%20%5B$1%5D'
+				'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
 			).replace( /%26amp%3[Bb]/g, '%26' );
 		} );
 		SOUP.forEachTextNode( cardLinks, function () {
