@@ -17,6 +17,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse229363](http://meta.stackexchange.com/q/229363): MathJax is now also parsed in hot question titles from earthscience.SE.
 * The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
+* The [mse215473](http://meta.stackexchange.com/q/215473) styles are no longer incorrectly applied to links in popups created from the post menu.
 * Fixes can now run scripts early, before the document loads, by specifiying them in the `early` property.  Note that jQuery is typically not yet available at that stage.
 * Fancy new icon.
 
@@ -38,6 +39,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
 * [physics5773: Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)
 * [skeptics2747: Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747) (CSS, skeptics.SE only)
+* [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185) (CSS)
 
 **Other changes:**
 

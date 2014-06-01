@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.8
+// @version     1.15.9
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -48,8 +48,8 @@ var fixes = {};
 fixes.mse215473 = {
 	title:	"Add a non-breaking space to “reopen (1)” and its ilk",
 	url:	"http://meta.stackexchange.com/q/215473",
-	css:	".post-menu a { white-space: nowrap }" +
-		".post-menu .lsep:after { content: ' '; font-size: 0px }"
+	css:	".post-menu > a { white-space: nowrap }" +
+		".post-menu > .lsep:after { content: ' '; font-size: 0px }"
 };
 fixes.mse138685 = {
 	title:	"Layout fix for Firefox in “Zoom text only” mode",
@@ -149,7 +149,14 @@ fixes.physics5773 = {
 	css:	".vote .bounty-award-container { margin: 13px 0; text-align: center }" +
 		".vote .bounty-award, span.bounty-award { margin: 0; display: inline-block; padding: 0.2em 0.5em }"
 };
-
+fixes.mse224185 = {
+	title:	"Links sometimes float above text in vote-to-close dialog on Firefox",
+	url:	"http://meta.stackexchange.com/q/224185",
+	// "body" added to increase selector precedence over conflicting SE style
+	css:	"body .close-as-off-topic-pane .action-name a, " +
+		"body .close-as-off-topic-pane .action-name { vertical-align: baseline }" +
+		"body .close-as-off-topic-pane input[type=radio] { vertical-align: top }"
+};
 
 // site-specific CSS fixes:
 fixes.skeptics2636 = {
