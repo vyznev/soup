@@ -44,6 +44,8 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392) (CSS)
 * [Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)
 * [Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185) (CSS)
+* [Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS)
+* [Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981) (CSS, mobile view only)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 * [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, partially math.SE specific)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)

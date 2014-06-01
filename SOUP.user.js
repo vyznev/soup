@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.9
+// @version     1.15.10
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -87,7 +87,6 @@ fixes.mse108046 = {
 	url:	"http://meta.stackexchange.com/q/108046",
 	css:	"a[onclick] { cursor: pointer }"
 };
-
 // The following fix is mostly made redundant by mse217779, but is included for
 // users with site JS disabled, and to mitigate the loading delay of the JS
 // component of mse217779:
@@ -96,7 +95,6 @@ fixes.mse110566 = {
 	url:	"http://meta.stackexchange.com/q/110566",
 	css:	".spoiler:not(:hover) img { visibility: hidden }"
 };
-
 fixes.mse58760 = {
 	title:	"<kbd> (yes, still <kbd>) doesn't play nice with lists",
 	url:	"http://meta.stackexchange.com/q/58760",
@@ -157,6 +155,21 @@ fixes.mse224185 = {
 		"body .close-as-off-topic-pane .action-name { vertical-align: baseline }" +
 		"body .close-as-off-topic-pane input[type=radio] { vertical-align: top }"
 };
+fixes.mse233470 = {
+	title:	"Answer lock notice runs into text below",
+	url:	"http://meta.stackexchange.com/q/233470",
+	// "body" added to increase selector precedence over conflicting SE style
+	css:	"body .special-status { padding-top: 5px; padding-bottom: 0px }" +
+		"body .question-status { margin-top: 10px; margin-bottom: 5px }"
+};
+// The following fix is kind of pointless, since few if any mobile browsers can
+// run user scripts, but I've included it anyway, since it's so trivial.
+fixes.mse231981 = {
+	title:	"Overly long user location entry breaks mobile users view",
+	url:	"http://meta.stackexchange.com/q/231981",
+	css:	"#user-browser table.grid-tag { table-layout: fixed }"
+};
+
 
 // site-specific CSS fixes:
 fixes.skeptics2636 = {
@@ -221,7 +234,8 @@ fixes.mse230388 = {
 	title:	"Horizontal overflow on my profile page",
 	url:	"http://meta.stackexchange.com/q/230388",
 	sites:	/^meta\.stackexchange\.com$/,
-	css:	"#tabs a:not(.youarehere) { font-weight: 400 }"
+	css:	"body .user-show-new #tabs a { padding-left: 7px !important; padding-right: 7px !important; }" +
+		"#tabs a:not(.youarehere) { font-weight: 400 }"  // related font weight issue on Firefox / Linux
 };
 fixes.mse229751 = {
 	title:	"Related questions with over 99 score display incorrectly",

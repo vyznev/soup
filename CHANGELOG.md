@@ -12,6 +12,9 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
 * [mse229903: Haalp! Really long question titles are a bit borked! You can see the bug in action right here](http://meta.stackexchange.com/q/229903) (CSS, meta.SE only)
+* [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185) (CSS)
+* [mse233470: Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS)
+* [mse231981: Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981) (CSS, mobile view only)
 
 **Other changes:**
 
@@ -39,7 +42,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
 * [physics5773: Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)
 * [skeptics2747: Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747) (CSS, skeptics.SE only)
-* [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185) (CSS)
 
 **Other changes:**
 
