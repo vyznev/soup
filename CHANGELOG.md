@@ -18,6 +18,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse229363](http://meta.stackexchange.com/q/229363): MathJax is now also parsed in hot question titles from earthscience.SE.
 * The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
 * Fixes can now run scripts early, before the document loads, by specifiying them in the `early` property.  Note that jQuery is typically not yet available at that stage.
+* Fancy new icon.
 
 1.14
 ====

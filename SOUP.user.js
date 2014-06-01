@@ -2,7 +2,8 @@
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
-// @version     1.15.7
+// @author      Ilmari Karonen
+// @version     1.15.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -12,12 +13,13 @@
 // @match       *://*.askubuntu.com/*
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
 
 
-// Copyright (C) 2014 Ilmari Karonen
+// Copyright (C) 2014 Ilmari Karonen and other contributors
 //
 // Permission to use, copy, modify, and/or distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
