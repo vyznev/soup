@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.10
+// @version     1.15.11
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -168,6 +168,12 @@ fixes.mse231981 = {
 	title:	"Overly long user location entry breaks mobile users view",
 	url:	"http://meta.stackexchange.com/q/231981",
 	css:	"#user-browser table.grid-tag { table-layout: fixed }"
+};
+fixes.mse167975 = {
+	title:	"Bug in textarea in bounty creation popup",
+	url:	"http://meta.stackexchange.com/q/167975",
+	// "!important" needed to override hardcoded element style
+	css:	"#start-bounty-popup .popup-close + div { overflow: visible !important }"
 };
 
 

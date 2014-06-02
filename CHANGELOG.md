@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185) (CSS)
 * [mse233470: Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS)
 * [mse231981: Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981) (CSS, mobile view only)
+* [mse167975: Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975) (CSS)
 
 **Other changes:**
 
