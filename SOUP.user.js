@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.11
+// @version     1.15.12
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -153,7 +153,8 @@ fixes.mse224185 = {
 	// "body" added to increase selector precedence over conflicting SE style
 	css:	"body .close-as-off-topic-pane .action-name a, " +
 		"body .close-as-off-topic-pane .action-name { vertical-align: baseline }" +
-		"body .close-as-off-topic-pane input[type=radio] { vertical-align: top }"
+		"body .close-as-off-topic-pane input[type=radio] { vertical-align: top }" +
+		".close-as-off-topic-pane { line-height: 1.15 }"  // related minor issue
 };
 fixes.mse233470 = {
 	title:	"Answer lock notice runs into text below",
@@ -260,6 +261,13 @@ fixes.mse229903 = {
 	credit:	"animuson",
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	"body #question-header { padding-left: 0; padding-right: 0 }"  // "body" added to increase specificity
+};
+fixes.mse229759 = {
+	title:	"You can't see the question owner's special color",
+	url:	"http://meta.stackexchange.com/q/229759",
+	sites:	/^meta\.stackexchange\.com$/,
+	//  "body" added to increase selector precedence above conflicting SE styles
+	css:	"body a.owner, body td.owner { background: #eef }"
 };
 
 

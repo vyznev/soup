@@ -58,6 +58,7 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Horizontal overflow on my profile page](http://meta.stackexchange.com/q/230388) (CSS, meta.SE only)
 * [Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
 * [Haalp! Really long question titles are a bit borked! You can see the bug in action right here](http://meta.stackexchange.com/q/229903) (CSS, meta.SE only)
+* [You can't see the question owner's special color](http://meta.stackexchange.com/q/229759) (CSS, meta.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackexchange.com/q/155308) (CSS, chat)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackexchange.com/q/216760) (CSS, chat)
 * [Getting Red Line under tags](http://meta.stackexchange.com/q/222509) (CSS, chat)

@@ -16,6 +16,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse233470: Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS)
 * [mse231981: Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981) (CSS, mobile view only)
 * [mse167975: Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975) (CSS)
+* [mse229759: You can't see the question owner's special color](http://meta.stackexchange.com/q/229759) (CSS, meta.SE only)
 
 **Other changes:**
 
