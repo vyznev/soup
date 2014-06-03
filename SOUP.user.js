@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.12
+// @version     1.15.13
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -175,6 +175,18 @@ fixes.mse167975 = {
 	url:	"http://meta.stackexchange.com/q/167975",
 	// "!important" needed to override hardcoded element style
 	css:	"#start-bounty-popup .popup-close + div { overflow: visible !important }"
+};
+fixes.mse233517 = {
+	title:	"Badge symbol in notification is of the site you're on, not where badge was earned",
+	url:	"http://meta.stackexchange.com/q/233517",
+	// some sites (like meta.SE) use !important in badge styles, so we have to use it too :-(
+	css:	".achievements-dialog .badge1, .achievements-dialog .badge2, .achievements-dialog .badge3 {" +
+		" height: 10px !important; width: 10px !important; margin-bottom: 3px;" +
+		" background-image: url(//i.stack.imgur.com/42CGT.png) !important" +
+		"}" +
+		".achievements-dialog .badge1 { background-position: -20px 0 !important }" +
+		".achievements-dialog .badge2 { background-position: -10px 0 !important }" +
+		".achievements-dialog .badge3 { background-position: 0 0 !important }"
 };
 
 
