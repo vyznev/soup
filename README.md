@@ -75,7 +75,7 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)
 * [Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)
 * [Add thousand separator for helpful flags count in user profiles](http://meta.stackexchange.com/q/223866)
-* [Add delete button on-the-fly when reviewing flags](http://meta.stackexchange.com/q/224628)
+* [Make it easier for 20k users to downvote-and-delete](http://meta.stackexchange.com/q/233661)
 * [Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
 * [Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
 * [Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)

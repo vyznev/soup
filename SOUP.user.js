@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.14
+// @version     1.15.15
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -544,25 +544,34 @@ fixes.mse223866 = {
 		} );
 	}
 };
-fixes.mse224628 = {
-	title:	"Add delete button on-the-fly when reviewing flags",
-	url:	"http://meta.stackexchange.com/q/224628",
+fixes.mse233661 = {
+	title:	"Make it easier for 20k users to downvote-and-delete",
+	url:	"http://meta.stackexchange.com/q/233661",
 	script:	function () {
-		if ( ! $('body.tools-page.flag-page').length ) return;
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
-		SOUP.log( 'soup adding review vote event handler' );
-		var html = '<input title="vote to delete this answer" class="delete-post" value="delete answer" type="button">';
+		SOUP.log( 'soup adding vote event handler for mse233661' );
+		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
+		var lsep = '<span class="lsep">|</span>';
 		SOUP.hookAjax( /^\/posts\/\d+\/vote\/[023]\b/, function ( event, xhr, settings ) {
 			var score = $.parseJSON( xhr.responseText ).NewScore;
 			var pid = Number( settings.url.replace( /^\/posts\/(\d+)\/.*/, '$1' ) );
-			// if it's not an answer, do nothing
-			if ( ! $('#flagged-' + pid + ' #answer-' + pid).length ) return;
-			// find *all* the delete buttons/links; there may be several!
-			var button = $('[id="delete-post-' + pid + '"]');
-			SOUP.log( 'answer ' + pid + ' has new score ' + score + ' (url = ' + settings.url + '; ' + button.length + ' delete buttons found)' );
-			if ( score >= 0 ) button.hide();
-			else if ( button.length ) button.show();
-			else $(html).attr('id', 'delete-post-' + pid).insertAfter('#flagged-' + pid + ' .flag-post-button').before(' ');
+			SOUP.log( 'soup logged post vote: id = ' + pid + ', score = ' + score );
+			var isAnswer = $('#answer-' + pid).length;
+			if ( !isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
+			var deleteLinks = $('[id="delete-post-' + pid + '"]');  // XXX: there might be several
+			if ( score >= (isAnswer ? 0 : -2) ) {
+				// XXX: just to be sure, don't remove any delete links that we didn't add
+				deleteLinks = deleteLinks.filter('.soup-delete-link');
+				deleteLinks.next('span.lsep').andSelf().hide();
+			} else if ( deleteLinks.length ) {
+				deleteLinks.next('span.lsep').andSelf().show();  // show existing links
+			} else {
+				// need to create a new delete link from scratch and slip it into the menu
+				var target = $('.flag-post-link[data-postid=' + pid + ']');
+				var lsep = target.prev('span.lsep').clone(true);
+				if (lsep.length == 0) lsep = $('<span class="lsep">|</span>');
+				$(html).attr('id', 'delete-post-' + pid).insertBefore(target).after(lsep);
+			}
 		} );
 	}
 };
