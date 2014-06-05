@@ -18,12 +18,12 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse167975: Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975) (CSS)
 * [mse229759: You can't see the question owner's special color](http://meta.stackexchange.com/q/229759) (CSS, meta.SE only)
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](http://meta.stackexchange.com/q/233517) (CSS)
-* [mse233661: Make it easier for 20k users to downvote-and-delete](http://meta.stackexchange.com/q/233661)
+* [mse115702: Option to delete an answer only visible after a reload](http://meta.stackexchange.com/q/115702)
 
 **Other changes:**
 
 * The [mse230607](http://meta.stackexchange.com/q/230607) fix is no longer needed, and has been removed.
-* The [mse224628](http://meta.stackexchange.com/q/224628) fix is no longer relevant, since the 10k flag review page no longer exists; the code has been adapted for [mse233661](http://meta.stackexchange.com/q/233661) instead.
+* The [mse224628](http://meta.stackexchange.com/q/224628) fix is no longer relevant, since the 10k flag review page no longer exists; the code has been adapted for [mse115702](http://meta.stackexchange.com/q/115702) instead.
 * [mse229363](http://meta.stackexchange.com/q/229363): MathJax is now also parsed in hot question titles from earthscience.SE.
 * The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
 * The [mse215473](http://meta.stackexchange.com/q/215473) styles are no longer incorrectly applied to links in popups created from the post menu.

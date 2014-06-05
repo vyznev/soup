@@ -544,12 +544,12 @@ fixes.mse223866 = {
 		} );
 	}
 };
-fixes.mse233661 = {
-	title:	"Make it easier for 20k users to downvote-and-delete",
-	url:	"http://meta.stackexchange.com/q/233661",
+fixes.mse115702 = {
+	title:	"Option to delete an answer only visible after a reload",
+	url:	"http://meta.stackexchange.com/q/115702",
 	script:	function () {
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
-		SOUP.log( 'soup adding vote event handler for mse233661' );
+		SOUP.log( 'soup adding vote event handler for mse115702' );
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
 		SOUP.hookAjax( /^\/posts\/\d+\/vote\/[023]\b/, function ( event, xhr, settings ) {
