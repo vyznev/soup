@@ -53,7 +53,6 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)
 * [Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (CSS)
 * [Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (CSS, codegolf.SE only)
-* [There's something funky about some titles in revision histories here on meta](http://meta.stackexchange.com/q/230607) (CSS, meta.SE and academia.SE only)
 * [Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
 * [Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747) (CSS, skeptics.SE only)
 * [Horizontal overflow on my profile page](http://meta.stackexchange.com/q/230388) (CSS, meta.SE only)

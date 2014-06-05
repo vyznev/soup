@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.13
+// @version     1.15.14
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -229,12 +229,6 @@ fixes.codegolf959 = {
 	url:	"http://meta.codegolf.stackexchange.com/q/959",
 	sites:	/^(meta\.)?codegolf\./,
 	css:	"pre { line-height: 1.15 }"
-};
-fixes.mse230607 = {
-	title:	"There's something funky about some titles in revision histories here on meta",
-	url:	"http://meta.stackexchange.com/q/230607",
-	sites:	/^(meta\.)?(meta|academia)\.stackexchange\.com$/,
-	css:	"h1 { line-height: 1.3 }"
 };
 fixes.english4719 = {
 	title:	"Background of long OP username looks ugly in comments",
