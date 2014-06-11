@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.16
+// @version     1.15.17
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -181,7 +181,7 @@ fixes.mse233517 = {
 	url:	"http://meta.stackexchange.com/q/233517",
 	// some sites (like meta.SE) use !important in badge styles, so we have to use it too :-(
 	css:	".achievements-dialog .badge1, .achievements-dialog .badge2, .achievements-dialog .badge3 {" +
-		" height: 8px !important; width: 8px !important; border-radius: 50% !important; margin-bottom: 4px }" +
+		" height: 8px !important; width: 8px !important; border-radius: 50% !important; margin: 0px 2px 4px }" +
 		".achievements-dialog .badge1 { background: #ffcc00 !important }" +
 		".achievements-dialog .badge2 { background: #c5c5c5 !important }" +
 		".achievements-dialog .badge3 { background: #cc9966 !important }"
