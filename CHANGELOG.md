@@ -8,10 +8,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.15.x:**
 
 * [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
-* [mse230388: Horizontal overflow on my profile page](http://meta.stackexchange.com/q/230388) (CSS, meta.SE only)
 * [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
-* [mse229903: Haalp! Really long question titles are a bit borked! You can see the bug in action right here](http://meta.stackexchange.com/q/229903) (CSS, meta.SE only)
 * [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185) (CSS)
 * [mse233470: Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS)
 * [mse231981: Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981) (CSS, mobile view only)

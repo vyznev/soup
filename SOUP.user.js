@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.18
+// @version     1.15.19
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -240,13 +240,6 @@ fixes.skeptics2747 = {
 	sites:	/^(meta\.)?skeptics\./,
 	css:	".question-status a { text-decoration: underline !important }"
 };
-fixes.mse230388 = {
-	title:	"Horizontal overflow on my profile page",
-	url:	"http://meta.stackexchange.com/q/230388",
-	sites:	/^meta\.stackexchange\.com$/,
-	css:	"body .user-show-new #tabs a { padding-left: 7px !important; padding-right: 7px !important; }" +
-		"#tabs a:not(.youarehere) { font-weight: 400 }"  // related font weight issue on Firefox / Linux
-};
 fixes.mse229751 = {
 	title:	"Related questions with over 99 score display incorrectly",
 	url:	"http://meta.stackexchange.com/q/229751",
@@ -257,13 +250,6 @@ fixes.mse229751 = {
 		"#sidebar .answer-votes.extra-large { font-size: 11px !important; width: 32px !important }" +
 		// related bug: inappropriate padding for high answers scores in user profile
 		".user-show-new .answer-votes { padding: 4px 4px 5px !important }"
-};
-fixes.mse229903 = {
-	title:	"Haalp! Really long question titles are a bit borked! You can see the bug in action right here",
-	url:	"http://meta.stackexchange.com/q/229903",
-	credit:	"animuson",
-	sites:	/^meta\.stackexchange\.com$/,
-	css:	"body #question-header { padding-left: 0; padding-right: 0 }"  // "body" added to increase specificity
 };
 fixes.mse229759 = {
 	title:	"You can't see the question owner's special color",
@@ -588,6 +574,7 @@ fixes.boardgames1152 = {
 	credit:	"Alex P",
 	sites:	/^(meta\.)?boardgames\./,
 	script:	function () {
+		// change the URLs in server-side generated card links, fix double-escaping
 		var fixCardLinks = function () {
 			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
 			cardLinks.attr( 'href', function (i, href) {
@@ -628,7 +615,7 @@ fixes.boardgames1152 = {
 					return '<a class="mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
 						encodeURIComponent(linkName) + '">' + cardName + '</a>';
 				} );
-			} catch (e) { SOUP.log('SOUP boardgames1152 editor callback failed:', e) } } );
+			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
 		} );
 		
 		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
