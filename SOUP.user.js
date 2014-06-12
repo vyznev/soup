@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.17
+// @version     1.15.18
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -588,15 +588,55 @@ fixes.boardgames1152 = {
 	credit:	"Alex P",
 	sites:	/^(meta\.)?boardgames\./,
 	script:	function () {
-		var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
-		cardLinks.attr( 'href', function (i, href) {
-			return href.replace(
-				/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
-				'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
-			).replace( /%26amp%3[Bb]/g, '%26' );
+		var fixCardLinks = function () {
+			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
+			cardLinks.attr( 'href', function (i, href) {
+				return href.replace(
+					/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
+					'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
+				).replace( /%26lt%3[Bb]/g, '%3C' ).replace( /%26gt%3[Bb]/g, '%3E' ).replace( /%26amp%3[Bb]/g, '%26' );
+			} );
+			SOUP.forEachTextNode( cardLinks, function () {
+				this.nodeValue = this.nodeValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+			} );
+		};
+		SOUP.hookAjax( /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\//, fixCardLinks );
+		fixCardLinks();
+		
+		// related issue: card links are not parsed in edit preview
+		// this code is loosely based on makeTagLinks() in http://dev.stackoverflow.com/content/Js/wmd.en.js
+		SOUP.addEditorCallback( function (editor, postfix) {
+			editor.getConverter().hooks.chain( 'postConversion', function (text) { try {
+				var excludeRanges = null;
+				return text.replace( /\[mtg:([^\[\]]+)\]/g, function (fullMatch, cardName, offset) { 
+					// don't replace [mtg:] links inside <a> or <code> tags;
+					// but don't bother looking for them unless we actually see such a link 
+					if ( excludeRanges === null ) {
+						var re = /<(a|code)\b[^>]*>.*?<\/\1>/ig, match;
+						excludeRanges = [];
+						while ((match = re.exec(text)) !== null) {
+							excludeRanges.push( match.index, re.lastIndex );
+						}
+					}
+					var skip = false;
+					for (var i = 0; i < excludeRanges.length; i++) {
+						if ( offset < excludeRanges[i] ) break;
+						skip = !skip;
+					}
+					if (skip) return fullMatch;
+					var linkName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+					return '<a class="mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
+						encodeURIComponent(linkName) + '">' + cardName + '</a>';
+				} );
+			} catch (e) { SOUP.log('SOUP boardgames1152 editor callback failed:', e) } } );
 		} );
-		SOUP.forEachTextNode( cardLinks, function () {
-			this.nodeValue = this.nodeValue.replace( /&amp;/g, '&' );
+		
+		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
+		$('body').on( 'click', 'a.mtg-autocard', function (event) {
+			if ( event.button !== 0 ) return;
+			var link = $(this).attr('href');
+			window.open(link, "autocard" + (+new Date()), "toolbar=0, location=0, directories=0, status=0,menubar=0, scrollbars=0, resizable=0, width=770, height=890");
+			return false;
 		} );
 	}
 };
@@ -858,18 +898,22 @@ var soupInit = function () {
 	SOUP.log = function () {
 		if ( window.console ) console.log.apply( console, arguments );
 	};
+	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
+	// note: use editor.getConverter() to access the Markdown converter
+	// see http://dev.stackoverflow.com/content/Js/wmd.en.js for details
+	SOUP.addEditorCallback = function ( code ) {
+		if ( !window.StackExchange || !StackExchange.ifUsing ) return;
+		StackExchange.ifUsing( 'editor', function () {
+			StackExchange.MarkdownEditor.creationCallbacks.add( code );
+		} );
+	};
 	// utility: run code whenever the editor preview is updated
 	// FIXME: this doesn't always work; find out why and fix it!
 	SOUP.hookEditPreview = function ( code ) {
-		if ( !window.StackExchange || !StackExchange.ifUsing ) return;
-		StackExchange.ifUsing( 'editor', function () {
-			// SOUP.log( 'soup registering editor callback ' + code );
-			StackExchange.MarkdownEditor.creationCallbacks.add( function (ed) {
-				ed.hooks.chain( 'onPreviewRefresh', code );
-				// SOUP.log( 'soup registered editor callback ' + code + ' on ' + ed );
-			} );
+		SOUP.addEditorCallback( function (editor, postfix) {
+			editor.hooks.chain( 'onPreviewRefresh', function () { code(editor, postfix) } );
 		} );
-	};
+	}
 	// utility: run code after any matching AJAX request
 	SOUP.hookAjax = function ( regex, code, delay ) {
 		if ( typeof(delay) === 'undefined' ) delay = 10;
