@@ -18,7 +18,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](http://meta.stackexchange.com/q/233517) (CSS)
 * [mse115702: Option to delete an answer only visible after a reload](http://meta.stackexchange.com/q/115702)
 * [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (CSS, meta.SE only)
-* [mse232405: Images in open source “roles” section can overflow container](http://meta.stackexchange.com/q/232405) (CSS, careers)
 
 **Other changes:**
 
