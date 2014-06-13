@@ -27,6 +27,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
 * The [mse215473](http://meta.stackexchange.com/q/215473) styles are no longer incorrectly applied to links in popups created from the post menu.
 * Fixes can now run scripts early, before the document loads, by specifiying them in the `early` property.  Note that jQuery is typically not yet available at that stage.
+* New `SOUP.addContentFilter()` utility method to simplify fixes that manipulate post content.
 * Fancy new icon.
 
 1.14

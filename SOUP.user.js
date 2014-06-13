@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.21
+// @version     1.15.22
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -310,13 +310,15 @@ fixes.mse217779 = {
 		".soup-spoiler:hover > * { opacity: 1 }",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers diffrently
-		var fixSpoilers = function () {
-			$('.spoiler').addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>');
+		var fixSpoilers = function (where) {
+			var spoiler = $(where);
+			if ( ! spoiler.hasClass('spoiler') ) spoiler = spoiler.find('.spoiler');
+			spoiler.addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>');
 		};
-		SOUP.hookAjax( /^\/posts\b/, fixSpoilers );
-		SOUP.hookEditPreview( fixSpoilers );
-		$(document).on( 'mouseover', '.spoiler', fixSpoilers ); // fallback
-		fixSpoilers();
+		SOUP.addContentFilter( fixSpoilers, 'spoiler fix' );
+		$(document).on( 'mouseover', '.spoiler', function () {
+			SOUP.try( 'spoiler fix fallback', fixSpoilers, [this] );
+		} );
 	}
 };
 fixes.mse134268 = {
@@ -513,14 +515,12 @@ fixes.mse224533 = {
 	url:	"http://meta.stackexchange.com/q/224533",
 	script:	function () {
 		if ( SOUP.isMobile || ! window.opera ) return;
-		var fixSoftHyphens = function () {
-			var preBlocks = $('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed');
+		SOUP.addContentFilter( function (where) {
+			var preBlocks = $(where).find('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed');
 			SOUP.forEachTextNode( preBlocks, function () {
 				this.nodeValue = this.nodeValue.replace( /\xAD/g, '' );
 			} );
-		};
-		SOUP.hookAjax( /^/, fixSoftHyphens ).code();
-		SOUP.hookEditPreview( fixSoftHyphens );
+		}, 'Opera soft-hyphen fix' );
 	}
 };
 fixes.mse223866 = {
@@ -596,7 +596,7 @@ fixes.boardgames1152 = {
 				this.nodeValue = this.nodeValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 			} );
 		};
-		SOUP.hookAjax( /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\//, fixCardLinks );
+		SOUP.hookAjax( SOUP.contentFilterRegexp, fixCardLinks );
 		fixCardLinks();
 		
 		// related issue: card links are not parsed in edit preview
@@ -657,9 +657,9 @@ fixes.mse223725 = {
 			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
 			$(this).addClass( 'soup-https-fixed' );
 		};
-		var fixAllLinks = function () { $(selector).each( fixLink ) };
+		var fixAllLinks = function (where) { $(where).find(selector).each( fixLink ) };
+		SOUP.addContentFilter( fixAllLinks, 'HTTPS link fix' );
 		$(document).on( 'mouseover click', selector, fixLink );
-		SOUP.hookAjax( /^/, fixAllLinks ).code();
 	}
 };
 fixes.mse221304 = {
@@ -682,10 +682,10 @@ fixes.mse221304 = {
 			} ).on( 'error', retryWithHTTPS ).length;
 			SOUP.log( 'soup mse221304 queued '+n+' images for deferred fixing' );
 		};
-		$(document).on( 'mouseenter', '#user-menu', function () { fixImages(this) } );
-		SOUP.hookEditPreview( function () { fixImages('.wmd-preview') } );
-		SOUP.hookAjax( /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\//, function () { fixImages('#mainbar') }, 200 );
-		fixImages(document);
+		SOUP.addContentFilter( fixImages, 'HTTPS image fix' );
+		$(document).on( 'mouseenter', '#user-menu', function () {
+			SOUP.try( 'HTTPS image fix', fixImages, [this] );
+		} );
 	}
 };
 fixes.mse226343 = {
@@ -886,14 +886,15 @@ var soupInit = function () {
 		SOUP.log( 'soup JS fixes applied' );
 	};
 	// try to run some code, log errors
-	SOUP.try = function ( key, code ) {
-		try { code() }
+	SOUP.try = function ( key, code, args ) {
+		try { code.apply(null, args) }
 		catch (e) { SOUP.log( 'SOUP ' + key + ': ', e ) }
 	};
 	// wrapper for console.log(), does nothing on old Opera w/o console
 	SOUP.log = function () {
 		if ( window.console ) console.log.apply( console, arguments );
 	};
+	
 	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
 	// note: use editor.getConverter() to access the Markdown converter
 	// see http://dev.stackoverflow.com/content/Js/wmd.en.js for details
@@ -907,9 +908,12 @@ var soupInit = function () {
 	// FIXME: this doesn't always work; find out why and fix it!
 	SOUP.hookEditPreview = function ( code ) {
 		SOUP.addEditorCallback( function (editor, postfix) {
-			editor.hooks.chain( 'onPreviewRefresh', function () { code(editor, postfix) } );
+			editor.hooks.chain( 'onPreviewRefresh', function () {
+				code(editor, postfix || "");
+			} );
 		} );
 	}
+	
 	// utility: run code after any matching AJAX request
 	SOUP.hookAjax = function ( regex, code, delay ) {
 		if ( typeof(delay) === 'undefined' ) delay = 10;
@@ -927,6 +931,24 @@ var soupInit = function () {
 		if ( !hook.delay ) tryIt();
 		else setTimeout( tryIt, hook.delay );
 	};
+	
+	// utility: set a function to be called 1) immediately, 2) whenever a
+	// new post is loaded via AJAX, and 3) when the edit preview is updated.
+	// the function will be passed a jQuery selector to process.
+	// NOTE: the function should be idempotent, i.e. it should be safe to
+	// call it several times.
+	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\/|^\/review\/(next-task|task-reviewed)\b/;
+	SOUP.addContentFilter = function ( filter, key, selector ) {
+		key = key || 'content filter';
+		SOUP.hookEditPreview( function (editor, postfix) {
+			SOUP.try( key, filter, ['#wmd-preview' + postfix] );
+		} );
+		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
+			SOUP.try( key, filter, ['#content'] );  // TODO: better selector?
+		} );
+		SOUP.try( key, filter, [selector || document] );
+	};
+	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
 		$(where).contents().each( function () {
