@@ -78,6 +78,7 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
 * [Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
 * [Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
+* [Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347) (french.SE only)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
 * [Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304) (https)
 * [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343) (https)

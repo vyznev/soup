@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.22
+// @version     1.15.23
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -636,6 +636,34 @@ fixes.boardgames1152 = {
 		} );
 	}
 };
+fixes.mse231150 = {
+	title:	"Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher",
+	url:	"http://meta.stackexchange.com/q/231150",
+	early:	function () {
+		var buttonRegex = /(^|\s)js-(site-switcher|inbox|achievements|help)-button(\s|$)/;
+		document.addEventListener( 'click', function (event) {
+			if ( event.button != 0 ) return;  // ignore right/middle clicks
+			var elem = event.target;
+			while ( elem && !buttonRegex.test(elem.className) ) elem = elem.parentNode;
+			if ( elem ) event.preventDefault();
+		}, false );
+	}
+};
+fixes.french347 = {
+	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
+	url:	"http://meta.french.stackexchange.com/q/347",
+	sites:	/^(meta\.)?french\./,
+	script:	function () {
+		SOUP.addContentFilter( function ( where ) {
+			SOUP.forEachTextNode( where, function () {
+				var fixed = this.nodeValue;
+				fixed = fixed.replace(/(\S) ([:;!?»])/g, '$1\u202F$2');
+				fixed = fixed.replace(/(«) (\S)/g, '$1\u202F$2');
+				if (this.nodeValue != fixed) this.nodeValue = fixed;
+			} );
+		}, 'French space fix' );
+	}
+};
 
 
 //
@@ -712,19 +740,6 @@ fixes.mse220470 = {
 				}
 			);
 		} );
-	}
-};
-fixes.mse231150 = {
-	title:	"Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher",
-	url:	"http://meta.stackexchange.com/q/231150",
-	early:	function () {
-		var buttonRegex = /(^|\s)js-(site-switcher|inbox|achievements|help)-button(\s|$)/;
-		document.addEventListener( 'click', function (event) {
-			if ( event.button != 0 ) return;  // ignore right/middle clicks
-			var elem = event.target;
-			while ( elem && !buttonRegex.test(elem.className) ) elem = elem.parentNode;
-			if ( elem ) event.preventDefault();
-		}, false );
 	}
 };
 
