@@ -57,6 +57,8 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747) (CSS, skeptics.SE only)
 * [Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
 * [You can't see the question owner's special color](http://meta.stackexchange.com/q/229759) (CSS, meta.SE only)
+* [You are here, but where's here?](http://meta.stackexchange.com/q/229797) (CSS, meta.SE only)
+* [Images in open source “roles” section can overflow container](http://meta.stackexchange.com/q/232405) (CSS, careers)
 * [Ignoring somebody screws up the avatar list](http://meta.stackexchange.com/q/155308) (CSS, chat)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackexchange.com/q/216760) (CSS, chat)
 * [Getting Red Line under tags](http://meta.stackexchange.com/q/222509) (CSS, chat)
@@ -91,6 +93,7 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 Notes:
 
 * **CSS**: This is a pure CSS fix.  It will be applied even if site JavaScript is disabled.
+* **careers**: This fix applies to [Careers 2.0](http://careers.stackoverflow.com "Careers 2.0").
 * **chat**: This fix applies to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
 * **https**: This fix is applied when using Stack Exchange over HTTPS.  Note that [HTTPS support for Stack Exchange is still experimental.](http://meta.stackexchange.com/questions/116782/better-https-support-for-stack-exchange-sites)
 * **math**: This fix applies only to sites using MathJax for LaTeX math rendering.

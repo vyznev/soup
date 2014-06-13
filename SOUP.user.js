@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.15.19
+// @version     1.15.20
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -257,6 +257,24 @@ fixes.mse229759 = {
 	sites:	/^meta\.stackexchange\.com$/,
 	//  "body" added to increase selector precedence above conflicting SE styles
 	css:	"body a.owner, body td.owner { background: #eef }"
+};
+fixes.mse229797 = {
+	title:	"You are here, but where's here?",
+	url:	"http://meta.stackexchange.com/q/229797",
+	credit:	"Tim Stone",
+	sites:	/^meta\.stackexchange\.com$/,
+	css:	".nav ul li.youarehere a { display: inline-block;" +
+		" padding: 5px; margin: -5px; border-radius: 5px;" +
+		" background-color: rgba(0, 80, 112, 0.25); color: #A1E9FF }"
+};
+
+
+// Careers 2.0 CSS fixes:
+fixes.mse232405 = {
+	title:	"Images in open source “roles” section can overflow container",
+	url:	"http://meta.stackexchange.com/q/232405",
+	sites:	/^careers\.stackoverflow\.com$/,
+	css:	".markdown.description img { max-width: 100% }" // ".description" added to deliberately disable this in preview
 };
 
 
