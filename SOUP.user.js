@@ -583,9 +583,19 @@ fixes.boardgames1152 = {
 	credit:	"Alex P",
 	sites:	/^(meta\.)?boardgames\./,
 	script:	function () {
+		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
+		$('body').on( 'click', 'a.soup-mtg-autocard', function (event) {
+			if ( event.button !== 0 ) return;
+			var link = $(this).attr('href');
+			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=770, height=890");
+			return false;
+		} );
+		
 		// change the URLs in server-side generated card links, fix double-escaping
 		var fixCardLinks = function () {
 			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
+			// remove / prevent attachment of standard mtg.js click handler
+			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click');
 			cardLinks.attr( 'href', function (i, href) {
 				return href.replace(
 					/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
@@ -621,18 +631,10 @@ fixes.boardgames1152 = {
 					}
 					if (skip) return fullMatch;
 					var linkName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-					return '<a class="mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
+					return '<a class="soup-mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
 						encodeURIComponent(linkName) + '">' + cardName + '</a>';
 				} );
 			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
-		} );
-		
-		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
-		$('body').on( 'click', 'a.mtg-autocard', function (event) {
-			if ( event.button !== 0 ) return;
-			var link = $(this).attr('href');
-			window.open(link, "autocard" + (+new Date()), "toolbar=0, location=0, directories=0, status=0,menubar=0, scrollbars=0, resizable=0, width=770, height=890");
-			return false;
 		} );
 	}
 };
