@@ -654,6 +654,7 @@ fixes.mse231150 = {
 fixes.french347 = {
 	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
 	url:	"http://meta.french.stackexchange.com/q/347",
+	credit:	"based on idea by Stéphane Gimenez",
 	sites:	/^(meta\.)?french\./,
 	script:	function () {
 		SOUP.addContentFilter( function ( where ) {
