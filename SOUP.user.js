@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.16.0
+// @version     1.16.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -250,13 +250,6 @@ fixes.mse229751 = {
 		"#sidebar .answer-votes.extra-large { font-size: 11px !important; width: 32px !important }" +
 		// related bug: inappropriate padding for high answers scores in user profile
 		".user-show-new .answer-votes { padding: 4px 4px 5px !important }"
-};
-fixes.mse229759 = {
-	title:	"You can't see the question owner's special color",
-	url:	"http://meta.stackexchange.com/q/229759",
-	sites:	/^meta\.stackexchange\.com$/,
-	//  "body" added to increase selector precedence above conflicting SE styles
-	css:	"body a.owner, body td.owner { background: #eef }"
 };
 fixes.mse229797 = {
 	title:	"You are here, but where's here?",

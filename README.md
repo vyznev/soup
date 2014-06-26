@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.16.0 -->
+<!-- version: 1.16.1 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -59,7 +59,6 @@ SOUP v1.15 includes fixes or workarounds for the following issues:
 * [Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (CSS, english.SE only)
 * [Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747) (CSS, skeptics.SE only)
 * [Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (CSS, meta.SE only)
-* [You can't see the question owner's special color](http://meta.stackexchange.com/q/229759) (CSS, meta.SE only)
 * [You are here, but where's here?](http://meta.stackexchange.com/q/229797) (CSS, meta.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackexchange.com/q/155308) (CSS, chat)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackexchange.com/q/216760) (CSS, chat)

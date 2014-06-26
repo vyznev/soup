@@ -5,6 +5,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.16
 ====
 
+** Changes in 1.16.1:**
+
+* The [mse229759](http://meta.stackexchange.com/q/229759) fix has been made redundant, only a few hours after v1.16.0 was released.
+
 **New fixes in 1.16.0:**
 
 * [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE only)
@@ -27,7 +31,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse229363](http://meta.stackexchange.com/q/229363): MathJax is now also parsed in hot question titles from earthscience.SE.
 * The [math12803](http://meta.math.stackexchange.com/q/12803) fix is now split into two parts, of which one is math.SE specific and the other is applied on all sites.
 * The [mse215473](http://meta.stackexchange.com/q/215473) styles are no longer incorrectly applied to links in popups created from the post menu.
-* Fixes can now run scripts early, before the document loads, by specifiying them in the `early` property.  Note that jQuery is typically not yet available at that stage.
+* Fixes can now run scripts early, before the document loads, by specifying them with the `early` property.  Note that jQuery is typically not yet available at that stage.
 * New `SOUP.addContentFilter()` utility method to simplify fixes that manipulate post content.
 * Fancy new icon.
 
