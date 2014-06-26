@@ -5,7 +5,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.16
 ====
 
-** Changes in 1.16.1:**
+**Changes in 1.16.1:**
 
 * The [mse229759](http://meta.stackexchange.com/q/229759) fix has been made redundant, only a few hours after v1.16.0 was released.
 
