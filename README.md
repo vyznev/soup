@@ -14,7 +14,7 @@ Installing
 The easiest way to install SOUP is to use the [GreaseMonkey][GM] (for Firefox) or [TamperMonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install</kbd>][DL]  
-> <sup>[View source][source] / [GitHub repo][github] / [StackApps post][SA] / [UserScripts.org][US]</sup>
+> <sup>[View source][source] / [GitHub repo][github] / [StackApps post][SA]</sup>
 
 SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
 
