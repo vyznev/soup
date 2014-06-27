@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.16.1
+// @version     1.17.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -11,8 +11,8 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.user.js
-// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
+// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.user.js
+// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
 // @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
@@ -85,7 +85,7 @@ fixes.mse145819 = {
 fixes.mse108046 = {
 	title:	"Mouse cursor doesn't change to pointer when hovering “full site” on mobile",
 	url:	"http://meta.stackexchange.com/q/108046",
-	css:	"a[onclick] { cursor: pointer }"
+	css:	"a[onclick], a:not([name]) { cursor: pointer }"
 };
 // The following fix is mostly made redundant by mse217779, but is included for
 // users with site JS disabled, and to mitigate the loading delay of the JS
@@ -240,12 +240,16 @@ fixes.skeptics2747 = {
 	sites:	/^(meta\.)?skeptics\./,
 	css:	".question-status a { text-decoration: underline !important }"
 };
-fixes.mse229751 = {
-	title:	"Related questions with over 99 score display incorrectly",
+fixes.mse229751a = {
+	title:	"Related questions with over 99 score display incorrectly (part A)",
+	url:	"http://meta.stackexchange.com/q/229751",
+	css:	".answer-votes { white-space: nowrap }"
+};
+fixes.mse229751b = {
+	title:	"Related questions with over 99 score display incorrectly (part B)",
 	url:	"http://meta.stackexchange.com/q/229751",
 	sites:	/^meta\.stackexchange\.com$/,
-	css:	".answer-votes { white-space: nowrap }" +
-		// rules resembling those below are already in the site CSS, they but do nothing without !important
+	css:	// rules resembling those below are already in the site CSS, they but do nothing without !important
 		"#sidebar .answer-votes.large { width: 32px !important }" +
 		"#sidebar .answer-votes.extra-large { font-size: 11px !important; width: 32px !important }" +
 		// related bug: inappropriate padding for high answers scores in user profile
@@ -658,6 +662,25 @@ fixes.french347 = {
 				if (this.nodeValue != fixed) this.nodeValue = fixed;
 			} );
 		}, 'French space fix' );
+	}
+};
+fixes.mse234680 = {
+	title:	"Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode",
+	url:	"http://meta.stackexchange.com/q/234680",
+	// TODO: SE Markdown doesn't support Unicode in URLs, so we really
+	// should fix the Markdown editor link tool to use Punycode. 
+	script:	function () {
+		SOUP.addContentFilter( function ( where ) {
+			var percentRegexp = /%[0-9A-Fa-f]{2}/;
+			var badChars = /[\0-\x2C\x2F\x3A-\x40\x5B-\x60\x7B-\x7F]/;  // RFC 3490 §4.1
+			$(where).find('a[href]').each( function () {
+				if ( !percentRegexp.test( this.hostname ) ) return;
+				var decodedHost = decodeURIComponent( this.hostname );
+				if ( badChars.test( decodedHost ) ) return;
+				SOUP.log( 'decoding' + this.hostname + ' to ' + decodedHost );
+				this.hostname = decodedHost;
+			} );
+		}, 'IDN escape fix' );
 	}
 };
 
