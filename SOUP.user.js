@@ -677,7 +677,6 @@ fixes.mse234680 = {
 				if ( !percentRegexp.test( this.hostname ) ) return;
 				var decodedHost = decodeURIComponent( this.hostname );
 				if ( badChars.test( decodedHost ) ) return;
-				SOUP.log( 'decoding' + this.hostname + ' to ' + decodedHost );
 				this.hostname = decodedHost;
 			} );
 		}, 'IDN escape fix' );
