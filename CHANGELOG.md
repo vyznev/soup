@@ -13,7 +13,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * The sidebar question score wrap fix ([mse229751](http://meta.stackexchange.com/q/229751)) is split into a global part and a site-specific part.
 * The mobile link cursor fix ([mse108046](http://meta.stackexchange.com/q/108046)) is applied to all links without `name` attributes.
-* Devel branch versions now auto-update properly (and not just when a new master release is made).
+* The HTTPS link rewrite fix ([mse221304](http://meta.stackexchange.com/q/221304)) is now applied also to chat and area51 links.
+* Content filters now work properly on chat (using brute-force 0.5s interval polling, since there's no proper hook for chat updates).
+* `SOUP.isChat()` and `SOUP.isMeta()` are now set already during early setup.
+* Devel branch versions should now auto-update properly (and not just when a new master release is made).
 * Update checking is optimized by duplicating the script metadata in `SOUP.meta.js` and pointing `@updateURL` to it instead of the main script.
 
 1.16

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.17.2
+// @version     1.17.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -741,7 +741,7 @@ fixes.mse223725 = {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
 		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
-		var exclude  = /^(chat|blog|area51)\./;  // these sites still load their JS/CSS over HTTP :-(
+		var exclude  = /^(blog)\./;  // these sites still load their JS/CSS over HTTP :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
 			this.protocol = 'https:';
@@ -950,6 +950,11 @@ fixes.mse229363 = {
 var soupInit = function () {
 	window.SOUP = {};
 	
+	// basic environment detection, part 1
+	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mse215450)
+	SOUP.isChat = /^chat\./.test( location.hostname );
+	SOUP.isMeta = /^meta\./.test( location.hostname );
+	
 	// run code after jQuery and/or SE framework have loaded
 	SOUP.readyQueue = {};
 	SOUP.ready = function ( key, code ) {
@@ -1025,6 +1030,9 @@ var soupInit = function () {
 		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
 			SOUP.try( key, filter, ['#content'] );  // TODO: better selector?
 		} );
+		if ( SOUP.isChat ) setInterval( function () {
+			SOUP.try( key, filter, ['#chat-body'] );
+		}, 500 );  // I wish there was a better way to do this
 		SOUP.try( key, filter, [selector || document] );
 	};
 	
@@ -1041,12 +1049,8 @@ var soupInit = function () {
 
 // setup code to execute after jQuery has loaded:
 var soupLateSetup = function () {
-	// basic environment detection
-	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mse215450)
-	SOUP.isChat   = /^chat\./.test( location.hostname );
-	SOUP.isMeta   = /^meta\./.test( location.hostname );
+	// basic environment detection, part 2
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
-	
 	// detect user rep and site beta status; together, these can be user to determine user privileges
 	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
 	if ( window.$ ) {
