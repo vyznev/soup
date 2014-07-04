@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.17.3
+// @version     1.17.4
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -692,7 +692,7 @@ fixes.mse234680 = {
 				link.href = text;
 				var host = SOUP.punycode.toASCII( link.hostname );
 				var fixed = link.href.replace( link.hostname, host );
-				if (text != fixed) console.log('soup fixed ' + text + ' to ' + fixed + ' (via ' + link.href + ')');
+				if (text != fixed) SOUP.log('soup fixed ' + text + ' to ' + fixed + ' (via ' + link.href + ')');
 				return fixed;
 			} );
 		};
@@ -760,19 +760,14 @@ fixes.mse221304 = {
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
-		var retryWithHTTPS = function () {
-			var newUrl = this.src.replace( urlRegex, 'https://$1/' );
-			SOUP.log( 'soup mse221304 fixing img ' + this.src + ' -> ' + newUrl );
-			$(this).off('error', retryWithHTTPS).attr('src', newUrl);
-		};
 		var fixImages = function (target) {
-			var n = $(target).find('img[src^="http://"]').filter( function () {
-				if ( ! urlRegex.test( this.src ) ) return false;
-				else if ( ! this.complete ) return true;
-				else if ( this.naturalWidth === 0 ) retryWithHTTPS.apply(this);
-				return false;
-			} ).on( 'error', retryWithHTTPS ).length;
-			SOUP.log( 'soup mse221304 queued '+n+' images for deferred fixing' );
+			$(target).find('img[src^="http://"]').each( function () {
+				if ( ! urlRegex.test( this.src ) ) return;
+				if ( ! this.complete || this.naturalWidth > 0 ) return;
+				var newUrl = this.src.replace( urlRegex, 'https://$1/' );
+				SOUP.log( 'soup mse221304 fixing img ' + this.src + ' -> ' + newUrl );
+				this.src = newUrl;
+			} );
 		};
 		SOUP.addContentFilter( fixImages, 'HTTPS image fix' );
 		$(document).on( 'mouseenter', '#user-menu', function () {
