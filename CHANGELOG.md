@@ -2,10 +2,10 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.17 (development)
+1.18
 ====
 
-**New fixes in 1.17.x:**
+**New fixes in 1.18.0:**
 
 * [mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)
 
