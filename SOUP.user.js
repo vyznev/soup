@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.18.0
+// @version     1.19.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -11,9 +11,9 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
-// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
-// @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
+// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.meta.js
+// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -1026,10 +1026,22 @@ var soupInit = function () {
 		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
 			SOUP.try( key, filter, ['#content'] );  // TODO: better selector?
 		} );
-		if ( SOUP.isChat ) setInterval( function () {
+		if ( SOUP.isChat ) SOUP.setInterval( function () {
 			SOUP.try( key, filter, ['#chat-body'] );
 		}, 500 );  // I wish there was a better way to do this
 		SOUP.try( key, filter, [selector || document] );
+	};
+	
+	// work-alike of window.setInterval() that only runs in active tabs
+	SOUP.setInterval = function ( code, delay ) {
+		var anim = window.requestAnimationFrame || function ( f ) { f() };
+		var wrapper = function () {
+			anim( function () {
+				code();
+				setTimeout( wrapper, delay );
+			} );
+		};
+		setTimeout( wrapper, delay );
 	};
 	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
