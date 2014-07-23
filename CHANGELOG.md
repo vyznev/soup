@@ -11,7 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* Content filters on chat no longer use polling; SOUP now hooks the WebSocket interface to detect chat events instead.
+* On Firefox, SOUP now hooks the WebSocket interface to detect chat events instead of polling for them.  Chrome still falls back to polling, but now only on the active tab.
 
 1.18
 ====
