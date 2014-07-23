@@ -5,6 +5,14 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.19 (development)
 ====
 
+**New fixes in 1.19.x:**
+
+* [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225) (CSS)
+
+**Other changes:**
+
+* Content filters on chat now use `requestAnimationFrame()` to avoid needless polling in inactive tabs.
+
 1.18
 ====
 

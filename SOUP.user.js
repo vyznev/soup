@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.0
+// @version     1.19.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -186,6 +186,13 @@ fixes.mse233517 = {
 		".achievements-dialog .badge2 { background: #c5c5c5 !important }" +
 		".achievements-dialog .badge3 { background: #cc9966 !important }"
 };
+fixes.mse169225 = {
+	title:	"Why does the bounty award button appear on deleted answers?",
+	url:	"http://meta.stackexchange.com/q/169225",
+	// .vote added to ensure higher specificity than the physics5773 fix
+	css:	".deleted-answer .vote .bounty-vote-off { display: none }"
+};
+
 
 // site-specific CSS fixes:
 fixes.skeptics2636 = {

@@ -51,6 +51,7 @@ SOUP v1.19 includes fixes or workarounds for the following issues:
 * [Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981) (CSS, mobile view only)
 * [Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975) (CSS)
 * [Badge symbol in notification is of the site you're on, not where badge was earned](http://meta.stackexchange.com/q/233517) (CSS)
+* [Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225) (CSS)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 * [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, partially math.SE specific)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)
