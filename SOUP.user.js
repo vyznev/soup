@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.2
+// @version     1.19.3
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -982,6 +982,12 @@ var soupInit = function () {
 		if ( window.console ) console.log.apply( console, arguments );
 	};
 	
+	// compatibility wrapper for window.requestAnimationFrame()
+	SOUP.requestAnimationFrame = function ( code ) {
+		if ( window.requestAnimationFrame ) requestAnimationFrame( code );
+		else setTimeout( code, 10 );
+	};
+	
 	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
 	// note: use editor.getConverter() to access the Markdown converter
 	// see http://dev.stackoverflow.com/content/Js/wmd.en.js for details
@@ -1040,34 +1046,27 @@ var soupInit = function () {
 	// run content filters for chat whenever an event arrives
 	SOUP.chatContentFilters = [];
 	SOUP.runChatContentFilters = function () {
-		var run = function () {
-			var filters = SOUP.chatContentFilters;
-			for ( var i = 0; i < filters.length; i++ ) {
-				SOUP.try( filters[i].key, filters[i].filter, ["#chat-body"] );
-			}
-		};
-		if ( window.requestAnimationFrame ) requestAnimationFrame( run );
-		else setTimeout( run, 20 );
+		var filters = SOUP.chatContentFilters;
+		for ( var i = 0; i < filters.length; i++ ) {
+			SOUP.try( filters[i].key, filters[i].filter, ["#chat-body"] );
+		}
 	};
 	// hack the WebSocket interface so that we're informed of chat events
+	// FIXME: this currently only works on Firefox, not on Chrome
 	if ( SOUP.isChat && window.WebSocket ) {
 		var originRegexp = /^wss?:\/\/chat\.sockets\.stackexchange\.com(\/|$)/;
 		try {
-			SOUP.log( "soup applying websocket hack" );
-			
+			// SOUP.log( "soup applying websocket hack" );
 			var props = Object.getOwnPropertyDescriptor( WebSocket.prototype, 'onmessage' );
-			// XXX: on Chrome, .onmessage appears to be undefined by default
-			props = props || { configurable: false, enumerable: true };
-			var getter = props.get || function () { return this._soup_onmessage };
-			var setter = props.set || function ( cb ) { return this._soup_onmessage = cb }
-			
+			var getter = props.get, setter = props.set;
 			props.set = function ( callback ) {
-				SOUP.log( "soup hooking websocket onmessage:", callback );
+				// SOUP.log( "soup hooking websocket onmessage:", callback );
 				var wrapper = function ( msg ) {
 					var rv = wrapper.callback.apply( this, arguments );
 					if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
-					SOUP.log( "soup intercepted websocket message from " + msg.origin + ":", msg.data );
-					if ( /e/.test( msg.data ) ) SOUP.runChatContentFilters();
+					// SOUP.log( "soup intercepted websocket message from " + msg.origin + ":", msg.data );
+					SOUP.websocketHackActive = true;
+					if ( /e/.test( msg.data ) ) SOUP.requestAnimationFrame( SOUP.runChatContentFilters );
 					return rv;
 				};
 				wrapper.callback = callback;
@@ -1079,13 +1078,20 @@ var soupInit = function () {
 			};
 			Object.defineProperty( WebSocket.prototype, 'onmessage', props );
 		}
-		catch (e) {
-			SOUP.log( "soup websocket hack failed:", e );
-			setInterval( SOUP.runChatContentFilters, 500 );  // fall back to polling instead
-		}
+		catch (e) { SOUP.log( "soup websocket hack failed:", e ) }
+		
+		// fall back to polling in case the websocket hack doesn't work
+		var pollForChatUpdates = function () {
+			if ( SOUP.websocketHackActive ) return;
+			SOUP.requestAnimationFrame( function () {
+				SOUP.runChatContentFilters();
+				setTimeout( pollForChatUpdates, 500 );
+			} );
+		};
+		setTimeout( pollForChatUpdates, 500 );
 	}
-	// hook the non-websocket event interface, in case websockets are disabled
-	if ( SOUP.isChat ) SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, SOUP.runChatContentFilters, 0 );
+	// hook the non-websocket event interface too, in case websockets are disabled
+	if ( SOUP.isChat ) SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, SOUP.runChatContentFilters );
 	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
