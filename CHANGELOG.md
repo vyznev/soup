@@ -11,7 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* Content filters on chat now use `requestAnimationFrame()` to avoid needless polling in inactive tabs.
+* Content filters on chat no longer use polling; SOUP now hooks the WebSocket interface to detect chat events instead.
 
 1.18
 ====

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.1
+// @version     1.19.2
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -1033,23 +1033,59 @@ var soupInit = function () {
 		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
 			SOUP.try( key, filter, ['#content'] );  // TODO: better selector?
 		} );
-		if ( SOUP.isChat ) SOUP.setInterval( function () {
-			SOUP.try( key, filter, ['#chat-body'] );
-		}, 500 );  // I wish there was a better way to do this
+		if ( SOUP.isChat ) SOUP.chatContentFilters.push( { key: key, filter: filter } );
 		SOUP.try( key, filter, [selector || document] );
 	};
 	
-	// work-alike of window.setInterval() that only runs in active tabs
-	SOUP.setInterval = function ( code, delay ) {
-		var anim = window.requestAnimationFrame || function ( f ) { f() };
-		var wrapper = function () {
-			anim( function () {
-				code();
-				setTimeout( wrapper, delay );
-			} );
+	// run content filters for chat whenever an event arrives
+	SOUP.chatContentFilters = [];
+	SOUP.runChatContentFilters = function () {
+		var run = function () {
+			var filters = SOUP.chatContentFilters;
+			for ( var i = 0; i < filters.length; i++ ) {
+				SOUP.try( filters[i].key, filters[i].filter, ["#chat-body"] );
+			}
 		};
-		setTimeout( wrapper, delay );
+		if ( window.requestAnimationFrame ) requestAnimationFrame( run );
+		else setTimeout( run, 20 );
 	};
+	// hack the WebSocket interface so that we're informed of chat events
+	if ( SOUP.isChat && window.WebSocket ) {
+		var originRegexp = /^wss?:\/\/chat\.sockets\.stackexchange\.com(\/|$)/;
+		try {
+			SOUP.log( "soup applying websocket hack" );
+			
+			var props = Object.getOwnPropertyDescriptor( WebSocket.prototype, 'onmessage' );
+			// XXX: on Chrome, .onmessage appears to be undefined by default
+			props = props || { configurable: false, enumerable: true };
+			var getter = props.get || function () { return this._soup_onmessage };
+			var setter = props.set || function ( cb ) { return this._soup_onmessage = cb }
+			
+			props.set = function ( callback ) {
+				SOUP.log( "soup hooking websocket onmessage:", callback );
+				var wrapper = function ( msg ) {
+					var rv = wrapper.callback.apply( this, arguments );
+					if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
+					SOUP.log( "soup intercepted websocket message from " + msg.origin + ":", msg.data );
+					if ( /e/.test( msg.data ) ) SOUP.runChatContentFilters();
+					return rv;
+				};
+				wrapper.callback = callback;
+				return setter.call( this, wrapper );
+			};
+			props.get = function () {
+				var wrapper = getter.call( this );
+				return wrapper && ( wrapper.callback || wrapper );
+			};
+			Object.defineProperty( WebSocket.prototype, 'onmessage', props );
+		}
+		catch (e) {
+			SOUP.log( "soup websocket hack failed:", e );
+			setInterval( SOUP.runChatContentFilters, 500 );  // fall back to polling instead
+		}
+	}
+	// hook the non-websocket event interface, in case websockets are disabled
+	if ( SOUP.isChat ) SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, SOUP.runChatContentFilters, 0 );
 	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
