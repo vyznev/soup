@@ -9,6 +9,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225) (CSS)
 
+**Removed fixes:**
+
+* [mse104184: Allow flagging a comment after upvoting it](http://meta.stackexchange.com/q/104184) (fixed by SE)
+
 **Other changes:**
 
 * SOUP now hooks the WebSocket interface to detect chat events instead of polling for them.

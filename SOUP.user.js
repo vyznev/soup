@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.5
+// @version     1.19.6
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -397,24 +397,6 @@ fixes.mse129593 = {
 			$(this).addClass('downvoted-answer').removeClass('downvoted-answer-hover');
 		} ).on('click', '.downvoted-answer-hover .post-text', function () {
 			$(this).closest('.downvoted-answer-hover').toggleClass('clicked');
-		} );
-	}
-};
-fixes.mse104184 = {
-	title:	"Allow flagging a comment after upvoting it",
-	url:	"http://meta.stackexchange.com/q/104184",
-	script:	function () {
-		if ( SOUP.isMobile ) return;  // mobile view has no flag links; see http://meta.stackexchange.com/q/213709
-		SOUP.hookAjax( /^\/posts\/\d+\/comments\b/, function () {
-			$('.comment-up-on').closest('table').not(':has(.comment-flag)').append(
-				// better hardcode this, so it'll break cleanly if SE code changes
-				'<tr><td>&nbsp;</td><td><a class="comment-flag soup-injected-fake"' +
-				' title="flag this comment as unconstructive, offensive, or spam">' +
-				'flag</a></td></tr>'
-			);
-		} ).code();
-		SOUP.hookAjax( /^\/posts\/comments\/\d+\/vote\b/, function () {
-			$('.comment-up-on').closest('tr').siblings('tr:has(.comment-flag)').show();
 		} );
 	}
 };

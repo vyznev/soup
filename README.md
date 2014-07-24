@@ -69,7 +69,6 @@ SOUP v1.19 includes fixes or workarounds for the following issues:
 * [Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
 * [Un-fade low-score answers on rollover or click](http://meta.stackexchange.com/q/129593)
-* [Allow flagging a comment after upvoting it](http://meta.stackexchange.com/q/104184)
 * [The branch prediction answer is overflowing](http://meta.stackexchange.com/q/214706)
 * [Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)
 * [New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
