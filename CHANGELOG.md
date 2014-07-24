@@ -11,7 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* On Firefox, SOUP now hooks the WebSocket interface to detect chat events instead of polling for them.  Chrome still falls back to polling, but now only on the active tab.
+* SOUP now hooks the WebSocket interface to detect chat events instead of polling for them.
 * [mse229363](http://meta.stackexchange.com/q/229363): Hot question titles from the [Aviation](http://aviation.stackexchange.com) and [Puzzling](http://puzzling.stackexchange.com) sites are now eligible for MathJax parsing.
 
 1.18

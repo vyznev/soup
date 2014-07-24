@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.4
+// @version     1.19.5
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -1046,37 +1046,50 @@ var soupInit = function () {
 	// run content filters for chat whenever an event arrives
 	SOUP.chatContentFilters = [];
 	SOUP.runChatContentFilters = function () {
+		SOUP.chatContentFiltersPending = false;
 		var filters = SOUP.chatContentFilters;
 		for ( var i = 0; i < filters.length; i++ ) {
 			SOUP.try( filters[i].key, filters[i].filter, ["#chat-body"] );
 		}
 	};
 	// hack the WebSocket interface so that we're informed of chat events
-	// FIXME: this currently only works on Firefox, not on Chrome
 	if ( SOUP.isChat && window.WebSocket ) {
 		var originRegexp = /^wss?:\/\/chat\.sockets\.stackexchange\.com(\/|$)/;
+		var onmessageWrapper = function ( msg ) {
+			var rv = (this._soup_onmessage || function () {}).apply( this, arguments );
+			if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
+			SOUP.log( "soup intercepted websocket message from " + msg.origin + ":", msg.data );
+			SOUP.websocketHackActive = true;
+			if ( /e/.test( msg.data ) && !SOUP.chatContentFiltersPending ) {
+				SOUP.chatContentFiltersPending = true;
+				SOUP.requestAnimationFrame( SOUP.runChatContentFilters );
+			}
+			return rv;
+		};
+		
 		try {
-			// SOUP.log( "soup applying websocket hack" );
-			var props = Object.getOwnPropertyDescriptor( WebSocket.prototype, 'onmessage' );
-			var getter = props.get, setter = props.set;
-			props.set = function ( callback ) {
-				// SOUP.log( "soup hooking websocket onmessage:", callback );
-				var wrapper = function ( msg ) {
-					var rv = wrapper.callback.apply( this, arguments );
-					if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
-					// SOUP.log( "soup intercepted websocket message from " + msg.origin + ":", msg.data );
-					SOUP.websocketHackActive = true;
-					if ( /e/.test( msg.data ) ) SOUP.requestAnimationFrame( SOUP.runChatContentFilters );
-					return rv;
-				};
-				wrapper.callback = callback;
-				return setter.call( this, wrapper );
+			SOUP.log( "soup initializing websocket hack" );
+			var RealWebSocket = SOUP.RealWebSocket = WebSocket;
+			WebSocket = function FakeWebSocket ( url ) {
+				// call real WebSocket constructor; eww...
+				// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#Using_apply_to_chain_constructors
+				var args = [].slice.apply( arguments );
+				var sock = new ( Function.prototype.bind.apply( RealWebSocket, [{}].concat( args ) ) )();
+				if ( !originRegexp.test( url ) ) return sock;
+				try {
+					sock.onmessage = onmessageWrapper;
+					Object.defineProperty( sock, 'onmessage', {
+						set: function ( cb ) { this._soup_onmessage = cb }
+					} );
+					SOUP.log( "soup websocket hack applied" );
+				}
+				catch (e) { SOUP.log( "applying soup websocket hack failed:", e ) }
+				return sock;
 			};
-			props.get = function () {
-				var wrapper = getter.call( this );
-				return wrapper && ( wrapper.callback || wrapper );
-			};
-			Object.defineProperty( WebSocket.prototype, 'onmessage', props );
+			
+			// copy static properties of the real WebSocket
+			for (var prop in RealWebSocket) WebSocket[prop] = RealWebSocket[prop];
+			WebSocket.prototype = RealWebSocket.prototype;
 		}
 		catch (e) { SOUP.log( "soup websocket hack failed:", e ) }
 		
