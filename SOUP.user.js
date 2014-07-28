@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.6
+// @version     1.19.7
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -716,6 +716,17 @@ fixes.mse234680 = {
 				this.hostname = decodedHost;
 			} );
 		}, 'IDN escape fix' );
+	}
+};
+fixes.mse266852 = {
+	title:	"Bar between “add a comment” and “show more comments” is inconsistent",
+	url:	"http://meta.stackoverflow.com/q/266852",
+	credit:	"based on script by Cameron Bernhardt (AstroCB)",
+	script:	function () {
+		// we don't need a full content filter; just the Ajax hook should be enough
+		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
+			$('div[id^="comments-link-"] .js-link-separator:not(.lsep)').addClass('lsep').text('|');
+		} ).code();
 	}
 };
 
