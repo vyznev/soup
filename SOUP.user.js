@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.19.7
+// @version     1.19.8
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -1051,7 +1051,7 @@ var soupInit = function () {
 		var onmessageWrapper = function ( msg ) {
 			var rv = (this._soup_onmessage || function () {}).apply( this, arguments );
 			if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
-			SOUP.log( "soup intercepted websocket message from " + msg.origin + ":", msg.data );
+			if ( !SOUP.websocketHackActive ) SOUP.log( "soup websocket hack active" );  // It's working!
 			SOUP.websocketHackActive = true;
 			if ( /e/.test( msg.data ) && !SOUP.chatContentFiltersPending ) {
 				SOUP.chatContentFiltersPending = true;
@@ -1072,9 +1072,10 @@ var soupInit = function () {
 				try {
 					sock.onmessage = onmessageWrapper;
 					Object.defineProperty( sock, 'onmessage', {
-						set: function ( cb ) { this._soup_onmessage = cb }
+						// XXX: defining a getter here stops this from working on Chrome, don't ask me why
+						set: function ( cb ) { if ( cb !== onmessageWrapper ) this._soup_onmessage = cb }
 					} );
-					SOUP.log( "soup websocket hack applied" );
+					SOUP.log( "soup applying websocket hack" );
 				}
 				catch (e) { SOUP.log( "applying soup websocket hack failed:", e ) }
 				return sock;
