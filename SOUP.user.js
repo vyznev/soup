@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.20.0
+// @version     1.21.0
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -11,9 +11,9 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
-// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
-// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
-// @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
+// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.meta.js
+// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -123,13 +123,7 @@ fixes.mse210165 = {
 fixes.stats1987 = {
 	title:	"Long math expressions cause comments to overlap sidebar",
 	url:	"http://meta.stats.stackexchange.com/q/1987",
-	css:	".comments > table { table-layout: fixed }" +
-		// can't use .comment-actions on next line, since the class name is missing from self-posted comments
-		".comments > table > * > tr > td:first-of-type { width: 30px }" +
-		".comment-actions > table { float: right }" +
-		".comments td { vertical-align: top }" +
-		// XXX: fix horizontal alignment of votes on self-posted comments
-		".comment-actions tr:first-of-type td:not(.comment-score) { width: 16px }"
+	css:	".comment-body { max-width: 630px; overflow: auto; overflow-y: hidden }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
