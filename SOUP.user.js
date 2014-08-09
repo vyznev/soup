@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.21.0
+// @version     1.21.1
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
 // @match       *://*.superuser.com/*
@@ -264,6 +264,12 @@ fixes.mse229797 = {
 	css:	".nav ul li.youarehere a { display: inline-block;" +
 		" padding: 5px; margin: -5px; border-radius: 5px;" +
 		" background-color: rgba(0, 80, 112, 0.25); color: #A1E9FF }"
+};
+fixes.math16552 = {
+	title:	"Using [tag:] markup in posts creates an ugly gap between lines",
+	url:	"http://meta.math.stackexchange.com/q/16552",
+	sites:	/^(meta\.)?math\./,
+	css:	".post-text .post-tag, .wmd-preview .post-tag { display: inline; margin: 0 }"
 };
 
 

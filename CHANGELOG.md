@@ -5,6 +5,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.21 (development)
 ====
 
+**New fixes in 1.21.x:**
+
+* [math16552: Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552) (CSS, math.SE only)
+
 **Other changes:**
 
 * Significantly simplified the [stats1987](http://meta.stats.stackexchange.com/q/1987) fix by using `max-width` instead of `table-layout: fixed`.
