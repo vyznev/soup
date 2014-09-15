@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.23.0
+// @version     1.23.1
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -273,6 +273,12 @@ fixes.math16552 = {
 	url:	"http://meta.math.stackexchange.com/q/16552",
 	sites:	/^(meta\.)?math\./,
 	css:	".post-text .post-tag, .wmd-preview .post-tag { display: inline; margin: 0 }"
+};
+fixes.mse239223 = {
+	title:	"Spacing between reputation change and question title on user page sometimes missing",
+	url:	"http://meta.stackexchange.com/q/239223",
+	sites:	/^meta\.stackexchange\.com$/,
+	css:	".user-show-new .user-rep .rep-amount { padding-right: 10px !important }"
 };
 
 
