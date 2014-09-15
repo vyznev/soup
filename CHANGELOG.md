@@ -2,8 +2,10 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.21 (development)
+1.22 (15 Sep 2014)
 ====
+
+This is just an incremental release to push out a few updates that missed v1.20 and were stuck in the devel branch.  More active development may or may not resume later in the year.  As always, contributions are welcome.
 
 **New fixes in 1.21.x:**
 
@@ -11,9 +13,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* Significantly simplified the [stats1987](http://meta.stats.stackexchange.com/q/1987) fix by using `max-width` instead of `table-layout: fixed`.
+* Improved and simplified the [stats1987](http://meta.stats.stackexchange.com/q/1987) fix by using `max-width` instead of `table-layout: fixed`.  This fixes [a minor layout issue with large vote counts](http://meta.stackexchange.com/q/229830) and adds scroll bars to over-wide comments.
+* Added release dates to change log.  Trying out short release notes as well.
+* Added `@homepageURL`, `@copyright` and `@license` metadata lines.
 
-1.20
+1.20 (28 Jul 2014)
 ====
 
 **New fixes in 1.20.0:**
@@ -30,7 +34,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * SOUP now hooks the WebSocket interface to detect chat events instead of polling for them.
 * [mse229363](http://meta.stackexchange.com/q/229363): Hot question titles from the [Aviation](http://aviation.stackexchange.com) and [Puzzling](http://puzzling.stackexchange.com) sites are now eligible for MathJax parsing.
 
-1.18
+1.18 (5 Jul 2014)
 ====
 
 **New fixes in 1.18.0:**
@@ -47,7 +51,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Devel branch versions should now auto-update properly (and not just when a new master release is made).
 * Update checking is optimized by duplicating the script metadata in `SOUP.meta.js` and pointing `@updateURL` to it instead of the main script.
 
-1.16
+1.16 (26 Jun 2014)
 ====
 
 **Changes in 1.16.1:**
@@ -80,7 +84,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * New `SOUP.addContentFilter()` utility method to simplify fixes that manipulate post content.
 * Fancy new icon.
 
-1.14
+1.14 (11 May 2014)
 ====
 
 **Changes in 1.14.1:**
@@ -105,7 +109,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Site matching now uses regexps for extra flexibility.
 * The [mse229363](http://meta.stackexchange.com/q/229363) fix now applies to hot questions from all sites except those [explicitly known to use MathJax](http://meta.stackexchange.com/a/216607).
 
-1.12
+1.12 (15 Apr 2014)
 ====
 
 **New fixes in 1.12.0:**
@@ -122,7 +126,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Fixes can now be more easily limited to or excluded from specific sites.
 * Caught exceptions are no longer stringified before logging.
 
-1.10
+1.10 (10 Mar 2014)
 ====
 
 **Changes in 1.10.2:**
@@ -157,7 +161,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * New `SOUP.userRep`, `SOUP.isBeta` and `SOUP.isMeta` properties for user privilege checking.
 * Bugfix: SOUP no longer leaks variable or runs outside the SE network on Opera.
 
-1.8
+1.8 (24 Feb 2014)
 ===
 
 **Changes in 1.8.3:**
@@ -191,7 +195,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * CSS fixes are now injected before the document is loaded, reducing the risk of "flickering".  As a side effect, a few selectors had to be adjusted to increase their specificity over conflicting SE default styles.
 * Added a change log, with retroactive logging for earlier releases.
 
-1.6
+1.6 (10 Feb 2014)
 ===
 
 **Changes in 1.6.1:**
@@ -208,7 +212,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse160338: Allow moderators to reply to a flag](http://meta.stackexchange.com/q/160338) (mod)
 * [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (math)
 
-1.4
+1.4 (24 Jan 2014)
 ===
 
 **New fixes in 1.4.0:**
@@ -226,7 +230,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse150069: Can we have the "50 more" link return items of the same type, please?](http://meta.stackexchange.com/q/150069) 
 * [math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392) (math)
 
-1.2
+1.2 (17 Jan 2014)
 ===
 
 **New fixes in 1.2.0:**
@@ -235,7 +239,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse114109: Background in OP's user name can obscure text in multiline comments](http://meta.stackexchange.com/q/114109) (CSS)
 * [math11036: Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036) (math)
 
-1.0
+1.0 (12 Jan 2014)
 ===
 
 **Fixes included in the 1.0.x branch:**
