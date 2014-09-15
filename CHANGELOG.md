@@ -2,12 +2,19 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
+1.23 (development)
+====
+
+**New fixes in 1.23.x:**
+
+* [Earned bounties layout is broken](http://meta.stackexchange.com/q/239382)
+
 1.22 (15 Sep 2014)
 ====
 
 This is just an incremental release to push out a few updates that missed v1.20 and were stuck in the devel branch.  More active development may or may not resume later in the year.  As always, contributions are welcome.
 
-**New fixes in 1.21.x:**
+**New fixes in 1.22.0:**
 
 * [math16552: Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552) (CSS, math.SE only)
 
