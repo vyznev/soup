@@ -7,7 +7,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.23.x:**
 
-* [mse239382: Earned bounties layout is broken](http://meta.stackexchange.com/q/239382)
+* [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223) (CSS, meta.SE only)
 
 1.22 (15 Sep 2014)

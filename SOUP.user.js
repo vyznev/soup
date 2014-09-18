@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.23.1
+// @version     1.23.2
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -738,16 +738,12 @@ fixes.mse266852 = {
 		} ).code();
 	}
 };
-fixes.mse239382 = {
-	title:	"Earned bounties layout is broken",
-	url:	"http://meta.stackexchange.com/q/239382",
+fixes.mse239549 = {
+	title:	"Mobile user profile page sort selectors stop working after first change",
+	url:	"http://meta.stackexchange.com/q/239549",
+	// FIXME: The linked bug report is mostly about another bug, since fixed; this should be reported separately
 	script:	function () {
-		// fix #1: wrap header in <h1> tags
-		SOUP.hookAjax( /^\/ajax\/users\/panel\//, function () {
-			$('body.user-page .user-panel .subheader > a').wrap('<h1></h1>');
-		} ).code();
-		
-		// fix #2: make the change event handler live
+		// make the event handler live
 		var selector = '.user-panel-subtabs select'; var matches = $(selector);
 		if ( ! matches.length ) return;
 		$._data( matches[0], 'events' ).change.forEach( function ( h ) {
@@ -756,8 +752,8 @@ fixes.mse239382 = {
 			matches.off( 'change', h.handler );
 		} );
 		
-		// fix #3: sync the selector with the visible content
-		// XXX: this will only work on English sites, and may break there if the title text is changed
+		// sync the selector with the visible content
+		// XXX: this will only work on English sites, and may break if the title text is changed
 		matches.each( function () {
 			var title = $(this).closest('.user-panel').find('div.subheader').text().toLowerCase();
 			for (var i = 0; i < this.options.length; i++ ) {
@@ -766,10 +762,7 @@ fixes.mse239382 = {
 			}
 		} )
 
-	},
-	// fix #4: clean up excess whitespace by making sorter overlap table
-	css:	".user-show-new .user-panel .user-panel-subtabs.sorter" +
-		" { margin-bottom: -100%; position: relative; background: white; padding: 1px }" 
+	}
 };
 
 
