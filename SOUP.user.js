@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.23.2
+// @version     1.23.3
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -152,13 +152,6 @@ fixes.mse224185 = {
 		"body .close-as-off-topic-pane .action-name { vertical-align: baseline }" +
 		"body .close-as-off-topic-pane input[type=radio] { vertical-align: top }" +
 		".close-as-off-topic-pane { line-height: 1.15 }"  // related minor issue
-};
-fixes.mse233470 = {
-	title:	"Answer lock notice runs into text below",
-	url:	"http://meta.stackexchange.com/q/233470",
-	// "body" added to increase selector precedence over conflicting SE style
-	css:	"body .special-status { padding-top: 5px; padding-bottom: 0px }" +
-		"body .question-status { margin-top: 10px; margin-bottom: 5px }"
 };
 // The following fix is kind of pointless, since few if any mobile browsers can
 // run user scripts, but I've included it anyway, since it's so trivial.
@@ -762,6 +755,15 @@ fixes.mse239549 = {
 			}
 		} )
 
+	}
+};
+fixes.mse240553 = {
+	title:	"start a bounty --> learn more… gives a 404",
+	url:	"http://meta.stackexchange.com/q/240553",
+	script: function () {
+		SOUP.hookAjax( /^\/posts\/bounty\/\d+/, function () {
+			$('#start-bounty-popup a[href="/help/bounties"]').attr('href', '/help/bounty');
+		} );
 	}
 };
 

@@ -9,6 +9,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223) (CSS, meta.SE only)
+* [mse240553: start a bounty --> learn more… gives a 404](http://meta.stackexchange.com/q/240553)
+
+**Removed fixes:**
+
+* [mse233470: Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS, fixed)
 
 1.22 (15 Sep 2014)
 ====
