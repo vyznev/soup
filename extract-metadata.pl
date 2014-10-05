@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 
+push @ARGV, grep -f, "SOUP.user.js" unless @ARGV;
 my $sourcefile = join(" and ", @ARGV) || "the main user script";
 
 while (<>) {
