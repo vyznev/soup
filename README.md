@@ -86,6 +86,7 @@ SOUP v1.23 includes fixes or workarounds for the following issues:
 * [Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [start a bounty --> learn more… gives a 404](http://meta.stackexchange.com/q/240553)
+* [Snippets editor won't insert and close on SO](http://meta.stackexchange.com/q/240486)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
 * [Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304) (https)
 * [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343) (https)
