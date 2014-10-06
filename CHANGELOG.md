@@ -16,6 +16,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse233470: Answer lock notice runs into text below](http://meta.stackexchange.com/q/233470) (CSS, fixed)
 
+**Other changes:**
+
+* Redesignated the [stats1987](http://meta.stats.stackexchange.com/q/1987) fix as [mse154788](http://meta.stackexchange.com/q/154788), since that post has a more comprehensive description of the issue.  Tweaked the CSS to avoid [occasional spurious scroll bars in Chrome](http://meta.stackexchange.com/q/240352).
+
 1.22 (15 Sep 2014)
 ====
 

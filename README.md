@@ -42,7 +42,7 @@ SOUP v1.23 includes fixes or workarounds for the following issues:
 * [Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackexchange.com/q/219740) (CSS)
 * [Excerpt of privilege is below privilege instead of in front](http://meta.stackexchange.com/q/203405) (CSS)
 * [Extra blue line appearing in the top bar (Firefox only)](http://meta.stackexchange.com/q/210165) (CSS)
-* [Long math expressions cause comments to overlap sidebar](http://meta.stats.stackexchange.com/q/1987) (CSS)
+* [Why are comments overlapping the sidebar?](http://meta.stackexchange.com/q/154788) (CSS)
 * [Selecting text in profile activity comments causes unexpected clipping](http://meta.stackexchange.com/q/214830) (CSS)
 * [Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392) (CSS)
 * [Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773) (CSS)

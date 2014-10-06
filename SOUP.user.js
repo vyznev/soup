@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.23.4
+// @version     1.23.5
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -123,10 +123,11 @@ fixes.mse210165 = {
 	css:	".topbar .hidden-text { display: none }" +
 		".topbar .topbar-icon, .topbar .profile-me { color: #e0e0e0 }"
 };
-fixes.stats1987 = {
-	title:	"Long math expressions cause comments to overlap sidebar",
-	url:	"http://meta.stats.stackexchange.com/q/1987",
-	css:	".comment-body { max-width: 630px; overflow: auto; overflow-y: hidden }"
+fixes.mse154788 = {
+	title:	"Why are comments overlapping the sidebar?",
+	url:	"http://meta.stackexchange.com/q/154788",
+	// XXX: padding-right added to work around issue with spurious scroll bars in Chrome; see http://meta.stackexchange.com/q/240352
+	css:	".comment-body { max-width: 628px; padding-right: 2px; overflow: auto; overflow-y: hidden }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
