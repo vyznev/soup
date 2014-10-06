@@ -11,6 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223) (CSS, meta.SE only)
 * [mse240553: start a bounty --> learn more… gives a 404](http://meta.stackexchange.com/q/240553)
 * [mse240486: Snippets editor won't insert and close on SO](http://meta.stackexchange.com/q/240486)
+* [mse240485: “Show more comments” link breaks for unregistered users if a comment is posted after page load](http://meta.stackexchange.com/q/240485)
 
 **Removed fixes:**
 
