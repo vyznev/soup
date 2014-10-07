@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.24.1 -->
+<!-- version: 1.25.x -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -27,7 +27,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.24 includes fixes or workarounds for the following issues:
+SOUP v1.25 includes fixes or workarounds for the following issues:
 
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackexchange.com/q/215473) (CSS)
 * [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackexchange.com/q/138685) (CSS)
@@ -62,6 +62,8 @@ SOUP v1.24 includes fixes or workarounds for the following issues:
 * [You are here, but where's here?](http://meta.stackexchange.com/q/229797) (CSS, meta.SE only)
 * [Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552) (CSS, math.SE only)
 * [Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223) (CSS, meta.SE only)
+* [Username is hard to read in comments posted by the OP on meta](http://meta.scifi.stackexchange.com/q/5097) (CSS, meta.scifi.SE only)
+* [Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836) (CSS, salesforce.SE only)
 * [Ignoring somebody screws up the avatar list](http://meta.stackexchange.com/q/155308) (CSS, chat)
 * [The reply buttons in chat shouldn't reposition themselves on pinged messages](http://meta.stackexchange.com/q/216760) (CSS, chat)
 * [Getting Red Line under tags](http://meta.stackexchange.com/q/222509) (CSS, chat)

@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.24.1
+// @version     1.25.0
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -14,9 +14,9 @@
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
 // @homepageURL http://stackapps.com/questions/4486/stack-overflow-unofficial-patch
-// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
-// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
-// @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
+// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.meta.js
+// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -273,6 +273,18 @@ fixes.mse239223 = {
 	url:	"http://meta.stackexchange.com/q/239223",
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	".user-show-new .user-rep .rep-amount { padding-right: 10px !important }"
+};
+fixes.scifi5097 = {
+	title:	"Username is hard to read in comments posted by the OP on meta",
+	url:	"http://meta.scifi.stackexchange.com/q/5097",
+	sites:	/^meta\.scifi\./,
+	css:	"a.owner, a.owner:visited { color: #ca4040 }"
+};
+fixes.salesforce835 = {
+	title:	"Div containing 2 minute tour button not big enough",
+	url:	"http://meta.salesforce.stackexchange.com/q/836",
+	sites:	/^(meta\.)?salesforce\./,
+	css:	"#herobox-mini #controls a.button { line-height: 1.3 }"
 };
 
 
