@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.23.x -->
+<!-- version: 1.24.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -27,7 +27,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.23 includes fixes or workarounds for the following issues:
+SOUP v1.24 includes fixes or workarounds for the following issues:
 
 * [Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackexchange.com/q/215473) (CSS)
 * [Layout fix for Firefox in “Zoom text only” mode](http://meta.stackexchange.com/q/138685) (CSS)
