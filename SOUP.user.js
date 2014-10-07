@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.24.0
+// @version     1.24.1
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -756,15 +756,6 @@ fixes.mse239549 = {
 			}
 		} )
 
-	}
-};
-fixes.mse240553 = {
-	title:	"start a bounty --> learn more… gives a 404",
-	url:	"http://meta.stackexchange.com/q/240553",
-	script: function () {
-		SOUP.hookAjax( /^\/posts\/bounty\/\d+/, function () {
-			$('#start-bounty-popup a[href="/help/bounties"]').attr('href', '/help/bounty');
-		} );
 	}
 };
 fixes.mse240486 = {

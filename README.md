@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.24.0 -->
+<!-- version: 1.24.1 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -85,7 +85,6 @@ SOUP v1.24 includes fixes or workarounds for the following issues:
 * [Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)
 * [Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
-* [start a bounty --> learn more… gives a 404](http://meta.stackexchange.com/q/240553)
 * [Snippets editor won't insert and close on SO](http://meta.stackexchange.com/q/240486)
 * [“Show more comments” link breaks for unregistered users if a comment is posted after page load](http://meta.stackexchange.com/q/240485)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
