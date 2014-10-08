@@ -15,9 +15,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* Content filters were not applied to new comments loaded via Ajax; fixed.
+* Content filters are now applied to new comments loaded via Ajax.
 * Made the content filter mechanism more flexible, so that filters can be made to run only on specific events.
 * Made Ajax hooks run immediately by default to minimize flicker; let's see if this breaks anything...
+* Content filters are now applied to answers loaded in review by the [mse172931](http://meta.stackexchange.com/q/172931) fix.
 
 1.24 (7 Oct 2014)
 ====

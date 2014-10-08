@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.4
+// @version     1.25.5
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -511,6 +511,7 @@ fixes.mse172931 = {
 					header.find('h2').text( n + ( shown ? ' Other' : '') + ' Answer' + ( n == 1 ? '' : 's' ) );
 					header.insertAfter( question );
 					answers.insertAfter( header ).mathjax();
+					SOUP.runContentFilters( 'post', answers );
 				};
 				$.ajax( { method: 'GET', url: url, dataType: 'html', success: injectAnswers } );
 			} );
@@ -1110,18 +1111,18 @@ var soupInit = function () {
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
 	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [] };
-	SOUP.addContentFilter = function ( filter, key, selector, events ) {
+	SOUP.addContentFilter = function ( filter, key, where, events ) {
 		key = key || 'content filter';
 		events = events || Object.getOwnPropertyNames( SOUP.contentFilters );
 		for ( var i = 0; i < events.length; i++ ) {
-			if (events[i] == 'load') SOUP.try( key, filter, [selector || document] );  // KLUGE
+			if (events[i] == 'load') SOUP.try( key, filter, [where || document] );  // KLUGE
 			else SOUP.contentFilters[events[i]].push( { key: key, filter: filter } );
 		}
 	};
-	SOUP.runContentFilters = function ( eventType, selector ) {
+	SOUP.runContentFilters = function ( eventType, where ) {
 		var filters = SOUP.contentFilters[eventType] || [];
 		for ( var i = 0; i < filters.length; i++ ) {
-			SOUP.try( filters[i].key, filters[i].filter, [selector] );
+			SOUP.try( filters[i].key, filters[i].filter, [where] );
 		}
 	};
 
