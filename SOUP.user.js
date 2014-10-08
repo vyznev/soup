@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.2
+// @version     1.25.3
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1095,7 +1095,7 @@ var soupInit = function () {
 	// the function will be passed a jQuery selector to process.
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
-	SOUP.contentFilters = { setup: [], post: [], comments: [], preview: [], chat: [] };
+	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [] };
 	SOUP.addContentFilter = function ( filter, key, selector, events ) {
 		key = key || 'content filter';
 		events = events || Object.getOwnPropertyNames( SOUP.contentFilters );
