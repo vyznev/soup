@@ -102,7 +102,8 @@ fixes.mse58760 = {
 	title:	"<kbd> (yes, still <kbd>) doesn't play nice with lists",
 	url:	"http://meta.stackexchange.com/q/58760",
 	credit:	"Krazer",
-	css:	"kbd { display: inline-block }"
+	// "body" added to increase selector precedence above conflicting SE style
+	css:	"body kbd { display: inline-block; max-width: 100%; white-space: normal }"
 };
 fixes.mse219740 = {
 	title:	"Add spacing / padding to “Protected By…” and “Not the answer you're looking for”",
