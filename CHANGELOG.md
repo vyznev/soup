@@ -19,12 +19,15 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Made the content filter mechanism more flexible, so that filters can be made to run only on specific events.
 * Made Ajax hooks run immediately by default to minimize flicker; let's see if this breaks anything...
 * Content filters are now applied to answers loaded in review by the [mse172931](http://meta.stackexchange.com/q/172931) fix.
-* Added `max-width: 100%` to the `<kbd>` tag style ([mse58760](http://meta.stackexchange.com/q/58760)), just in case someone does something silly like [sticking a huge image inside `<kbd>` tags](http://meta.stackoverflow.com/q/273103).
 
 1.24 (7 Oct 2014)
 ====
 
 A relatively fast-track release for [mse240485](http://meta.stackexchange.com/q/240485) and [mse240486](http://meta.stackexchange.com/q/240486), which both involve loss of UI functionality.  Also includes a couple of new lower priority fixes, and one internal fix to a SOUP-induced UI regression on Chrome.
+
+**Changes in 1.24.2:**
+
+* Added `max-width: 100%` to the `<kbd>` tag style ([mse58760](http://meta.stackexchange.com/q/58760)), just in case someone does something silly like [sticking a huge image inside `<kbd>` tags](http://meta.stackoverflow.com/q/273103).
 
 **Changes in 1.24.1:**
 
