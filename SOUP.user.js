@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.0
+// @version     1.25.1
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -792,6 +792,18 @@ fixes.mse240485 = {
 		};
 	}
 };
+fixes.mse240417 = {
+	title:	"Inside or outside?",
+	url:	"http://meta.stackoverflow.com/q/240417",
+	script:	function () {
+		// we don't need a full content filter; just the Ajax hook should be enough
+		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
+			SOUP.log( "running mse240417 fix" );
+			$('.comment-user > .mod-flair').each( function () { $(this).insertAfter(this.parentNode) } );
+		} ).code();
+	}
+};
+
 
 
 //
@@ -1086,7 +1098,7 @@ var soupInit = function () {
 	// the function will be passed a jQuery selector to process.
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
-	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\/|^\/review\/(next-task|task-reviewed)\b/;
+	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/(edit-submit|comments))\/|^\/review\/(next-task|task-reviewed)\b/;
 	SOUP.addContentFilter = function ( filter, key, selector ) {
 		key = key || 'content filter';
 		SOUP.hookEditPreview( function (editor, postfix) {
