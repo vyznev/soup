@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.1
+// @version     1.25.2
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -328,13 +328,13 @@ fixes.mse217779 = {
 	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > * { opacity: 1 }",
 	script:	function () {
-		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers diffrently
+		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
 			var spoiler = $(where);
 			if ( ! spoiler.hasClass('spoiler') ) spoiler = spoiler.find('.spoiler');
 			spoiler.addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>');
 		};
-		SOUP.addContentFilter( fixSpoilers, 'spoiler fix' );
+		SOUP.addContentFilter( fixSpoilers, 'spoiler fix', document, ['load', 'post', 'preview'] );
 		$(document).on( 'mouseover', '.spoiler', function () {
 			SOUP.try( 'spoiler fix fallback', fixSpoilers, [this] );
 		} );
@@ -581,7 +581,7 @@ fixes.mse227975 = {
 fixes.boardgames1152 = {
 	title:	"Can the Magic card auto link feature be improved?",
 	url:	"http://meta.boardgames.stackexchange.com/q/1152",
-	credit:	"Alex P",
+	credit:	"based on idea by Alex P",
 	sites:	/^(meta\.)?boardgames\./,
 	script:	function () {
 		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
@@ -607,7 +607,7 @@ fixes.boardgames1152 = {
 				this.nodeValue = this.nodeValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 			} );
 		};
-		SOUP.hookAjax( SOUP.contentFilterRegexp, fixCardLinks );
+		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', document, ['load', 'post', 'preview'] );
 		fixCardLinks();
 		
 		// related issue: card links are not parsed in edit preview
@@ -738,10 +738,9 @@ fixes.mse266852 = {
 	url:	"http://meta.stackoverflow.com/q/266852",
 	credit:	"based on script by Cameron Bernhardt (AstroCB)",
 	script:	function () {
-		// we don't need a full content filter; just the Ajax hook should be enough
-		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
+		SOUP.addContentFilter( function () {
 			$('div[id^="comments-link-"] .js-link-separator:not(.lsep)').addClass('lsep').text('|');
-		} ).code();
+		}, 'mse266852', ['load', 'post'] );
 	}
 };
 fixes.mse239549 = {
@@ -796,11 +795,9 @@ fixes.mse240417 = {
 	title:	"Inside or outside?",
 	url:	"http://meta.stackoverflow.com/q/240417",
 	script:	function () {
-		// we don't need a full content filter; just the Ajax hook should be enough
-		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
-			SOUP.log( "running mse240417 fix" );
+		SOUP.addContentFilter( function () {
 			$('.comment-user > .mod-flair').each( function () { $(this).insertAfter(this.parentNode) } );
-		} ).code();
+		}, 'mse240417', document, ['load', 'comments'] );
 	}
 };
 
@@ -1077,7 +1074,7 @@ var soupInit = function () {
 	
 	// utility: run code after any matching AJAX request
 	SOUP.hookAjax = function ( regex, code, delay ) {
-		if ( typeof(delay) === 'undefined' ) delay = 10;
+		if ( typeof(delay) === 'undefined' ) delay = 0;
 		var hook = { regex: regex, code: code, delay: delay };
 		SOUP.ajaxHooks.push( hook );
 		return hook;  // for chaining
@@ -1098,28 +1095,38 @@ var soupInit = function () {
 	// the function will be passed a jQuery selector to process.
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
-	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/(edit-submit|comments))\/|^\/review\/(next-task|task-reviewed)\b/;
-	SOUP.addContentFilter = function ( filter, key, selector ) {
+	SOUP.contentFilters = { setup: [], post: [], comments: [], preview: [], chat: [] };
+	SOUP.addContentFilter = function ( filter, key, selector, events ) {
 		key = key || 'content filter';
-		SOUP.hookEditPreview( function (editor, postfix) {
-			SOUP.try( key, filter, ['#wmd-preview' + postfix] );
-		} );
-		SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
-			SOUP.try( key, filter, ['#content'] );  // TODO: better selector?
-		} );
-		if ( SOUP.isChat ) SOUP.chatContentFilters.push( { key: key, filter: filter } );
-		SOUP.try( key, filter, [selector || document] );
-	};
-	
-	// run content filters for chat whenever an event arrives
-	SOUP.chatContentFilters = [];
-	SOUP.runChatContentFilters = function () {
-		SOUP.chatContentFiltersPending = false;
-		var filters = SOUP.chatContentFilters;
-		for ( var i = 0; i < filters.length; i++ ) {
-			SOUP.try( filters[i].key, filters[i].filter, ["#chat-body"] );
+		events = events || Object.getOwnPropertyNames( SOUP.contentFilters );
+		for ( var i = 0; i < events.length; i++ ) {
+			if (events[i] == 'load') SOUP.try( key, filter, [selector || document] );  // KLUGE
+			else SOUP.contentFilters[events[i]].push( { key: key, filter: filter } );
 		}
 	};
+	SOUP.runContentFilters = function ( eventType, selector ) {
+		var filters = SOUP.contentFilters[eventType] || [];
+		for ( var i = 0; i < filters.length; i++ ) {
+			SOUP.try( filters[i].key, filters[i].filter, [selector] );
+		}
+	};
+
+	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\/|^\/review\/(next-task|task-reviewed)\b/;
+	SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
+		SOUP.runContentFilters( 'post', '#content' );  // TODO: better selector?
+	} );
+	SOUP.hookAjax( /^\/posts\/(\d+)\/comments\b/, function ( event, xhr, settings ) {
+		var match = /^\/posts\/(\d+)\/comments\b/.exec( settings.url );
+		SOUP.runContentFilters( 'comments', [match ? '#comments-' + match[1] : '#content'] );
+	} );
+	SOUP.hookEditPreview( function (editor, postfix) {
+		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
+	} );
+	SOUP.runChatContentFilters = function () {
+		SOUP.chatContentFiltersPending = false;
+		SOUP.runContentFilters( 'chat', '#chat-body' );
+	};
+	
 	// hack the WebSocket interface so that we're informed of chat events
 	if ( SOUP.isChat && window.WebSocket ) {
 		var originRegexp = /^wss?:\/\/chat\.sockets\.stackexchange\.com(\/|$)/;

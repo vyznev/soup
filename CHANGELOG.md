@@ -9,6 +9,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [scifi5097: Username is hard to read in comments posted by the OP on meta](http://meta.scifi.stackexchange.com/q/5097) (CSS, meta.scifi.SE only)
 * [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836) (CSS, salesforce.SE only)
+* [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
+
+**Other changes:**
+
+* Content filters were not applied to new comments loaded via Ajax; fixed.
+* Made the content filter mechanism more flexible, so that filters can be made to run only on specific events.
+* Made Ajax hooks run immediately by default to minimize flicker; let's see if this breaks anything...
 
 1.24 (7 Oct 2014)
 ====
