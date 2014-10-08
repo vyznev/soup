@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.3
+// @version     1.25.4
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -182,6 +182,12 @@ fixes.mse169225 = {
 	url:	"http://meta.stackexchange.com/q/169225",
 	// .vote added to ensure higher specificity than the physics5773 fix
 	css:	".deleted-answer .vote .bounty-vote-off { display: none }"
+};
+fixes.mse84296 = {
+	title:	"RTL text can mess up comment timestamps",
+	url:	"http://meta.stackexchange.com/q/84296",
+	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
+	css:	".comment-copy, .comment-user { unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
 };
 
 
@@ -798,6 +804,14 @@ fixes.mse240417 = {
 		SOUP.addContentFilter( function () {
 			$('.comment-user > .mod-flair').each( function () { $(this).insertAfter(this.parentNode) } );
 		}, 'mse240417', document, ['load', 'comments'] );
+	}
+};
+fixes.mse240102 = {
+	title:	"Lightbox sometimes doesn't go away when popup is closed in user profile editor",
+	url:	"http://meta.stackoverflow.com/q/240102",
+	script:	function () {
+		if ( ! /^\/users\/edit\/\d+\b/.test( location.pathname ) ) return;
+		$(document).on('closePopups', function () { $('#lightbox').fadeOutAndRemove() } )
 	}
 };
 
