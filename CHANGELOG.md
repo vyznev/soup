@@ -7,6 +7,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 A relatively fast-track release for [mse240485](http://meta.stackexchange.com/q/240485) and [mse240486](http://meta.stackexchange.com/q/240486), which both involve loss of UI functionality.  Also includes a couple of new lower priority fixes, and one internal fix to a SOUP-induced UI regression on Chrome.
 
+**Changes in 1.24.2:**
+
+* Added `max-width: 100%` to the `<kbd>` tag style ([mse58760](http://meta.stackexchange.com/q/58760)), just in case someone does something silly like [sticking a huge image inside `<kbd>` tags](http://meta.stackoverflow.com/q/273103).
+
 **Changes in 1.24.1:**
 
 * Removed the [mse240553](http://meta.stackexchange.com/q/240553) fix added in 1.24.0, as it's no longer needed.
