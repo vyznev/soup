@@ -52,6 +52,7 @@ SOUP v1.25 includes fixes or workarounds for the following issues:
 * [Badge symbol in notification is of the site you're on, not where badge was earned](http://meta.stackexchange.com/q/233517) (CSS)
 * [Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225) (CSS)
 * [RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296) (CSS)
+* [Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710) (CSS)
 * [Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (CSS, skeptics.SE only)
 * [“Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (CSS, partially math.SE specific)
 * [Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (CSS, japanese.SE only)

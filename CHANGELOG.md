@@ -12,6 +12,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
 * [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
 * [mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296) (CSS)
+* [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710) (CSS)
 
 **Other changes:**
 
