@@ -193,7 +193,7 @@ fixes.mse84296 = {
 fixes.mse240710 = {
 	title:	"Was the fringe always there on the up-rep icon?",
 	url:	"http://meta.stackexchange.com/q/240710",
-	css:	".topbar .unread-count { min-height: 11px }"
+	css:	".topbar .unread-count { min-height: 11px; min-width: 5px }"
 };
 
 
