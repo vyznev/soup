@@ -826,14 +826,15 @@ fixes.mse240790 = {
 	url:	"http://meta.stackoverflow.com/q/240790",
 	script:	function () {
 		SOUP.hookAjax( /^\/users\/login\/global\b/, function ( event, xhr, settings ) {
-			var match = /[?&]returnurl=((https?:\/\/|\/)[^&]*)/.exec(location.search);
+			var match = /[?&]returnurl=((https?:\/\/|\/)[^&]*)/.exec( location.search );
 			if (match) {
 				var url = decodeURIComponent( match[1] );
-				var jsCode = "location=(" + JSON.stringify( url ) + ")";
+				var jsCode = "location=" + JSON.stringify( url );
 			} else {
 				var jsCode = "location.reload(true)";
 			}
-			$('#overlay-header a[href="%24url%24"]').attr( 'href', 'javascript:' + jsCode );
+			var jsUrl = 'javascript:' + encodeURIComponent( jsCode );
+			$('#overlay-header a[href="%24url%24"]').attr( 'href', jsUrl );
 		} );
 	}
 };
