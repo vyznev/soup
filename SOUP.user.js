@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.6
+// @version     1.25.7
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -821,7 +821,22 @@ fixes.mse240102 = {
 		$(document).on('closePopups', function () { $('#lightbox').fadeOutAndRemove() } )
 	}
 };
-
+fixes.mse240790 = {
+	title:	"Welcome back, user. Click here to get error 404",
+	url:	"http://meta.stackoverflow.com/q/240790",
+	script:	function () {
+		SOUP.hookAjax( /^\/users\/login\/global\b/, function ( event, xhr, settings ) {
+			var match = /[?&]returnurl=((https?:\/\/|\/)[^&]+)/.exec(location.search);
+			if (match) {
+				var url = decodeURIComponent( match[1] );
+				var jsCode = "location=(" + JSON.stringify( url ) + ")";
+			} else {
+				var jsCode = "location.reload(true)";
+			}
+			$('#overlay-header a[href="$url$"], #overlay-header a[href="%24url%24"]').attr( 'href', 'javascript:' + jsCode );
+		} );
+	}
+};
 
 
 //

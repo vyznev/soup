@@ -93,6 +93,7 @@ SOUP v1.25 includes fixes or workarounds for the following issues:
 * [“Show more comments” link breaks for unregistered users if a comment is posted after page load](http://meta.stackexchange.com/q/240485)
 * [Inside or outside?](http://meta.stackoverflow.com/q/240417)
 * [Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
+* [Welcome back, user. Click here to get error 404](http://meta.stackoverflow.com/q/240790)
 * [All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725) (https)
 * [Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304) (https)
 * [Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343) (https)
