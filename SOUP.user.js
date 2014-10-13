@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.8
+// @version     1.25.9
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -395,6 +395,7 @@ fixes.mse207526 = {
 	title:	"Cannot navigate into the multicollider with keyboard",
 	url:	"http://meta.stackexchange.com/q/207526",
 	script:	function () {
+		if ( !window.StackExchange || !StackExchange.topbar ) return;
 		SOUP.hookAjax( /^\/topbar\//, function () {
 			$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
 			$('.js-inbox-button').after($('.inbox-dialog'));
@@ -402,14 +403,24 @@ fixes.mse207526 = {
 		} );
 		// fix bug causing clicks on the site search box to close the menu
 		// XXX: this would be a lot easier if jQuery bubbled middle/right clicks :-(
-		$._data(document, 'events').click.forEach( function (h) {
-			if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
-			var oldHandler = h.handler;
-			h.handler = function (e) {
-				if ( $(e.target).closest('.topbar-dialog').length ) return;
-				return oldHandler.apply(this, arguments);
-			};
-		} );
+		var fixTopbarClickHandler = function () {
+			var clickHandlers = $._data(document, 'events').click || [];
+			clickHandlers.forEach( function (h) {
+				if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
+				var oldHandler = h.handler;
+				h.handler = function (e) {
+					if ( $(e.target).closest('.topbar-dialog').length ) return;
+					return oldHandler.apply(this, arguments);
+				};
+			} );
+		};
+		SOUP.try( 'topbar click handler fix', fixTopbarClickHandler );
+		// XXX: on chat, this fix might run before the topbar is initialized
+		var oldInit = StackExchange.topbar.init;
+		StackExchange.topbar.init = function () {
+			oldInit.apply(this, arguments);
+			SOUP.try( 'topbar click handler fix (deferred)', fixTopbarClickHandler );
+		};
 	}
 };
 fixes.mse129593 = {
@@ -793,7 +804,8 @@ fixes.mse240485 = {
 	title:	"“Show more comments” link breaks for unregistered users if a comment is posted after page load",
 	url:	"http://meta.stackexchange.com/q/240485",
 	script: function () {
-		var postUiProto = Object.getPrototypeOf( StackExchange.comments.uiForPost('#question .comments') );
+		if ( !window.StackExchange || !StackExchange.comments ) return;
+		var postUiProto = Object.getPrototypeOf( StackExchange.comments.uiForPost('.comments:first') );
 		var oldSetCommentsMenu = postUiProto.setCommentsMenu;
 		postUiProto.setCommentsMenu = function (commentsCount) {
 			var rv = oldSetCommentsMenu.apply(this, arguments);
@@ -1159,9 +1171,57 @@ var soupInit = function () {
 	SOUP.hookEditPreview( function (editor, postfix) {
 		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
 	} );
+	SOUP.chatContentFiltersPending = false;
 	SOUP.runChatContentFilters = function () {
 		SOUP.chatContentFiltersPending = false;
 		SOUP.runContentFilters( 'chat', '#chat-body' );
+	};
+
+	// utility for monitoring SE chat events
+	SOUP.chatHooks = [];
+	SOUP.hookChat = function ( code, key ) {
+		key = key || 'chat event hook';
+		SOUP.chatHooks.push( { code: code, key: key } );
+	};
+	SOUP.chatEventsSeen = false;
+	SOUP.runChatHooks = function ( data, source, url ) {
+		// if this looks like an update (not initial request), stop filter polling
+		if ( !SOUP.chatEventsSeen && /^\{"r\d+":/.test( data ) ) {
+			SOUP.log( "soup received chat " + source + " message, stopping filter polling" );
+			SOUP.chatEventsSeen = true;
+			SOUP.stopChatFilterPoll();
+		}
+		// run chat event hooks
+		var hooks = SOUP.chatHooks;
+		for ( var i = 0; i < hooks.length; i++ ) {
+			SOUP.try( hooks[i].key, hooks[i].code, arguments );
+		}
+		// if there seems to be some actual data, run content filters
+		if ( /"e":/.test( data ) ) {
+			if ( document.hidden ) SOUP.chatContentFiltersPending = true;
+			else SOUP.runChatContentFilters();
+		}
+	};
+	// SOUP.hookChat( function ( data, src, url ) { SOUP.log( src, data, url, document.hidden ) }, 'debug chat event hook' );
+
+	// Here's how we handle content filters for chat:
+	// * When the tab is visible, we run content filters on every chat
+	//   event, or every 0.5 seconds if we can't capture chat events.
+	// * When the tab is invisible, we mark filters as pending on chat
+	//   events, and stop the 0.5 second polling loop.
+	// * When the tab becomes visible, we run filters if pending, and
+	//   restart the polling if we haven't seen any chat events.
+
+	SOUP.chatFilterPollID = null;
+	SOUP.runChatFilterPoll = function () {
+		SOUP.chatFilterPollID = null;
+		if ( !SOUP.isChat || document.hidden || SOUP.chatEventsSeen ) return;
+		SOUP.runChatContentFilters();
+		SOUP.chatFilterPollID = setTimeout( SOUP.runChatFilterPoll, 500 );
+	};
+	SOUP.stopChatFilterPoll = function () {
+		if ( SOUP.chatFilterPollID !== null ) clearTimeout( SOUP.chatFilterPollID );
+		SOUP.chatFilterPollID = null;
 	};
 	
 	// hack the WebSocket interface so that we're informed of chat events
@@ -1172,13 +1232,9 @@ var soupInit = function () {
 			if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
 			if ( !SOUP.websocketHackActive ) SOUP.log( "soup websocket hack active" );  // It's working!
 			SOUP.websocketHackActive = true;
-			if ( /e/.test( msg.data ) && !SOUP.chatContentFiltersPending ) {
-				SOUP.chatContentFiltersPending = true;
-				SOUP.requestAnimationFrame( SOUP.runChatContentFilters );
-			}
+			SOUP.runChatHooks( msg.data, 'websocket' );
 			return rv;
 		};
-		
 		try {
 			SOUP.log( "soup initializing websocket hack" );
 			var RealWebSocket = SOUP.RealWebSocket = WebSocket;
@@ -1199,25 +1255,19 @@ var soupInit = function () {
 				catch (e) { SOUP.log( "applying soup websocket hack failed:", e ) }
 				return sock;
 			};
-			
 			// copy static properties of the real WebSocket
 			for (var prop in RealWebSocket) WebSocket[prop] = RealWebSocket[prop];
 			WebSocket.prototype = RealWebSocket.prototype;
 		}
-		catch (e) { SOUP.log( "soup websocket hack failed:", e ) }
-		
-		// fall back to polling in case the websocket hack doesn't work
-		var pollForChatUpdates = function () {
-			if ( SOUP.websocketHackActive ) return;
-			SOUP.requestAnimationFrame( function () {
-				SOUP.runChatContentFilters();
-				setTimeout( pollForChatUpdates, 500 );
-			} );
-		};
-		setTimeout( pollForChatUpdates, 500 );
+		catch (e) { SOUP.log( "soup websocket hack failed:", e ) }		
 	}
-	// hook the non-websocket event interface too, in case websockets are disabled
-	if ( SOUP.isChat ) SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, SOUP.runChatContentFilters );
+	if ( SOUP.isChat ) {		
+		// hook the non-websocket event interface too, in case websockets are disabled
+		SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, function ( event, xhr, settings ) {
+			SOUP.runChatHooks( xhr.responseText, 'ajax', settings.url );
+		} );
+	}
+
 	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
@@ -1254,7 +1304,20 @@ var soupLateSetup = function () {
 			}
 		}
 	} );
+
+	// start chat content filter polling
+	if ( SOUP.isChat ) $( document ).ready( function () {
+		document.addEventListener( 'visibilitychange', function () {
+			if ( SOUP.chatContentFiltersPending ) SOUP.runChatContentFilters();
+			if ( SOUP.chatEventsSeen ) return;
+			// if we're on chat but haven't seen any chat events, run filters every 0.5 s
+			if ( document.hidden ) SOUP.stopChatFilterPoll();
+			else if ( SOUP.chatFilterPollID === null ) SOUP.runChatFilterPoll(); 
+		} );
+		SOUP.runChatFilterPoll();
+	} );
 	
+	SOUP.isReady = true;
 	SOUP.log( 'soup setup complete' );
 };
 
