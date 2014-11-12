@@ -23,6 +23,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Content filters are now applied to answers loaded in review by the [mse172931](http://meta.stackexchange.com/q/172931) fix.
 * New utility function `SOUP.hookChat()` for monitoring chat events.
 * Chat content filters now use the page visibility API to only run in active tabs.
+* Removed unused `SOUP.requestAnimationFrame()` compatibility wrapper.
 
 1.24 (7 Oct 2014)
 ====

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.9
+// @version     1.25.10
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1096,11 +1096,6 @@ var soupInit = function () {
 		if ( window.console ) console.log.apply( console, arguments );
 	};
 	
-	// compatibility wrapper for window.requestAnimationFrame()
-	SOUP.requestAnimationFrame = function ( code ) {
-		if ( window.requestAnimationFrame ) requestAnimationFrame( code );
-		else setTimeout( code, 10 );
-	};
 	
 	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
 	// note: use editor.getConverter() to access the Markdown converter
