@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.13
+// @version     1.25.14
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -288,7 +288,9 @@ fixes.salesforce835 = {
 };
 
 
-// chat CSS fixes:
+//
+// Chat-specific fixes:
+//
 fixes.mse155308 = {
 	title:	"Ignoring somebody screws up the avatar list",
 	url:	"http://meta.stackexchange.com/q/155308",
@@ -311,16 +313,40 @@ fixes.mse222509 = {
 	css:	".ob-post-tags a:hover, .ob-user-tags a:hover, " +
 		"a.soup-mse222509-fix:hover { text-decoration: none }",
 	script:	function () {
-		if ( ! SOUP.isChat ) return;
 		$('#main').on('mouseover', '.ob-post-tag, .ob-user-tag', function () {
 			$(this).closest('a').not('.soup-mse222509-fix').addClass('soup-mse222509-fix');
 		} );
 	}
 };
+fixes.mse134268 = {
+	title:	"U+0008 inserted into chat @-pings",
+	url:	"http://meta.stackexchange.com/q/134268",
+	sites:	/^chat\./,
+	script:	function () {
+		$('body#chat-body').on( 'keypress', function (e) {
+			if ( e.ctrlKey || e.altKey || e.metaKey ) return;
+			if ( !e.which || e.which == 32 || e.which >= 32 ) return;
+			e.stopPropagation();
+		} );
+	}
+};
+fixes.mse224233 = {
+	title:	"Problem in css style loading in Search Bar after refresh page when using FF",
+	url:	"http://meta.stackexchange.com/q/224233",
+	sites:	/^chat\./,
+	script:	function () {
+		$('#search:not([placeholder])').off('focus blur').attr( 'placeholder', function () {
+			var $this = $(this);
+			if ( $this.closest('#roomsearch').length ) return 'filter rooms';
+			else if ( $this.closest('#usersearch').length ) return 'filter users';
+			else return 'search';
+		} ).filter('.watermark').val('').removeClass('watermark');
+	}
+};
 
 
 //
-// Fixes that need scripting (run in page context after jQuery / SE framework is ready):
+// General fixes that need scripting (run in page context after jQuery / SE framework is ready):
 //
 fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
@@ -338,33 +364,6 @@ fixes.mse217779 = {
 		$(document).on( 'mouseover', '.spoiler', function () {
 			SOUP.try( 'spoiler fix fallback', fixSpoilers, [this] );
 		} );
-	}
-};
-fixes.mse134268 = {
-	title:	"U+0008 inserted into chat @-pings",
-	url:	"http://meta.stackexchange.com/q/134268",
-	sites:	/^chat\./,
-	script:	function () {
-		if ( !SOUP.isChat ) return;
-		$('body#chat-body').on( 'keypress', function (e) {
-			if ( e.ctrlKey || e.altKey || e.metaKey ) return;
-			if ( !e.which || e.which == 32 || e.which >= 32 ) return;
-			e.stopPropagation();
-		} );
-	}
-};
-fixes.mse224233 = {
-	title:	"Problem in css style loading in Search Bar after refresh page when using FF",
-	url:	"http://meta.stackexchange.com/q/224233",
-	sites:	/^chat\./,
-	script:	function () {
-		if ( ! SOUP.isChat ) return;
-		$('#search:not([placeholder])').off('focus blur').attr( 'placeholder', function () {
-			var $this = $(this);
-			if ( $this.closest('#roomsearch').length ) return 'filter rooms';
-			else if ( $this.closest('#usersearch').length ) return 'filter users';
-			else return 'search';
-		} ).filter('.watermark').val('').removeClass('watermark');
 	}
 };
 fixes.mse78989 = {
@@ -590,67 +589,6 @@ fixes.mse227975 = {
 		);
 	}
 };
-fixes.boardgames1152 = {
-	title:	"Can the Magic card auto link feature be improved?",
-	url:	"http://meta.boardgames.stackexchange.com/q/1152",
-	credit:	"based on idea by Alex P",
-	sites:	/^(meta\.)?boardgames\./,
-	script:	function () {
-		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
-		$('body').on( 'click', 'a.soup-mtg-autocard', function (event) {
-			if ( event.button !== 0 ) return;
-			var link = $(this).attr('href');
-			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=770, height=890");
-			return false;
-		} );
-		
-		// change the URLs in server-side generated card links, fix double-escaping
-		var fixCardLinks = function () {
-			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
-			// remove / prevent attachment of standard mtg.js click handler
-			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click');
-			cardLinks.attr( 'href', function (i, href) {
-				return href.replace(
-					/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
-					'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
-				).replace( /%26lt%3[Bb]/g, '%3C' ).replace( /%26gt%3[Bb]/g, '%3E' ).replace( /%26amp%3[Bb]/g, '%26' );
-			} );
-			SOUP.forEachTextNode( cardLinks, function () {
-				this.nodeValue = this.nodeValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-			} );
-		};
-		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', document, ['load', 'post', 'preview'] );
-		fixCardLinks();
-		
-		// related issue: card links are not parsed in edit preview
-		// this code is loosely based on makeTagLinks() in http://dev.stackoverflow.com/content/Js/wmd.en.js
-		SOUP.addEditorCallback( function (editor, postfix) {
-			editor.getConverter().hooks.chain( 'postConversion', function (text) { try {
-				var excludeRanges = null;
-				return text.replace( /\[mtg:([^\[\]]+)\]/g, function (fullMatch, cardName, offset) { 
-					// don't replace [mtg:] links inside <a> or <code> tags;
-					// but don't bother looking for them unless we actually see such a link 
-					if ( excludeRanges === null ) {
-						var re = /<(a|code)\b[^>]*>.*?<\/\1>/ig, match;
-						excludeRanges = [];
-						while ((match = re.exec(text)) !== null) {
-							excludeRanges.push( match.index, re.lastIndex );
-						}
-					}
-					var skip = false;
-					for (var i = 0; i < excludeRanges.length; i++) {
-						if ( offset < excludeRanges[i] ) break;
-						skip = !skip;
-					}
-					if (skip) return fullMatch;
-					var linkName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-					return '<a class="soup-mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
-						encodeURIComponent(linkName) + '">' + cardName + '</a>';
-				} );
-			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
-		} );
-	}
-};
 fixes.mse231150 = {
 	title:	"Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher",
 	url:	"http://meta.stackexchange.com/q/231150",
@@ -662,22 +600,6 @@ fixes.mse231150 = {
 			while ( elem && !buttonRegex.test(elem.className) ) elem = elem.parentNode;
 			if ( elem ) event.preventDefault();
 		}, false );
-	}
-};
-fixes.french347 = {
-	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
-	url:	"http://meta.french.stackexchange.com/q/347",
-	credit:	"based on idea by Stéphane Gimenez",
-	sites:	/^(meta\.)?french\./,
-	script:	function () {
-		SOUP.addContentFilter( function ( where ) {
-			SOUP.forEachTextNode( where, function () {
-				var fixed = this.nodeValue;
-				fixed = fixed.replace(/(\S) ([:;!?»])/g, '$1\u202F$2');
-				fixed = fixed.replace(/(«) (\S)/g, '$1\u202F$2');
-				if (this.nodeValue != fixed) this.nodeValue = fixed;
-			} );
-		}, 'French space fix' );
 	}
 };
 fixes.mse234680 = {
@@ -826,6 +748,88 @@ fixes.mse243519 = {
 				prev.nodeValue = prev.nodeValue.replace( /^\s*–\xA0\s*$/, " \xA0–\xA0" );
 			} );
 		}, 'mse243519', document, ['load', 'comments'] );
+	}
+};
+
+
+//
+// Site-specific JS fixes:
+//
+fixes.boardgames1152 = {
+	title:	"Can the Magic card auto link feature be improved?",
+	url:	"http://meta.boardgames.stackexchange.com/q/1152",
+	credit:	"based on idea by Alex P",
+	sites:	/^(meta\.)?boardgames\./,
+	script:	function () {
+		// rewrite of http://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
+		$('body').on( 'click', 'a.soup-mtg-autocard', function (event) {
+			if ( event.button !== 0 ) return;
+			var link = $(this).attr('href');
+			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=770, height=890");
+			return false;
+		} );
+		
+		// change the URLs in server-side generated card links, fix double-escaping
+		var fixCardLinks = function () {
+			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
+			// remove / prevent attachment of standard mtg.js click handler
+			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click');
+			cardLinks.attr( 'href', function (i, href) {
+				return href.replace(
+					/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
+					'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
+				).replace( /%26lt%3[Bb]/g, '%3C' ).replace( /%26gt%3[Bb]/g, '%3E' ).replace( /%26amp%3[Bb]/g, '%26' );
+			} );
+			SOUP.forEachTextNode( cardLinks, function () {
+				this.nodeValue = this.nodeValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+			} );
+		};
+		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', document, ['load', 'post', 'preview'] );
+		fixCardLinks();
+		
+		// related issue: card links are not parsed in edit preview
+		// this code is loosely based on makeTagLinks() in http://dev.stackoverflow.com/content/Js/wmd.en.js
+		SOUP.addEditorCallback( function (editor, postfix) {
+			editor.getConverter().hooks.chain( 'postConversion', function (text) { try {
+				var excludeRanges = null;
+				return text.replace( /\[mtg:([^\[\]]+)\]/g, function (fullMatch, cardName, offset) { 
+					// don't replace [mtg:] links inside <a> or <code> tags;
+					// but don't bother looking for them unless we actually see such a link 
+					if ( excludeRanges === null ) {
+						var re = /<(a|code)\b[^>]*>.*?<\/\1>/ig, match;
+						excludeRanges = [];
+						while ((match = re.exec(text)) !== null) {
+							excludeRanges.push( match.index, re.lastIndex );
+						}
+					}
+					var skip = false;
+					for (var i = 0; i < excludeRanges.length; i++) {
+						if ( offset < excludeRanges[i] ) break;
+						skip = !skip;
+					}
+					if (skip) return fullMatch;
+					var linkName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+					return '<a class="soup-mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
+						encodeURIComponent(linkName) + '">' + cardName + '</a>';
+				} );
+			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
+		} );
+	}
+};
+fixes.french347 = {
+	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
+	url:	"http://meta.french.stackexchange.com/q/347",
+	credit:	"based on idea by Stéphane Gimenez",
+	sites:	/^(meta\.)?french\./,
+	script:	function () {
+		SOUP.addContentFilter( function ( where ) {
+			SOUP.forEachTextNode( where, function () {
+				var fixed = this.nodeValue;
+				fixed = fixed.replace(/(\S) ([:;!?»])/g, '$1\u202F$2');
+				fixed = fixed.replace(/(«) (\S)/g, '$1\u202F$2');
+				if (this.nodeValue != fixed) this.nodeValue = fixed;
+			} );
+		}, 'French space fix' );
 	}
 };
 

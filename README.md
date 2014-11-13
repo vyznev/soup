@@ -75,7 +75,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223)
 * [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836)
 
-### Chat CSS fixes
+### Chat-only fixes
 
 These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
 
@@ -110,6 +110,8 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse240790: Dangling signature dash in comments](http://meta.stackoverflow.com/q/240790)
 
 ### Site-specific fixes
+
+These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer of these, since the SE JavaScript framework is shared between all sites, whereas CSS is different for each site.  Thus, these fixes generally involve either rare site-specific customizations, or simply design fixes that cannot be implemented in pure CSS.
 
 * [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152)
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347)

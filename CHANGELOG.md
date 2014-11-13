@@ -28,6 +28,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * New utility function `SOUP.hookChat()` for monitoring chat events.
 * Chat content filters now use the page visibility API to only run in active tabs.
 * Removed unused `SOUP.requestAnimationFrame()` compatibility wrapper.
+* The fix list in README.md is now grouped into sections, just like in the source.
 
 1.24 (7 Oct 2014)
 ====
