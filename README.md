@@ -29,7 +29,7 @@ Included fixes
 
 SOUP v1.25 includes fixes or workarounds for the following issues:
 
-### CSS-only fixes:
+### CSS-only fixes
 
 These are pure CSS fixes.  They will be applied even if JavaScript is disabled on the site.
 
@@ -56,24 +56,24 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225)
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
 
-### Site-specific CSS fixes:
+### Site-specific CSS fixes
 
 These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are applied on on the affected site(s), although a few are applied globally, even though the issue they fix is only apparent on some sites.
 
-* [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636) (skeptics.SE)
-* [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (math.SE; partially applied globally)
-* [japanese1023: Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023) (japanese.SE)
-* [gaming8530: Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (gaming.SE; applied globally)
-* [codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959) (codegolf.SE)
-* [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719) (english.SE)
-* [skeptics2747: Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747) (skeptics.SE)
-* [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751) (meta.SE)
-* [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE)
-* [math16552: Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552) (math.SE)
-* [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223) (meta.SE)
-* [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836) (salesforce.SE)
+* [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636)
+* [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (partially applied globally)
+* [japanese1023: Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023)
+* [gaming8530: Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530) (applied globally)
+* [codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959)
+* [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719)
+* [skeptics2747: Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747)
+* [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751)
+* [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797)
+* [math16552: Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552)
+* [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223)
+* [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836)
 
-### Chat CSS fixes:
+### Chat CSS fixes
 
 These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexchange.com "Stack Exchange Network chat").
 
@@ -83,9 +83,9 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse134268: U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233)
 
-### General fixes:
+### General fixes
 
-* [mse217779: The CSS for spoilers is a mess. Let's fix it!](http://meta.stackexchange.com/q/217779) (supersedes mse110566 CSS fix)
+* [mse217779: The CSS for spoilers is a mess. Let's fix it!](http://meta.stackexchange.com/q/217779)
 * [mse78989: Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [mse207526: Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
 * [mse129593: Un-fade low-score answers on rollover or click](http://meta.stackexchange.com/q/129593)
@@ -100,20 +100,20 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse227975: Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
 * [mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)
-* [Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
+* [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [mse240485: “Show more comments” link breaks for unregistered users if a comment is posted after page load](http://meta.stackexchange.com/q/240485)
-* [Inside or outside?](http://meta.stackoverflow.com/q/240417)
-* [Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
-* [Welcome back, user. Click here to get error 404](http://meta.stackoverflow.com/q/240790)
-* [Dangling signature dash in comments](http://meta.stackoverflow.com/q/243519)
+* [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
+* [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
+* [mse240790: Welcome back, user. Click here to get error 404](http://meta.stackoverflow.com/q/240790)
+* [mse240790: Dangling signature dash in comments](http://meta.stackoverflow.com/q/240790)
 
-### Site-specific fixes:
+### Site-specific fixes
 
-* [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152) (boardgames.SE)
-* [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347) (french.SE)
+* [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152)
+* [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347)
 
-### HTTPS-only fixes:
+### HTTPS-only fixes
 
 These fixes are only applied when using Stack Exchange over HTTPS.  Note that [HTTPS support for Stack Exchange is still experimental.](http://meta.stackexchange.com/questions/116782/better-https-support-for-stack-exchange-sites)
 
