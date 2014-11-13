@@ -17,6 +17,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Removed fixes:**
 
 * [mse240486: Snippets editor won't insert and close on SO](http://meta.stackexchange.com/q/240486)
+* [mse240485: “Show more comments” link breaks for unregistered users if a comment is posted after page load](http://meta.stackexchange.com/q/240485)
 
 **Other changes:**
 

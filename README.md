@@ -102,7 +102,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)
 * [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
-* [mse240485: “Show more comments” link breaks for unregistered users if a comment is posted after page load](http://meta.stackexchange.com/q/240485)
 * [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
 * [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
 * [mse240790: Welcome back, user. Click here to get error 404](http://meta.stackoverflow.com/q/240790)

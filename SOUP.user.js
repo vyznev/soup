@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.12
+// @version     1.25.13
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -779,22 +779,6 @@ fixes.mse239549 = {
 			}
 		} )
 
-	}
-};
-fixes.mse240485 = {
-	title:	"“Show more comments” link breaks for unregistered users if a comment is posted after page load",
-	url:	"http://meta.stackexchange.com/q/240485",
-	script: function () {
-		if ( !window.StackExchange || !StackExchange.comments ) return;
-		var postUiProto = Object.getPrototypeOf( StackExchange.comments.uiForPost('.comments:first') );
-		var oldSetCommentsMenu = postUiProto.setCommentsMenu;
-		postUiProto.setCommentsMenu = function (commentsCount) {
-			var rv = oldSetCommentsMenu.apply(this, arguments);
-			if ( commentsCount < 1 || ! this.jtBody.data('addlink-disabled') ) return rv
-			this.jCommentsLink.find('.js-show-link').removeClass('disabled-link');
-			this.jCommentsLink.find('.js-add-link, .js-link-separator').addClass('dno');
-			return rv;
-		};
 	}
 };
 fixes.mse240417 = {
