@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.11
+// @version     1.25.12
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -779,13 +779,6 @@ fixes.mse239549 = {
 			}
 		} )
 
-	}
-};
-fixes.mse240486 = {
-	title:	"Snippets editor won't insert and close on SO",
-	url:	"http://meta.stackexchange.com/q/240486",
-	script: function () {
-		$(document).on( 'click', '#lightbox', function () { $(this).mousedown() } )
 	}
 };
 fixes.mse240485 = {

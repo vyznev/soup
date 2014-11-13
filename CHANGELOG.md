@@ -14,6 +14,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse240790: Welcome back, user. Click here to get error 404](http://meta.stackoverflow.com/q/240790)
 * [mse243519: Dangling signature dash in comments](http://meta.stackoverflow.com/q/243519)
 
+**Removed fixes:**
+
+* [mse240486: Snippets editor won't insert and close on SO](http://meta.stackexchange.com/q/240486)
+
 **Other changes:**
 
 * Content filters are now applied to new comments loaded via Ajax.
