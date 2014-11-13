@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.10
+// @version     1.25.11
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -184,12 +184,6 @@ fixes.mse169225 = {
 	// .vote added to ensure higher specificity than the physics5773 fix
 	css:	".deleted-answer .vote .bounty-vote-off { display: none }"
 };
-fixes.mse84296 = {
-	title:	"RTL text can mess up comment timestamps",
-	url:	"http://meta.stackexchange.com/q/84296",
-	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
-	css:	".comment-copy, .comment-user { unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
-};
 fixes.mse240710 = {
 	title:	"Was the fringe always there on the up-rep icon?",
 	url:	"http://meta.stackexchange.com/q/240710",
@@ -285,12 +279,6 @@ fixes.mse239223 = {
 	url:	"http://meta.stackexchange.com/q/239223",
 	sites:	/^meta\.stackexchange\.com$/,
 	css:	".user-show-new .user-rep .rep-amount { padding-right: 10px !important }"
-};
-fixes.scifi5097 = {
-	title:	"Username is hard to read in comments posted by the OP on meta",
-	url:	"http://meta.scifi.stackexchange.com/q/5097",
-	sites:	/^meta\.scifi\./,
-	css:	"a.owner, a.owner:visited { color: #ca4040 }"
 };
 fixes.salesforce835 = {
 	title:	"Div containing 2 minute tour button not big enough",
@@ -848,6 +836,19 @@ fixes.mse240790 = {
 			var jsUrl = 'javascript:' + encodeURIComponent( jsCode );
 			$('#overlay-header a[href="%24url%24"]').attr( 'href', jsUrl );
 		} );
+	}
+};
+fixes.mse243519 = {
+	title:	"Dangling signature dash in comments",
+	url:	"http://meta.stackoverflow.com/q/243519",
+	script:	function () {
+		SOUP.addContentFilter( function () {
+			$('.comment-user').each( function () { 
+				var prev = this.previousSibling;
+				if ( prev.nodeType != 3 ) return;
+				prev.nodeValue = prev.nodeValue.replace( /^\s*–\xA0\s*$/, " \xA0–\xA0" );
+			} );
+		}, 'mse243519', document, ['load', 'comments'] );
 	}
 };
 
