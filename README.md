@@ -3,7 +3,7 @@
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
-The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bugfixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
+The Stack Overflow Unofficial Patch (SOUP) is a project to collect various minor client-side bug fixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
 
 The intent of SOUP is not to make any substantial or controversial changes to the Stack Exchange user interface, but to fix minor problems and omissions that the SE developers have overlooked or haven't got around to fixing yet.  By combining these minor patches into a single user script, they become easier to install and maintain.
 
@@ -11,16 +11,18 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-The easiest way to install SOUP is to use the [GreaseMonkey][GM] (for Firefox) or [TamperMonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
+The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install</kbd>][DL]  
-> <sup>[View source][source] / [GitHub repo][github] / [StackApps post][SA]</sup>
+> <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
 
-SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on StackApps](http://stackapps.com/tags/script/info "'script' tag wiki - StackApps")**.
+The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
+
+SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
 
 **Notes:**
 
-* When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable GreaseMonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+* When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
 
 * SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
 
@@ -142,7 +144,7 @@ SOUP is currently maintained by [Ilmari Karonen][vyznev].  Several of the fixes 
 Contributing
 ------------
 
-If you know a user script or stylesheet patch for SO or other SE sites that would be suitable for inclusion in SOUP, or an unfixed issue that you believe might be worth patching, please let me know (e.g. by posting a comment or an answer the [SOUP page on StackApps][SA]).
+If you know a user script or stylesheet patch for SO or other SE sites that would be suitable for inclusion in SOUP, or an unfixed issue that you believe might be worth patching, please let me know (e.g. by posting a comment or an answer the [SOUP page on Stack Apps][SA]).
 
 To be included in SOUP, a patch should:
 
@@ -163,16 +165,18 @@ See also
 * [SE Modifications — Username autocomplete in comments, inline revision source, and utility links](http://stackapps.com/questions/2138/se-modifications-username-autocomplete-in-comments-inline-revision-source-a)
 * [SE Chat Modifications — Keyboard navigation and commands for chat](http://stackapps.com/questions/2105/se-chat-modifications-keyboard-navigation-and-commands-for-chat)
 * [Official keyboard shortcuts](http://stackapps.com/questions/2567/official-keyboard-shortcuts)
-* ...and other [popular user scripts on StackApps](http://stackapps.com/?tab=scripts)
+* ...and other [popular user scripts on Stack Apps](http://stackapps.com/?tab=scripts)
 
    [SO]: http://stackoverflow.com/ "Stack Overflow"
    [SE]: http://stackexchange.com/ "Stack Exchange Network"
+   [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
    [DL]: https://github.com/vyznev/soup/raw/master/SOUP.user.js "Download / install SOUP from GitHub"
    [source]: https://github.com/vyznev/soup/blob/master/SOUP.user.js "View SOUP source code"
-   [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: GreaseMonkey"
+   [devel]: https://github.com/vyznev/soup/tree/devel "SOUP development branch on GitHub"
+   [devDL]: https://github.com/vyznev/soup/raw/devel/SOUP.user.js "Download / install SOUP (development branch) from GitHub"
+   [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"
    [TM]: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo "Chrome Web Store: Tampermonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
    [vyznev]: http://meta.stackexchange.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Exchange"
-   [github]: https://github.com/vyznev/soup "SOUP repository on GitHub"
-   [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on StackApps"
+   [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on Stack Apps"
    [US]: http://userscripts.org/scripts/show/293219 "Stack Overflow Unofficial Patch on UserScripts.org"
