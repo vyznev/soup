@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.14
+// @version     1.25.15
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -35,6 +35,14 @@
 // LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 // OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 // PERFORMANCE OF THIS SOFTWARE.
+
+// In addition to the license granted above, I, Ilmari Karonen, to the extent I
+// am authorized to do so, and subject to the disclaimer stated above, hereby
+// grant Stack Exchange, Inc. permission to make use of this software in any
+// way they see fit, including but not limited to incorporating all or parts of
+// it within the Stack Exchange codebase, with or without credit to myself.
+// This permission grant does not extend to any code written by third parties,
+// unless said parties also agree to it.
 
 
 ( function () {  // start of anonymous wrapper function (needed to restrict variable scope on Opera)

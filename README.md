@@ -137,10 +137,20 @@ These fixes apply only to sites using [MathJax](http://www.mathjax.org) for LaTe
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363)
 
 
+License
+-------
+
+SOUP is distributed under the [ISC license][ISC], a permissive BSD-style open source license.
+
+In addition, permission is given to Stack Exchange, Inc. to make use of SOUP code in any way they see fit, including but not limited to incorporating all or parts of it within the Stack Exchange codebase, with or without credit.
+
+This SOUP version includes a copy of the [punycode.js](http://mths.be/punycode) library v1.2.4 by [Mathias Bynens](http://mathiasbynens.be/), distributed under the [MIT license][MIT].  The additional permissions granted above do not apply to this library.
+
+
 Credits
 -------
 
-SOUP is currently maintained by [Ilmari Karonen][vyznev].  Several of the fixes are based on suggestions or earlier user scripts made by others; see the [source code][source] and/or the meta.SO links above for details.
+SOUP is currently maintained by [Ilmari Karonen][vyznev].  Some of the fixes are based on suggestions or earlier user scripts made by others; see the [source code][source] and/or the meta.SO links above for details.
 
 
 Contributing
@@ -148,18 +158,7 @@ Contributing
 
 If you know a user script or stylesheet patch for SO or other SE sites that would be suitable for inclusion in SOUP, or an unfixed issue that you believe might be worth patching, please let me know (e.g. by posting a comment or an answer the [SOUP page on Stack Apps][SA]).
 
-To be included in SOUP, a patch should:
-
-* **address a known unfixed issue:** If you find a new interface bug on SO, please [report it on MSE](http://meta.stackexchange.com/questions/ask) first, and give the devs some time to fix it.  There's no hard limit on this, but there's not much point in patching something via SOUP if it's going to be fixed by the devs in a few minutes / hours / days anyway.
-
-* **be simple and fast:** The mean length of individual patches in SOUP (excluding shared infrastructure) is currently around three lines of code.  If adding a new patch would significantly increase the length of SOUP, cause a noticeable performance impact or introduce a significant external dependency (e.g. new syntax highlighting rules), it's probably not suitable.
-
-* **be uncontroversial:** SOUP is intended to be a "least common denominator" patch set for everyone.  While a simple [`[status-declined]`](http://meta.stackexchange.com/tags/status-declined/info "'status-declined' tag wiki - Meta Stack Overflow") doesn't necessarily disqualify an issue from being included in SOUP (sometimes it just means the devs are feeling lazy ;-), if a substantial number of people say they don't want it, it doesn't go in.  In particular, patches that add significant new functionality, significantly change the appearance of the site or [repaint the bikeshed](http://en.wikipedia.org/wiki/Parkinson%27s_Law_of_Triviality) are not suitable for SOUP.
-
-* **be safe and unobtrusive:** This goes with the above points: if any patch in SOUP turns out to cause undesirable side effects (including usability or performance issues) on some platforms, it should be either fixed or removed.
-
-If you notice that any fix included in SOUP is not working for you, causes undesirable side effects or has become obsolete (e.g. because the bug it's working around was fixed), please let me know!
-
+If you'd like to help me out by contributing new fixes directly to SOUP, the [SOUP wiki on GitHub][wiki] has some useful tips.  Any and all contributions will be appreciated!
 
 See also
 --------
@@ -176,9 +175,12 @@ See also
    [source]: https://github.com/vyznev/soup/blob/master/SOUP.user.js "View SOUP source code"
    [devel]: https://github.com/vyznev/soup/tree/devel "SOUP development branch on GitHub"
    [devDL]: https://github.com/vyznev/soup/raw/devel/SOUP.user.js "Download / install SOUP (development branch) from GitHub"
+   [wiki]: https://github.com/vyznev/soup/wiki "SOUP wiki on GitHub"
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"
    [TM]: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo "Chrome Web Store: Tampermonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
    [vyznev]: http://meta.stackexchange.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Exchange"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on Stack Apps"
    [US]: http://userscripts.org/scripts/show/293219 "Stack Overflow Unofficial Patch on UserScripts.org"
+   [ISC]: http://opensource.org/licenses/ISC "ISC license text at the Open Source Initiative"
+   [MIT]: http://opensource.org/licenses/ISC "MIT license text at the Open Source Initiative"
