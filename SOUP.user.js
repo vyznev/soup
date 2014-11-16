@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.15
+// @version     1.25.16
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1149,9 +1149,11 @@ var soupInit = function () {
 	SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
 		SOUP.runContentFilters( 'post', '#content' );  // TODO: better selector?
 	} );
-	SOUP.hookAjax( /^\/posts\/(\d+)\/comments\b/, function ( event, xhr, settings ) {
-		var match = /^\/posts\/(\d+)\/comments\b/.exec( settings.url );
-		SOUP.runContentFilters( 'comments', [match ? '#comments-' + match[1] : '#content'] );
+	var commentRegex = /^\/posts\/((\d+)\/comments|comments\/(\d+))\b/;  // yes, both variants are in use :-(
+	SOUP.hookAjax( commentRegex, function ( event, xhr, settings ) {
+		var match = commentRegex.exec( settings.url );
+		var where = ( match[2] ? '#comments-' + match[2] : '#comment-' + match[3] );
+		SOUP.runContentFilters( 'comments', where );
 	} );
 	SOUP.hookEditPreview( function (editor, postfix) {
 		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
