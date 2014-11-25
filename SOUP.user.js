@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.25.16
+// @version     1.25.17
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -191,6 +191,14 @@ fixes.mse169225 = {
 	url:	"http://meta.stackexchange.com/q/169225",
 	// .vote added to ensure higher specificity than the physics5773 fix
 	css:	".deleted-answer .vote .bounty-vote-off { display: none }"
+};
+fixes.mse84296 = {
+	title:	"RTL text can mess up comment timestamps",
+	url:	"http://meta.stackexchange.com/q/84296",
+	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
+	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
+	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
+	css:	".comment-copy, .comment-user { unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
 };
 fixes.mse240710 = {
 	title:	"Was the fringe always there on the up-rep icon?",

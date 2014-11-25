@@ -56,6 +56,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse167975: Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975)
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](http://meta.stackexchange.com/q/233517)
 * [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225)
+* [mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296)
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
 
 ### Site-specific CSS fixes
