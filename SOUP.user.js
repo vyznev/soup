@@ -66,12 +66,14 @@ fixes.mse138685 = {
 	title:	"Layout fix for Firefox in “Zoom text only” mode",
 	url:	"http://meta.stackexchange.com/q/138685",
 	credit:	"jakub.g",
+	// NOTE 2014-11-26: this is mostly fixed, but the user profile issue persists on SO; keeping until upcoming SO design update
 	css:	"#question-mini-list, .user-header-left," +
 		" .user-panel > .user-panel-content > table { clear: both }"
 };
 fixes.mse114109 = {
 	title:	"Background in OP's user name can obscure text in multiline comments",
 	url:	"http://meta.stackexchange.com/q/114109",
+	// NOTE 2014-11-26: this has been mostly fixed by increasing line-height in comments; remove this fix?
 	css:	".comment-copy { position: relative }"
 };
 fixes.mse143973 = {
@@ -96,6 +98,7 @@ fixes.mse145819 = {
 fixes.mse108046 = {
 	title:	"Mouse cursor doesn't change to pointer when hovering “full site” on mobile",
 	url:	"http://meta.stackexchange.com/q/108046",
+	// NOTE 2014-11-26: this is also partially fixed, but e.g. comment delete links still have the wrong cursor
 	css:	"a[onclick], a:not([name]) { cursor: pointer }"
 };
 // The following fix is mostly made redundant by mse217779, but is included for
@@ -104,12 +107,14 @@ fixes.mse108046 = {
 fixes.mse110566 = {
 	title:	"Does the spoiler markdown work on images?",
 	url:	"http://meta.stackexchange.com/q/110566",
+	// NOTE 2014-11-26: this is fixed on some sites, but still broken e.g. on SO
 	css:	".spoiler:not(:hover) img { visibility: hidden }"
 };
 fixes.mse58760 = {
 	title:	"<kbd> (yes, still <kbd>) doesn't play nice with lists",
 	url:	"http://meta.stackexchange.com/q/58760",
 	credit:	"Krazer",
+	// NOTE 2014-11-26: the main issue seems to have been fixed, but the secondary width/white-space issues still exist; report as new bug?
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body kbd { display: inline-block; max-width: 100%; white-space: normal }"
 };
