@@ -2,10 +2,14 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.25 (development)
+1.26 (10 Dec 2014)
 ====
 
-**New fixes in 1.25.x:**
+It's been a while since the last stable release, again.  I'd been meaning to carry out more systematic browser compatibility and regression testing before the next release, and to find and prune away fixes that may have become unnecessary, but I never got around to finishing that.  However, I've been using the devel version myself on both Firefox and Chrome long enough that I can probably consider it pretty well tested by now.  Opera compatibility is currently untested; if you're using SOUP on Opera and find any issues with it, please let me know!
+
+Most of the changes in this version are back-end tweaks meant to improve performance and stability.  I've also partially rewritten the README page, and started documenting the SOUP internal structure and API at the [SOUP wiki on GitHub](https://github.com/vyznev/soup/wiki) to make third-party contributions easier.  Any feedback is welcome!
+
+**New fixes in 1.26.0:**
 
 * [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836) (CSS, salesforce.SE only)
 * [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
@@ -30,6 +34,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Chat content filters now use the page visibility API to only run in active tabs.
 * Removed unused `SOUP.requestAnimationFrame()` compatibility wrapper.
 * The fix list in README.md is now grouped into sections, just like in the source.
+* The license section now contains an explicit "do whatever you want" license grant to SE, Inc. in addition to the general ISC license.
+* Various other README.md changes, including a direct install link for the devel branch and a link to the SOUP wiki on GitHub.
 
 1.24 (7 Oct 2014)
 ====

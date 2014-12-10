@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.25.17
+// @version     1.26.0
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -14,9 +14,9 @@
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
 // @homepageURL http://stackapps.com/questions/4486/stack-overflow-unofficial-patch
-// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.meta.js
-// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
-// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
+// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
+// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -739,23 +739,6 @@ fixes.mse240102 = {
 	script:	function () {
 		if ( ! /^\/users\/edit\/\d+\b/.test( location.pathname ) ) return;
 		$(document).on('closePopups', function () { $('#lightbox').fadeOutAndRemove() } )
-	}
-};
-fixes.mse240790 = {
-	title:	"Welcome back, user. Click here to get error 404",
-	url:	"http://meta.stackoverflow.com/q/240790",
-	script:	function () {
-		SOUP.hookAjax( /^\/users\/login\/global\b/, function ( event, xhr, settings ) {
-			var match = /[?&]returnurl=((https?:\/\/|\/)[^&]*)/.exec( location.search );
-			if (match) {
-				var url = decodeURIComponent( match[1] );
-				var jsCode = "location=" + JSON.stringify( url );
-			} else {
-				var jsCode = "location.reload(true)";
-			}
-			var jsUrl = 'javascript:' + encodeURIComponent( jsCode );
-			$('#overlay-header a[href="%24url%24"]').attr( 'href', jsUrl );
-		} );
 	}
 };
 fixes.mse243519 = {

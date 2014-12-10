@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.25.x -->
+<!-- version: 1.26.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.25 includes fixes or workarounds for the following issues:
+SOUP v1.26 includes fixes or workarounds for the following issues:
 
 ### CSS-only fixes
 
@@ -107,7 +107,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
 * [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
-* [mse240790: Welcome back, user. Click here to get error 404](http://meta.stackoverflow.com/q/240790)
 * [mse240790: Dangling signature dash in comments](http://meta.stackoverflow.com/q/240790)
 
 ### Site-specific fixes
