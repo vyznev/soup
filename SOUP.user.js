@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.0
+// @version     1.27.1
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -487,12 +487,15 @@ fixes.mse220337 = {
 	script:	function () {
 		if ( !/^\/election\b/.test( location.pathname ) ) return;
 		var base = ( $('#tabs .youarehere').attr('href') || "" ).replace( /#.*/, "" );
-		SOUP.hookAjax( /^\/posts\/\d+\/comments\b/, function () {
-			$('.comment-date').not(':has(a)').wrapInner( function () {
+
+		SOUP.addContentFilter( function () {
+			var n = $('.comment-date').not(':has(a)').wrapInner( function () {
 				var id = $(this).closest('.comment').attr('id');
 				return $('<a class="comment-link"></a>').attr('href', base + '#' + id);
-			} );
-		} ).code();
+			} ).length;
+			SOUP.log( 'mse220337: fixed ' + n + ' comments' );
+		}, 'mse220337 comment filter' );
+
 		// fix post links too, while we're at it
 		$('.post-menu a:contains("link")').attr( 'href', function (i, href) {
 			return href.replace( /^[^#]*/, base );
