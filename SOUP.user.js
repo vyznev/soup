@@ -754,6 +754,20 @@ fixes.mse243519 = {
 		}, 'mse243519', document, ['load', 'comments'] );
 	}
 };
+fixes.mse220611 = {
+	title:	"Blue background on nominee comments only when expanded",
+	url:	"http://meta.stackexchange.com/q/220611",
+	script:	function () {
+		if ( ! /^\/election\b/.test( location.pathname ) ) return;
+		// XXX: This seems to only happen on the initialpage view, so no need to make it a content filter.
+		$('body.election-page div[id^="post-"]').each( function () {
+			var $this = $(this), href = $this.find('.post-signature.owner .user-details > a:first').attr('href');
+			var match = /^\/users\/[0-9]+\//.exec( href );
+			if ( ! match ) return;
+			$this.find( '.comments .comment-user:not(.owner)[href^="' + match[0] + '"]').addClass('owner');
+		} );
+	}
+};
 
 
 //

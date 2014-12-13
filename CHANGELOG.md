@@ -5,6 +5,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.27 (development)
 ====
 
+**New fixes in 1.27.x:**
+
+* [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
+
 1.26 (10 Dec 2014)
 ====
 
