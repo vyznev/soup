@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.1
+// @version     1.27.2
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -768,6 +768,23 @@ fixes.mse220611 = {
 			var match = /^\/users\/[0-9]+\//.exec( href );
 			if ( ! match ) return;
 			$this.find( '.comments .comment-user:not(.owner)[href^="' + match[0] + '"]').addClass('owner');
+		} );
+	}
+};
+fixes.mse121682 = {
+	title:	"Links to election nominations don't work after nominations close",
+	url:	"http://meta.stackexchange.com/q/121682",
+	script:	function () {
+		var regex = /^(https?:)?(\/\/[^\/]+\/election\/\d+)#post-(\d+)$/, repl = '$2?tab=nomination#comment-$3';
+		// part A: if we've followed a broken link, fix it
+		if ( regex.test( location ) && $( location.hash ).length == 0 ) {
+			location.replace( location.toString().replace( regex, '$1' + repl ) );
+		}
+		// part B: fix inbox links directly
+		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
+			$('.topbar .inbox-item a[href*="/election/"]').attr( 'href', function (i, href) {
+				return href.replace( regex, repl );
+			} );
 		} );
 	}
 };

@@ -109,6 +109,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
 * [mse240790: Dangling signature dash in comments](http://meta.stackoverflow.com/q/240790)
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
+* [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
 
 ### Site-specific fixes
 
