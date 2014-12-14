@@ -7,14 +7,18 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.27.x:**
 
-* [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
-
 1.26 (10 Dec 2014)
 ====
 
 It's been a while since the last stable release, again.  I'd been meaning to carry out more systematic browser compatibility and regression testing before the next release, and to find and prune away fixes that may have become unnecessary, but I never got around to finishing that.  However, I've been using the devel version myself on both Firefox and Chrome long enough that I can probably consider it pretty well tested by now.  Opera compatibility is currently untested; if you're using SOUP on Opera and find any issues with it, please let me know!
 
 Most of the changes in this version are back-end tweaks meant to improve performance and stability.  I've also partially rewritten the README page, and started documenting the SOUP internal structure and API at the [SOUP wiki on GitHub](https://github.com/vyznev/soup/wiki) to make third-party contributions easier.  Any feedback is welcome!
+
+**New fixes in 1.26.1:**
+
+This is a quick single-fix release for the math.SE moderator election.
+
+* [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 
 **New fixes in 1.26.0:**
 
