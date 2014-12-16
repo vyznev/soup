@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.2
+// @version     1.27.3
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1323,7 +1323,7 @@ var soupLateSetup = function () {
 	} );
 
 	// start chat content filter polling
-	if ( SOUP.isChat ) $( document ).ready( function () {
+	if ( SOUP.isChat && /^\/rooms\b/.test( location.pathname ) ) $( document ).ready( function () {
 		document.addEventListener( 'visibilitychange', function () {
 			if ( SOUP.chatContentFiltersPending ) SOUP.runChatContentFilters();
 			if ( SOUP.chatEventsSeen ) return;
