@@ -9,12 +9,6 @@ It's been a while since the last stable release, again.  I'd been meaning to car
 
 Most of the changes in this version are back-end tweaks meant to improve performance and stability.  I've also partially rewritten the README page, and started documenting the SOUP internal structure and API at the [SOUP wiki on GitHub](https://github.com/vyznev/soup/wiki) to make third-party contributions easier.  Any feedback is welcome!
 
-**New fixes in 1.26.1:**
-
-This is a quick single-fix releast for the math.SE moderator election.
-
-* [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
-
 **New fixes in 1.26.0:**
 
 * [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836) (CSS, salesforce.SE only)
@@ -41,6 +35,16 @@ This is a quick single-fix releast for the math.SE moderator election.
 * The fix list in README.md is now grouped into sections, just like in the source.
 * The license section now contains an explicit "do whatever you want" license grant to SE, Inc. in addition to the general ISC license.
 * Various other README.md changes, including a direct install link for the devel branch and a link to the SOUP wiki on GitHub.
+
+**New fixes in 1.26.1:**
+
+This is a quick single-fix releast for the math.SE moderator election.
+
+* [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
+
+**Changes in 1.26.2:**
+
+* Fixed a silly SOUP bug causing JS fixes to run before DOM was fully loaded on some browsers.
 
 1.24 (7 Oct 2014)
 ====
