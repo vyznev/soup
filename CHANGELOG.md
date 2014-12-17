@@ -8,6 +8,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.27.x:**
 
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
+* [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 
 1.26 (10 Dec 2014)
 ====

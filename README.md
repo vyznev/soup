@@ -110,6 +110,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse240790: Dangling signature dash in comments](http://meta.stackoverflow.com/q/240790)
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
+* [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 
 ### Site-specific fixes
 

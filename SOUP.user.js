@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.4
+// @version     1.27.5
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -784,6 +784,19 @@ fixes.mse121682 = {
 		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
 			$('.topbar .inbox-item a[href*="/election/"]').attr( 'href', function (i, href) {
 				return href.replace( regex, repl );
+			} );
+		} );
+	}
+};
+fixes.mse230536 = {
+	title:	"Large down-vote count doesn't display negative sign",
+	url:	"http://meta.stackexchange.com/q/230536",
+	script:	function () {
+		SOUP.hookAjax( /^\/posts\/\d+\/vote-counts\b/, function () {
+			// XXX: the downvote element has no class, hence the silly selector
+			$('.vote-count-post > .vote-count-separator + div[style*="maroon"]').each( function () {
+				if ( $(this).children().length > 0 ) return;
+				this.textContent = this.textContent.replace( /^(\s*)(\d)/, '$1-$2' );
 			} );
 		} );
 	}
