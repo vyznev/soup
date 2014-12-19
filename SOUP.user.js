@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.5
+// @version     1.27.6
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -796,7 +796,7 @@ fixes.mse230536 = {
 			// XXX: the downvote element has no class, hence the silly selector
 			$('.vote-count-post > .vote-count-separator + div[style*="maroon"]').each( function () {
 				if ( $(this).children().length > 0 ) return;
-				this.textContent = this.textContent.replace( /^(\s*)(\d)/, '$1-$2' );
+				this.textContent = this.textContent.replace( /^(\s*)([1-9])/, '$1-$2' );
 			} );
 		} );
 	}
