@@ -75,6 +75,8 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [math16552: Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552)
 * [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223)
 * [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836)
+* [math12902: Visited questions are practically indistinguishable in search results](http://meta.math.stackexchange.com/q/12902)
+* [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559)
 
 ### Chat-only fixes
 

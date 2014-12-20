@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.6
+// @version     1.27.7
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -307,6 +307,42 @@ fixes.salesforce835 = {
 	sites:	/^(meta\.)?salesforce\./,
 	css:	"#herobox-mini #controls a.button { line-height: 1.3 }"
 };
+fixes.math12902 = {
+	title:	"Visited questions are practically indistinguishable in search results",
+	url:	"http://meta.math.stackexchange.com/q/12902",
+	sites:	/^math\./,
+	// "body" added to override conflicting SE styles
+	css:	"body a, body .question-hyperlink { color: #145d8a }" + 
+		"body a:visited, body .question-hyperlink:visited { color: #003b52 }" +
+		// stupid reduntant styles...
+		"body .user-show-new .question-hyperlink," +
+		"body .user-show-new .answer-hyperlink," +
+		"body .user-show-new .site-hyperlink { color: #145d8a !important }" +
+		"body .user-show-new .question-hyperlink:visited," +
+		"body .user-show-new .answer-hyperlink:visited," +
+		"body .user-show-new .site-hyperlink:visited { color: #003b52 !important }"
+};
+fixes.math12902_meta = {
+	title:	"Visited questions are practically indistinguishable in search results (meta)",
+	url:	"http://meta.math.stackexchange.com/q/12902",
+	sites:	/^meta\.math\./,
+	// "body" added to override conflicting SE styles
+	css:	"body a { color: #a29131 } body a:visited { color: #736722 }"
+};
+fixes.math16559 = {
+	title:	"Typo in site CSS disables visited link color in community bulletin",
+	url:	"http://meta.math.stackexchange.com/q/16559",
+	sites:	/^math\./,
+	// this rule is already in the site CSS, but without the colon in "a:visited"
+	css:	".module.community-bulletin a:visited { color: #32455d !important }"
+};
+fixes.math16559_meta = {
+	title:	"Typo in site CSS disables visited link color in community bulletin (meta)",
+	url:	"http://meta.math.stackexchange.com/q/16559",
+	sites:	/^meta\.math\./,
+	css:	".module.community-bulletin a:visited { color: #444 !important }"
+};
+
 
 
 //
@@ -979,10 +1015,14 @@ fixes.math11036 = {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
 		} );
 		// similar issue in user profiles:
-		SOUP.hookAjax( /^\/ajax\/users\/panel\/\b/, function () {
+		SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
 			if ( !window.MathJax ) return;
 			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
 			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
+		} );
+		SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
+			if ( !window.MathJax ) return;
+			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
 		} );
 	}
 };
