@@ -11,6 +11,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 * [math12902: Visited questions are practically indistinguishable in search results](http://meta.math.stackexchange.com/q/12902) (CSS, math.SE only)
 * [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559) (CSS, math.SE only)
+* [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162) (CSS, electronics.SE only)
+* [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (CSS)
 
 1.26 (10 Dec 2014)
 ====

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.7
+// @version     1.27.8
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -342,7 +342,19 @@ fixes.math16559_meta = {
 	sites:	/^meta\.math\./,
 	css:	".module.community-bulletin a:visited { color: #444 !important }"
 };
-
+fixes.electronics3162 = {
+	title:	"Error for profile less info",
+	url:	"http://meta.electronics.stackexchange.com/q/3162",
+	sites:	/^(meta\.)?electronics\./,
+	// .user-header added to increase specificity over conflicting SE style
+	css:	".user-show-new .user-header.user-header-slim .data { width: auto !important }"
+};
+fixes.electronics4038 = {
+	title:	"About Me box on user page not in the right place",
+	url:	"http://meta.electronics.stackexchange.com/q/4038",
+	// should be safe to apply on all sites, even if the issue has only been reported on electronics.SE
+	css:	".user-show-new #large-user-info.user-header .user-header-left { margin-right: 0 }"
+};
 
 
 //

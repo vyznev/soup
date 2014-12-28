@@ -77,6 +77,8 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836)
 * [math12902: Visited questions are practically indistinguishable in search results](http://meta.math.stackexchange.com/q/12902)
 * [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559)
+* [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
+* [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
 
 ### Chat-only fixes
 
