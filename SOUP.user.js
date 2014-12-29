@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.8
+// @version     1.27.9
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -421,17 +421,20 @@ fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
 	url:	"http://meta.stackexchange.com/q/217779",
 	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
-		".soup-spoiler:hover > * { opacity: 1 }",
+		".soup-spoiler:hover > *, .soup-spoiler.visible > * { opacity: 1 }",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
 			var spoiler = $(where);
 			if ( ! spoiler.hasClass('spoiler') ) spoiler = spoiler.find('.spoiler');
-			spoiler.addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>');
+			spoiler.addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>').off('click');
 		};
 		SOUP.addContentFilter( fixSpoilers, 'spoiler fix', document, ['load', 'post', 'preview'] );
 		$(document).on( 'mouseover', '.spoiler', function () {
 			SOUP.try( 'spoiler fix fallback', fixSpoilers, [this] );
+		} ).on( 'click', '.soup-spoiler', function () {
+			// XXX: re-remove .spoiler, in case the SE spoiler click handler didn't get properly disabled
+			$(this).toggleClass('visible').removeClass('spoiler');
 		} );
 	}
 };
