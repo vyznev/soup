@@ -46,6 +46,10 @@ This is a quick single-fix releast for the math.SE moderator election.
 
 * Fixed a silly SOUP bug causing JS fixes to run before DOM was fully loaded on some browsers.
 
+**Changes in 1.26.3:**
+
+* The [mse217779](http://meta.stackexchange.com/q/217779) spoiler fix no longer breaks clicking the spoiler to toggle visibility.
+
 1.24 (7 Oct 2014)
 ====
 
