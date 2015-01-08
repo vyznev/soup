@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.9
+// @version     1.27.10
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -660,8 +660,8 @@ fixes.mse227975 = {
 	script:	function () {
 		if ( !/^\/users\/(login|signup)\b/.test( location.pathname ) ) return;
 		$('img.site-logo[src="//cdn.sstatic.net/beta/img/apple-touch-icon.png"]').attr(
-			'src', '//cdn.sstatic.net/' + location.hostname.split('.')[0] + '/img/icon-48.png'
-		);
+			'src', '//cdn.sstatic.net/' + location.hostname.split('.')[0] + '/img/icon-16.png'
+		).css( { width: '16px', height: '16px', margin: '4px' } );
 	}
 };
 fixes.mse231150 = {

@@ -14,6 +14,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162) (CSS, electronics.SE only)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (CSS)
 
+**Other changes:**
+
+* Tweaked the [mse227975](http://meta.stackexchange.com/q/227975) fix to look better on the new login page.
+
 1.26 (10 Dec 2014)
 ====
 
