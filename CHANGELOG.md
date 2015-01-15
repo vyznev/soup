@@ -16,6 +16,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
+* Tweaked the [mse227975](http://meta.stackexchange.com/q/227975) fix to look better on the new login page.
 * Tweaked comment body padding for [mse154788](http://meta.stackexchange.com/q/154788) to avoid link underlines sometimes being hidden on meta.SO.
 
 1.26 (10 Dec 2014)
