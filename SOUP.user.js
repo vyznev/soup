@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.27.9
+// @version     1.27.10
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -140,8 +140,8 @@ fixes.mse210165 = {
 fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"http://meta.stackexchange.com/q/154788",
-	// XXX: padding-right added to work around issue with spurious scroll bars in Chrome; see http://meta.stackexchange.com/q/240352
-	css:	".comment-body { max-width: 628px; padding-right: 2px; overflow: auto; overflow-y: hidden }"
+	// XXX: padding added to work around issue with spurious scroll bars in Chrome; see http://meta.stackexchange.com/q/240352
+	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
