@@ -2,10 +2,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.27 (development)
+1.28 (3 Feb 2015)
 ====
 
-**New fixes in 1.27.x:**
+This version mainly features some older styling fixes that didn't make it into 1.26, released in preparation for a bunch of new fixes involving the Stack Overflow redesign.
+
+**New fixes in 1.28.0:**
 
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
