@@ -59,6 +59,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296)
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
 * [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859)
+* [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156)
 
 ### Site-specific CSS fixes
 

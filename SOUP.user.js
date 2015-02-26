@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.0
+// @version     1.29.1
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -216,6 +216,11 @@ fixes.mse249859 = {
 	credit:	"Doorknob",
 	// "body" added to increase selector precedence over conflicting SE style
 	css:	"body kbd { font-size: 80% }"
+};
+fixes.mse248156 = {
+	title:	"What's the purpose of the tagline in the Bounties section of the profile?",
+	url:	"http://meta.stackexchange.com/q/248156",
+	css:	"#user-tab-bounties #bounties-table .started { display: none }"
 };
 
 
