@@ -232,6 +232,7 @@ fixes.mso284049 = {
 fixes.mso285884 = {
 	title:	"Boxes around sponsored tags have inconsistent height",
 	url:	"http://meta.stackoverflow.com/q/285884",
+	credit:	"p.s.w.g",
 	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
 };
 
