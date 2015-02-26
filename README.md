@@ -60,6 +60,8 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
 * [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156)
+* [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884)
 
 ### Site-specific CSS fixes
 
@@ -81,6 +83,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559)
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
+* [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
 
 ### Chat-only fixes
 

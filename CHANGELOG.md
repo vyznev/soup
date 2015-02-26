@@ -10,6 +10,9 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859) (CSS)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156) (CSS)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
+* [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009) (CSS, SO only)
+* [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049) (CSS)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884) (CSS)
 
 1.28 (3 Feb 2015)
 ====

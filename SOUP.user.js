@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.2
+// @version     1.29.3
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -222,6 +222,18 @@ fixes.mse248156 = {
 	url:	"http://meta.stackexchange.com/q/248156",
 	css:	"#user-tab-bounties #bounties-table .started { display: none }"
 };
+fixes.mso284049 = {
+	title:	"Small bugs in the Stack Overflow editor",
+	url:	"http://meta.stackoverflow.com/q/284049",
+	css:	".wmd-help-button { left: auto !important }" +  // !important needed to override inline style
+		"body .wmd-help-button.active-help { background: transparent }" +
+		"body .answer-help-background { padding-top: 10px }"
+};
+fixes.mso285884 = {
+	title:	"Boxes around sponsored tags have inconsistent height",
+	url:	"http://meta.stackoverflow.com/q/285884",
+	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
+};
 
 
 // site-specific CSS fixes:
@@ -366,6 +378,12 @@ fixes.electronics4038 = {
 	url:	"http://meta.electronics.stackexchange.com/q/4038",
 	// should be safe to apply on all sites, even if the issue has only been reported on electronics.SE
 	css:	".user-show-new #large-user-info.user-header .user-header-left { margin-right: 0 }"
+};
+fixes.mso286009 = {
+	title:	"Change [Ask Question] button style",
+	url:	"http://meta.stackoverflow.com/q/286009",
+	sites:	/^(meta\.)?stackoverflow\./,
+	css:	".nav.askquestion { margin-left: 26px }"
 };
 
 
