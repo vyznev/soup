@@ -213,6 +213,7 @@ fixes.mse240710 = {
 fixes.mse249859 = {
 	title:	"<kbd> tags in headings are too small",
 	url:	"http://meta.stackexchange.com/q/249859",
+	credit:	"Doorknob",
 	// "body" added to increase selector precedence over conflicting SE style
 	css:	"body kbd { font-size: 80% }"
 };
