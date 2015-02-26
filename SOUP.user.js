@@ -903,6 +903,7 @@ fixes.mse248646 = {
 fixes.mso284223 = {
 	title:	"Newly upvoted cool comments get an uncolored score",
 	url:	"http://meta.stackoverflow.com/q/284223",
+	credit:	"thanks to tbodt for locating the bug",
 	script:	function () {
 		var regex = /^\/posts\/comments\/(\d+)\/vote\/[02]\b/;
 		SOUP.hookAjax( regex, function ( event, xhr, settings ) {
