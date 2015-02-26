@@ -117,6 +117,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
+* [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 
 ### Site-specific fixes
 

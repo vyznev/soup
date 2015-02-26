@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.1
+// @version     1.29.2
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -862,6 +862,23 @@ fixes.mse230536 = {
 				this.textContent = this.textContent.replace( /^(\s*)([1-9])/, '$1-$2' );
 			} );
 		} );
+	}
+};
+fixes.mse248646 = {
+	title:	"Comments left by the author of a spam/offensive post should be deleted from the post too",
+	url:	"http://meta.stackexchange.com/q/248646",
+	css:	"body:not(.soup-mse248646-fixed) .deleted-answer .comment { display: none }",
+	script:	function () {
+		$('.deleted-answer').has('.hidden-deleted-answer').each( function () {
+			var $this = $(this), comments = $(this).find('.comment').hide();
+			if ( comments.length == 0 ) return;
+
+			var ui = StackExchange.comments.uiForPost($this);
+			var count = ui.jtBody.data('remaining-comments-count') + comments.length;
+			ui.setCommentsMenu(count);
+			ui.jtBody.data('remaining-comments-count', count);
+		} );
+		$(document.body).addClass('soup-mse248646-fixed');
 	}
 };
 
