@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.28.0 -->
+<!-- version: 1.29.x -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.28 includes fixes or workarounds for the following issues:
+SOUP v1.29 includes fixes or workarounds for the following issues:
 
 ### CSS-only fixes
 
@@ -58,6 +58,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225)
 * [mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296)
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
+* [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859)
 
 ### Site-specific CSS fixes
 
