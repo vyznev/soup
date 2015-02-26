@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.3
+// @version     1.29.4
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -898,6 +898,19 @@ fixes.mse248646 = {
 			ui.jtBody.data('remaining-comments-count', count);
 		} );
 		$(document.body).addClass('soup-mse248646-fixed');
+	}
+};
+fixes.mso284223 = {
+	title:	"Newly upvoted cool comments get an uncolored score",
+	url:	"http://meta.stackoverflow.com/q/284223",
+	script:	function () {
+		var regex = /^\/posts\/comments\/(\d+)\/vote\/[02]\b/;
+		SOUP.hookAjax( regex, function ( event, xhr, settings ) {
+			var commentId = regex.exec( settings.url )[1];
+			$('#comment-' + commentId + ' .comment-score span').each( function () {
+				if ( ! this.className ) this.className = 'cool';
+			} );
+		} );
 	}
 };
 

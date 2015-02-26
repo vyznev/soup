@@ -13,6 +13,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009) (CSS, SO only)
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049) (CSS)
 * [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884) (CSS)
+* [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 
 1.28 (3 Feb 2015)
 ====

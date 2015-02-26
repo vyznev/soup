@@ -121,6 +121,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
+* [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 
 ### Site-specific fixes
 
