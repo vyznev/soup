@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.5
+// @version     1.29.6
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -395,8 +395,9 @@ fixes.mso283939 = {
 fixes.mso283617 = {
 	title:	"The re-design has borked the user flag history page",
 	url:	"http://meta.stackoverflow.com/q/283617",
-	// "body" added to override conflicting SO style; should be safe (and do nothing) on other SE sites
-	css:	"body .bounty-indicator-tab { display: inline-block }"
+	// "body" added to override conflicting SO style; should be safe enough on other SE sites
+	css:	"body .bounty-indicator-tab { display: inline-block }" +
+		"#tabs .bounty-indicator-tab { display: inline }"
 };
 
 
