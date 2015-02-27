@@ -14,6 +14,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049) (CSS)
 * [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884) (CSS)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (CSS)
+* [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617) (CSS)
 
 1.28 (3 Feb 2015)
 ====

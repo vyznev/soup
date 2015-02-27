@@ -65,7 +65,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 
 ### Site-specific CSS fixes
 
-These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are applied on on the affected site(s), although a few are applied globally, even though the issue they fix is only apparent on some sites.
+These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are restricted to the affected site(s), but a few are applied globally, even though the issue they fix is only apparent on some sites.
 
 * [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636)
 * [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (partially applied globally)
@@ -84,6 +84,8 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
+* [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617) (applied globally)
 
 ### Chat-only fixes
 
