@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.7
+// @version     1.29.8
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -234,6 +234,13 @@ fixes.mso285884 = {
 	url:	"http://meta.stackoverflow.com/q/285884",
 	credit:	"p.s.w.g",
 	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
+};
+fixes.mse250081 = {
+	title:	"Retract close vote UI",
+	url:	"http://meta.stackexchange.com/q/250081",
+	credit:	"style suggested by AstroCB",
+	// FIXME: This doesn't work on pt.SO or ja.SO; should find out how this tooltip is translated there
+	css:	".close-question-link[title^=\"You voted to\"] { color: #444 }"
 };
 
 

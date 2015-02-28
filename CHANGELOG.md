@@ -16,6 +16,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 * [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (CSS)
 * [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617) (CSS, SO only)
+* [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081) (CSS)
 
 1.28 (3 Feb 2015)
 ====

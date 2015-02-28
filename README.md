@@ -62,6 +62,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156)
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049)
 * [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884)
+* [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081)
 
 ### Site-specific CSS fixes
 
