@@ -183,6 +183,7 @@ See also
 * [SE Modifications — Username autocomplete in comments, inline revision source, and utility links](http://stackapps.com/questions/2138/se-modifications-username-autocomplete-in-comments-inline-revision-source-a)
 * [SE Chat Modifications — Keyboard navigation and commands for chat](http://stackapps.com/questions/2105/se-chat-modifications-keyboard-navigation-and-commands-for-chat)
 * [Official keyboard shortcuts](http://stackapps.com/questions/2567/official-keyboard-shortcuts)
+* [SE Additional Optional Features](http://stackapps.com/questions/6091/se-additional-optional-features)
 * ...and other [popular user scripts on Stack Apps](http://stackapps.com/?tab=scripts)
 
    [SO]: http://stackoverflow.com/ "Stack Overflow"
