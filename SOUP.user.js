@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.8
+// @version     1.29.9
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -405,6 +405,17 @@ fixes.mso283617 = {
 	sites:	/^(meta\.)?stackoverflow\./,
 	css:	"body .bounty-indicator-tab { display: inline-block }" +
 		"#tabs .bounty-indicator-tab { display: inline }"
+};
+fixes.mse250407a = {
+	title:	"User signature cards on old revisions look funny",
+	url:	"http://meta.stackexchange.com/q/250407",
+	css:	"#revisions table.postcell { width: auto }" // for SO, applied globally
+};
+fixes.mse250407b = {
+	title:	"User signature cards on old revisions look funny",
+	url:	"http://meta.stackexchange.com/q/250407",
+	sites:	/^meta\.stackexchange\./,
+	css:	".post-signature .user-info { padding: 3px }" // for meta.SE only
 };
 
 

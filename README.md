@@ -87,6 +87,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
 * [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
 * [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617)
+* [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (partly applied globally)
 
 ### Chat-only fixes
 
