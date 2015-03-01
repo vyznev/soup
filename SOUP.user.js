@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.9
+// @version     1.29.10
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -416,6 +416,20 @@ fixes.mse250407b = {
 	url:	"http://meta.stackexchange.com/q/250407",
 	sites:	/^meta\.stackexchange\./,
 	css:	".post-signature .user-info { padding: 3px }" // for meta.SE only
+};
+fixes.movies1670 = {
+	title:	"“Upload image” alignment issue",
+	url:	"http://meta.movies.stackexchange.com/q/1670",
+	sites:	/^(meta\.)?movies\./,
+	css:	"#header .popup br { display: inline }"
+};
+fixes.workplace2938 = {
+	title:	"Tags cut off, Similar Questions overflowing",
+	url:	"http://meta.workplace.stackexchange.com/q/2938",
+	sites:	/^(meta\.)?workplace\./,
+	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
+		"#content:after { content: ' '; display: block; height: 0; clear: both }" +
+		"#scroller { background: white; border-radius: 5px }"
 };
 
 

@@ -88,6 +88,8 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
 * [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617)
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (partly applied globally)
+* [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670)
+* [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938)
 
 ### Chat-only fixes
 

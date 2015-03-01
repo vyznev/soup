@@ -18,6 +18,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617) (CSS, SO only)
 * [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081) (CSS)
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (CSS)
+* [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670) (CSS, movies.SE only)
+* [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938) (CSS, workplace.SE only)
 
 1.28 (3 Feb 2015)
 ====
