@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.11
+// @version     1.29.12
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1283,7 +1283,18 @@ fixes.mse229363 = {
 		} );
 	}
 };
-
+fixes.math19650 = {
+	title:	"Post with many lines of display math takes up most of the Questions page",
+	url:	"http://meta.math.stackexchange.com/q/19650",
+	mathjax:	function () {
+		if ( ! /^\/?(questions(\/tagged\/.*)?|search|(users|unanswered)(\/.*)?)?\/?$/.test( location.pathname ) ) return;
+		MathJax.Hub.Register.StartupHook( "End Config", function () {
+			var conf = MathJax.Hub.config.tex2jax;
+			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
+			conf.displayMath = [];
+		} );
+	}
+};
 
 //
 // Initialization code and utility functions:

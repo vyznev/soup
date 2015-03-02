@@ -24,6 +24,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133) (CSS, listed sites only)
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652) (CSS, movies.SE only)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (CSS, graphicdesign.SE only)
+* [math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650) (math)
 
 **Other changes:**
 
