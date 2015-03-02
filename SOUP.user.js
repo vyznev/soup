@@ -1287,7 +1287,7 @@ fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"http://meta.math.stackexchange.com/q/19650",
 	mathjax:	function () {
-		if ( ! /^\/?(questions(\/tagged\/.*)?|search|(users|unanswered)(\/.*)?)?\/?$/.test( location.pathname ) ) return;
+		if ( ! /^\/?(questions(\/tagged\/.*)?|search|(users|unanswered)(\/.*)?)\/?$/.test( location.pathname ) ) return;
 		MathJax.Hub.Register.StartupHook( "End Config", function () {
 			var conf = MathJax.Hub.config.tex2jax;
 			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
