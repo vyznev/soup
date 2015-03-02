@@ -12,7 +12,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009) (CSS, SO only)
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049) (CSS)
-* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884) (CSS)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884) (CSS, SO only)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 * [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (CSS)
 * [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617) (CSS, SO only)
@@ -20,6 +20,14 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (CSS)
 * [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670) (CSS, movies.SE only)
 * [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938) (CSS, workplace.SE only)
+* [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049) (CSS, cooking.SE only)
+* [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133) (CSS, listed sites only)
+* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652) (CSS, movies.SE only)
+* [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (CSS, graphicdesign.SE only)
+
+**Other changes:**
+
+* Improved the [mse154788](http://meta.stackexchange.com/q/154788) fix by adding `word-wrap: break-word` to comment styles; this should avoid the need for scroll bars in many cases.
 
 1.28 (3 Feb 2015)
 ====

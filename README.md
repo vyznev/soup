@@ -61,7 +61,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156)
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049)
-* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884)
 * [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081)
 
 ### Site-specific CSS fixes
@@ -85,11 +84,16 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884)
 * [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
 * [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617)
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (partly applied globally)
 * [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670)
 * [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938)
+* [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049)
+* [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133)
+* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
+* [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415)
 
 ### Chat-only fixes
 

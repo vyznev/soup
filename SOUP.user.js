@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.10
+// @version     1.29.11
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -141,7 +141,7 @@ fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"http://meta.stackexchange.com/q/154788",
 	// XXX: padding added to work around issue with spurious scroll bars in Chrome; see http://meta.stackexchange.com/q/240352
-	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden }"
+	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
@@ -228,12 +228,6 @@ fixes.mso284049 = {
 	css:	".wmd-help-button { left: auto !important }" +  // !important needed to override inline style
 		"body .wmd-help-button.active-help { background: transparent }" +
 		"body .answer-help-background { padding-top: 10px }"
-};
-fixes.mso285884 = {
-	title:	"Boxes around sponsored tags have inconsistent height",
-	url:	"http://meta.stackoverflow.com/q/285884",
-	credit:	"p.s.w.g",
-	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
 };
 fixes.mse250081 = {
 	title:	"Retract close vote UI",
@@ -393,6 +387,13 @@ fixes.mso286009 = {
 	sites:	/^(meta\.)?stackoverflow\./,
 	css:	".nav.askquestion { margin-left: 26px }"
 };
+fixes.mso285884 = {
+	title:	"Boxes around sponsored tags have inconsistent height",
+	url:	"http://meta.stackoverflow.com/q/285884",
+	credit:	"p.s.w.g",
+	sites:	/^(meta\.)?stackoverflow\./,
+	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
+};
 fixes.mso283939 = {
 	title:	"Flag for diamond moderator textarea breaks out of the dialog",
 	url:	"http://meta.stackoverflow.com/q/283939",
@@ -430,6 +431,34 @@ fixes.workplace2938 = {
 	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
 		"#content:after { content: ' '; display: block; height: 0; clear: both }" +
 		"#scroller { background: white; border-radius: 5px }"
+};
+fixes.cooking2049 = {
+	title:	"Ads are cut off on the right",
+	url:	"http://meta.cooking.stackexchange.com/q/2049",
+	credit:	"Jefromi",
+	sites:	/^(meta\.)?cooking\./,
+	css:	"body .everyonelovesstackoverflow { padding: 0 }"
+};
+fixes.mse243133 = {
+	title:	"CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev",
+	url:	"http://meta.stackexchange.com/q/243133",
+	credit:	"Stephen Ostermiller",
+	sites:	/^(meta\.)?(webapps|gaming|gamedev)\./,
+	css:	"body .post-tag:before, body .post-tag:after { z-index: auto }"  // "body" added to override SE style
+};
+fixes.movies1652 = {
+	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
+	url:	"http://meta.movies.stackexchange.com/q/1652",
+	sites:	/^(meta\.)?movies\./,
+	css:	".topbar .topbar-links .topbar-flair .badge1, " +
+		".topbar .topbar-links .topbar-flair .badge2, " +
+		".topbar .topbar-links .topbar-flair .badge3 { margin: 0 }"
+};
+fixes.graphicdesign2415 = {
+	title:	"Design Bug: Tag alert CSS",
+	url:	"http://meta.graphicdesign.stackexchange.com/q/2415",
+	sites:	/^(meta\.)?graphicdesign\./,
+	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #ffeda4 }"  // "body" added to override SE style
 };
 
 
