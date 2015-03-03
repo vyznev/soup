@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.13
+// @version     1.29.14
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -242,7 +242,19 @@ fixes.math19587 = {
 	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
 		"#content:after { content: ' '; display: block; height: 0; clear: both }"
 };
-		
+fixes.mso287222 = {
+	title:	"Clicking between lines fails",
+	url:	"http://meta.stackoverflow.com/q/287222",
+	credit:	"Travis J",
+	// ISSUE: this looks kind of ugly on gaming.SE, cooking.SE and maybe some other sites
+	// that use a border-bottom hack for dotted underlines on links
+	css:	".question-summary .answer-hyperlink, " +
+		".question-summary .question-hyperlink, " +
+		".module.community-bulletin .question-hyperlink, " +
+		".question-summary .result-link a { " +
+		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }"
+};
+
 
 // site-specific CSS fixes:
 fixes.skeptics2636 = {
@@ -403,8 +415,8 @@ fixes.mso285884 = {
 fixes.mso283939 = {
 	title:	"Flag for diamond moderator textarea breaks out of the dialog",
 	url:	"http://meta.stackoverflow.com/q/283939",
-	// should be safe to apply on all sites; sites other than SO already have this exact CSS
-	css:	".mod-attention-subform textarea { font-size: 12px; width: 575px; padding: 5px }"
+	// should be safe to apply on all sites; sites other than SO already have similar CSS
+	css:	".mod-attention-subform textarea { font-size: 12px; width: 600px; padding: 5px }"
 };
 fixes.mso283617 = {
 	title:	"The re-design has borked the user flag history page",

@@ -26,6 +26,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (CSS, graphicdesign.SE only)
 * [math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650) (math)
 * [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/1958) (CSS)
+* [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222) (CSS)
 
 **Other changes:**
 
