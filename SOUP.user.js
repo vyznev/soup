@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.12
+// @version     1.29.13
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -236,7 +236,13 @@ fixes.mse250081 = {
 	// FIXME: This doesn't work on pt.SO or ja.SO; should find out how this tooltip is translated there
 	css:	".close-question-link[title^=\"You voted to\"] { color: #444 }"
 };
-
+fixes.math19587 = {
+	title:	"When editing tags, the bottom of the tag popup is invisible",
+	url:	"http://meta.math.stackexchange.com/q/19587",
+	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
+		"#content:after { content: ' '; display: block; height: 0; clear: both }"
+};
+		
 
 // site-specific CSS fixes:
 fixes.skeptics2636 = {
@@ -428,9 +434,7 @@ fixes.workplace2938 = {
 	title:	"Tags cut off, Similar Questions overflowing",
 	url:	"http://meta.workplace.stackexchange.com/q/2938",
 	sites:	/^(meta\.)?workplace\./,
-	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
-		"#content:after { content: ' '; display: block; height: 0; clear: both }" +
-		"#scroller { background: white; border-radius: 5px }"
+	css:	"#scroller { background: white; border-radius: 5px }"
 };
 fixes.cooking2049 = {
 	title:	"Ads are cut off on the right",
@@ -1273,7 +1277,7 @@ fixes.mse229363 = {
 	mathjax:	function () {
 		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
 		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|earthscience|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats)\.stackexchange\.com|mathoverflow\.net)$/;
+		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|earthscience|engineering|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
@@ -1287,7 +1291,7 @@ fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"http://meta.math.stackexchange.com/q/19650",
 	mathjax:	function () {
-		if ( ! /^\/?(questions(\/tagged\/.*)?|search|(users|unanswered)(\/.*)?)\/?$/.test( location.pathname ) ) return;
+		if ( ! /^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/.test( location.pathname ) ) return;
 		MathJax.Hub.Register.StartupHook( "End Config", function () {
 			var conf = MathJax.Hub.config.tex2jax;
 			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
