@@ -248,6 +248,8 @@ fixes.mso287222 = {
 	credit:	"Travis J",
 	// ISSUE: this looks kind of ugly on gaming.SE, cooking.SE and maybe some other sites
 	// that use a border-bottom hack for dotted underlines on links
+	// list of problem sites: cooking cstheory english gamedev gaming math photo programmers stats tex unix webapps
+	// see also: http://meta.gaming.stackexchange.com/questions/10227/sidebar-links-wobble-when-hovered
 	css:	".question-summary .answer-hyperlink, " +
 		".question-summary .question-hyperlink, " +
 		".module.community-bulletin .question-hyperlink, " +
