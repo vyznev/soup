@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.14
+// @version     1.29.15
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1538,7 +1538,7 @@ var soupLateSetup = function () {
 	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
 	if ( window.$ ) {
 		SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
-		SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('.container').css('background-image') );
+		SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
 	}
 	
 	// run ready queue after jQuery and/or SE framework have loaded
