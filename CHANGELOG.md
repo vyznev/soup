@@ -51,6 +51,10 @@ This version mainly features some older styling fixes that didn't make it into 1
 * Tweaked the [mse227975](http://meta.stackexchange.com/q/227975) fix to look better on the new login page.
 * Tweaked comment body padding for [mse154788](http://meta.stackexchange.com/q/154788) to avoid link underlines sometimes being hidden on meta.SO.
 
+**Changes in 1.28.1 (17 Mar 2015):**
+
+* Fixed beta site detection after SE design change.
+
 1.26 (10 Dec 2014)
 ====
 
