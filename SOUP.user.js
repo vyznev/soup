@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.29.15
+// @version     1.29.16
 // @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1101,7 +1101,7 @@ fixes.mse223725 = {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
 		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
-		var exclude  = /^(blog)\./;  // these sites still load their JS/CSS over HTTP :-(
+		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
 			this.protocol = 'https:';
