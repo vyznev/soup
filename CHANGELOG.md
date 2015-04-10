@@ -25,6 +25,10 @@ This version mainly features some older styling fixes that didn't make it into 1
 
 * Fixed beta site detection after SE design change.
 
+**Changes in 1.28.2 (10 Apr 2015):**
+
+* [mse223725](http://meta.stackexchange.com/q/223725): Don't try to convert links to [elections.stackexchange.com](http://elections.stackexchange.com/) to HTTPS.  (Thanks to Martijn Pieters for reporting this issue!)
+
 1.26 (10 Dec 2014)
 ====
 
