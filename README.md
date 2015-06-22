@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.28.1 -->
+<!-- version: 1.30.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.28 includes fixes or workarounds for the following issues:
+SOUP v1.30 includes fixes or workarounds for the following issues:
 
 ### CSS-only fixes
 
@@ -58,10 +58,15 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225)
 * [mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296)
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
+* [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859)
+* [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156)
+* [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049)
+* [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081)
+* [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222)
 
 ### Site-specific CSS fixes
 
-These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are applied on on the affected site(s), although a few are applied globally, even though the issue they fix is only apparent on some sites.
+These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are restricted to the affected site(s), but a few are applied globally, even though the issue they fix is only apparent on some sites.
 
 * [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636)
 * [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (partially applied globally)
@@ -79,6 +84,18 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559)
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
+* [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
+* [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617)
+* [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (partly applied globally)
+* [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670)
+* [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938)
+* [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049)
+* [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133)
+* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
+* [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415)
+* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/1958)
 
 ### Chat-only fixes
 
@@ -115,6 +132,8 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
+* [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
+* [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 
 ### Site-specific fixes
 
@@ -142,6 +161,7 @@ These fixes apply only to sites using [MathJax](http://www.mathjax.org) for LaTe
 * [math4130: The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130)
 * [math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392)
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363)
+* [math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650)
 
 
 License
@@ -173,6 +193,7 @@ See also
 * [SE Modifications — Username autocomplete in comments, inline revision source, and utility links](http://stackapps.com/questions/2138/se-modifications-username-autocomplete-in-comments-inline-revision-source-a)
 * [SE Chat Modifications — Keyboard navigation and commands for chat](http://stackapps.com/questions/2105/se-chat-modifications-keyboard-navigation-and-commands-for-chat)
 * [Official keyboard shortcuts](http://stackapps.com/questions/2567/official-keyboard-shortcuts)
+* [SE Additional Optional Features](http://stackapps.com/questions/6091/se-additional-optional-features)
 * ...and other [popular user scripts on Stack Apps](http://stackapps.com/?tab=scripts)
 
    [SO]: http://stackoverflow.com/ "Stack Overflow"

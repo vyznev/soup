@@ -2,6 +2,40 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
+1.30 (22 Jun 2015)
+====
+
+This is another late I-forgot-to-release-this-earlier version. :(  I've been quite busy since spring and haven't had much time to work on SOUP much, and the big SE redesign earlier this year made too many things into moving targets.  Anyway, all these fixes have been in the devel branch for several months, so at least they should be thoroughly tested. :)
+
+My future plans involve doing another big testing session to see which old fixes can be safely removed, now that the new design has mostly stabilized, in preparation for SOUP v2.0.  (This is somewhat complicated by the fact that some of the issue have only been fixed partially.)  The 2.0 version, planned for sometime in August or September, will feature a more modular design, with the actual user script being built from many individual scriptlet files.  This should hopefully simplify editing and contributing new fixes, and also allow e.g. compiling SOUP into a stand-alone Chrome / Firefox extension.
+
+**New fixes in 1.30.0:**
+
+* [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859) (CSS)
+* [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156) (CSS)
+* [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
+* [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009) (CSS, SO only)
+* [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049) (CSS)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884) (CSS, SO only)
+* [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (CSS)
+* [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617) (CSS, SO only)
+* [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081) (CSS)
+* [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (CSS)
+* [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670) (CSS, movies.SE only)
+* [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938) (CSS, workplace.SE only)
+* [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049) (CSS, cooking.SE only)
+* [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133) (CSS, listed sites only)
+* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652) (CSS, movies.SE only)
+* [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (CSS, graphicdesign.SE only)
+* [math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650) (math)
+* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/1958) (CSS)
+* [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222) (CSS)
+
+**Other changes:**
+
+* Improved the [mse154788](http://meta.stackexchange.com/q/154788) fix by adding `word-wrap: break-word` to comment styles; this should avoid the need for scroll bars in many cases.
+
 1.28 (3 Feb 2015)
 ====
 

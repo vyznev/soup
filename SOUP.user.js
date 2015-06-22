@@ -3,8 +3,8 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.28.2
-// @copyright   2014, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.30.0
+// @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -141,7 +141,7 @@ fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"http://meta.stackexchange.com/q/154788",
 	// XXX: padding added to work around issue with spurious scroll bars in Chrome; see http://meta.stackexchange.com/q/240352
-	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden }"
+	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
@@ -209,6 +209,52 @@ fixes.mse240710 = {
 	title:	"Was the fringe always there on the up-rep icon?",
 	url:	"http://meta.stackexchange.com/q/240710",
 	css:	".topbar .unread-count { min-height: 11px; min-width: 5px }"
+};
+fixes.mse249859 = {
+	title:	"<kbd> tags in headings are too small",
+	url:	"http://meta.stackexchange.com/q/249859",
+	credit:	"Doorknob",
+	// "body" added to increase selector precedence over conflicting SE style
+	css:	"body kbd { font-size: 80% }"
+};
+fixes.mse248156 = {
+	title:	"What's the purpose of the tagline in the Bounties section of the profile?",
+	url:	"http://meta.stackexchange.com/q/248156",
+	css:	"#user-tab-bounties #bounties-table .started { display: none }"
+};
+fixes.mso284049 = {
+	title:	"Small bugs in the Stack Overflow editor",
+	url:	"http://meta.stackoverflow.com/q/284049",
+	css:	".wmd-help-button { left: auto !important }" +  // !important needed to override inline style
+		"body .wmd-help-button.active-help { background: transparent }" +
+		"body .answer-help-background { padding-top: 10px }"
+};
+fixes.mse250081 = {
+	title:	"Retract close vote UI",
+	url:	"http://meta.stackexchange.com/q/250081",
+	credit:	"style suggested by AstroCB",
+	// FIXME: This doesn't work on pt.SO or ja.SO; should find out how this tooltip is translated there
+	css:	".close-question-link[title^=\"You voted to\"] { color: #444 }"
+};
+fixes.math19587 = {
+	title:	"When editing tags, the bottom of the tag popup is invisible",
+	url:	"http://meta.math.stackexchange.com/q/19587",
+	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
+		"#content:after { content: ' '; display: block; height: 0; clear: both }"
+};
+fixes.mso287222 = {
+	title:	"Clicking between lines fails",
+	url:	"http://meta.stackoverflow.com/q/287222",
+	credit:	"Travis J",
+	// ISSUE: this looks kind of ugly on gaming.SE, cooking.SE and maybe some other sites
+	// that use a border-bottom hack for dotted underlines on links
+	// list of problem sites: cooking cstheory english gamedev gaming math photo programmers stats tex unix webapps
+	// see also: http://meta.gaming.stackexchange.com/questions/10227/sidebar-links-wobble-when-hovered
+	css:	".question-summary .answer-hyperlink, " +
+		".question-summary .question-hyperlink, " +
+		".module.community-bulletin .question-hyperlink, " +
+		".question-summary .result-link a { " +
+		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }"
 };
 
 
@@ -354,6 +400,83 @@ fixes.electronics4038 = {
 	url:	"http://meta.electronics.stackexchange.com/q/4038",
 	// should be safe to apply on all sites, even if the issue has only been reported on electronics.SE
 	css:	".user-show-new #large-user-info.user-header .user-header-left { margin-right: 0 }"
+};
+fixes.mso286009 = {
+	title:	"Change [Ask Question] button style",
+	url:	"http://meta.stackoverflow.com/q/286009",
+	sites:	/^(meta\.)?stackoverflow\./,
+	css:	".nav.askquestion { margin-left: 26px }"
+};
+fixes.mso285884 = {
+	title:	"Boxes around sponsored tags have inconsistent height",
+	url:	"http://meta.stackoverflow.com/q/285884",
+	credit:	"p.s.w.g",
+	sites:	/^(meta\.)?stackoverflow\./,
+	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
+};
+fixes.mso283939 = {
+	title:	"Flag for diamond moderator textarea breaks out of the dialog",
+	url:	"http://meta.stackoverflow.com/q/283939",
+	// should be safe to apply on all sites; sites other than SO already have similar CSS
+	css:	".mod-attention-subform textarea { font-size: 12px; width: 600px; padding: 5px }"
+};
+fixes.mso283617 = {
+	title:	"The re-design has borked the user flag history page",
+	url:	"http://meta.stackoverflow.com/q/283617",
+	sites:	/^(meta\.)?stackoverflow\./,
+	css:	"body .bounty-indicator-tab { display: inline-block }" +
+		"#tabs .bounty-indicator-tab { display: inline }"
+};
+fixes.mse250407a = {
+	title:	"User signature cards on old revisions look funny",
+	url:	"http://meta.stackexchange.com/q/250407",
+	css:	"#revisions table.postcell { width: auto }" // for SO, applied globally
+};
+fixes.mse250407b = {
+	title:	"User signature cards on old revisions look funny",
+	url:	"http://meta.stackexchange.com/q/250407",
+	sites:	/^meta\.stackexchange\./,
+	css:	".post-signature .user-info { padding: 3px }" // for meta.SE only
+};
+fixes.movies1670 = {
+	title:	"“Upload image” alignment issue",
+	url:	"http://meta.movies.stackexchange.com/q/1670",
+	sites:	/^(meta\.)?movies\./,
+	css:	"#header .popup br { display: inline }"
+};
+fixes.workplace2938 = {
+	title:	"Tags cut off, Similar Questions overflowing",
+	url:	"http://meta.workplace.stackexchange.com/q/2938",
+	sites:	/^(meta\.)?workplace\./,
+	css:	"#scroller { background: white; border-radius: 5px }"
+};
+fixes.cooking2049 = {
+	title:	"Ads are cut off on the right",
+	url:	"http://meta.cooking.stackexchange.com/q/2049",
+	credit:	"Jefromi",
+	sites:	/^(meta\.)?cooking\./,
+	css:	"body .everyonelovesstackoverflow { padding: 0 }"
+};
+fixes.mse243133 = {
+	title:	"CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev",
+	url:	"http://meta.stackexchange.com/q/243133",
+	credit:	"Stephen Ostermiller",
+	sites:	/^(meta\.)?(webapps|gaming|gamedev)\./,
+	css:	"body .post-tag:before, body .post-tag:after { z-index: auto }"  // "body" added to override SE style
+};
+fixes.movies1652 = {
+	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
+	url:	"http://meta.movies.stackexchange.com/q/1652",
+	sites:	/^(meta\.)?movies\./,
+	css:	".topbar .topbar-links .topbar-flair .badge1, " +
+		".topbar .topbar-links .topbar-flair .badge2, " +
+		".topbar .topbar-links .topbar-flair .badge3 { margin: 0 }"
+};
+fixes.graphicdesign2415 = {
+	title:	"Design Bug: Tag alert CSS",
+	url:	"http://meta.graphicdesign.stackexchange.com/q/2415",
+	sites:	/^(meta\.)?graphicdesign\./,
+	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #ffeda4 }"  // "body" added to override SE style
 };
 
 
@@ -852,6 +975,37 @@ fixes.mse230536 = {
 		} );
 	}
 };
+fixes.mse248646 = {
+	title:	"Comments left by the author of a spam/offensive post should be deleted from the post too",
+	url:	"http://meta.stackexchange.com/q/248646",
+	css:	"body:not(.soup-mse248646-fixed) .deleted-answer .comment { display: none }",
+	script:	function () {
+		$('.deleted-answer').has('.hidden-deleted-answer').each( function () {
+			var $this = $(this), comments = $(this).find('.comment').hide();
+			if ( comments.length == 0 ) return;
+
+			var ui = StackExchange.comments.uiForPost($this);
+			var count = ui.jtBody.data('remaining-comments-count') + comments.length;
+			ui.setCommentsMenu(count);
+			ui.jtBody.data('remaining-comments-count', count);
+		} );
+		$(document.body).addClass('soup-mse248646-fixed');
+	}
+};
+fixes.mso284223 = {
+	title:	"Newly upvoted cool comments get an uncolored score",
+	url:	"http://meta.stackoverflow.com/q/284223",
+	credit:	"thanks to tbodt for locating the bug",
+	script:	function () {
+		var regex = /^\/posts\/comments\/(\d+)\/vote\/[02]\b/;
+		SOUP.hookAjax( regex, function ( event, xhr, settings ) {
+			var commentId = regex.exec( settings.url )[1];
+			$('#comment-' + commentId + ' .comment-score span').each( function () {
+				if ( ! this.className ) this.className = 'cool';
+			} );
+		} );
+	}
+};
 
 
 //
@@ -1137,7 +1291,7 @@ fixes.mse229363 = {
 	mathjax:	function () {
 		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
 		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|earthscience|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats)\.stackexchange\.com|mathoverflow\.net)$/;
+		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|earthscience|engineering|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
@@ -1147,7 +1301,18 @@ fixes.mse229363 = {
 		} );
 	}
 };
-
+fixes.math19650 = {
+	title:	"Post with many lines of display math takes up most of the Questions page",
+	url:	"http://meta.math.stackexchange.com/q/19650",
+	mathjax:	function () {
+		if ( ! /^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/.test( location.pathname ) ) return;
+		MathJax.Hub.Register.StartupHook( "End Config", function () {
+			var conf = MathJax.Hub.config.tex2jax;
+			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
+			conf.displayMath = [];
+		} );
+	}
+};
 
 //
 // Initialization code and utility functions:
