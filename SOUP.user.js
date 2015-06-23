@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.0
+// @version     1.31.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -62,14 +62,6 @@ fixes.mse215473 = {
 	css:	".post-menu > a { white-space: nowrap }" +
 		".post-menu > .lsep:after { content: ' '; font-size: 0px }"
 };
-fixes.mse138685 = {
-	title:	"Layout fix for Firefox in “Zoom text only” mode",
-	url:	"http://meta.stackexchange.com/q/138685",
-	credit:	"jakub.g",
-	// NOTE 2014-11-26: this is mostly fixed, but the user profile issue persists on SO; keeping until upcoming SO design update
-	css:	"#question-mini-list, .user-header-left," +
-		" .user-panel > .user-panel-content > table { clear: both }"
-};
 fixes.mse114109 = {
 	title:	"Background in OP's user name can obscure text in multiline comments",
 	url:	"http://meta.stackexchange.com/q/114109",
@@ -82,11 +74,6 @@ fixes.mse143973 = {
 	credit:	"animuson",
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .post-text img, body .wmd-preview img { max-width: 100% }"
-};
-fixes.mse217120 = {
-	title:	"Ugly overflows when editing a deleted answer inline",
-	url:	"http://meta.stackexchange.com/q/217120",
-	css:	".inline-editor { margin-left: -4px }"
 };
 fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",
@@ -117,11 +104,6 @@ fixes.mse58760 = {
 	// NOTE 2014-11-26: the main issue seems to have been fixed, but the secondary width/white-space issues still exist; report as new bug?
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body kbd { display: inline-block; max-width: 100%; white-space: normal }"
-};
-fixes.mse219740 = {
-	title:	"Add spacing / padding to “Protected By…” and “Not the answer you're looking for”",
-	url:	"http://meta.stackexchange.com/q/219740",
-	css:	".question-status + .bottom-notice { margin-top: 20px }"
 };
 fixes.mse203405 = {
 	title:	"Excerpt of privilege is below privilege instead of in front",
@@ -167,19 +149,6 @@ fixes.mse224185 = {
 		"body .close-as-off-topic-pane .action-name { vertical-align: baseline }" +
 		"body .close-as-off-topic-pane input[type=radio] { vertical-align: top }" +
 		".close-as-off-topic-pane { line-height: 1.15 }"  // related minor issue
-};
-// The following fix is kind of pointless, since few if any mobile browsers can
-// run user scripts, but I've included it anyway, since it's so trivial.
-fixes.mse231981 = {
-	title:	"Overly long user location entry breaks mobile users view",
-	url:	"http://meta.stackexchange.com/q/231981",
-	css:	"#user-browser table.grid-tag { table-layout: fixed }"
-};
-fixes.mse167975 = {
-	title:	"Bug in textarea in bounty creation popup",
-	url:	"http://meta.stackexchange.com/q/167975",
-	// "!important" needed to override hardcoded element style
-	css:	"#start-bounty-popup .popup-close + div { overflow: visible !important }"
 };
 fixes.mse233517 = {
 	title:	"Badge symbol in notification is of the site you're on, not where badge was earned",
@@ -236,12 +205,6 @@ fixes.mse250081 = {
 	// FIXME: This doesn't work on pt.SO or ja.SO; should find out how this tooltip is translated there
 	css:	".close-question-link[title^=\"You voted to\"] { color: #444 }"
 };
-fixes.math19587 = {
-	title:	"When editing tags, the bottom of the tag popup is invisible",
-	url:	"http://meta.math.stackexchange.com/q/19587",
-	css:	"body #content { overflow: visible }" +  // "body" added to override SE style
-		"#content:after { content: ' '; display: block; height: 0; clear: both }"
-};
 fixes.mso287222 = {
 	title:	"Clicking between lines fails",
 	url:	"http://meta.stackoverflow.com/q/287222",
@@ -259,12 +222,6 @@ fixes.mso287222 = {
 
 
 // site-specific CSS fixes:
-fixes.skeptics2636 = {
-	title:	"Links in promotion ads are black on black, thus invisible",
-	url:	"http://meta.skeptics.stackexchange.com/q/2636",
-	sites:	/^(meta\.)?skeptics\./,
-	css:	"#sidebar .ad-container a, #sidebar .ad-container a:visited { color: #EAD29A }"
-};
 fixes.math12803a = {
 	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 1)",
 	url:	"http://meta.math.stackexchange.com/q/12803",
@@ -278,53 +235,11 @@ fixes.math12803b = {
 	// this part of the fix is enabled globally, to fix minor overflows on various SE sites
 	css:	"#newsletter-signup-container { margin-left: -15px; margin-right: -15px }"
 };
-fixes.japanese1023 = {
-	title:	"Preformatted text in Japanese doesn't line up properly",
-	url:	"http://meta.japanese.stackexchange.com/q/1023",
-	sites:	/^(meta\.)?japanese\./,
-	css:	"body pre, body code, body textarea {" +  // "body" added to increase specificity
-		" font-family: 'Kochi Gothic', 'Sazanami Gothic', 'VL Gothic', 'Ume Gothic', 'MS Gothic'," +
-		" IPAGothic, 'WenQuanYi Zen Hei Mono', 'Osaka Mono', 'M+ 1m', monospace }"
-};
-fixes.gaming8530 = {
-	title:	"Hovering over the community links changes the header height",
-	url:	"http://meta.gaming.stackexchange.com/q/8530",
-	// should be safe to apply on all sites, even if the issue has only been reported on gaming.SE
-	css:	".topbar-dialog h3 a:hover { border-bottom: none }"
-};
 fixes.codegolf959 = {
 	title:	"Add line-height shortener to the ascii-art tag",
 	url:	"http://meta.codegolf.stackexchange.com/q/959",
 	sites:	/^(meta\.)?codegolf\./,
 	css:	"pre { line-height: 1.15 }"
-};
-fixes.english4719 = {
-	title:	"Background of long OP username looks ugly in comments",
-	url:	"http://meta.english.stackexchange.com/q/4719",
-	sites:	/^(meta\.)?english\./,
-	css:	"a.comment-user.owner { background-image: none }" +
-		"pre code { background: transparent }" // unrelated issue mentioned in same post
-};
-fixes.skeptics2747 = {
-	title:	"Links are not visible in On Hold message",
-	url:	"http://meta.skeptics.stackexchange.com/q/2747",
-	sites:	/^(meta\.)?skeptics\./,
-	css:	".question-status a { text-decoration: underline !important }"
-};
-fixes.mse229751a = {
-	title:	"Related questions with over 99 score display incorrectly (part A)",
-	url:	"http://meta.stackexchange.com/q/229751",
-	css:	".answer-votes { white-space: nowrap }"
-};
-fixes.mse229751b = {
-	title:	"Related questions with over 99 score display incorrectly (part B)",
-	url:	"http://meta.stackexchange.com/q/229751",
-	sites:	/^meta\.stackexchange\.com$/,
-	css:	// rules resembling those below are already in the site CSS, they but do nothing without !important
-		"#sidebar .answer-votes.large { width: 32px !important }" +
-		"#sidebar .answer-votes.extra-large { font-size: 11px !important; width: 32px !important }" +
-		// related bug: inappropriate padding for high answers scores in user profile
-		".user-show-new .answer-votes { padding: 4px 4px 5px !important }"
 };
 fixes.mse229797 = {
 	title:	"You are here, but where's here?",
@@ -334,24 +249,6 @@ fixes.mse229797 = {
 	css:	".nav ul li.youarehere a { display: inline-block;" +
 		" padding: 5px; margin: -5px; border-radius: 5px;" +
 		" background-color: rgba(0, 80, 112, 0.25); color: #A1E9FF }"
-};
-fixes.math16552 = {
-	title:	"Using [tag:] markup in posts creates an ugly gap between lines",
-	url:	"http://meta.math.stackexchange.com/q/16552",
-	sites:	/^(meta\.)?math\./,
-	css:	".post-text .post-tag, .wmd-preview .post-tag { display: inline; margin: 0 }"
-};
-fixes.mse239223 = {
-	title:	"Spacing between reputation change and question title on user page sometimes missing",
-	url:	"http://meta.stackexchange.com/q/239223",
-	sites:	/^meta\.stackexchange\.com$/,
-	css:	".user-show-new .user-rep .rep-amount { padding-right: 10px !important }"
-};
-fixes.salesforce835 = {
-	title:	"Div containing 2 minute tour button not big enough",
-	url:	"http://meta.salesforce.stackexchange.com/q/836",
-	sites:	/^(meta\.)?salesforce\./,
-	css:	"#herobox-mini #controls a.button { line-height: 1.3 }"
 };
 fixes.math12902 = {
 	title:	"Visited questions are practically indistinguishable in search results",
@@ -407,48 +304,16 @@ fixes.mso286009 = {
 	sites:	/^(meta\.)?stackoverflow\./,
 	css:	".nav.askquestion { margin-left: 26px }"
 };
-fixes.mso285884 = {
-	title:	"Boxes around sponsored tags have inconsistent height",
-	url:	"http://meta.stackoverflow.com/q/285884",
-	credit:	"p.s.w.g",
-	sites:	/^(meta\.)?stackoverflow\./,
-	css:	".post-tag .sponsor-tag-img { float: left; margin-top: -2px }"
-};
 fixes.mso283939 = {
 	title:	"Flag for diamond moderator textarea breaks out of the dialog",
 	url:	"http://meta.stackoverflow.com/q/283939",
 	// should be safe to apply on all sites; sites other than SO already have similar CSS
 	css:	".mod-attention-subform textarea { font-size: 12px; width: 600px; padding: 5px }"
 };
-fixes.mso283617 = {
-	title:	"The re-design has borked the user flag history page",
-	url:	"http://meta.stackoverflow.com/q/283617",
-	sites:	/^(meta\.)?stackoverflow\./,
-	css:	"body .bounty-indicator-tab { display: inline-block }" +
-		"#tabs .bounty-indicator-tab { display: inline }"
-};
-fixes.mse250407a = {
+fixes.mse250407 = {
 	title:	"User signature cards on old revisions look funny",
 	url:	"http://meta.stackexchange.com/q/250407",
 	css:	"#revisions table.postcell { width: auto }" // for SO, applied globally
-};
-fixes.mse250407b = {
-	title:	"User signature cards on old revisions look funny",
-	url:	"http://meta.stackexchange.com/q/250407",
-	sites:	/^meta\.stackexchange\./,
-	css:	".post-signature .user-info { padding: 3px }" // for meta.SE only
-};
-fixes.movies1670 = {
-	title:	"“Upload image” alignment issue",
-	url:	"http://meta.movies.stackexchange.com/q/1670",
-	sites:	/^(meta\.)?movies\./,
-	css:	"#header .popup br { display: inline }"
-};
-fixes.workplace2938 = {
-	title:	"Tags cut off, Similar Questions overflowing",
-	url:	"http://meta.workplace.stackexchange.com/q/2938",
-	sites:	/^(meta\.)?workplace\./,
-	css:	"#scroller { background: white; border-radius: 5px }"
 };
 fixes.cooking2049 = {
 	title:	"Ads are cut off on the right",
@@ -456,13 +321,6 @@ fixes.cooking2049 = {
 	credit:	"Jefromi",
 	sites:	/^(meta\.)?cooking\./,
 	css:	"body .everyonelovesstackoverflow { padding: 0 }"
-};
-fixes.mse243133 = {
-	title:	"CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev",
-	url:	"http://meta.stackexchange.com/q/243133",
-	credit:	"Stephen Ostermiller",
-	sites:	/^(meta\.)?(webapps|gaming|gamedev)\./,
-	css:	"body .post-tag:before, body .post-tag:after { z-index: auto }"  // "body" added to override SE style
 };
 fixes.movies1652 = {
 	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
@@ -476,7 +334,7 @@ fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
 	url:	"http://meta.graphicdesign.stackexchange.com/q/2415",
 	sites:	/^(meta\.)?graphicdesign\./,
-	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #ffeda4 }"  // "body" added to override SE style
+	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 
 

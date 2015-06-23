@@ -5,7 +5,34 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.31 (development)
 ====
 
-...
+**Removed CSS fixes:**
+
+* [mse138685: Layout fix for Firefox in “Zoom text only” mode](http://meta.stackexchange.com/q/138685)
+* [mse217120: Ugly overflows when editing a deleted answer inline](http://meta.stackexchange.com/q/217120)
+* [mse219740: Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackexchange.com/q/219740)
+* [mse231981: Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981)
+* [mse167975: Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975)
+* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/1958)
+* [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636)
+* [japanese1023: Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023)
+* [gaming8530: Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530)
+* [english4719: Background of long OP username looks ugly in comments](http://meta.english.stackexchange.com/q/4719)
+* [skeptics2747: Links are not visible in On Hold message](http://meta.skeptics.stackexchange.com/q/2747)
+* [mse229751: Related questions with over 99 score display incorrectly](http://meta.stackexchange.com/q/229751)
+* [math16552: Using \[tag:\] markup in posts creates an ugly gap between lines](http://meta.math.stackexchange.com/q/16552)
+* [mse239223: Spacing between reputation change and question title on user page sometimes missing](http://meta.stackexchange.com/q/239223)
+* [salesforce836: Div containing 2 minute tour button not big enough](http://meta.salesforce.stackexchange.com/q/836)
+* [mso285884: Boxes around sponsored tags have inconsistent height](http://meta.stackoverflow.com/q/285884)
+* [mso283617: The re-design has borked the user flag history page](http://meta.stackoverflow.com/q/283617)
+* [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (meta.SE-specific part only)
+* [movies1670: “Upload image” alignment issue](http://meta.movies.stackexchange.com/q/1670)
+* [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938)
+* [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133)
+
+**Other changes:**
+
+* Run content filters and the [math11036](http://meta.math.stackexchange.com/q/11036) fix for expanded posts in the user profile activity tab.
+* Tweak the link color for [graphicdesign2415](http://meta.graphicdesign.stackexchange.com/q/2415) slightly to match the background hue.
 
 1.30 (22 Jun 2015)
 ====
