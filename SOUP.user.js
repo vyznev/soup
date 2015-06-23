@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.30.0
+// @version     1.31.0
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -14,9 +14,9 @@
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
 // @homepageURL http://stackapps.com/questions/4486/stack-overflow-unofficial-patch
-// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
-// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
-// @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
+// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.meta.js
+// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -1183,16 +1183,20 @@ fixes.math11036 = {
 		SOUP.hookAjax( /^\/search\/titles\b/, function () {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
 		} );
-		// similar issue in user profiles:
-		SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
-			if ( !window.MathJax ) return;
-			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
-			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
-		} );
-		SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
-			if ( !window.MathJax ) return;
-			MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
-		} );
+		// similar issue in user profiles (TODO: split into separate fix?)
+        if ( /^\/users\/\d+\//.test( location.pathname ) ) {
+    		SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
+	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
+	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
+	    	} );
+	    	SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
+	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
+	    	} );
+	    	// v1.31.0: expanded posts in activity tab
+	    	SOUP.hookAjax( /^\/posts\/\d+\/body\b/, function () {
+	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
+	    	} );
+	    }
 	}
 };
 fixes.cs537 = {
@@ -1408,7 +1412,7 @@ var soupInit = function () {
 		}
 	};
 
-	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/edit-submit)\/|^\/review\/(next-task|task-reviewed)\b/;
+	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/(body|edit-submit))\b|^\/review\/(next-task|task-reviewed)\b/;
 	SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
 		SOUP.runContentFilters( 'post', '#content' );  // TODO: better selector?
 	} );
