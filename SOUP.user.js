@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.1
+// @version     1.31.2
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -172,7 +172,8 @@ fixes.mse84296 = {
 	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
 	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
 	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
-	css:	".comment-copy, .comment-user { unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
+	css:	".comment-copy, .comment-user, .user-details a " +
+		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
 };
 fixes.mse240710 = {
 	title:	"Was the fringe always there on the up-rep icon?",
