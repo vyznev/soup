@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.3
+// @version     1.31.4
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -476,15 +476,6 @@ fixes.mse129593 = {
 		} );
 	}
 };
-fixes.mse214706 = {
-	title:	"The branch prediction answer is overflowing",
-	url:	"http://meta.stackexchange.com/q/214706",
-	script:	function () {
-		$('.stats .vote-count-post strong').filter( function () {
-			return this.textContent.length > 4
-		} ).css( 'font-size', '80%' );
-	}
-};
 fixes.mse66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"http://meta.stackexchange.com/q/66646",
@@ -589,19 +580,6 @@ fixes.mse224533 = {
 		}, 'Opera soft-hyphen fix' );
 	}
 };
-fixes.mse223866 = {
-	title:	"Add thousand separator for helpful flags count in user profiles",
-	url:	"http://meta.stackexchange.com/q/223866",
-	script:	function () {
-		// XXX: moderators see more than just a simple number here
-		var links = $('body.user-page #user-info-container a[href^="/users/flag-summary/"]');
-		SOUP.forEachTextNode( links, function () {
-			this.nodeValue = this.nodeValue.replace( /[0-9]{4,}/g, function (digits) {
-				return Number( digits ).toLocaleString( 'en-US' );
-			} );
-		} );
-	}
-};
 fixes.mse115702 = {
 	title:	"Option to delete an answer only visible after a reload",
 	url:	"http://meta.stackexchange.com/q/115702",
@@ -631,16 +609,6 @@ fixes.mse115702 = {
 				$(html).attr('id', 'delete-post-' + pid).insertBefore(target).after(lsep);
 			}
 		} );
-	}
-};
-fixes.mse227975 = {
-	title:	"Why does the logo not show up when signing up for a site and confirming the account?",
-	url:	"http://meta.stackexchange.com/q/227975",
-	script:	function () {
-		if ( !/^\/users\/(login|signup)\b/.test( location.pathname ) ) return;
-		$('img.site-logo[src="//cdn.sstatic.net/beta/img/apple-touch-icon.png"]').attr(
-			'src', '//cdn.sstatic.net/' + location.hostname.split('.')[0] + '/img/icon-16.png'
-		).css( { width: '16px', height: '16px', margin: '4px' } );
 	}
 };
 fixes.mse231150 = {
@@ -764,14 +732,6 @@ fixes.mse240417 = {
 		SOUP.addContentFilter( function () {
 			$('.comment-user > .mod-flair').each( function () { $(this).insertAfter(this.parentNode) } );
 		}, 'mse240417', document, ['load', 'comments'] );
-	}
-};
-fixes.mse240102 = {
-	title:	"Lightbox sometimes doesn't go away when popup is closed in user profile editor",
-	url:	"http://meta.stackoverflow.com/q/240102",
-	script:	function () {
-		if ( ! /^\/users\/edit\/\d+\b/.test( location.pathname ) ) return;
-		$(document).on('closePopups', function () { $('#lightbox').fadeOutAndRemove() } )
 	}
 };
 fixes.mse243519 = {
@@ -999,32 +959,6 @@ fixes.mse221304 = {
 		SOUP.addContentFilter( fixImages, 'HTTPS image fix' );
 		$(document).on( 'mouseenter', '#user-menu', function () {
 			SOUP.try( 'HTTPS image fix', fixImages, [this] );
-		} );
-	}
-};
-fixes.mse226343 = {
-	title:	"Chat link in top bar isn't site-specific when using HTTPS",
-	url:	"http://meta.stackexchange.com/q/226343",
-	script:	function () {
-		if ( 'https:' != location.protocol ) return;
-		$('.siteSwitcher-dialog a[href="http://chat.stackexchange.com"]').attr(
-			// XXX: can't use a protocol-relative link here, chat still doesn't work over HTTPS
-			'href', 'http://chat.stackexchange.com/?tab=site&host=' +
-				location.hostname.replace(/(^|\.)meta\./, '')
-		);
-	}
-};
-fixes.mse220470 = {
-	title:	"CSS for daily site access calendar on profile page fails to load over HTTPS",
-	url:	"http://meta.stackexchange.com/q/220470",
-	script:	function () {
-		if ( 'https:' != location.protocol ) return;
-		SOUP.hookAjax( /^\/users\/daily-site-access\b/, function (event, xhr, settings) {
-			$('link[rel=stylesheet][href^="http://ajax.googleapis.com"]').attr(
-				'href', function (i, href) {
-					return href.replace('http:', 'https:');
-				}
-			);
 		} );
 	}
 };

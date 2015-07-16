@@ -33,12 +33,23 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [workplace2938: Tags cut off, Similar Questions overflowing](http://meta.workplace.stackexchange.com/q/2938)
 * [mse243133: CSS z-index causes part of tags to show through notifications on webmasters, web applications, gaming, and gamedev](http://meta.stackexchange.com/q/243133)
 
+**Removed JS fixes:**
+
+* [mse214706: The branch prediction answer is overflowing](http://meta.stackexchange.com/q/214706)
+* [mse223866: Add thousand separator for helpful flags count in user profiles](http://meta.stackexchange.com/q/223866)
+* [mse227975: Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
+* [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
+* [mse226343: Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343)
+* [mse220470: CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackexchange.com/q/220470)
+
 **Other changes:**
 
 * Run content filters and the [math11036](http://meta.math.stackexchange.com/q/11036) fix for expanded posts in the user profile activity tab.
 * Tweak the link color for [graphicdesign2415](http://meta.graphicdesign.stackexchange.com/q/2415) slightly to match the background hue.
 * Extend [mse84296](http://meta.stackexchange.com/q/84296) BiDi isolation fix to also apply to [usernames under posts](http://meta.stackoverflow.com/q/299339).
 * Simplify the [mse129593](http://meta.stackexchange.com/q/129593) fix, now that unfade-on-hover has been implemented.
+* Documentation fix: The [mse243519](http://meta.stackoverflow.com/q/243519) fix was mistakenly identified as [mse240790](http://meta.stackoverflow.com/q/240790) (and linked to the wrong post).
+
 
 
 1.30 (22 Jun 2015)

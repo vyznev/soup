@@ -93,22 +93,18 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse78989: Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [mse207526: Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
 * [mse129593: Un-fade low-score answers on rollover or click](http://meta.stackexchange.com/q/129593)
-* [mse214706: The branch prediction answer is overflowing](http://meta.stackexchange.com/q/214706)
 * [mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
 * [mse220337: Election comments have no permalink link](http://meta.stackexchange.com/q/220337)
 * [mse172931: Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)
 * [mse224533: Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)
-* [mse223866: Add thousand separator for helpful flags count in user profiles](http://meta.stackexchange.com/q/223866)
 * [mse115702: Option to delete an answer only visible after a reload](http://meta.stackexchange.com/q/115702)
-* [mse227975: Why does the logo not show up when signing up for a site and confirming the account?](http://meta.stackexchange.com/q/227975)
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
 * [mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)
 * [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
-* [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
-* [mse240790: Dangling signature dash in comments](http://meta.stackoverflow.com/q/240790)
+* [mse243519: Dangling signature dash in comments](http://meta.stackoverflow.com/q/243519)
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
@@ -129,8 +125,6 @@ These fixes are only applied when using Stack Exchange over HTTPS.  Note that [H
 
 * [mse223725: All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725)
 * [mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)
-* [mse226343: Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343)
-* [mse220470: CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackexchange.com/q/220470)
 
 ### MathJax-related fixes:
 
