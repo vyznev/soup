@@ -5,6 +5,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.31 (development)
 ====
 
+**New fixes in 1.31.x:**
+
+* [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
+
 **Removed CSS fixes:**
 
 * [mse138685: Layout fix for Firefox in “Zoom text only” mode](http://meta.stackexchange.com/q/138685)
@@ -33,7 +37,9 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Run content filters and the [math11036](http://meta.math.stackexchange.com/q/11036) fix for expanded posts in the user profile activity tab.
 * Tweak the link color for [graphicdesign2415](http://meta.graphicdesign.stackexchange.com/q/2415) slightly to match the background hue.
-* Extended [mse84296](http://meta.stackexchange.com/q/84296) BiDi isolation fix to also apply to [usernames under posts](http://meta.stackoverflow.com/q/299339).
+* Extend [mse84296](http://meta.stackexchange.com/q/84296) BiDi isolation fix to also apply to [usernames under posts](http://meta.stackoverflow.com/q/299339).
+* Simplify the [mse129593](http://meta.stackexchange.com/q/129593) fix, now that unfade-on-hover has been implemented.
+
 
 1.30 (22 Jun 2015)
 ====

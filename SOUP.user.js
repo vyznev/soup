@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.2
+// @version     1.31.3
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -468,14 +468,11 @@ fixes.mse129593 = {
 	title:	"Un-fade low-score answers on rollover or click",
 	url:	"http://meta.stackexchange.com/q/129593",
 	credit:	"based on fix by Manishearth",
+	css:	".downvoted-answer.clicked .post-text, .downvoted-answer.clicked .post-signature, " +
+		".downvoted-answer.clicked .comments, .downvoted-answer.clicked .vote > * { opacity: 1 }",
 	script:	function () {
-		// XXX: this is ugly, but avoids assuming anything about site styles
-		$('#answers').on('mouseover', '.downvoted-answer', function () {
-			$(this).addClass('downvoted-answer-hover').removeClass('downvoted-answer');
-		} ).on('mouseout',  '.downvoted-answer-hover:not(.clicked)', function () {
-			$(this).addClass('downvoted-answer').removeClass('downvoted-answer-hover');
-		} ).on('click', '.downvoted-answer-hover .post-text', function () {
-			$(this).closest('.downvoted-answer-hover').toggleClass('clicked');
+		$('#answers').on( 'click', '.answer.downvoted-answer .post-text', function () {
+			$(this).closest('.answer').toggleClass('clicked');
 		} );
 	}
 };
@@ -862,6 +859,17 @@ fixes.mso284223 = {
 			$('#comment-' + commentId + ' .comment-score span').each( function () {
 				if ( ! this.className ) this.className = 'cool';
 			} );
+		} );
+	}
+};
+fixes.mso297489 = {
+	title:	"Add close option to the “Help and Improvement” queue to avoid cluttering flags?",
+	url:	"http://meta.stackoverflow.com/q/297489",
+	script:	function () {
+		if ( ! /^\/review\/helper\/\b/.test( location.pathname ) ) return;
+		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
+			StackExchange.vote_closingAndFlagging.init();
+			$('.post-menu .close-question-link').show();
 		} );
 	}
 };
