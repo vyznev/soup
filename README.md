@@ -111,6 +111,8 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
+* [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
+* [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 
 ### Site-specific fixes
 
