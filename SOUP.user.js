@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.5
+// @version     1.31.6
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -837,10 +837,10 @@ fixes.mso295276 = {
 	title:	"Username filter does not abort old pending Ajax requests",
 	url:	"http://meta.stackoverflow.com/q/295276",
 	script:	function () {
-		if ( ! /^\/users$/.test( location.pathname ) ) return;
+		if ( ! /^\/(users|tags)$/.test( location.pathname ) ) return;
 		var prevXhr = null;
 		$( document ).ajaxSend( function( event, xhr, settings ) {
-			if ( ! /^\/users\/filter\b/.test( settings.url ) ) return;
+			if ( ! /^\/(users\/filter|filter\/tags-for-index)\b/.test( settings.url ) ) return;
 			if ( prevXhr ) prevXhr.abort();
 			prevXhr = xhr;
 			xhr.always( function () {
