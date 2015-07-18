@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.7
+// @version     1.31.8
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -867,7 +867,8 @@ fixes.mso295666 = {
 		// KLUGE: block installation of further click handlers
 		var oldClick = $.fn.click;
 		$.fn.click = function () {
-			var that = ( arguments.length > 0 ? this.not( '.wmd-preview' ) : this );
+			// XXX: $(document).not('.wmd-preview').length == 0!
+			var that = ( arguments.length > 0 ? this.not( $('.wmd-preview') ) : this );
 			oldClick.apply( that, arguments );
 			return this;
 		};
