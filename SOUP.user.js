@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.6
+// @version     1.31.7
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -855,6 +855,25 @@ fixes.mso297171 = {
 	script:	function () {
 		$( document ).on( 'comment', function ( event, postid ) {
 			$( '#add-comment-' + postid + ' .message-dismissable' ).fadeOutAndRemove();
+		} );
+	}
+};
+fixes.mso295666 = {
+	title:	"Disable annoying autofocus when clicking preview",
+	url:	"http://meta.stackoverflow.com/questions/295666",
+	credit:	"based on code by Oriol (http://meta.stackoverflow.com/users/1529630/oriol)",
+	script:	function () {
+		$( '.wmd-preview' ).off( 'click' );
+		// KLUGE: block installation of further click handlers
+		var oldClick = $.fn.click;
+		$.fn.click = function () {
+			var that = ( arguments.length > 0 ? this.not( '.wmd-preview' ) : this );
+			oldClick.apply( that, arguments );
+			return this;
+		};
+		// add replacement double-click handler
+		$( document ).on( 'dblclick', '.wmd-preview', function () {
+			$( 'textarea', this.parentNode ).focus();
 		} );
 	}
 };

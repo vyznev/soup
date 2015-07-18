@@ -113,6 +113,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
+* [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)
 
 ### Site-specific fixes
 
