@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.8
+// @version     1.31.9
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1109,9 +1109,12 @@ fixes.math4130 = {
 		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' +
 			resetCmd + '</script></span>';
 		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
-			$(message[1]).find(select).andSelf().has('script').filter( function () {
-				return 0 == $(this).children('.soup-mathjax-reset').length;
-			} ).prepend(reset);
+			var elements = message[1];
+			if ( !(elements instanceof Array) ) elements = [elements];
+			for (var i = 0; i < elements.length; i++) {
+				if (!elements[i]) continue;  // should not happen, but...
+				$(elements[i]).find(select).andSelf().not('.soup-math4130-fixed').has('script').prepend(reset).addClass('soup-math4130-fixed');
+			}
 		} );
 	},
 	css:	".soup-mathjax-reset { display: none }"

@@ -52,6 +52,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Extend [mse84296](http://meta.stackexchange.com/q/84296) BiDi isolation fix to also apply to [usernames under posts](http://meta.stackoverflow.com/q/299339).
 * Simplify the [mse129593](http://meta.stackexchange.com/q/129593) fix, now that unfade-on-hover has been implemented.
 * Documentation fix: The [mse243519](http://meta.stackoverflow.com/q/243519) fix was mistakenly identified as [mse240790](http://meta.stackoverflow.com/q/240790) (and linked to the wrong post).
+* Tweaked [math4130](http://meta.math.stackexchange.com/q/4130) fix to hopefully be more robust.
 
 
 
