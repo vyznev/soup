@@ -11,6 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666) (thanks, Oriol!)
+* [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678) (CSS)
 
 **Removed CSS fixes:**
 

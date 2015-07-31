@@ -58,6 +58,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049)
 * [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081)
 * [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222)
+* [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 
 ### Site-specific CSS fixes
 

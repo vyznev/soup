@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.9
+// @version     1.31.10
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -219,6 +219,13 @@ fixes.mso287222 = {
 		".module.community-bulletin .question-hyperlink, " +
 		".question-summary .result-link a { " +
 		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }"
+};
+fixes.mso297678 = {
+	title:	"Comment anchor links get “visited” highlighting",
+	url:	"http://meta.stackoverflow.com/q/297678",
+	// XXX: this selector needs to be more specific than ".comment-text a:not(.comment-user):visited"
+	css:	"body .comment-date a.comment-link, " +
+		"body .comment-date a.comment-link:visited { color: inherit }"
 };
 
 
