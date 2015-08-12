@@ -93,7 +93,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse217779: The CSS for spoilers is a mess. Let's fix it!](http://meta.stackexchange.com/q/217779)
 * [mse78989: Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [mse207526: Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
-* [mse129593: Un-fade low-score answers on rollover or click](http://meta.stackexchange.com/q/129593)
+* [mse261721: Un-fade low-score answers on click/tap too](http://meta.stackexchange.com/q/261721)
 * [mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
 * [mse220337: Election comments have no permalink link](http://meta.stackexchange.com/q/220337)

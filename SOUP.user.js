@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.31.10
+// @version     1.31.11
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -471,15 +471,15 @@ fixes.mse207526 = {
 		};
 	}
 };
-fixes.mse129593 = {
-	title:	"Un-fade low-score answers on rollover or click",
-	url:	"http://meta.stackexchange.com/q/129593",
+fixes.mse261721 = {
+	title:	"Un-fade low-score answers on click/tap too",
+	url:	"http://meta.stackexchange.com/q/261721",
 	credit:	"based on fix by Manishearth",
-	css:	".downvoted-answer.clicked .post-text, .downvoted-answer.clicked .post-signature, " +
-		".downvoted-answer.clicked .comments, .downvoted-answer.clicked .vote > * { opacity: 1 }",
 	script:	function () {
 		$('#answers').on( 'click', '.answer.downvoted-answer .post-text', function () {
-			$(this).closest('.answer').toggleClass('clicked');
+			$(this).closest('.answer').addClass('downvoted-answer-clicked').removeClass('downvoted-answer');
+		} ).on( 'click', '.answer.downvoted-answer-clicked .post-text', function () {
+			$(this).closest('.answer').addClass('downvoted-answer').removeClass('downvoted-answer-clicked');
 		} );
 	}
 };

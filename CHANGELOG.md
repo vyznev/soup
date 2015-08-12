@@ -12,6 +12,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666) (thanks, Oriol!)
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678) (CSS)
+* [mse261721: Un-fade low-score answers on click/tap too](http://meta.stackexchange.com/q/261721) (replaces [mse129593](http://meta.stackexchange.com/q/129593))
 
 **Removed CSS fixes:**
 
@@ -45,16 +46,15 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse240102: Lightbox sometimes doesn't go away when popup is closed in user profile editor](http://meta.stackoverflow.com/q/240102)
 * [mse226343: Chat link in top bar isn't site-specific when using HTTPS](http://meta.stackexchange.com/q/226343)
 * [mse220470: CSS for daily site access calendar on profile page fails to load over HTTPS](http://meta.stackexchange.com/q/220470)
+* [mse129593: Un-fade low-score answers on rollover or click](http://meta.stackexchange.com/q/129593) (replaced by [mse261721](http://meta.stackexchange.com/q/261721))
 
 **Other changes:**
 
 * Run content filters and the [math11036](http://meta.math.stackexchange.com/q/11036) fix for expanded posts in the user profile activity tab.
 * Tweak the link color for [graphicdesign2415](http://meta.graphicdesign.stackexchange.com/q/2415) slightly to match the background hue.
 * Extend [mse84296](http://meta.stackexchange.com/q/84296) BiDi isolation fix to also apply to [usernames under posts](http://meta.stackoverflow.com/q/299339).
-* Simplify the [mse129593](http://meta.stackexchange.com/q/129593) fix, now that unfade-on-hover has been implemented.
 * Documentation fix: The [mse243519](http://meta.stackoverflow.com/q/243519) fix was mistakenly identified as [mse240790](http://meta.stackoverflow.com/q/240790) (and linked to the wrong post).
 * Tweaked [math4130](http://meta.math.stackexchange.com/q/4130) fix to hopefully be more robust.
-
 
 
 1.30 (22 Jun 2015)
