@@ -2,10 +2,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.31 (development)
+1.32 (13 Aug 2015)
 ====
 
-**New fixes in 1.31.x:**
+This is mainly a cleanup release, removing several obsolete fixes for design bugs that have been quietly fixed by SE.  That said, a few new fixes are also included.
+
+**New fixes in 1.32.0:**
 
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)

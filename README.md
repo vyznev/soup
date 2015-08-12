@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.31.x -->
+<!-- version: 1.32.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.31 includes fixes or workarounds for the following issues:
+SOUP v1.32 includes fixes or workarounds for the following issues:
 
 ### CSS-only fixes
 
