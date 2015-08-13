@@ -58,6 +58,14 @@ This is mainly a cleanup release, removing several obsolete fixes for design bug
 * Documentation fix: The [mse243519](http://meta.stackoverflow.com/q/243519) fix was mistakenly identified as [mse240790](http://meta.stackoverflow.com/q/240790) (and linked to the wrong post).
 * Tweaked [math4130](http://meta.math.stackexchange.com/q/4130) fix to hopefully be more robust.
 
+**Changes in 1.32.1:**
+
+This point release fixes a few minor bugs that crept into 1.32.0:
+
+* [mse172931](http://meta.stackexchange.com/q/172931): Strip `<script>` tags from the async-loaded question page more cleanly, to avoid accidentally parsing their content as HTML.
+* [mse229363](http://meta.stackexchange.com/q/229363): Hot question titles from [Data Science](http://datascience.stackexchange.com) Stack Exchange are now eligible for MathJax parsing.
+* [mso297489](http://meta.stackoverflow.com/q/297489): Fix a regexp typo causing the "close" link to sometimes appear only after the review page is reloaded.
+
 
 1.30 (22 Jun 2015)
 ====

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.32.0
+// @version     1.32.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -551,7 +551,10 @@ fixes.mse172931 = {
 				
 				var injectAnswers = function ( html ) {
 					// kluge: disable script tags; $.parseHTML() would be better, but needs jQuery 1.8+
-					var answers = $( html.replace( /(<\/?)(script)/ig, '$1disabled$2' ) ).find('.answer').filter( function () {
+					// (we do this in two passes: the first is cleaner, but could potentially miss some cases)
+					html = html.replace( /<script\b([^>'"]+|"[^"]*"|'[^']*')*>[\s\S]*?<\/script\s*>/ig, '' );
+					html = html.replace( /(<\/?)(script)/ig, '$1disabled$2' );
+					var answers = $( html ).find('.answer').filter( function () {
 						return ! document.getElementById( this.id );
 					} ), n = answers.length;
 					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
@@ -833,7 +836,7 @@ fixes.mso297489 = {
 	title:	"Add close option to the “Help and Improvement” queue to avoid cluttering flags?",
 	url:	"http://meta.stackoverflow.com/q/297489",
 	script:	function () {
-		if ( ! /^\/review\/helper\/\b/.test( location.pathname ) ) return;
+		if ( ! /^\/review\/helper\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			StackExchange.vote_closingAndFlagging.init();
 			$('.post-menu .close-question-link').show();
@@ -1151,7 +1154,7 @@ fixes.mse229363 = {
 	mathjax:	function () {
 		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
 		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|dsp|earthscience|engineering|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
+		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|(data|earth)science|dsp|engineering|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
