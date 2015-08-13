@@ -115,6 +115,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)
+* [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 
 ### Site-specific fixes
 

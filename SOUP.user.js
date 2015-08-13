@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.0
+// @version     1.33.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -870,7 +870,7 @@ fixes.mso297171 = {
 };
 fixes.mso295666 = {
 	title:	"Disable annoying autofocus when clicking preview",
-	url:	"http://meta.stackoverflow.com/questions/295666",
+	url:	"http://meta.stackoverflow.com/q/295666",
 	credit:	"based on code by Oriol (http://meta.stackoverflow.com/users/1529630/oriol)",
 	script:	function () {
 		$( '.wmd-preview' ).off( 'click' );
@@ -885,6 +885,66 @@ fixes.mso295666 = {
 		// add replacement double-click handler
 		$( document ).on( 'dblclick', '.wmd-preview', function () {
 			$( 'textarea', this.parentNode ).focus();
+		} );
+	}
+};
+fixes.mso302336 = {
+	title:	"Don't fail LQP review audits just for looking at the deletion popup",
+	url:	"http://meta.stackoverflow.com/q/302336",
+	script:	function () {
+		if ( ! /^\/review\/low-quality-posts\b/.test( location.pathname ) ) return;
+		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings ) {
+			var data = $.parseJSON( xhr.responseText );
+			if ( !data || !data.isAudit || data.isQuestion ) return;
+			SOUP.log( 'soup mso302336: overriding review button handling for LQP answer audit' );
+
+			var currentPostId = data.postId;
+			$('.review-actions input').click( function ( event ) {
+				// let SE handle this if we've re-triggered the event ourselves
+				if ( event.soupReallyTriggerAudit ) {
+					SOUP.log( 'soup mso302336: ignoring re-triggered click event' );
+					return true;
+				}
+				var $button = $(this);
+				var taskResultTypeId = $button.data( 'result-type' );
+				// if this isn't a Delete or RecommendDeletion action, let SE handle it
+				if ( taskResultTypeId != 4 && taskResultTypeId != 9 ) return true;
+				SOUP.log( 'soup mso302336: captured delete button click on LQP answer audit, showing dialog' );
+				
+				// load and display a dummy deletion popup, just like on a non-audit post
+				// NOTE: this is mostly copy-pasted from loadDeleteDialog() and delete_initPopup() in http://cdn-dev.sstatic.net/Js/review.en.js
+				$('.review-actions input').attr('disabled', 'disabled');
+				$.ajax( {
+					type: 'GET',
+					url: '/posts/popup/delete/' + currentPostId,  // XXX: will this work right on audit posts?
+					dataType: 'html',
+					success: function (html) {
+						var $popup = $(html);
+						$popup.appendTo($('.post-menu:first'));
+						$popup.center().fadeIn('fast');
+						StackExchange.helpers.bindMovablePopups();
+						$popup.on("popupClose", function () {
+							$('.review-actions input').removeAttr('disabled');
+						});
+						$popup.on("click", '.popup-close, .popup-actions-cancel', function () {
+							$popup.trigger("closePopups");
+						});
+						$('#delete-question-form').submit(function () {
+							$popup.trigger("closePopups");
+							// re-trigger the click event, so that the audit gets handled
+							SOUP.log( 'soup mso302336: re-triggering captured delete button click' );
+							var newEvent = $.Event( 'click', { soupReallyTriggerAudit: true } );
+							$button.trigger( newEvent );
+					                return false;
+						});
+					},
+					error: function () {
+						$('.review-bar').showErrorMessage("Unable to load dialog. Please try again.");
+					}
+				} );
+				
+				return false;  // stop the event, don't let the SE click handler run
+			} );
 		} );
 	}
 };
