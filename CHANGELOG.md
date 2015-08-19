@@ -9,6 +9,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944) (CSS)
+* [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587) (CSS, stackexchange.com base site only)
 
 1.32 (13 Aug 2015)
 ====

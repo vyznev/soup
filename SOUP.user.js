@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.2
+// @version     1.33.3
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -349,6 +349,15 @@ fixes.graphicdesign2415 = {
 	url:	"http://meta.graphicdesign.stackexchange.com/q/2415",
 	sites:	/^(meta\.)?graphicdesign\./,
 	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #fcedb1 }"  // "body" added to override SE style
+};
+fixes.mse244587 = {
+	title:	"“Top Network Users” should contain themselves!",
+	url:	"http://meta.stackexchange.com/q/244587",
+	sites:	/^stackexchange\.com$/,
+	css:	"body .users-sidebar .userLinks { width: 185px; float: right; overflow: hidden; text-overflow: ellipsis }" +
+		// XXX: these extra rules are not really needed, but they make the layout more robust
+		"body .users-sidebar .userDetails img { margin-right: 0 }" +
+		"body .users-sidebar .userDetails { overflow: hidden }"
 };
 
 

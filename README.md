@@ -78,6 +78,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049)
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415)
+* [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 
 ### Chat-only fixes
 
