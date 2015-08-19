@@ -5,9 +5,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.33 (development)
 ====
 
-**New fixes in 1.32.0:**
+**New fixes in 1.33.x:**
 
 * [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
+* [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944) (CSS)
 
 1.32 (13 Aug 2015)
 ====

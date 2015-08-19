@@ -59,6 +59,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081)
 * [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222)
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
+* [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 
 ### Site-specific CSS fixes
 

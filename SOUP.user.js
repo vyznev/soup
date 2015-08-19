@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.1
+// @version     1.33.2
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -226,6 +226,12 @@ fixes.mso297678 = {
 	// XXX: this selector needs to be more specific than ".comment-text a:not(.comment-user):visited"
 	css:	"body .comment-date a.comment-link, " +
 		"body .comment-date a.comment-link:visited { color: inherit }"
+};
+fixes.mse242944 = {
+	title:	"Long display name with no spaces breaks design of review history pages",
+	url:	"http://meta.stackexchange.com/q/242944",
+	css:	"body.review-page .history-table td:nth-child(1) " +
+		"{ width: 120px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; color: #999 }"
 };
 
 
