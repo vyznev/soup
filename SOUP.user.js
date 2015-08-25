@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.3
+// @version     1.33.4
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -358,6 +358,12 @@ fixes.mse244587 = {
 		// XXX: these extra rules are not really needed, but they make the layout more robust
 		"body .users-sidebar .userDetails img { margin-right: 0 }" +
 		"body .users-sidebar .userDetails { overflow: hidden }"
+};
+fixes.rpg3554 = {
+	title:	"Skin does not handle read-only mode well",
+	url:	"http://meta.rpg.stackexchange.com/q/3554",
+	sites:	/^(meta\.)?rpg\./,
+	css:	"body #system-message { clear: both }"  // "body" added to override SE style
 };
 
 

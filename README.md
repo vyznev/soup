@@ -79,6 +79,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
+* [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 
 ### Chat-only fixes
 
