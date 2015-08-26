@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.6
+// @version     1.33.7
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -975,7 +975,6 @@ fixes.mse240787 = {
 	script:	function () {
 		SOUP.addContentFilter( function ( where ) {
 			$( '.reputation-score[title]', where ).attr( 'title', function ( i, title ) {
-				SOUP.log( "Fixing reputation score", this );
 				if ( ! /\d/.test( title ) ) {
 					title = title.replace( /\s*$/, " " ) + this.textContent;
 				}
