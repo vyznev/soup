@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.5
+// @version     1.33.6
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -973,8 +973,9 @@ fixes.mse240787 = {
 	title:	"Inconsistent reputation mouse-over text",
 	url:	"http://meta.stackexchange.com/q/240787",
 	script:	function () {
-		SOUP.addContentFilter( function () {
-			$('.user-details .reputation-score').attr( 'title', function ( i, title ) {
+		SOUP.addContentFilter( function ( where ) {
+			$( '.reputation-score[title]', where ).attr( 'title', function ( i, title ) {
+				SOUP.log( "Fixing reputation score", this );
 				if ( ! /\d/.test( title ) ) {
 					title = title.replace( /\s*$/, " " ) + this.textContent;
 				}
@@ -982,7 +983,7 @@ fixes.mse240787 = {
 					return Number( digits ).toLocaleString( 'en-US' );
 				} );
 			} );
-		}, 'mse240787', document, ["load", "post"] );
+		}, 'mse240787', '.user-info', ["load", "post", "usercard"] );
 	}
 };
 
@@ -1352,7 +1353,7 @@ var soupInit = function () {
 	// the function will be passed a jQuery selector to process.
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
-	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [] };
+	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [], usercard: [] };
 	SOUP.addContentFilter = function ( filter, key, where, events ) {
 		key = key || 'content filter';
 		events = events || Object.getOwnPropertyNames( SOUP.contentFilters );
@@ -1526,6 +1527,12 @@ var soupLateSetup = function () {
 		} );
 		SOUP.runChatFilterPoll();
 	} );
+	
+	// trigger content filters on expanded user card display
+	$(document).on( 'userhovershowing', function ( event ) {
+		SOUP.runContentFilters( 'usercard', event.target );
+	} );
+
 	
 	SOUP.log( 'soup setup complete' );
 };

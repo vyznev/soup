@@ -13,6 +13,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554) (CSS, RPG.SE only)
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 
+**Other changes:**
+
+* Run content filters on expanded user cards (needed for [mse240787](http://meta.stackexchange.com/q/240787)), add new `usercard` content filter type.
+
 1.32 (13 Aug 2015)
 ====
 
