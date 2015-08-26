@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.33.4
+// @version     1.33.5
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -967,6 +967,22 @@ fixes.mso302336 = {
 				return false;  // stop the event, don't let the SE click handler run
 			} );
 		} );
+	}
+};
+fixes.mse240787 = {
+	title:	"Inconsistent reputation mouse-over text",
+	url:	"http://meta.stackexchange.com/q/240787",
+	script:	function () {
+		SOUP.addContentFilter( function () {
+			$('.user-details .reputation-score').attr( 'title', function ( i, title ) {
+				if ( ! /\d/.test( title ) ) {
+					title = title.replace( /\s*$/, " " ) + this.textContent;
+				}
+				return title.replace( /[0-9]{4,}/g, function ( digits ) {
+					return Number( digits ).toLocaleString( 'en-US' );
+				} );
+			} );
+		}, 'mse240787', document, ["load", "post"] );
 	}
 };
 

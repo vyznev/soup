@@ -119,6 +119,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)
 * [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
+* [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 
 ### Site-specific fixes
 
