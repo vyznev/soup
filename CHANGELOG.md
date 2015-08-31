@@ -2,10 +2,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.33 (development)
+1.34 (31 Aug 2015)
 ====
 
-**New fixes in 1.33.x:**
+Just a couple of new fixes in this release.  I'm trying to return to a somewhat faster and more regular schedule for stable releases, hence this second release this month.  The reorganization planned for 2.0 is currently on the back burner.
+
+**New fixes in 1.34.0:**
 
 * [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944) (CSS)
