@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.34.0
+// @version     1.35.0
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -14,9 +14,9 @@
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
 // @homepageURL http://stackapps.com/questions/4486/stack-overflow-unofficial-patch
-// @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
-// @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
-// @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
+// @updateURL   https://github.com/vyznev/soup/raw/devel/SOUP.meta.js
+// @downloadURL https://github.com/vyznev/soup/raw/devel/SOUP.user.js
+// @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
 // ==/UserScript==
@@ -347,7 +347,7 @@ fixes.movies1652 = {
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
 	url:	"http://meta.graphicdesign.stackexchange.com/q/2415",
-	sites:	/^(meta\.)?graphicdesign\./,
+//	sites:	/^(meta\.)?graphicdesign\./,
 	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 fixes.mse244587 = {
@@ -985,6 +985,49 @@ fixes.mse240787 = {
 		}, 'mse240787', '.user-info', ["load", "post", "usercard"] );
 	}
 };
+fixes.mso300679 = {
+	title:	"Speaking out instead of suffering silently",
+	url:	"http://meta.stackoverflow.com/q/300679",
+	script:	function () {
+		var message = 'Your post appears to contain HTML tags that are malformed, mismatched or <a href="/editing-help#html">not permitted in posts</a>, and which will be silently removed. Where possible, please use Markdown syntax instead of HTML. To enter code that contains the <tt>&lt;</tt> symbol, please use <a href="/editing-help#code">proper code formatting</a> (or write it as <tt>&amp;lt;</tt>).';
+		var soupPreSanitize = function ( tag ) {
+			// kluge: replace <a> / <img> URLs so that sanitizeHtml() won't try to %-escape them
+			tag = tag.replace( /^(<a\shref="|<img\ssrc=")([^"]*)/i, '$1http://example.com/' );
+			// also replace comments, since we don't care if those get stripped
+			tag = tag.replace( /^<!(--(?:|(?:[^>-]|-[^>])(?:[^-]|-[^-])*)--)>$/, '' );
+			return tag;
+		}
+		SOUP.addEditorCallback( function (editor, postfix) {
+			var $body = $('#wmd-input' + postfix), $popup;
+			var options = StackExchange.postValidation.getSidebarPopupOptions();
+			options.type = 'warning';
+			var isOK = true, timer = false, showPopup = function () {
+				if ( !isOK && !$popup ) $popup = StackExchange.helpers.showMessage( $body, message, options );
+				if ( timer !== false ) clearTimeout( timer );
+				timer = false;
+			};
+			$body.on( 'blur', showPopup );
+			editor.getConverter().hooks.chain( 'preSafe', function ( html ) { try {
+				if ( timer !== false ) clearTimeout( timer );
+				timer = false;
+
+				var stripped = html.replace( /<[^>]*>?/g, soupPreSanitize );
+				var sanitized = StackExchange.MarkdownEditor.sanitizeHtml( stripped );
+				var balanced = StackExchange.MarkdownEditor.balanceTags( sanitized );
+				isOK = ( balanced === stripped );
+
+				if ( isOK && $popup ) {
+					$popup.fadeOutAndRemove();
+					$popup = null;
+				} else if ( !isOK && !$popup ) {
+					timer = setTimeout( function () { timer = false; showPopup() }, 3000 );
+				}
+				return html;
+			} catch (e) { SOUP.log('mso300679 hook:', e) } } );
+		} );
+	}
+};
+
 
 
 //

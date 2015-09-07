@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.34.0 -->
+<!-- version: 1.35.x -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.34 includes fixes or workarounds for the following issues:
+SOUP v1.35 (devel) includes fixes or workarounds for the following issues:
 
 ### CSS-only fixes
 
@@ -77,7 +77,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (applied globally)
 * [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049)
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
-* [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415)
+* [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 
@@ -120,6 +120,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)
 * [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
+* [mso300679: Speaking out instead of suffering silently](http://meta.stackoverflow.com/q/300679)
 
 ### Site-specific fixes
 
