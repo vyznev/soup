@@ -29,35 +29,37 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.35 (devel) includes fixes or workarounds for the following issues:
+SOUP v1.35 (devel) includes fixes or workarounds for the following issues.
+
+The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
 ### CSS-only fixes
 
-These are pure CSS fixes.  They will be applied even if JavaScript is disabled on the site.
+These are pure CSS fixes.  They will be applied even if JavaScript is disabled on the site.  Most of these are fairly minor, but sometimes pervasive, issues.
 
 * [mse215473: Add a non-breaking space to “reopen (1)” and its ilk](http://meta.stackexchange.com/q/215473)
 * [mse114109: Background in OP's user name can obscure text in multiline comments](http://meta.stackexchange.com/q/114109)
-* [mse143973: Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackexchange.com/q/143973)
+* **[mse143973: Images can be pushed outside the boundaries of a post by using nested lists](http://meta.stackexchange.com/q/143973)**
 * [mse145819: &lt;hr/&gt;'s do not get rendered in deleted answers](http://meta.stackexchange.com/q/145819)
 * [mse108046: Mouse cursor doesn't change to pointer when hovering “full site” on mobile](http://meta.stackexchange.com/q/108046)
 * [mse110566: Does the spoiler markdown work on images?](http://meta.stackexchange.com/q/110566)
 * [mse58760: &lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](http://meta.stackexchange.com/q/58760)
 * [mse203405: Excerpt of privilege is below privilege instead of in front](http://meta.stackexchange.com/q/203405)
 * [mse210165: Extra blue line appearing in the top bar (Firefox only)](http://meta.stackexchange.com/q/210165)
-* [mse154788: Why are comments overlapping the sidebar?](http://meta.stackexchange.com/q/154788)
+* **[mse154788: Why are comments overlapping the sidebar?](http://meta.stackexchange.com/q/154788)**
 * [mse214830: Selecting text in profile activity comments causes unexpected clipping](http://meta.stackexchange.com/q/214830)
 * [mse230392: Layout bug while viewing vote count in Meta Stackexchange](http://meta.stackexchange.com/q/230392)
 * [physics5773: Bounty icon is poorly placed](http://meta.physics.stackexchange.com/q/5773)
 * [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](http://meta.stackexchange.com/q/224185)
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](http://meta.stackexchange.com/q/233517)
 * [mse169225: Why does the bounty award button appear on deleted answers?](http://meta.stackexchange.com/q/169225)
-* [mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296)
+* **[mse84296: RTL text can mess up comment timestamps](http://meta.stackexchange.com/q/84296)**
 * [mse240710: Was the fringe always there on the up-rep icon?](http://meta.stackexchange.com/q/240710)
 * [mse249859: &lt;kbd&gt; tags in headings are too small](http://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](http://meta.stackexchange.com/q/248156)
 * [mso284049: Small bugs in the Stack Overflow editor](http://meta.stackoverflow.com/q/284049)
 * [mse250081: Retract close vote UI](http://meta.stackexchange.com/q/250081)
-* [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222)
+* **[mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222)**
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 
@@ -66,7 +68,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are restricted to the affected site(s), but a few are applied globally, even though the issue they fix is only apparent on some sites.
 
 * [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (partially applied globally)
-* [codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959)
+* **[codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959)**
 * [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797)
 * [math12902: Visited questions are practically indistinguishable in search results](http://meta.math.stackexchange.com/q/12902)
 * [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559)
@@ -93,18 +95,17 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 
 ### General fixes
 
-* [mse217779: The CSS for spoilers is a mess. Let's fix it!](http://meta.stackexchange.com/q/217779)
+* **[mse217779: The CSS for spoilers is a mess. Let's fix it!](http://meta.stackexchange.com/q/217779)**
 * [mse78989: Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [mse207526: Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
-* [mse261721: Un-fade low-score answers on click/tap too](http://meta.stackexchange.com/q/261721)
-* [mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)
+* **[mse261721: Un-fade low-score answers on click/tap too](http://meta.stackexchange.com/q/261721)**
+* **[mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)**
 * [mse210132: New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
 * [mse220337: Election comments have no permalink link](http://meta.stackexchange.com/q/220337)
-* [mse172931: Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)
 * [mse224533: Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)
-* [mse115702: Option to delete an answer only visible after a reload](http://meta.stackexchange.com/q/115702)
+* **[mse115702: Option to delete an answer only visible after a reload](http://meta.stackexchange.com/q/115702)**
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](http://meta.stackexchange.com/q/231150)
-* [mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)
+* **[mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)**
 * [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
 * [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
@@ -114,27 +115,34 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
-* [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
-* [mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)
-* [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
+* **[mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
-* [mso300679: Speaking out instead of suffering silently](http://meta.stackoverflow.com/q/300679)
+* **[mso300679: Speaking out instead of suffering silently](http://meta.stackoverflow.com/q/300679)**
+* [mse266034: Link the title of the linked questions sidebar to the list of linked questions](http://meta.stackexchange.com/q/266034)
 
 ### Site-specific fixes
 
 These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer of these, since the SE JavaScript framework is shared between all sites, whereas CSS is different for each site.  Thus, these fixes generally involve either rare site-specific customizations, or simply design fixes that cannot be implemented in pure CSS.
 
-* [boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152)
+* **[boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152)**
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347)
+
+### Review fixes
+
+These fixes apply to the post review interface.  I've listed them separately here, since they include some of the more notable interface tweaks in SOUP.
+
+* **[mse172931: Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)**
+* [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
+* [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 
 ### HTTPS-only fixes
 
 These fixes are only applied when using Stack Exchange over HTTPS.  Note that [HTTPS support for Stack Exchange is still experimental.](http://meta.stackexchange.com/questions/116782/better-https-support-for-stack-exchange-sites)
 
-* [mse223725: All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725)
-* [mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)
+* **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725)**
+* **[mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)**
 
 ### MathJax-related fixes:
 
@@ -143,10 +151,10 @@ These fixes apply only to sites using [MathJax](http://www.mathjax.org) for LaTe
 * [mse209393: Render MathJax in the 10k tools](http://meta.stackexchange.com/q/209393)
 * [math11036: Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036)
 * [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537)
-* [math4130: The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130)
-* [math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392)
+* **[math4130: The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130)**
+* **[math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392)**
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363)
-* [math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650)
+* **[math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650)**
 
 
 License

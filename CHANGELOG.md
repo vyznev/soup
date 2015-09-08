@@ -8,10 +8,12 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.35.x:**
 
 * [mso300679: Speaking out instead of suffering silently](http://meta.stackoverflow.com/q/300679)
+* [mse266034: Link the title of the linked questions sidebar to the list of linked questions](http://meta.stackexchange.com/q/266034)
 
 **Other changes:**
 
 * The [graphicdesign2415]((http://meta.graphicdesign.stackexchange.com/q/2415) CSS fix (for links in post warnings) is now applied globally.
+* Some notable fixes are now highlighted in the README.
 
 1.34 (31 Aug 2015)
 ====

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.35.0
+// @version     1.35.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -616,7 +616,6 @@ fixes.mse115702 = {
 	url:	"http://meta.stackexchange.com/q/115702",
 	script:	function () {
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
-		SOUP.log( 'soup adding vote event handler for mse115702' );
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
 		SOUP.hookAjax( /^\/posts\/\d+\/vote\/[023]\b/, function ( event, xhr, settings ) {
@@ -1026,6 +1025,16 @@ fixes.mso300679 = {
 			} catch (e) { SOUP.log('mso300679 hook:', e) } } );
 		} );
 	}
+};
+fixes.mse266034 = {
+	title:	"Link the title of the linked questions sidebar to the list of linked questions",
+	url:	"http://meta.stackexchange.com/q/266034",
+	script:	function () {
+		var m = /^\/questions\/(\d+)\b/.exec( location.pathname );
+		if ( !m ) return;
+		$('#h-linked').not(':has(a)').wrapInner('<a href="/questions/linked/' + m[1] + '"></a>');
+	},
+	css:	"#h-linked a, #h-linked a:visited { color: inherit; font-size: 100%; font-family: inherit; font-weight: inherit; line-height: inherit; display: inline }"
 };
 
 
