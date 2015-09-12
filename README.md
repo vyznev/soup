@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.35.x -->
+<!-- version: 1.36.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.35 (devel) includes fixes or workarounds for the following issues.
+SOUP v1.36 includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -119,7 +119,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * **[mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
-* **[mso300679: Speaking out instead of suffering silently](http://meta.stackoverflow.com/q/300679)**
+* **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
 * [mse266034: Link the title of the linked questions sidebar to the list of linked questions](http://meta.stackexchange.com/q/266034)
 
 ### Site-specific fixes
