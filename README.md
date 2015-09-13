@@ -62,6 +62,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * **[mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222)**
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
+* [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
 
 ### Site-specific CSS fixes
 
@@ -121,6 +122,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
 * [mse266034: Link the title of the linked questions sidebar to the list of linked questions](http://meta.stackexchange.com/q/266034)
+* [mse265889: Improve answer navigation for screen readers](http://meta.stackexchange.com/q/265889)
 
 ### Site-specific fixes
 

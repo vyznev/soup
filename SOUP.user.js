@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.37.0
+// @version     1.37.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -232,6 +232,11 @@ fixes.mse242944 = {
 	url:	"http://meta.stackexchange.com/q/242944",
 	css:	"body.review-page .history-table td:nth-child(1) " +
 		"{ width: 120px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; color: #999 }"
+};
+fixes.mse266258 = {
+	title:	"Left side markdown diff outside of its area",
+	url:	"http://meta.stackexchange.com/q/266258",
+	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
 };
 
 
@@ -618,25 +623,24 @@ fixes.mse115702 = {
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
-		SOUP.hookAjax( /^\/posts\/\d+\/vote\/[023]\b/, function ( event, xhr, settings ) {
-			var score = $.parseJSON( xhr.responseText ).NewScore;
-			var pid = Number( settings.url.replace( /^\/posts\/(\d+)\/.*/, '$1' ) );
-			SOUP.log( 'soup logged post vote: id = ' + pid + ', score = ' + score );
-			var isAnswer = $('#answer-' + pid).length;
-			if ( !isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
-			var deleteLinks = $('[id="delete-post-' + pid + '"]');  // XXX: there might be several
-			if ( score >= (isAnswer ? 0 : -2) ) {
-				// XXX: just to be sure, don't remove any delete links that we didn't add
+		SOUP.subscribeToQuestion( function ( data ) {
+			if ( data.a !== 'score' ) return;
+			var isAnswer = $('#answer-' + data.id).length > 0;
+			if ( ! isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
+
+			var deleteLinks = $('[id="delete-post-' + data.id + '"]');  // XXX: there might be several
+			if ( data.score >= (isAnswer ? 0 : -2) ) {
+				// XXX: just to be safe, don't remove any delete links that we didn't add
 				deleteLinks = deleteLinks.filter('.soup-delete-link');
 				deleteLinks.next('span.lsep').andSelf().hide();
 			} else if ( deleteLinks.length ) {
 				deleteLinks.next('span.lsep').andSelf().show();  // show existing links
 			} else {
 				// need to create a new delete link from scratch and slip it into the menu
-				var target = $('.flag-post-link[data-postid=' + pid + ']');
+				var target = $('.flag-post-link[data-postid=' + data.id + ']');
 				var lsep = target.prev('span.lsep').clone(true);
 				if (lsep.length == 0) lsep = $('<span class="lsep">|</span>');
-				$(html).attr('id', 'delete-post-' + pid).insertBefore(target).after(lsep);
+				$(html).attr('id', 'delete-post-' + data.id).insertBefore(target).after(lsep);
 			}
 		} );
 	}
@@ -844,9 +848,8 @@ fixes.mso284223 = {
 	credit:	"thanks to tbodt for locating the bug",
 	script:	function () {
 		var regex = /^\/posts\/comments\/(\d+)\/vote\/[02]\b/;
-		SOUP.hookAjax( regex, function ( event, xhr, settings ) {
-			var commentId = regex.exec( settings.url )[1];
-			$('#comment-' + commentId + ' .comment-score span').each( function () {
+		SOUP.hookAjax( regex, function ( event, xhr, settings, match ) {
+			$('#comment-' + match[1] + ' .comment-score span').each( function () {
 				if ( ! this.className ) this.className = 'cool';
 			} );
 		} );
@@ -1036,6 +1039,46 @@ fixes.mse266034 = {
 	},
 	css:	"#h-linked a, #h-linked a:visited { color: inherit; font-size: 100%; font-family: inherit; font-weight: inherit; line-height: inherit; display: inline }"
 };
+fixes.mse265889 = {
+	title:	"Improve answer navigation for screen readers",
+	url:	"http://meta.stackexchange.com/q/265889",
+	credit:	"based on script by rene: http://meta.stackexchange.com/a/266236",
+	script:	function () {
+		var updateAnswerHeadings = function (where) {
+			$(where).filter('.answer').add( $('.answer', where) ).each( function () {
+				var answer = $(this);
+				var signature = answer.find('.post-signature').eq(-1);
+				var isWiki = signature.find('.community-wiki').length > 0;
+				var author = signature.find('.user-details a[href^="/users/"]');
+				
+				var voteCount = answer.find('.vote-count-post');
+				var score = Number( voteCount.text() );
+				if ( voteCount.find('.vote-count-separator').length > 0 ) {
+					var divs = voteCount.find('div'), up = divs.eq(0), down = divs.eq(-1);
+					score = Math.abs( up.text() ) - Math.abs( down.text() );
+				}
+				var isAccepted = answer.find('.vote-accepted-on').length > 0;
+
+				var text = ( isWiki ? 'Community wiki answer' : 'Answer' );
+				if ( answer.hasClass('deleted-answer') ) text = 'Deleted ' + text.toLowerCase();
+				if ( author.length > 0 ) text += ' by ' + author.text();
+				text += ' (score ' + score + ( isAccepted ? ', accepted answer' : '' ) + ')';
+
+				var heading = answer.find('.soup-answer-heading');
+				if ( heading.length < 1 ) heading = $('<h6 class="soup-answer-heading">').prependTo(answer);
+				heading.text(text);
+			} );
+		};
+		SOUP.addContentFilter( updateAnswerHeadings, 'post' );
+		SOUP.subscribeToQuestion( function (data) {
+			if ( /^(score|(un)?accept)$/.test( data.a ) ) setTimeout( function () {
+				updateAnswerHeadings( '#answer-' + data.id );
+			}, 10 );
+		} );
+	},
+	// http://webaim.org/techniques/css/invisiblecontent/
+	css:	".soup-answer-heading { overflow: hidden; height: 1px; width: 1px; position: absolute; left: -9999px }"
+}
 
 
 
@@ -1390,9 +1433,9 @@ var soupInit = function () {
 	};
 	// infrastructure for SOUP.hookAjax()
 	SOUP.ajaxHooks = [];
-	SOUP.runAjaxHook = function ( hook, event, xhr, settings ) {
+	SOUP.runAjaxHook = function ( hook, event, xhr, settings, match ) {
 		var tryIt = function () {
-			try { hook.code( event, xhr, settings ) }
+			try { hook.code( event, xhr, settings, match ) }
 			catch (e) { SOUP.log( 'SOUP ajax hook for ' + hook.regex + ' failed: ', e ) }
 		};
 		if ( !hook.delay ) tryIt();
@@ -1420,13 +1463,23 @@ var soupInit = function () {
 		}
 	};
 
-	SOUP.contentFilterRegexp = /^\/posts\/(ajax-load-realtime|\d+\/(body|edit-submit))\b|^\/review\/(next-task|task-reviewed)\b/;
-	SOUP.hookAjax( SOUP.contentFilterRegexp, function () {
-		SOUP.runContentFilters( 'post', '#content' );  // TODO: better selector?
+	var contentFilterRegexp = /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/;
+	SOUP.hookAjax( contentFilterRegexp, function ( event, xhr, settings, match ) {
+		var where = ( match ? '#answer-' + match[1] + ', .question[data-questionid=' + match[1] + ']' : '#content' );
+		SOUP.runContentFilters( 'post', where );
+	} );
+	var ajaxLoadRegexp = /^\/posts\/ajax-load-realtime\/([\d;]+)(\?title=true)?/;
+	SOUP.hookAjax( ajaxLoadRegexp, function ( event, xhr, settings, match ) {
+		var posts = match[1].split( ";" );
+		for ( var i = 0; i < posts.length; i++ ) {
+			posts[i] = '#answer-' + posts[i] + ', .question[data-questionid=' + posts[i] + ']';
+		}
+		// FIXME: should find a better way to run the filters only when the content has loaded
+		var delay = ( match[2] ? 300 : 0 );  // KLUGE: the old content takes 150ms to fade out
+		setTimeout( function () { SOUP.runContentFilters( 'post', posts.join( ", " ) ) }, delay );
 	} );
 	var commentRegex = /^\/posts\/((\d+)\/comments|comments\/(\d+))\b/;  // yes, both variants are in use :-(
-	SOUP.hookAjax( commentRegex, function ( event, xhr, settings ) {
-		var match = commentRegex.exec( settings.url );
+	SOUP.hookAjax( commentRegex, function ( event, xhr, settings, match ) {
 		var where = ( match[2] ? '#comments-' + match[2] : '#comment-' + match[3] );
 		SOUP.runContentFilters( 'comments', where );
 	} );
@@ -1530,6 +1583,11 @@ var soupInit = function () {
 		} );
 	}
 
+	// allow fix code to subscribe to SE realtime question events
+	SOUP.questionSubscriptions = [];
+	SOUP.subscribeToQuestion = function ( code, key ) {
+		SOUP.questionSubscriptions.push( { code: code, key: key || "soup realtime handler" } );
+	};
 	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
@@ -1560,10 +1618,9 @@ var soupLateSetup = function () {
 	
 	// attach global AJAX hooks
 	if ( window.$ ) $( document ).ajaxComplete( function( event, xhr, settings ) {
-		for (var i = 0; i < SOUP.ajaxHooks.length; i++) {
-			if ( SOUP.ajaxHooks[i].regex.test( settings.url ) ) {
-				SOUP.runAjaxHook( SOUP.ajaxHooks[i], event, xhr, settings );
-			}
+		for ( var i = 0; i < SOUP.ajaxHooks.length; i++ ) {
+			var match = SOUP.ajaxHooks[i].regex.exec( settings.url );
+			if ( match ) SOUP.runAjaxHook( SOUP.ajaxHooks[i], event, xhr, settings, match );
 		}
 	} );
 
@@ -1584,6 +1641,25 @@ var soupLateSetup = function () {
 		SOUP.runContentFilters( 'usercard', event.target );
 	} );
 
+	// subscribe to SE realtime question events (TODO: defer until needed?)
+	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
+		// ewww... UGLY HACK to extract site and question IDs from page scripts
+		var sid, qid;
+		var re = /\bStackExchange\.realtime\.subscribeToQuestion\(\s*['"]?(\d+)['"]?\s*,\s*['"]?(\d+)['"]?\)/;
+		$('script').each( function () {
+			var match = re.exec( this.textContent );
+			if ( match ) { sid = match[1], qid = match[2] }
+		} );  
+		if ( !sid || !qid || ! StackExchange.realtime ) return;
+		StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
+			var data = $.parseJSON( json );
+			var hooks = SOUP.questionSubscriptions;
+			for ( var i = 0; i < hooks.length; i++ ) {
+				SOUP.try( hooks[i].key, hooks[i].code, [data] );
+			}
+		} );
+		SOUP.log( 'soup subscribed to realtime feed for question ' + qid + ' on site ' + sid );
+	} );
 	
 	SOUP.log( 'soup setup complete' );
 };

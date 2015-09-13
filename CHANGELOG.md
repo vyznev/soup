@@ -5,7 +5,19 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.37 (development)
 ====
 
-...
+**New fixes in 1.37.x:**
+
+* [mse265889: Improve answer navigation for screen readers](http://meta.stackexchange.com/q/265889)
+* [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258) (CSS)
+
+**Other changes:**
+
+* Content filters are now (hopefully) applied correctly to edited posts reloaded via Ajax.
+* Content filters applied to new / updated posts no longer need to reprocess all posts on the page.
+* The content filter Ajax hook regexp is no longer exposed as `SOUP.contentFilterRegexp`.
+* Ajax hooks can now receive the result of their regexp match as a fourth parameter.
+* New `SOUP.subscribeToQuestion()` helper method for subscribing to realtime events (votes, accepts, etc.) on question pages.
+* The [mse115702](http://meta.stackexchange.com/q/115702) fix (enable delete link when downvoting an answer to -1) now uses the realtime event feed.
 
 1.36 (13 Sep 2015)
 ====
