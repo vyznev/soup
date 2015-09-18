@@ -9,6 +9,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse265889: Improve answer navigation for screen readers](http://meta.stackexchange.com/q/265889)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258) (CSS)
+* [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
+* [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 
 **Other changes:**
 

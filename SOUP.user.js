@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.37.1
+// @version     1.37.2
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1078,7 +1078,39 @@ fixes.mse265889 = {
 	},
 	// http://webaim.org/techniques/css/invisiblecontent/
 	css:	".soup-answer-heading { overflow: hidden; height: 1px; width: 1px; position: absolute; left: -9999px }"
-}
+};
+fixes.mse266523 = {
+	title:	"Uploading an image from the web can leave paste broken in editor",
+	url:	"http://meta.stackexchange.com/q/266523",
+	script:	function () {
+		$('#content').on('paste', function () {
+			if ( $('.modal-dropzone').length > 0 ) return;
+			( $._data( document.body, 'events' ).paste || [] ).forEach( function ( h ) {
+				if ( ! /\.modal-dropzone/.test( h.handler.toString() ) ) return;
+				$('body').off( 'paste', h.handler );
+			} );
+		} );
+	}
+};
+fixes.mse264307 = {
+	title:	"Down arrow key won't work after using the Hyperlink button",
+	url:	"http://meta.stackexchange.com/q/264307",
+	script:	function () {
+		var proto = document.body;
+		while ( proto && proto.removeChild && !proto.hasOwnProperty('removeChild') ) {
+			proto = Object.getPrototypeOf( proto );
+		}
+		if ( !proto || !proto.removeChild ) return;
+
+		var oldRemoveChild = proto.removeChild;
+		proto.removeChild = function ( removed ) {
+			var active = document.activeElement, node = active;
+			while ( node && node !== removed ) node = node.parentNode;
+			if ( node ) active.blur();
+			return oldRemoveChild.apply( this, arguments );
+		};
+	}
+};
 
 
 

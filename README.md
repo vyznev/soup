@@ -123,6 +123,8 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
 * [mse266034: Link the title of the linked questions sidebar to the list of linked questions](http://meta.stackexchange.com/q/266034)
 * [mse265889: Improve answer navigation for screen readers](http://meta.stackexchange.com/q/265889)
+* [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
+* [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 
 ### Site-specific fixes
 
