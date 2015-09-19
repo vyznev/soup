@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.37.2
+// @version     1.37.3
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -370,6 +370,20 @@ fixes.rpg3554 = {
 	sites:	/^(meta\.)?rpg\./,
 	css:	"body #system-message { clear: both }"  // "body" added to override SE style
 };
+fixes.mso306325 = {
+	title:	"The yellow star in the sprites.svg image looks “unfinished”",
+	url:	"http://meta.stackoverflow.com/q/306325",
+	sites:	/^(meta\.)stackoverflow\./,
+	css:	'body .star-off, body .star-on { height: 30px; width: 40px; ' +
+		'background-image: url("data:image/svg+xml,' + encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" width="80" height="30">' +
+			'<path d="M17.5,12.5h-8.5l6.8,5-2.6,8.1,6.8-5,6.8,5-2.6-8.1,6.8-5h-8.5l-2.6-8.1z" fill="#c0c0c0" stroke="#c0c0c0"/>' +
+			'<path d="M57.5,12.5h-8.5l6.8,5-2.6,8.1,6.8-5,6.8,5-2.6-8.1,6.8-5h-8.5l-2.6-8.1z" fill="#ffd83d" stroke="#eac328"/>' +
+			'</svg>'
+		) + '") }' +
+		'body .star-off { background-position: 0px 0px }' +
+		'body .star-on { background-position: -40px 0px }'
+};
 
 
 //
@@ -610,8 +624,8 @@ fixes.mse224533 = {
 		if ( SOUP.isMobile || ! window.opera ) return;
 		SOUP.addContentFilter( function (where) {
 			var preBlocks = $(where).find('pre:not(.soup-shy-fixed)').addClass('soup-shy-fixed');
-			SOUP.forEachTextNode( preBlocks, function () {
-				this.nodeValue = this.nodeValue.replace( /\xAD/g, '' );
+			SOUP.forEachTextNode( preBlocks, function ( text ) {
+				return text.replace( /\xAD/g, '' );
 			} );
 		}, 'Opera soft-hyphen fix' );
 	}
@@ -765,7 +779,7 @@ fixes.mse240417 = {
 	script:	function () {
 		SOUP.addContentFilter( function () {
 			$('.comment-user > .mod-flair').each( function () { $(this).insertAfter(this.parentNode) } );
-		}, 'mse240417', document, ['load', 'comments'] );
+		}, 'mse240417', document, ['load', 'post', 'comments'] );
 	}
 };
 fixes.mse243519 = {
@@ -778,7 +792,7 @@ fixes.mse243519 = {
 				if ( prev.nodeType != 3 ) return;
 				prev.nodeValue = prev.nodeValue.replace( /^\s*–\xA0\s*$/, " \xA0–\xA0" );
 			} );
-		}, 'mse243519', document, ['load', 'comments'] );
+		}, 'mse243519', document, ['load', 'post', 'comments'] );
 	}
 };
 fixes.mse220611 = {
@@ -1111,6 +1125,17 @@ fixes.mse264307 = {
 		};
 	}
 };
+fixes.mse170970 = {
+	title:	"Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments",
+	url:	"http://meta.stackexchange.com/q/170970",
+	script:	function () {
+		SOUP.addContentFilter( function ( where ) {
+			SOUP.forEachTextNode( $('.comment-copy', where), function ( text ) {
+				return text.replace( /\u200c\u200b/g, '' );
+			} );
+		}, 'mse170970', '#content', ['load', 'post', 'comments'] );
+	}
+};
 
 
 
@@ -1142,8 +1167,8 @@ fixes.boardgames1152 = {
 					'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
 				).replace( /%26lt%3[Bb]/g, '%3C' ).replace( /%26gt%3[Bb]/g, '%3E' ).replace( /%26amp%3[Bb]/g, '%26' );
 			} );
-			SOUP.forEachTextNode( cardLinks, function () {
-				this.nodeValue = this.nodeValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+			SOUP.forEachTextNode( cardLinks, function ( text ) {
+				return text.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 			} );
 		};
 		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', document, ['load', 'post', 'preview'] );
@@ -1185,11 +1210,10 @@ fixes.french347 = {
 	sites:	/^(meta\.)?french\./,
 	script:	function () {
 		SOUP.addContentFilter( function ( where ) {
-			SOUP.forEachTextNode( where, function () {
-				var fixed = this.nodeValue;
-				fixed = fixed.replace(/(\S) ([:;!?»])/g, '$1\u202F$2');
-				fixed = fixed.replace(/(«) (\S)/g, '$1\u202F$2');
-				if (this.nodeValue != fixed) this.nodeValue = fixed;
+			SOUP.forEachTextNode( where, function ( text ) {
+				text = text.replace(/(\S) ([:;!?»])/g, '$1\u202F$2');
+				text = text.replace(/(«) (\S)/g, '$1\u202F$2');
+				return text;
 			} );
 		}, 'French space fix' );
 	}
@@ -1623,9 +1647,18 @@ var soupInit = function () {
 	
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
-		$(where).contents().each( function () {
-			if ( this.nodeType === 1 ) SOUP.forEachTextNode( this, code );
-			else if ( this.nodeType === 3 ) code.apply( this );
+		$(where).each( function () {
+			var node = this;
+			while ( true ) {
+				while ( node.firstChild ) node = node.firstChild;
+				if ( node.nodeType == 3 ) {
+					var oldText = node.nodeValue, newText = code.call( node, oldText );
+					if ( typeof(newText) !== 'undefined' && newText !== oldText ) node.nodeValue = newText;
+				}
+				while ( node && node !== this && ! node.nextSibling ) node = node.parentNode;
+				if ( !node || node === this ) break;
+				node = node.nextSibling;
+			}
 		} );
 	};
 	

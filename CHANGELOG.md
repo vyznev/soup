@@ -11,6 +11,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258) (CSS)
 * [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
+* [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
+* [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325) (CSS, SO only)
 
 **Other changes:**
 
@@ -20,6 +22,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Ajax hooks can now receive the result of their regexp match as a fourth parameter.
 * New `SOUP.subscribeToQuestion()` helper method for subscribing to realtime events (votes, accepts, etc.) on question pages.
 * The [mse115702](http://meta.stackexchange.com/q/115702) fix (enable delete link when downvoting an answer to -1) now uses the realtime event feed.
+* The `SOUP.forEachTextNode()` method now passes the text content of each node as a parameter to the callback, and assigns any returned value back to the node.  The implementation should also be more efficient now, using native DOM traversal instead of recursive jQuery calls.
 
 1.36 (13 Sep 2015)
 ====

@@ -83,6 +83,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
+* [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
 
 ### Chat-only fixes
 
@@ -125,6 +126,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse265889: Improve answer navigation for screen readers](http://meta.stackexchange.com/q/265889)
 * [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
+* [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
 
 ### Site-specific fixes
 
