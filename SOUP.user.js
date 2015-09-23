@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.37.3
+// @version     1.37.4
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -237,6 +237,12 @@ fixes.mse266258 = {
 	title:	"Left side markdown diff outside of its area",
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
+};
+fixes.mse266747 = {
+	title:	"Amazing! All sites have blogs!",
+	url:	"http://meta.stackexchange.com/q/266747",
+	sites:	/^(?!(.*\.)?stackoverflow\.com$)/,  // XXX: disabled on SO itself
+	css:	'.topbar .current-site .related-links a[href*="//blog.stackoverflow.com"] { display: none }'
 };
 
 

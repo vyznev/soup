@@ -63,6 +63,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
+* [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747)
 
 ### Site-specific CSS fixes
 
