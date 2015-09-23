@@ -128,6 +128,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
+* [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
 
 ### Site-specific fixes
 

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.37.4
+// @version     1.37.5
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1140,6 +1140,18 @@ fixes.mse170970 = {
 				return text.replace( /\u200c\u200b/g, '' );
 			} );
 		}, 'mse170970', '#content', ['load', 'post', 'comments'] );
+	}
+};
+fixes.mse266779 = {
+	title:	"Upload image not working after providing wrong URL",
+	url:	"http://meta.stackexchange.com/q/266779",
+	script:	function () {
+		$(document).on( 'mousedown', '.modal.image-upload.wmd-prompt-dialog .modal-dropzone-default', function () {
+			var dialog = $(this).closest('.modal');
+			if ( dialog.find('.modal-options').data('active-tab') === 'error' ) {
+				dialog.find('.modal-input-file, .modal-input-url').prop('disabled', false).attr('value', '');
+			}
+		} );
 	}
 };
 

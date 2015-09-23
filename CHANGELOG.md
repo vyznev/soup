@@ -14,6 +14,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325) (CSS, SO only)
 * [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747) (CSS)
+* [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
 
 **Other changes:**
 
