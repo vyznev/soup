@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.38.0 -->
+<!-- version: 1.39.x -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.38 includes fixes or workarounds for the following issues.
+SOUP v1.39 (devel) includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -85,6 +85,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
+* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (enabled globally)
 
 ### Chat-only fixes
 
