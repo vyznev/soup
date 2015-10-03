@@ -77,7 +77,6 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
-* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (applied globally)
 * [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049)
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)

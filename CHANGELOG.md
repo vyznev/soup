@@ -5,7 +5,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.39 (development)
 ====
 
+**New fixes in 1.39.x:**
+
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (CSS)
+
+**Removed fixes:**
+
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939)
 
 1.38 (3 Oct 2015)
 ====
