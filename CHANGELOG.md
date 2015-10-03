@@ -2,10 +2,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.37 (development)
+1.38 (3 Oct 2015)
 ====
 
-**New fixes in 1.37.x:**
+This release contains a couple of fixes to the image upload dialog (mse266523, mse264307 and mse266779), a few CSS fixes and one rather interesting accessibility fix ([mse265889](http://meta.stackexchange.com/q/265889)) which should actually be invisible to everyone, but audible to people using a screen reader.  There's also a bunch of changes to the "SOUP framework" that should make certain kinds of fixes faster, more reliable and easier to implement.
+
+**New fixes in 1.38.0:**
 
 * [mse265889: Improve answer navigation for screen readers](http://meta.stackexchange.com/q/265889)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258) (CSS)
@@ -20,7 +22,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Content filters are now (hopefully) applied correctly to edited posts reloaded via Ajax.
 * Content filters applied to new / updated posts no longer need to reprocess all posts on the page.
-* The content filter Ajax hook regexp is no longer exposed as `SOUP.contentFilterRegexp`.
+* The content filter Ajax hook regexp is no longer exposed as `SOUP.contentFilterRegexp` (because we now use several hooks with different regexps).
 * Ajax hooks can now receive the result of their regexp match as a fourth parameter.
 * New `SOUP.subscribeToQuestion()` helper method for subscribing to realtime events (votes, accepts, etc.) on question pages.
 * The [mse115702](http://meta.stackexchange.com/q/115702) fix (enable delete link when downvoting an answer to -1) now uses the realtime event feed.
