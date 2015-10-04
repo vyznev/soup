@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.38.0
+// @version     1.38.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -464,7 +464,7 @@ fixes.mse217779 = {
 			if ( ! spoiler.hasClass('spoiler') ) spoiler = spoiler.find('.spoiler');
 			spoiler.addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>').off('click');
 		};
-		SOUP.addContentFilter( fixSpoilers, 'spoiler fix', document, ['load', 'post', 'preview'] );
+		SOUP.addContentFilter( fixSpoilers, 'spoiler fix', null, ['load', 'post', 'preview'] );
 		$(document).on( 'mouseover', '.spoiler', function () {
 			SOUP.try( 'spoiler fix fallback', fixSpoilers, [this] );
 		} ).on( 'click', '.soup-spoiler', function () {
@@ -750,7 +750,7 @@ fixes.mse266852 = {
 	script:	function () {
 		SOUP.addContentFilter( function () {
 			$('div[id^="comments-link-"] .js-link-separator:not(.lsep)').addClass('lsep').text('|');
-		}, 'mse266852', ['load', 'post'] );
+		}, 'mse266852', null, ['load', 'post'] );
 	}
 };
 fixes.mse239549 = {
@@ -785,7 +785,7 @@ fixes.mse240417 = {
 	script:	function () {
 		SOUP.addContentFilter( function () {
 			$('.comment-user > .mod-flair').each( function () { $(this).insertAfter(this.parentNode) } );
-		}, 'mse240417', document, ['load', 'post', 'comments'] );
+		}, 'mse240417', null, ['load', 'post', 'comments'] );
 	}
 };
 fixes.mse243519 = {
@@ -798,7 +798,7 @@ fixes.mse243519 = {
 				if ( prev.nodeType != 3 ) return;
 				prev.nodeValue = prev.nodeValue.replace( /^\s*–\xA0\s*$/, " \xA0–\xA0" );
 			} );
-		}, 'mse243519', document, ['load', 'post', 'comments'] );
+		}, 'mse243519', null, ['load', 'post', 'comments'] );
 	}
 };
 fixes.mse220611 = {
@@ -1089,7 +1089,7 @@ fixes.mse265889 = {
 				heading.text(text);
 			} );
 		};
-		SOUP.addContentFilter( updateAnswerHeadings, 'post' );
+		SOUP.addContentFilter( updateAnswerHeadings, 'mse265889', null, ['load', 'post'] );
 		SOUP.subscribeToQuestion( function (data) {
 			if ( /^(score|(un)?accept)$/.test( data.a ) ) setTimeout( function () {
 				updateAnswerHeadings( '#answer-' + data.id );
@@ -1139,7 +1139,7 @@ fixes.mse170970 = {
 			SOUP.forEachTextNode( $('.comment-copy', where), function ( text ) {
 				return text.replace( /\u200c\u200b/g, '' );
 			} );
-		}, 'mse170970', '#content', ['load', 'post', 'comments'] );
+		}, 'mse170970', null, ['load', 'post', 'comments'] );
 	}
 };
 fixes.mse266779 = {
@@ -1189,7 +1189,7 @@ fixes.boardgames1152 = {
 				return text.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 			} );
 		};
-		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', document, ['load', 'post', 'preview'] );
+		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', null, ['load', 'post', 'preview'] );
 		fixCardLinks();
 		
 		// related issue: card links are not parsed in edit preview
@@ -1557,9 +1557,6 @@ var soupInit = function () {
 		var where = ( match[2] ? '#comments-' + match[2] : '#comment-' + match[3] );
 		SOUP.runContentFilters( 'comments', where );
 	} );
-	SOUP.hookEditPreview( function (editor, postfix) {
-		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
-	} );
 	SOUP.chatContentFiltersPending = false;
 	SOUP.runChatContentFilters = function () {
 		SOUP.chatContentFiltersPending = false;
@@ -1723,6 +1720,11 @@ var soupLateSetup = function () {
 	$(document).on( 'userhovershowing', function ( event ) {
 		SOUP.runContentFilters( 'usercard', event.target );
 	} );
+	// trigger content filters on editor preview
+	SOUP.hookEditPreview( function (editor, postfix) {
+		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
+	} );
+
 
 	// subscribe to SE realtime question events (TODO: defer until needed?)
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
