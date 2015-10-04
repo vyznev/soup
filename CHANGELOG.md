@@ -39,6 +39,10 @@ This release contains a couple of fixes to the image upload dialog (mse266523, m
 * The [mse115702](http://meta.stackexchange.com/q/115702) fix (enable delete link when downvoting an answer to -1) now uses the realtime event feed.
 * The `SOUP.forEachTextNode()` method now passes the text content of each node as a parameter to the callback, and assigns any returned value back to the node.  The implementation should also be more efficient now, using native DOM traversal instead of recursive jQuery calls.
 
+**Changes in 1.38.1:**
+
+This point release fixes a bug that caused content filters not to run in the Markdown editor preview pane.
+
 1.36 (13 Sep 2015)
 ====
 
