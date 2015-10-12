@@ -63,7 +63,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
-* [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747)
 
 ### Site-specific CSS fixes
 
@@ -119,7 +118,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
-* [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * **[mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
@@ -128,7 +126,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
-* [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
 
 ### Site-specific fixes
 
@@ -143,7 +140,6 @@ These fixes apply to the post review interface.  I've listed them separately her
 
 * **[mse172931: Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)**
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
-* [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 
 ### HTTPS-only fixes
 
