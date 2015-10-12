@@ -32,6 +32,17 @@ This release contains a couple of fixes to the image upload dialog (mse266523, m
 
 This point release fixes a bug that caused content filters not to run in the Markdown editor preview pane.
 
+**Changes in 1.38.2:**
+
+Removed the following fixes, as they're no longer needed:
+
+* [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
+* [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747)
+* [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
+* [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
+
+
 1.36 (13 Sep 2015)
 ====
 
@@ -85,7 +96,7 @@ This is mainly a cleanup release, removing several obsolete fixes for design bug
 * [mse219740: Add spacing / padding to “Protected By…” and “Not the answer you're looking for”](http://meta.stackexchange.com/q/219740)
 * [mse231981: Overly long user location entry breaks mobile users view](http://meta.stackexchange.com/q/231981)
 * [mse167975: Bug in textarea in bounty creation popup](http://meta.stackexchange.com/q/167975)
-* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/1958)
+* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/19587)
 * [skeptics2636: Links in promotion ads are black on black, thus invisible](http://meta.skeptics.stackexchange.com/q/2636)
 * [japanese1023: Preformatted text in Japanese doesn't line up properly](http://meta.japanese.stackexchange.com/q/1023)
 * [gaming8530: Hovering over the community links changes the header height](http://meta.gaming.stackexchange.com/q/8530)
@@ -156,7 +167,7 @@ My future plans involve doing another big testing session to see which old fixes
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652) (CSS, movies.SE only)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (CSS, graphicdesign.SE only)
 * [math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650) (math)
-* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/1958) (CSS)
+* [math19587: When editing tags, the bottom of the tag popup is invisible](http://meta.math.stackexchange.com/q/19587) (CSS)
 * [mso287222: Clicking between lines fails](http://meta.stackoverflow.com/q/287222) (CSS)
 
 **Other changes:**

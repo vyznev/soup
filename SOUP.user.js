@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.38.1
+// @version     1.38.2
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -238,12 +238,6 @@ fixes.mse266258 = {
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
 };
-fixes.mse266747 = {
-	title:	"Amazing! All sites have blogs!",
-	url:	"http://meta.stackexchange.com/q/266747",
-	sites:	/^(?!(.*\.)?stackoverflow\.com$)/,  // XXX: disabled on SO itself
-	css:	'.topbar .current-site .related-links a[href*="//blog.stackoverflow.com"] { display: none }'
-};
 
 
 // site-specific CSS fixes:
@@ -328,12 +322,6 @@ fixes.mso286009 = {
 	url:	"http://meta.stackoverflow.com/q/286009",
 	sites:	/^(meta\.)?stackoverflow\./,
 	css:	".nav.askquestion { margin-left: 26px }"
-};
-fixes.mso283939 = {
-	title:	"Flag for diamond moderator textarea breaks out of the dialog",
-	url:	"http://meta.stackoverflow.com/q/283939",
-	// should be safe to apply on all sites; sites other than SO already have similar CSS
-	css:	".mod-attention-subform textarea { font-size: 12px; width: 600px; padding: 5px }"
 };
 fixes.mse250407 = {
 	title:	"User signature cards on old revisions look funny",
@@ -902,15 +890,6 @@ fixes.mso295276 = {
 		} );
 	}
 };
-fixes.mso297171 = {
-	title:	"Comment warning appears on next comment",
-	url:	"http://meta.stackoverflow.com/q/297171",
-	script:	function () {
-		$( document ).on( 'comment', function ( event, postid ) {
-			$( '#add-comment-' + postid + ' .message-dismissable' ).fadeOutAndRemove();
-		} );
-	}
-};
 fixes.mso295666 = {
 	title:	"Disable annoying autofocus when clicking preview",
 	url:	"http://meta.stackoverflow.com/q/295666",
@@ -928,66 +907,6 @@ fixes.mso295666 = {
 		// add replacement double-click handler
 		$( document ).on( 'dblclick', '.wmd-preview', function () {
 			$( 'textarea', this.parentNode ).focus();
-		} );
-	}
-};
-fixes.mso302336 = {
-	title:	"Don't fail LQP review audits just for looking at the deletion popup",
-	url:	"http://meta.stackoverflow.com/q/302336",
-	script:	function () {
-		if ( ! /^\/review\/low-quality-posts\b/.test( location.pathname ) ) return;
-		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings ) {
-			var data = $.parseJSON( xhr.responseText );
-			if ( !data || !data.isAudit || data.isQuestion ) return;
-			SOUP.log( 'soup mso302336: overriding review button handling for LQP answer audit' );
-
-			var currentPostId = data.postId;
-			$('.review-actions input').click( function ( event ) {
-				// let SE handle this if we've re-triggered the event ourselves
-				if ( event.soupReallyTriggerAudit ) {
-					SOUP.log( 'soup mso302336: ignoring re-triggered click event' );
-					return true;
-				}
-				var $button = $(this);
-				var taskResultTypeId = $button.data( 'result-type' );
-				// if this isn't a Delete or RecommendDeletion action, let SE handle it
-				if ( taskResultTypeId != 4 && taskResultTypeId != 9 ) return true;
-				SOUP.log( 'soup mso302336: captured delete button click on LQP answer audit, showing dialog' );
-				
-				// load and display a dummy deletion popup, just like on a non-audit post
-				// NOTE: this is mostly copy-pasted from loadDeleteDialog() and delete_initPopup() in http://cdn-dev.sstatic.net/Js/review.en.js
-				$('.review-actions input').attr('disabled', 'disabled');
-				$.ajax( {
-					type: 'GET',
-					url: '/posts/popup/delete/' + currentPostId,  // XXX: will this work right on audit posts?
-					dataType: 'html',
-					success: function (html) {
-						var $popup = $(html);
-						$popup.appendTo($('.post-menu:first'));
-						$popup.center().fadeIn('fast');
-						StackExchange.helpers.bindMovablePopups();
-						$popup.on("popupClose", function () {
-							$('.review-actions input').removeAttr('disabled');
-						});
-						$popup.on("click", '.popup-close, .popup-actions-cancel', function () {
-							$popup.trigger("closePopups");
-						});
-						$('#delete-question-form').submit(function () {
-							$popup.trigger("closePopups");
-							// re-trigger the click event, so that the audit gets handled
-							SOUP.log( 'soup mso302336: re-triggering captured delete button click' );
-							var newEvent = $.Event( 'click', { soupReallyTriggerAudit: true } );
-							$button.trigger( newEvent );
-					                return false;
-						});
-					},
-					error: function () {
-						$('.review-bar').showErrorMessage("Unable to load dialog. Please try again.");
-					}
-				} );
-				
-				return false;  // stop the event, don't let the SE click handler run
-			} );
 		} );
 	}
 };
@@ -1140,18 +1059,6 @@ fixes.mse170970 = {
 				return text.replace( /\u200c\u200b/g, '' );
 			} );
 		}, 'mse170970', null, ['load', 'post', 'comments'] );
-	}
-};
-fixes.mse266779 = {
-	title:	"Upload image not working after providing wrong URL",
-	url:	"http://meta.stackexchange.com/q/266779",
-	script:	function () {
-		$(document).on( 'mousedown', '.modal.image-upload.wmd-prompt-dialog .modal-dropzone-default', function () {
-			var dialog = $(this).closest('.modal');
-			if ( dialog.find('.modal-options').data('active-tab') === 'error' ) {
-				dialog.find('.modal-input-file, .modal-input-url').prop('disabled', false).attr('value', '');
-			}
-		} );
 	}
 };
 

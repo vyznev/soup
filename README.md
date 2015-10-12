@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.38.1 -->
+<!-- version: 1.38.2 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.38 includes fixes or workarounds for the following issues.
+SOUP v1.38.2 includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -63,7 +63,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
-* [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747)
 
 ### Site-specific CSS fixes
 
@@ -77,7 +76,6 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)
 * [electronics4038: About Me box on user page not in the right place](http://meta.electronics.stackexchange.com/q/4038) (applied globally)
 * [mso286009: Change \[Ask Question\] button style](http://meta.stackoverflow.com/q/286009)
-* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
 * [mse250407: User signature cards on old revisions look funny](http://meta.stackexchange.com/q/250407) (applied globally)
 * [cooking2049: Ads are cut off on the right](http://meta.cooking.stackexchange.com/q/2049)
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
@@ -119,7 +117,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
 * [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
-* [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
 * **[mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
@@ -128,7 +125,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
-* [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
 
 ### Site-specific fixes
 
@@ -143,7 +139,6 @@ These fixes apply to the post review interface.  I've listed them separately her
 
 * **[mse172931: Please put answers underneath questions in Close review queue](http://meta.stackexchange.com/q/172931)**
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](http://meta.stackoverflow.com/q/297489)
-* [mso302336: Don't fail LQP review audits just for looking at the deletion popup](http://meta.stackoverflow.com/q/302336)
 
 ### HTTPS-only fixes
 
