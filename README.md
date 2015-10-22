@@ -63,6 +63,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
+* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513)
 
 ### Site-specific CSS fixes
 
@@ -94,6 +95,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse222509: Getting Red Line under tags](http://meta.stackexchange.com/q/222509)
 * [mse134268: U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233)
+* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175)
 
 ### General fixes
 

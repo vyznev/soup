@@ -8,6 +8,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.39.x:**
 
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (CSS)
+* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
+* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175) (chat)
 
 **Removed fixes:**
 
@@ -51,7 +53,7 @@ Removed the following fixes, as they're no longer needed:
 * [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747)
 * [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
-* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939)
 
 
 1.36 (13 Sep 2015)
