@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.39.4
+// @version     1.39.5
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1091,6 +1091,22 @@ fixes.mse170970 = {
 				return text.replace( /\u200c\u200b/g, '' );
 			} );
 		}, 'mse170970', null, ['load', 'post', 'comments'] );
+	}
+};
+fixes.mse153528 = {
+	title:	"Don't ask for a comment when downvoting, if the user just voted on a comment",
+	url:	"http://meta.stackexchange.com/q/153528",
+	script:	function () {
+		// TODO: add localized message variants?
+		var re = /^Please consider adding a comment if you think this post can be improved\.$/;
+		var oldShowInfoMsg = StackExchange.helpers.showInfoMessage;
+		StackExchange.helpers.showInfoMessage = function ( elem, message, options ) {
+			if ( re.test(message) ) {
+				var post = $(elem).closest('.question, .answer');
+				if ( post.has('.comment-up-on').length ) return null;
+			}
+			return oldShowInfoMsg.apply( this, arguments );
+		};
 	}
 };
 

@@ -10,6 +10,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (CSS)
 * [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
 * [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175) (chat)
+* [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
 
 **Removed fixes:**
 
