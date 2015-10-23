@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.39.6
+// @version     1.39.7
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1129,6 +1129,16 @@ fixes.mse259325 = {
 			};
 		} );
 	}
+};
+fixes.mso306552 = {
+	title:	"Votes cast has upvote-like symbol and is confusing",
+	url:	"http://meta.stackoverflow.com/q/306552",
+	credit:	"AgeDeO and misterManSam",
+	script:	function () {
+		if ( ! /^\/users\/\d+/.test( location.pathname ) ) return;
+		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
+	},
+	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
 };
 
 

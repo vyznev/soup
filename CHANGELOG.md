@@ -12,6 +12,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175) (chat)
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
+* [mso306552: Votes cast has upvote-like symbol and is confusing](http://meta.stackoverflow.com/q/306552) (credit: AgeDeO and misterManSam)
 
 **Removed fixes:**
 
