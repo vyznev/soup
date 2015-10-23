@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.39.5
+// @version     1.39.6
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -50,6 +50,9 @@
 // Opera does not support @match, so re-check that we're on an SE site before doing anything
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 if ( ! include_re.test( location.hostname ) ) return;
+
+// we don't want to mess with iframes; SE does frame-busting anyway, so any real SE pages should be in top-level frames
+try { if ( window.self !== window.top ) return } catch (e) { return }
 
 var fixes = {};
 
@@ -1109,7 +1112,24 @@ fixes.mse153528 = {
 		};
 	}
 };
-
+fixes.mse259325 = {
+	title:	"Answer flashes orange when I click the “edit (1)” link to review a suggested edit",
+	url:	"http://meta.stackexchange.com/q/259325",
+	script:	function () {
+		// the initial hashchange event has already fired, so we can safely ignore any later
+		// events that don't correspond to an actual change in the hash
+		var oldHash = location.hash;
+		( $._data(window, 'events').hashchange || [] ).forEach( function (h) {
+			if ( ! h.namespace || h.namespace !== 'highlightDestination' ) return;
+			var oldHandler = h.handler;
+			h.handler = function (e) {
+				if ( oldHash === location.hash ) return;
+				oldHash = location.hash;
+				return oldHandler.apply( this, arguments );
+			};
+		} );
+	}
+};
 
 
 //

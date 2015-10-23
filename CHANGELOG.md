@@ -11,10 +11,16 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
 * [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175) (chat)
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
+* [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
 
 **Removed fixes:**
 
 * [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939)
+
+**Other changes:**
+
+* SOUP no longer injects its code into `<iframe>`s.  While there have been no reported bugs caused by this, it's still useless and unintentional behavior.
+
 
 1.38 (3 Oct 2015)
 ====

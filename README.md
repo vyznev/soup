@@ -129,6 +129,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
+* [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
 
 ### Site-specific fixes
 
