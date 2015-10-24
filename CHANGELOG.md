@@ -2,6 +2,31 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
+
+1.40 (25 Oct 2015)
+====
+
+Just a bunch of new fixes, nothing too special this time.  The [mso308513](http://meta.stackoverflow.com/q/308513) issue has already been marked "status-completed" by SE, but it hasn't been deployed quite yet and having the style twice should do no harm, so I'm leaving it in for this release.
+
+**New fixes in 1.40.0:**
+
+* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (CSS)
+* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
+* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175) (chat)
+* [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
+* [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
+* [mso306552: Votes cast has upvote-like symbol and is confusing](http://meta.stackoverflow.com/q/306552) (credit: AgeDeO and misterManSam)
+* [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
+
+**Removed fixes:**
+
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939)
+
+**Other changes:**
+
+* SOUP no longer injects its code into `<iframe>`s.  While there have been no reported bugs caused by this, it's still useless and unintentional behavior.
+
+
 1.38 (3 Oct 2015)
 ====
 
@@ -40,7 +65,7 @@ Removed the following fixes, as they're no longer needed:
 * [mse266747: Amazing! All sites have blogs!](http://meta.stackexchange.com/q/266747)
 * [mse266779: Upload image not working after providing wrong URL](http://meta.stackexchange.com/q/266779)
 * [mso297171: Comment warning appears on next comment](http://meta.stackoverflow.com/q/297171)
-* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939) (applied globally)
+* [mso283939: Flag for diamond moderator textarea breaks out of the dialog](http://meta.stackoverflow.com/q/283939)
 
 
 1.36 (13 Sep 2015)

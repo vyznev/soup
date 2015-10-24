@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.38.2 -->
+<!-- version: 1.40.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.38.2 includes fixes or workarounds for the following issues.
+SOUP v1.40.0 includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -63,6 +63,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
+* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513)
 
 ### Site-specific CSS fixes
 
@@ -83,6 +84,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
+* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (enabled globally)
 
 ### Chat-only fixes
 
@@ -93,6 +95,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse222509: Getting Red Line under tags](http://meta.stackexchange.com/q/222509)
 * [mse134268: U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233)
+* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175)
 
 ### General fixes
 
@@ -125,6 +128,10 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse266523: Uploading an image from the web can leave paste broken in editor](http://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](http://meta.stackexchange.com/q/264307)
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](http://meta.stackexchange.com/q/170970)
+* [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
+* [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
+* [mso306552: Votes cast has upvote-like symbol and is confusing](http://meta.stackoverflow.com/q/306552)
+* [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
 
 ### Site-specific fixes
 

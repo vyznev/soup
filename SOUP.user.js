@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.38.2
+// @version     1.40.0
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -50,6 +50,9 @@
 // Opera does not support @match, so re-check that we're on an SE site before doing anything
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 if ( ! include_re.test( location.hostname ) ) return;
+
+// we don't want to mess with iframes; SE does frame-busting anyway, so any real SE pages should be in top-level frames
+try { if ( window.self !== window.top ) return } catch (e) { return }
 
 var fixes = {};
 
@@ -238,6 +241,11 @@ fixes.mse266258 = {
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
 };
+fixes.mso308513 = {
+	title:	"Styling issue on upvoted comments by diamond moderators",
+	url:	"http://meta.stackoverflow.com/q/308513",
+	css:	".mod-flair { line-height: 1 }"
+};
 
 
 // site-specific CSS fixes:
@@ -378,6 +386,13 @@ fixes.mso306325 = {
 		'body .star-off { background-position: 0px 0px }' +
 		'body .star-on { background-position: -40px 0px }'
 };
+fixes.rpg5812 = {
+	title:	"Post as a guest: CSS bug",
+	url:	"http://meta.rpg.stackexchange.com/q/5812",
+	credit:	"polkovnikov.ph",
+	css:	".new-login-form .new-login-right input, .new-login-form .new-login-right table  { width: 100%; box-sizing: border-box }"
+};
+
 
 
 //
@@ -433,6 +448,26 @@ fixes.mse224233 = {
 			else if ( $this.closest('#usersearch').length ) return 'filter users';
 			else return 'search';
 		} ).filter('.watermark').val('').removeClass('watermark');
+	}
+};
+fixes.mse139175 = {
+	title:	"When starring a message from the star board, it's not reflected in the main chat window",
+	url:	"http://meta.stackexchange.com/q/139175",
+	sites:	/^chat\./,
+	script:	function () {
+		var syncMsgStar = function () {
+			var $this = $(this);
+			var starred = $this.hasClass('user-star');
+			var id = $this.closest('li').attr('id').match(/\d+/)[0];
+			var msgStar = $('#message-' + id + ' .stars');
+
+			if ( starred ) msgStar.addClass('user-star');
+			else msgStar.removeClass('user-star');
+		};
+		var selector = '#starred-posts .sidebar-vote';
+		// XXX: this needs to run after the SE click handler; looks like it does
+		$(document).on( 'click', selector, syncMsgStar );
+		SOUP.hookAjax( /^\/chats\/stars\b/, function () { $(selector).each(syncMsgStar) } );
 	}
 };
 
@@ -1061,7 +1096,61 @@ fixes.mse170970 = {
 		}, 'mse170970', null, ['load', 'post', 'comments'] );
 	}
 };
-
+fixes.mse153528 = {
+	title:	"Don't ask for a comment when downvoting, if the user just voted on a comment",
+	url:	"http://meta.stackexchange.com/q/153528",
+	script:	function () {
+		// TODO: add localized message variants?
+		var re = /^Please consider adding a comment if you think this post can be improved\.$/;
+		var oldShowInfoMsg = StackExchange.helpers.showInfoMessage;
+		StackExchange.helpers.showInfoMessage = function ( elem, message, options ) {
+			if ( re.test(message) ) {
+				var post = $(elem).closest('.question, .answer');
+				if ( post.has('.comment-up-on').length ) return null;
+			}
+			return oldShowInfoMsg.apply( this, arguments );
+		};
+	}
+};
+fixes.mse259325 = {
+	title:	"Answer flashes orange when I click the “edit (1)” link to review a suggested edit",
+	url:	"http://meta.stackexchange.com/q/259325",
+	script:	function () {
+		// the initial hashchange event has already fired, so we can safely ignore any later
+		// events that don't correspond to an actual change in the hash
+		var oldHash = location.hash;
+		( $._data(window, 'events').hashchange || [] ).forEach( function (h) {
+			if ( ! h.namespace || h.namespace !== 'highlightDestination' ) return;
+			var oldHandler = h.handler;
+			h.handler = function (e) {
+				if ( oldHash === location.hash ) return;
+				oldHash = location.hash;
+				return oldHandler.apply( this, arguments );
+			};
+		} );
+	}
+};
+fixes.mso306552 = {
+	title:	"Votes cast has upvote-like symbol and is confusing",
+	url:	"http://meta.stackoverflow.com/q/306552",
+	credit:	"AgeDeO and misterManSam",
+	script:	function () {
+		if ( ! /^\/users\/\d+/.test( location.pathname ) ) return;
+		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
+	},
+	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
+};
+fixes.mso308672 = {
+	title:	"Alerts no longer work in StackOverflow snippets in Chrome 46+",
+	url:	"http://meta.stackoverflow.com/q/308672",
+	script:	function () {
+		$(document).on( 'submit', 'form[action="//stacksnippets.net/js"]', function () {
+			if ( ! /^[\-0-9A-Za-z]+$/.test( this.target ) ) return;  // safety check
+			var iframe = $( 'iframe[name="' + this.target + '"][sandbox=allow-scripts]' );
+			iframe.attr( 'sandbox', 'allow-scripts allow-modals' );
+		} );
+	}
+};
 
 
 //
