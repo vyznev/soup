@@ -131,6 +131,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
 * [mso306552: Votes cast has upvote-like symbol and is confusing](http://meta.stackoverflow.com/q/306552)
+* [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
 
 ### Site-specific fixes
 
