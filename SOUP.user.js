@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.39.8
+// @version     1.41.0
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1232,6 +1232,19 @@ fixes.french347 = {
 		}, 'French space fix' );
 	}
 };
+fixes.mse264171 = {
+	title:	"SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'",
+	url:	"http://meta.stackexchange.com/q/264171",
+	sites:	/^blog\./,
+	early:	function () {
+		if ( ! /^\/tags\/[0-9A-Za-z]+-com\/?$/.test( location.pathname ) ) return;
+		// bah, no jQuery in the blogs :(
+		document.addEventListener( 'DOMContentLoaded', function (event) { 
+			var is404 = document.head.querySelector( 'meta[property="og:url"][content="/404/"]' );
+			if ( is404 ) location.replace( location.href.replace( /\/tags\/([0-9A-Za-z]+)-com\b/, '/tags/$1.com' ) );
+		} );
+	}
+};
 
 
 //
@@ -1678,22 +1691,26 @@ var soupInit = function () {
 
 // setup code to execute after jQuery has loaded:
 var soupLateSetup = function () {
+	// no jQuery? just give up!
+	if ( !( window.$ && $.fn && $.fn.jquery ) ) {
+		SOUP.log( 'soup found no jQuery, aborting setup' );
+		return;
+	}
+
 	// basic environment detection, part 2
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
+
 	// detect user rep and site beta status; together, these can be user to determine user privileges
 	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
-	if ( window.$ ) {
-		SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
-		SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
-	}
+	SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
+	SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
 	
 	// run ready queue after jQuery and/or SE framework have loaded
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( SOUP.runReadyQueue );
-	else if ( window.$ ) $(document).ready( SOUP.runReadyQueue );
-	// else we do nothing; this may happen e.g. in iframes
+	else $(document).ready( SOUP.runReadyQueue );
 	
 	// attach global AJAX hooks
-	if ( window.$ ) $( document ).ajaxComplete( function( event, xhr, settings ) {
+	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for ( var i = 0; i < SOUP.ajaxHooks.length; i++ ) {
 			var match = SOUP.ajaxHooks[i].regex.exec( settings.url );
 			if ( match ) SOUP.runAjaxHook( SOUP.ajaxHooks[i], event, xhr, settings, match );

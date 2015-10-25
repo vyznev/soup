@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.39.x -->
+<!-- version: 1.41.x -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP can also be used on other browsers with compatible user script support, suc
 Included fixes
 --------------
 
-SOUP v1.39 (devel) includes fixes or workarounds for the following issues.
+SOUP v1.41 (devel) includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -139,7 +139,8 @@ These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer 
 
 * **[boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152)**
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347)
-
+* [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](http://meta.stackexchange.com/q/264171)
+	
 ### Review fixes
 
 These fixes apply to the post review interface.  I've listed them separately here, since they include some of the more notable interface tweaks in SOUP.

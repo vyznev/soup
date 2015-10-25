@@ -2,10 +2,24 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
-1.39 (development)
+
+1.41 (development)
 ====
 
-**New fixes in 1.39.x:**
+**New fixes in 1.41.x:**
+
+* [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](http://meta.stackexchange.com/q/264171) (SE blogs only)
+
+**Other changes:**
+
+* Don't even try to run late setup and normal script fixes unless jQuery is available; it won't work.  Early (and mathjax) script fixes still run.
+
+1.40 (25 Oct 2015)
+====
+
+Just a bunch of new fixes, nothing too special this time.  The [mso308513](http://meta.stackoverflow.com/q/308513) issue has already been marked "status-completed" by SE, but it hasn't been deployed quite yet and having the style twice should do no harm, so I'm leaving it in for this release.
+
+**New fixes in 1.40.0:**
 
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (CSS)
 * [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
