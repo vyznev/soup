@@ -1161,7 +1161,7 @@ fixes.mse268584 = {
 			// XXX: in dupe review, there can be multiple questions on the page
 			$('.mainbar, #mainbar').each( function () {
 				var name = $(this).find('.question .post-signature.owner .user-details').not(':has(a)').text().trim();
-				if ( name !== "" ) return;
+				if ( name === "" ) return;
 				$(this).find('span.comment-user:not(.owner)').filter( function () {
 					return this.textContent === name;
 				} ).addClass('owner');
