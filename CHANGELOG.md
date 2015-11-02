@@ -9,6 +9,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.41.x:**
 
 * [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](http://meta.stackexchange.com/q/264171) (SE blogs only)
+* [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
 
 **Other changes:**
 

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.41.1
+// @version     1.41.2
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1153,6 +1153,24 @@ fixes.mso308672 = {
 		} );
 	}
 };
+fixes.mse268584 = {
+	title:	"When a user is deleted, OP highlighting is lost",
+	url:	"http://meta.stackexchange.com/q/268584",
+	script:	function () {
+		SOUP.addContentFilter( function () {
+			// XXX: in dupe review, there can be multiple questions on the page
+			$('.mainbar, #mainbar').each( function () {
+				var name = $(this).find('.question .post-signature.owner .user-details').not(':has(a)').text().trim();
+				if ( name !== "" ) return;
+				$(this).find('span.comment-user:not(.owner)').filter( function () {
+					return this.textContent === name;
+				} ).addClass('owner');
+			} );
+		}, 'mse268584', null, ['load', 'post', 'comments'] );
+	},
+	css:	"span.comment-user.owner { padding: 1px 5px }"
+};
+
 
 
 //
