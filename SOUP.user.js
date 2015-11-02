@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.41.2
+// @version     1.41.3
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -240,11 +240,6 @@ fixes.mse266258 = {
 	title:	"Left side markdown diff outside of its area",
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
-};
-fixes.mso308513 = {
-	title:	"Styling issue on upvoted comments by diamond moderators",
-	url:	"http://meta.stackoverflow.com/q/308513",
-	css:	".mod-flair { line-height: 1 }"
 };
 
 
@@ -1263,6 +1258,17 @@ fixes.mse264171 = {
 			var is404 = document.head.querySelector( 'meta[property="og:url"][content="/404/"]' );
 			if ( is404 ) location.replace( location.href.replace( /\/tags\/([0-9A-Za-z]+)-com\b/, '/tags/$1.com' ) );
 		} );
+	}
+};
+fixes.mse268784 = {
+	title:	"SO Blog icon has partial white background when tab is inactive",
+	url:	"http://meta.stackexchange.com/q/268784",
+	sites:	/^blog\.stackoverflow\./,
+	early:	function () {
+		var icon = document.createElement('link');
+		icon.rel = 'shortcut icon';
+		icon.href = '//cdn.sstatic.net/stackoverflow/img/favicon.ico';
+		document.head.appendChild(icon);
 	}
 };
 

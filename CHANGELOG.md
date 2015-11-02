@@ -10,6 +10,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](http://meta.stackexchange.com/q/264171) (SE blogs only)
 * [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
+* [mse268784: SO Blog icon has partial white background when tab is inactive](http://meta.stackexchange.com/q/268784) (SE blogs only)
+
+**Removed fixes:**
+
+* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
 
 **Other changes:**
 

@@ -63,7 +63,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
-* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513)
 
 ### Site-specific CSS fixes
 
@@ -141,7 +140,8 @@ These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer 
 * **[boardgames1152: Can the Magic card auto link feature be improved?](http://meta.boardgames.stackexchange.com/q/1152)**
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](http://meta.french.stackexchange.com/q/347)
 * [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](http://meta.stackexchange.com/q/264171)
-	
+* [mse268784: SO Blog icon has partial white background when tab is inactive](http://meta.stackexchange.com/q/268784)
+
 ### Review fixes
 
 These fixes apply to the post review interface.  I've listed them separately here, since they include some of the more notable interface tweaks in SOUP.
