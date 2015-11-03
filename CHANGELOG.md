@@ -42,7 +42,7 @@ Just a bunch of new fixes, nothing too special this time.  The [mso308513](http:
 **Other changes:**
 
 * SOUP no longer injects its code into `<iframe>`s.  While there have been no reported bugs caused by this, it's still useless and unintentional behavior.
-
+* Extended [codegolf959](http://meta.codegolf.stackexchange.com/q/959) fix (reduce line height in code blocks) also to puzzling.SE.
 
 1.38 (3 Oct 2015)
 ====
