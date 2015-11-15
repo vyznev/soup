@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.41.4
+// @version     1.41.5
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -175,6 +175,7 @@ fixes.mse84296 = {
 	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
 	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
 	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
+	// SEE ALSO: mso310158 (prevent runaway BiDi overrides in new comments)
 	css:	".comment-copy, .comment-user, .user-details a " +
 		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
 };
@@ -1164,6 +1165,79 @@ fixes.mse268584 = {
 		}, 'mse268584', null, ['load', 'post', 'comments'] );
 	},
 	css:	"span.comment-user.owner { padding: 1px 5px }"
+};
+fixes.mso310158 = {
+	title:	"Right to left marker in comment shouldn't cause the rest of the line to change",
+	url:	"http://meta.stackoverflow.com/q/310158",
+	// This fix and mse84296 above address the same issue from different sides:
+	// while mse84296 fixes comment BiDi leakage for users with SOUP installed,
+	// this fix sanitizes BiDi markup in new comments posted by SOUP users, so
+	// that other users *without* SOUP installed will see them as intended.
+	script: function () {
+		// make sure BiDi embed / override / isolate effects won't leak out into surrounding text
+		// see http://meta.stackoverflow.com/a/310228
+		function sanitizeBiDi (str) {
+			var PDF = "\u202C", PDI = "\u2069";  // Pop Directional Formatting/Isolate
+			var stack = [];  // stack of pending PDF / PDI marks
+
+			str = str.replace( /[\u202A-\u202E\u2066-\u2069]/g, function (chr) {
+				if (chr === PDF || chr === PDI) {
+					var rv = "";
+					// PDI always terminates all unclosed embeds / overrides
+					if (chr === PDI) {
+						while (stack.length > 0 && stack[stack.length-1] === PDF) rv += stack.pop();
+					}
+					// skip this PDF/I unless we've seen the corresponding opening mark
+					if (stack.length > 0 && stack[stack.length-1] === chr) rv += stack.pop();
+					return rv;
+				} else {
+					// push corresponding closing mark onto the stack
+					stack.push( /[\u202A-\u202E]/.test(chr) ? PDF : PDI );
+					return chr;
+				}
+			} );
+			// close any remaining open embeds / overrides / isolates at the end
+			if (stack.length > 0) {
+				stack.reverse();
+				str += stack.join("");
+			}
+			return str;
+		}
+
+		// Unicode ranges that may contain strong RTL or BiDi control characters:
+		// U+0590..08FF: Hebrew, Arabic, Syriac, Thaana, NKo, Samaritan, Mandaic
+		// U+200F: Right-to-Left Mark
+		// U+202A..202E: BiDi embedding / override
+		// U+2066..2069: BiDi isolation
+		// U+D800..F8FF: Surrogates and Private Use Area
+		// U+FB1D..FEFE: Hebrew and Arabic presentation forms (excluding U+FEFF = Byte Order Mark)
+		var mayEndInRTL = /([\u0590-\u08FF\u200F\u202A-\u202E\u2066-\u2069\uD800-\uF8FF\uFB1D-\uFEFE][^A-Za-z\u200E]*)$/;
+
+		// DEBUG:
+		var escapeUnicode = function (str) {
+			return '"' + str.replace( /[\"\\]/g, '\\$1' ).replace( /[^ -~]/g, function (chr) {
+				var code = chr.charCodeAt(0);
+				if ( code <= 0xFF ) return "\\x" + ("00" + code.toString(16)).slice(-2);
+				else return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).slice(-4);
+			} ) + '"';
+		};
+
+		// KLUGE: we hook disableSubmitButton because it's called from the SE submit event handler just before the Ajax request
+		var oldDisableSubmitButton = StackExchange.helpers.disableSubmitButton;
+		StackExchange.helpers.disableSubmitButton = function (form) {
+			var $form = $(form), id = $form.attr('id');
+			if ( /^(add|edit)-comment-/.test(id) ) {
+				var inputBox = $form.find('textarea');
+				var oldText = inputBox.val();
+				var newText = sanitizeBiDi(oldText).replace( mayEndInRTL, "$1\u200E" );
+				if ( newText !== oldText ) {
+					inputBox.val( newText )
+					SOUP.log( 'soup sanitized', escapeUnicode(oldText), 'to', escapeUnicode(newText) );
+				}
+			}
+			return oldDisableSubmitButton.apply(this, arguments);
+		};
+	}
 };
 
 
