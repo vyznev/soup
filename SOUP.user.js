@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.41.5
+// @version     1.41.6
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1357,7 +1357,8 @@ fixes.mse223725 = {
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
-		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		// XXX: per-site metas (meta.*.stackexchange.com) are currently broken over HTTPS (http://meta.stackexchange.com/q/265918)
+		var filter   = /^([^.]+\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
