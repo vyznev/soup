@@ -20,7 +20,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Don't even try to run late setup and normal script fixes unless jQuery is available; it won't work.  Early (and mathjax) script fixes still run.
 * Extended [codegolf959](http://meta.codegolf.stackexchange.com/q/959) fix (reduce line height in code blocks) also to puzzling.SE.
-* [mse22372](http://meta.stackexchange.com/q/22372): Don't rewrite links to per-site metas (meta.*.stackexchange.com) to use HTTPS; they [currently return a 430 Forbidden error.](http://meta.stackexchange.com/q/265918)
+* [mse22372](http://meta.stackexchange.com/q/22372): Don't rewrite links to per-site metas (meta.*.stackexchange.com) to use HTTPS; they [currently return a 403 Forbidden error.](http://meta.stackexchange.com/q/265918)
 
 
 1.40 (25 Oct 2015)
