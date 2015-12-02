@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.40.0
+// @version     1.42.0
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -175,6 +175,7 @@ fixes.mse84296 = {
 	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
 	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
 	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
+	// SEE ALSO: mso310158 (prevent runaway BiDi overrides in new comments)
 	css:	".comment-copy, .comment-user, .user-details a " +
 		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
 };
@@ -241,11 +242,6 @@ fixes.mse266258 = {
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
 };
-fixes.mso308513 = {
-	title:	"Styling issue on upvoted comments by diamond moderators",
-	url:	"http://meta.stackoverflow.com/q/308513",
-	css:	".mod-flair { line-height: 1 }"
-};
 
 
 // site-specific CSS fixes:
@@ -265,7 +261,7 @@ fixes.math12803b = {
 fixes.codegolf959 = {
 	title:	"Add line-height shortener to the ascii-art tag",
 	url:	"http://meta.codegolf.stackexchange.com/q/959",
-	sites:	/^(meta\.)?codegolf\./,
+	sites:	/^(meta\.)?(codegolf|puzzling)\./,
 	css:	"pre { line-height: 1.15 }"
 };
 fixes.mse229797 = {
@@ -1119,7 +1115,9 @@ fixes.mse259325 = {
 		// the initial hashchange event has already fired, so we can safely ignore any later
 		// events that don't correspond to an actual change in the hash
 		var oldHash = location.hash;
-		( $._data(window, 'events').hashchange || [] ).forEach( function (h) {
+		var events = $._data(window, 'events');
+		if ( !events || !events.hashchange ) return;
+		events.hashchange.forEach( function (h) {
 			if ( ! h.namespace || h.namespace !== 'highlightDestination' ) return;
 			var oldHandler = h.handler;
 			h.handler = function (e) {
@@ -1151,6 +1149,97 @@ fixes.mso308672 = {
 		} );
 	}
 };
+fixes.mse268584 = {
+	title:	"When a user is deleted, OP highlighting is lost",
+	url:	"http://meta.stackexchange.com/q/268584",
+	script:	function () {
+		SOUP.addContentFilter( function () {
+			// XXX: in dupe review, there can be multiple questions on the page
+			$('.mainbar, #mainbar').each( function () {
+				var name = $(this).find('.question .post-signature.owner .user-details').not(':has(a)').text().trim();
+				if ( name === "" ) return;
+				$(this).find('span.comment-user:not(.owner)').filter( function () {
+					return this.textContent === name;
+				} ).addClass('owner');
+			} );
+		}, 'mse268584', null, ['load', 'post', 'comments'] );
+	},
+	css:	"span.comment-user.owner { padding: 1px 5px }"
+};
+fixes.mso310158 = {
+	title:	"Right to left marker in comment shouldn't cause the rest of the line to change",
+	url:	"http://meta.stackoverflow.com/q/310158",
+	// This fix and mse84296 above address the same issue from different sides:
+	// while mse84296 fixes comment BiDi leakage for users with SOUP installed,
+	// this fix sanitizes BiDi markup in new comments posted by SOUP users, so
+	// that other users *without* SOUP installed will see them as intended.
+	script: function () {
+		// make sure BiDi embed / override / isolate effects won't leak out into surrounding text
+		// see http://meta.stackoverflow.com/a/310228
+		function sanitizeBiDi (str) {
+			var PDF = "\u202C", PDI = "\u2069";  // Pop Directional Formatting/Isolate
+			var stack = [];  // stack of pending PDF / PDI marks
+
+			str = str.replace( /[\u202A-\u202E\u2066-\u2069]/g, function (chr) {
+				if (chr === PDF || chr === PDI) {
+					var rv = "";
+					// PDI always terminates all unclosed embeds / overrides
+					if (chr === PDI) {
+						while (stack.length > 0 && stack[stack.length-1] === PDF) rv += stack.pop();
+					}
+					// skip this PDF/I unless we've seen the corresponding opening mark
+					if (stack.length > 0 && stack[stack.length-1] === chr) rv += stack.pop();
+					return rv;
+				} else {
+					// push corresponding closing mark onto the stack
+					stack.push( /[\u202A-\u202E]/.test(chr) ? PDF : PDI );
+					return chr;
+				}
+			} );
+			// close any remaining open embeds / overrides / isolates at the end
+			if (stack.length > 0) {
+				stack.reverse();
+				str += stack.join("");
+			}
+			return str;
+		}
+
+		// Unicode ranges that may contain strong RTL or BiDi control characters:
+		// U+0590..08FF: Hebrew, Arabic, Syriac, Thaana, NKo, Samaritan, Mandaic
+		// U+200F: Right-to-Left Mark
+		// U+202A..202E: BiDi embedding / override
+		// U+2066..2069: BiDi isolation
+		// U+D800..F8FF: Surrogates and Private Use Area
+		// U+FB1D..FEFE: Hebrew and Arabic presentation forms (excluding U+FEFF = Byte Order Mark)
+		var mayEndInRTL = /([\u0590-\u08FF\u200F\u202A-\u202E\u2066-\u2069\uD800-\uF8FF\uFB1D-\uFEFE][^A-Za-z\u200E]*)$/;
+
+		// DEBUG:
+		var escapeUnicode = function (str) {
+			return '"' + str.replace( /[\"\\]/g, '\\$1' ).replace( /[^ -~]/g, function (chr) {
+				var code = chr.charCodeAt(0);
+				if ( code <= 0xFF ) return "\\x" + ("00" + code.toString(16)).slice(-2);
+				else return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).slice(-4);
+			} ) + '"';
+		};
+
+		// KLUGE: we hook disableSubmitButton because it's called from the SE submit event handler just before the Ajax request
+		var oldDisableSubmitButton = StackExchange.helpers.disableSubmitButton;
+		StackExchange.helpers.disableSubmitButton = function (form) {
+			var $form = $(form), id = $form.attr('id');
+			if ( /^(add|edit)-comment-/.test(id) ) {
+				var inputBox = $form.find('textarea');
+				var oldText = inputBox.val();
+				var newText = sanitizeBiDi(oldText).replace( mayEndInRTL, "$1\u200E" );
+				if ( newText !== oldText ) {
+					inputBox.val( newText )
+					SOUP.log( 'soup sanitized', escapeUnicode(oldText), 'to', escapeUnicode(newText) );
+				}
+			}
+			return oldDisableSubmitButton.apply(this, arguments);
+		};
+	}
+};
+
 
 
 //
@@ -1232,6 +1321,19 @@ fixes.french347 = {
 		}, 'French space fix' );
 	}
 };
+fixes.mse264171 = {
+	title:	"SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'",
+	url:	"http://meta.stackexchange.com/q/264171",
+	sites:	/^blog\./,
+	early:	function () {
+		if ( ! /^\/tags\/[0-9A-Za-z]+-com\/?$/.test( location.pathname ) ) return;
+		// bah, no jQuery in the blogs :(
+		document.addEventListener( 'DOMContentLoaded', function (event) { 
+			var is404 = document.head.querySelector( 'meta[property="og:url"][content="/404/"]' );
+			if ( is404 ) location.replace( location.href.replace( /\/tags\/([0-9A-Za-z]+)-com\b/, '/tags/$1.com' ) );
+		} );
+	}
+};
 
 
 //
@@ -1244,7 +1346,8 @@ fixes.mse223725 = {
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
-		var filter   = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		// XXX: per-site metas (meta.*.stackexchange.com) are currently broken over HTTPS (http://meta.stackexchange.com/q/265918)
+		var filter   = /^([^.]+\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
@@ -1678,22 +1781,26 @@ var soupInit = function () {
 
 // setup code to execute after jQuery has loaded:
 var soupLateSetup = function () {
+	// no jQuery? just give up!
+	if ( !( window.$ && $.fn && $.fn.jquery ) ) {
+		SOUP.log( 'soup found no jQuery, aborting setup' );
+		return;
+	}
+
 	// basic environment detection, part 2
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
+
 	// detect user rep and site beta status; together, these can be user to determine user privileges
 	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
-	if ( window.$ ) {
-		SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
-		SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
-	}
+	SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
+	SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
 	
 	// run ready queue after jQuery and/or SE framework have loaded
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( SOUP.runReadyQueue );
-	else if ( window.$ ) $(document).ready( SOUP.runReadyQueue );
-	// else we do nothing; this may happen e.g. in iframes
+	else $(document).ready( SOUP.runReadyQueue );
 	
 	// attach global AJAX hooks
-	if ( window.$ ) $( document ).ajaxComplete( function( event, xhr, settings ) {
+	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for ( var i = 0; i < SOUP.ajaxHooks.length; i++ ) {
 			var match = SOUP.ajaxHooks[i].regex.exec( settings.url );
 			if ( match ) SOUP.runAjaxHook( SOUP.ajaxHooks[i], event, xhr, settings, match );

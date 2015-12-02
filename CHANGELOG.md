@@ -3,6 +3,26 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
+1.42 (2 Dec 2015)
+====
+
+**New fixes in 1.42.0:**
+
+* [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](http://meta.stackexchange.com/q/264171) (SE blogs only)
+* [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
+* [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](http://meta.stackoverflow.com/q/310158)
+
+**Removed fixes:**
+
+* [mso308513: Styling issue on upvoted comments by diamond moderators](http://meta.stackoverflow.com/q/308513) (CSS)
+
+**Other changes:**
+
+* Don't even try to run late setup and normal script fixes unless jQuery is available; it won't work.  Early (and mathjax) script fixes still run.
+* Extended [codegolf959](http://meta.codegolf.stackexchange.com/q/959) fix (reduce line height in code blocks) also to puzzling.SE.
+* [mse22372](http://meta.stackexchange.com/q/22372): Don't rewrite links to per-site metas (meta.*.stackexchange.com) to use HTTPS; they [currently return a 430 Forbidden error.](http://meta.stackexchange.com/q/265918)
+
+
 1.40 (25 Oct 2015)
 ====
 
