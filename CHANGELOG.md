@@ -6,6 +6,14 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.43 (development)
 ====
 
+**New fixes in 1.43.x:**
+
+* [mse270294: Issue with layout of icon in apply button](http://meta.stackexchange.com/q/270294) (careers.SO only)
+
+**Removed fixes:**
+
+* [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
+
 
 1.42 (2 Dec 2015)
 ====

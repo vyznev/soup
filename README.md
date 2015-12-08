@@ -81,9 +81,9 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
-* [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
-* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (enabled globally)
+* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (applied globally)
+* [mse270294: Issue with layout of icon in apply button](http://meta.stackexchange.com/q/270294) (careers.SO)
 
 ### Chat-only fixes
 

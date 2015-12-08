@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.0
+// @version     1.43.1
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -362,12 +362,6 @@ fixes.mse244587 = {
 		"body .users-sidebar .userDetails img { margin-right: 0 }" +
 		"body .users-sidebar .userDetails { overflow: hidden }"
 };
-fixes.rpg3554 = {
-	title:	"Skin does not handle read-only mode well",
-	url:	"http://meta.rpg.stackexchange.com/q/3554",
-	sites:	/^(meta\.)?rpg\./,
-	css:	"body #system-message { clear: both }"  // "body" added to override SE style
-};
 fixes.mso306325 = {
 	title:	"The yellow star in the sprites.svg image looks “unfinished”",
 	url:	"http://meta.stackoverflow.com/q/306325",
@@ -387,6 +381,13 @@ fixes.rpg5812 = {
 	url:	"http://meta.rpg.stackexchange.com/q/5812",
 	credit:	"polkovnikov.ph",
 	css:	".new-login-form .new-login-right input, .new-login-form .new-login-right table  { width: 100%; box-sizing: border-box }"
+};
+fixes.mse270294 = {
+	title:	"Issue with layout of icon in apply button",
+	url:	"http://meta.stackexchange.com/q/270294",
+	credit:	"Mike S",
+	sites:	/^careers\./,
+	css:	"a.apply.url { background-position: 28px 24px; background-origin: border-box }"
 };
 
 
