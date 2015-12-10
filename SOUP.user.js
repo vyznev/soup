@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.1
+// @version     1.43.2
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1419,19 +1419,6 @@ fixes.math11036 = {
 	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
 	    	} );
 	    }
-	}
-};
-fixes.cs537 = {
-	title:	"Missing MathJaX in the duplicate subtab of the close review queue",
-	url:	"http://meta.cs.stackexchange.com/q/537",
-	script:	function () {
-		var oldShow = $.fn.show;
-		$.fn.show = function () {
-			this.filter('.dno').hide().removeClass('dno').each( function () {
-				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
-			} );
-			return oldShow.apply(this, arguments);
-		};
 	}
 };
 

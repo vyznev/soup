@@ -162,7 +162,6 @@ These fixes apply only to sites using [MathJax](http://www.mathjax.org) for LaTe
 
 * [mse209393: Render MathJax in the 10k tools](http://meta.stackexchange.com/q/209393)
 * [math11036: Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036)
-* [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537)
 * **[math4130: The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130)**
 * **[math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392)**
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363)
