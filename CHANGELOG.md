@@ -15,6 +15,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 * [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (original bug has been fixed; the SOUP fix was causing broken math rendering in various places, such as in the "vote to close as duplicate" dialog)
 
+**Other changes:**
+
+* [mse234680](http://meta.stackexchange.com/q/234680): Be less picky about what constitutes a valid hostname, rely on the browser to reject invalid ones.
+* [mse153528](http://meta.stackexchange.com/q/153528), [mso310158](http://meta.stackoverflow.com/q/310158): Avoid a ReferenceError if the StackExchange object is unavailable.
+
 
 1.42 (2 Dec 2015)
 ====

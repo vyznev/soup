@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.2
+// @version     1.43.3
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -753,13 +753,10 @@ fixes.mse234680 = {
 		// backup content filter for existing broken links with percent-encoded hostnames
 		SOUP.addContentFilter( function ( where ) {
 			var percentRegexp = /%[0-9A-Fa-f]{2}/;
-			var badChars = /[\0-\x2C\x2F\x3A-\x40\x5B-\x60\x7B-\x7F]/;  // RFC 3490 §4.1
-			$(where).find('a[href]').each( function () {
+			$(where).find('a[href]').not('.soup-punycode-fixed').each( function () {
 				if ( !percentRegexp.test( this.hostname ) ) return;
-				var decodedHost = decodeURIComponent( this.hostname );
-				if ( badChars.test( decodedHost ) ) return;
-				this.hostname = decodedHost;
-			} );
+				this.hostname = decodeURIComponent( this.hostname );
+			} ).addClass('soup-punycode-fixed');
 		}, 'IDN escape fix' );
 	}
 };
@@ -1097,6 +1094,7 @@ fixes.mse153528 = {
 	title:	"Don't ask for a comment when downvoting, if the user just voted on a comment",
 	url:	"http://meta.stackexchange.com/q/153528",
 	script:	function () {
+		if ( ! window.StackExchange ) return;
 		// TODO: add localized message variants?
 		var re = /^Please consider adding a comment if you think this post can be improved\.$/;
 		var oldShowInfoMsg = StackExchange.helpers.showInfoMessage;
@@ -1224,20 +1222,23 @@ fixes.mso310158 = {
 		};
 
 		// KLUGE: we hook disableSubmitButton because it's called from the SE submit event handler just before the Ajax request
-		var oldDisableSubmitButton = StackExchange.helpers.disableSubmitButton;
-		StackExchange.helpers.disableSubmitButton = function (form) {
-			var $form = $(form), id = $form.attr('id');
-			if ( /^(add|edit)-comment-/.test(id) ) {
-				var inputBox = $form.find('textarea');
-				var oldText = inputBox.val();
-				var newText = sanitizeBiDi(oldText).replace( mayEndInRTL, "$1\u200E" );
-				if ( newText !== oldText ) {
-					inputBox.val( newText )
-					SOUP.log( 'soup sanitized', escapeUnicode(oldText), 'to', escapeUnicode(newText) );
+		if ( window.StackExchange ) {
+			var oldDisableSubmitButton = StackExchange.helpers.disableSubmitButton;
+			StackExchange.helpers.disableSubmitButton = function (form) {
+				var $form = $(form), id = $form.attr('id');
+				if ( /^(add|edit)-comment-/.test(id) ) {
+					var inputBox = $form.find('textarea');
+					var oldText = inputBox.val();
+					var newText = sanitizeBiDi(oldText).replace( mayEndInRTL, "$1\u200E" );
+					if ( newText !== oldText ) {
+						inputBox.val( newText )
+						SOUP.log( 'soup sanitized', escapeUnicode(oldText), 'to', escapeUnicode(newText) );
+					}
 				}
-			}
-			return oldDisableSubmitButton.apply(this, arguments);
-		};
+				return oldDisableSubmitButton.apply(this, arguments);
+			};
+		}
+		// TODO: figure out how to make this work in chat too
 	}
 };
 
