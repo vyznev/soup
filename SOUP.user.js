@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.3
+// @version     1.43.4
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1015,10 +1015,12 @@ fixes.mse265889 = {
 		var updateAnswerHeadings = function (where) {
 			$(where).filter('.answer').add( $('.answer', where) ).each( function () {
 				var answer = $(this);
+				var isDeleted = answer.hasClass('deleted-answer');
 				var signature = answer.find('.post-signature').eq(-1);
 				var isWiki = signature.find('.community-wiki').length > 0;
-				var author = signature.find('.user-details a[href^="/users/"]');
-				
+				var author = signature.find('.user-details');
+				if ( author.find('a').length > 0 ) author = author.find('a[href^="/users/"]');
+
 				var voteCount = answer.find('.vote-count-post');
 				var score = Number( voteCount.text() );
 				if ( voteCount.find('.vote-count-separator').length > 0 ) {
@@ -1027,14 +1029,17 @@ fixes.mse265889 = {
 				}
 				var isAccepted = answer.find('.vote-accepted-on').length > 0;
 
-				var text = ( isWiki ? 'Community wiki answer' : 'Answer' );
-				if ( answer.hasClass('deleted-answer') ) text = 'Deleted ' + text.toLowerCase();
-				if ( author.length > 0 ) text += ' by ' + author.text();
-				text += ' (score ' + score + ( isAccepted ? ', accepted answer' : '' ) + ')';
+				var attrs = [ 'score ' + score ];
+				if ( isAccepted ) attrs.push('accepted');
+				if ( isWiki ) attrs.push('community wiki');
+
+				var text = ( isDeleted ? 'Deleted answer' : 'Answer' );
+				text += ' (' + attrs.join(', ') + ')';
+				if ( author.length > 0 ) text += ' by ' + author.text().trim();
 
 				var heading = answer.find('.soup-answer-heading');
-				if ( heading.length < 1 ) heading = $('<h6 class="soup-answer-heading">').prependTo(answer);
-				heading.text(text);
+				if ( heading.length < 1 ) heading = $('<h6 class="soup-answer-heading">');
+				heading.text(text).prependTo(answer.find('.answercell'));
 			} );
 		};
 		SOUP.addContentFilter( updateAnswerHeadings, 'mse265889', null, ['load', 'post'] );
