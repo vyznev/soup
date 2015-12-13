@@ -20,6 +20,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse234680](http://meta.stackexchange.com/q/234680): Be less picky about what constitutes a valid hostname, rely on the browser to reject invalid ones.
 * [mse153528](http://meta.stackexchange.com/q/153528), [mso310158](http://meta.stackoverflow.com/q/310158): Avoid a ReferenceError if the StackExchange object is unavailable.
 * [mse265889](http://meta.stackexchange.com/q/265889): Move heading to just before the answer text (but after the vote buttons); tweak heading format to emphasize score more.  (Thanks to Samuli Kärkkäinen for feedback.)
+* Make the [mse115702](http://meta.stackexchange.com/q/115702) fix work in first posts / late answers review again (was broken since v1.38).
 
 1.42 (2 Dec 2015)
 ====

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.4
+// @version     1.43.5
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -663,13 +663,12 @@ fixes.mse115702 = {
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
-		SOUP.subscribeToQuestion( function ( data ) {
-			if ( data.a !== 'score' ) return;
-			var isAnswer = $('#answer-' + data.id).length > 0;
+		function updateDeleteLinks( postid, score ) {
+			var isAnswer = $('#answer-' + postid).length > 0;
 			if ( ! isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
 
-			var deleteLinks = $('[id="delete-post-' + data.id + '"]');  // XXX: there might be several
-			if ( data.score >= (isAnswer ? 0 : -2) ) {
+			var deleteLinks = $('[id="delete-post-' + postid + '"]');  // XXX: there might be several
+			if ( score >= (isAnswer ? 0 : -2) ) {
 				// XXX: just to be safe, don't remove any delete links that we didn't add
 				deleteLinks = deleteLinks.filter('.soup-delete-link');
 				deleteLinks.next('span.lsep').andSelf().hide();
@@ -677,11 +676,20 @@ fixes.mse115702 = {
 				deleteLinks.next('span.lsep').andSelf().show();  // show existing links
 			} else {
 				// need to create a new delete link from scratch and slip it into the menu
-				var target = $('.flag-post-link[data-postid=' + data.id + ']');
+				var target = $('.flag-post-link[data-postid=' + postid + ']');
 				var lsep = target.prev('span.lsep').clone(true);
 				if (lsep.length == 0) lsep = $('<span class="lsep">|</span>');
-				$(html).attr('id', 'delete-post-' + data.id).insertBefore(target).after(lsep);
+				$(html).attr('id', 'delete-post-' + postid).insertBefore(target).after(lsep);
 			}
+		}
+		SOUP.subscribeToQuestion( function (data) {
+			if ( data.a === 'score' ) updateDeleteLinks( data.id, data.score );
+		} );
+		// fallback to make this fix work in review too (TODO: hook the button clicks directly?)
+		SOUP.hookAjax( /^\/posts\/(\d+)\/vote\/[023]\b/, function ( event, xhr, settings, match ) {
+			var score = $.parseJSON( xhr.responseText ).NewScore;
+			var postid = match[1];
+			updateDeleteLinks( postid, score );
 		} );
 	}
 };
@@ -1045,7 +1053,7 @@ fixes.mse265889 = {
 		SOUP.addContentFilter( updateAnswerHeadings, 'mse265889', null, ['load', 'post'] );
 		SOUP.subscribeToQuestion( function (data) {
 			if ( /^(score|(un)?accept)$/.test( data.a ) ) setTimeout( function () {
-				updateAnswerHeadings( '#answer-' + data.id );
+				updateAnswerHeadings( '#answer-' + (data.answerid || data.id) );
 			}, 10 );
 		} );
 	},
@@ -1823,7 +1831,8 @@ var soupLateSetup = function () {
 	} );
 
 
-	// subscribe to SE realtime question events (TODO: defer until needed?)
+	// subscribe to SE realtime question events
+	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
 		// ewww... UGLY HACK to extract site and question IDs from page scripts
 		var sid, qid;
