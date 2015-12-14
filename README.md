@@ -133,6 +133,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
 * [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](http://meta.stackoverflow.com/q/310158)
+* [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 
 ### Site-specific fixes
 

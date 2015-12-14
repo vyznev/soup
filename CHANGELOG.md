@@ -9,6 +9,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.43.x:**
 
 * [mse270294: Issue with layout of icon in apply button](http://meta.stackexchange.com/q/270294) (careers.SO only)
+* [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 
 **Removed fixes:**
 

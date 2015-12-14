@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.5
+// @version     1.43.6
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -761,9 +761,10 @@ fixes.mse234680 = {
 		// backup content filter for existing broken links with percent-encoded hostnames
 		SOUP.addContentFilter( function ( where ) {
 			var percentRegexp = /%[0-9A-Fa-f]{2}/;
-			$(where).find('a[href]').not('.soup-punycode-fixed').each( function () {
-				if ( !percentRegexp.test( this.hostname ) ) return;
+			$(where).find('a[href*="//"]').not('.soup-punycode-fixed').filter( function () {
+				if ( !percentRegexp.test( this.hostname ) ) return false;
 				this.hostname = decodeURIComponent( this.hostname );
+				return true;
 			} ).addClass('soup-punycode-fixed');
 		}, 'IDN escape fix' );
 	}
@@ -1253,6 +1254,17 @@ fixes.mso310158 = {
 		}
 		// TODO: figure out how to make this work in chat too
 	}
+};
+fixes.mse223737 = {
+	title:	"Inbox heading should be a link",
+	url:	"http://meta.stackexchange.com/q/223737",
+	script:	function () {
+		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
+			if ( $('#soup-mse223737-link').length > 0 ) return;
+			$('.topbar .inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar .inbox-dialog h3:first-of-type');
+		} ).code();
+	},
+	css:	"#soup-mse223737-link { float: right }"
 };
 
 
