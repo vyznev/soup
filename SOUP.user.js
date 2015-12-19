@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.6
+// @version     1.43.7
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -635,8 +635,9 @@ fixes.mse172931 = {
 					var header = $('<div id="answers-header"><div class="subheader answers-subheader"><h2></h2></div></div>');
 					header.find('h2').text( n + ( shown ? ' Other' : '') + ' Answer' + ( n == 1 ? '' : 's' ) );
 					header.insertAfter( question );
-					answers.insertAfter( header ).mathjax();
+					answers.insertAfter( header );
 					SOUP.runContentFilters( 'post', answers );
+					window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 				};
 				$.ajax( { method: 'GET', url: url, dataType: 'html', success: injectAnswers } );
 			} );
