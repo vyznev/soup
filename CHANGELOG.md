@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 * [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (original bug has been fixed; the SOUP fix was causing broken math rendering in various places, such as in the "vote to close as duplicate" dialog)
+* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175)
 
 **Other changes:**
 

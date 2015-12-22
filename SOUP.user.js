@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.7
+// @version     1.43.8
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -447,26 +447,7 @@ fixes.mse224233 = {
 		} ).filter('.watermark').val('').removeClass('watermark');
 	}
 };
-fixes.mse139175 = {
-	title:	"When starring a message from the star board, it's not reflected in the main chat window",
-	url:	"http://meta.stackexchange.com/q/139175",
-	sites:	/^chat\./,
-	script:	function () {
-		var syncMsgStar = function () {
-			var $this = $(this);
-			var starred = $this.hasClass('user-star');
-			var id = $this.closest('li').attr('id').match(/\d+/)[0];
-			var msgStar = $('#message-' + id + ' .stars');
 
-			if ( starred ) msgStar.addClass('user-star');
-			else msgStar.removeClass('user-star');
-		};
-		var selector = '#starred-posts .sidebar-vote';
-		// XXX: this needs to run after the SE click handler; looks like it does
-		$(document).on( 'click', selector, syncMsgStar );
-		SOUP.hookAjax( /^\/chats\/stars\b/, function () { $(selector).each(syncMsgStar) } );
-	}
-};
 
 
 //

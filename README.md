@@ -94,7 +94,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse222509: Getting Red Line under tags](http://meta.stackexchange.com/q/222509)
 * [mse134268: U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233)
-* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175)
 
 ### General fixes
 
