@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.8
+// @version     1.43.9
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1247,6 +1247,44 @@ fixes.mse223737 = {
 		} ).code();
 	},
 	css:	"#soup-mse223737-link { float: right }"
+};
+fixes.mso313853 = {
+	title:	"“Per page” pagination returns no results when increasing limit on last page",
+	url:	"http://meta.stackoverflow.com/q/313853",
+	script:	function () {
+		var re = {
+			page: /^([^?#]*\?(?:[^&#]*&)*)page=(\d+)([&#]|$)/,
+			size: /^([^?#]*\?(?:[^&#]*&)*)pagesize=(\d+)([&#]|$)/,
+			text: /^(\s*)(\d+)\s*$/
+		};
+		SOUP.hookAjax( /^\/(questions\/?)?([?#]|$)|^\/questions\/[a-z]/, function () {
+			$('.page-sizer').each( function () {
+				var sizer = $(this), curURL = sizer.find('a.current').attr('href').replace(/#.*/, '');
+				var sizeMatch = re.size.exec(curURL), pageMatch = re.page.exec(curURL);
+				if ( ! sizeMatch ) return;
+				if ( ! pageMatch ) {
+					// try a few other ways to obtain the current page number
+					var altURL = sizer.parent().find('.pager a.current').attr('href');
+					var altText = sizer.parent().find('.pager span.current').text().replace(/,/g, '');
+					pageMatch = re.page.exec(altURL) || re.text.exec(altText) || re.page.exec(location.href);
+				}
+				if ( ! pageMatch ) return;
+				var curSize = Number( sizeMatch[2] ), curPage = Number( pageMatch[2] );
+
+				sizer.find('a.page-numbers').attr( 'href', function (i, href) {
+					var sizeMatch = re.size.exec(href), pageMatch = re.page.exec(href);
+					if ( ! sizeMatch ) return;
+					var newSize = Number( sizeMatch[2] );
+					var newPage = Math.floor((curPage - 1) * curSize / newSize) + 1;
+					if ( pageMatch ) {
+						return href.replace(re.page, '$1page=' + newPage + '$3');
+					} else {
+						return href.replace(/([^?#]*\?)/, '$1page=' + newPage + '&');
+					}
+				} );
+			} );
+		} ).code();
+	}
 };
 
 

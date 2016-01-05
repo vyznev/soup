@@ -133,6 +133,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](http://meta.stackoverflow.com/q/310158)
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
+* [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
 
 ### Site-specific fixes
 
