@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.9
+// @version     1.43.10
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1286,7 +1286,22 @@ fixes.mso313853 = {
 		} ).code();
 	}
 };
-
+fixes.mse259692 = {
+	title:	"Reputation for graph is off by a day",
+	url:	"http://meta.stackexchange.com/q/259692",
+	// TODO: fix the incorrect tooltips too
+	script:	function () {
+		if ( ! /^\/users\/\d+/.exec(location.pathname) ) return;
+		var re = /^(\/ajax\/users\/\d+\/rep\/day\/)(\d+)([\/?#].*)?$/;
+		$.ajaxPrefilter( function( options ) {
+			var m = re.exec( options.url );
+			if (!m) return;
+			var t = 1*m[2], day = 24*60*60, offset = t % day;
+			if (2*offset > day) offset -= day;
+			options.url = m[1] + (t - offset) + m[3];
+		} );
+	}
+};
 
 
 //

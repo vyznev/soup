@@ -11,6 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse270294: Issue with layout of icon in apply button](http://meta.stackexchange.com/q/270294) (careers.SO only)
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
+* [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692) (partial fix)
 
 **Removed fixes:**
 
