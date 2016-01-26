@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.12
+// @version     1.43.13
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -897,22 +897,6 @@ fixes.mso297489 = {
 		} );
 	}
 };
-fixes.mso295276 = {
-	title:	"Username filter does not abort old pending Ajax requests",
-	url:	"http://meta.stackoverflow.com/q/295276",
-	path:	/^\/(users|tags)$/,
-	script:	function () {
-		var prevXhr = null;
-		$( document ).ajaxSend( function( event, xhr, settings ) {
-			if ( ! /^\/(users\/filter|filter\/tags-for-index)\b/.test( settings.url ) ) return;
-			if ( prevXhr ) prevXhr.abort();
-			prevXhr = xhr;
-			xhr.always( function () {
-				if ( prevXhr === xhr ) prevXhr = null;
-			} );
-		} );
-	}
-};
 fixes.mso295666 = {
 	title:	"Disable annoying autofocus when clicking preview",
 	url:	"http://meta.stackoverflow.com/q/295666",
@@ -1135,17 +1119,6 @@ fixes.mso306552 = {
 		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
 	},
 	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
-};
-fixes.mso308672 = {
-	title:	"Alerts no longer work in StackOverflow snippets in Chrome 46+",
-	url:	"http://meta.stackoverflow.com/q/308672",
-	script:	function () {
-		$(document).on( 'submit', 'form[action="//stacksnippets.net/js"]', function () {
-			if ( ! /^[\-0-9A-Za-z]+$/.test( this.target ) ) return;  // safety check
-			var iframe = $( 'iframe[name="' + this.target + '"][sandbox=allow-scripts]' );
-			iframe.attr( 'sandbox', 'allow-scripts allow-modals' );
-		} );
-	}
 };
 fixes.mse268584 = {
 	title:	"When a user is deleted, OP highlighting is lost",

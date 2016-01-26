@@ -117,7 +117,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
-* [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
 * **[mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
@@ -129,7 +128,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
 * [mso306552: Votes cast has upvote-like symbol and is confusing](http://meta.stackoverflow.com/q/306552)
-* [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
 * [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](http://meta.stackoverflow.com/q/310158)
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
