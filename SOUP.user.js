@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.10
+// @version     1.43.11
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -241,6 +241,12 @@ fixes.mse266258 = {
 	title:	"Left side markdown diff outside of its area",
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
+};
+fixes.mso315436 = {
+	title:	"The open source ads preview page is still using the old size; ads appear distorted as a result",
+	url:	"http://meta.stackoverflow.com/q/315436",
+	path:	/^\/ads\/display\/\d+/,
+	css:	'a[href*="/ads/ct/"] img { height: auto }'
 };
 
 
@@ -559,8 +565,8 @@ fixes.mse220337 = {
 	title:	"Election comments have no permalink link",
 	url:	"http://meta.stackexchange.com/q/220337",
 	credit:	"FEichinger",
+	path:	/^\/election\b/,
 	script:	function () {
-		if ( !/^\/election\b/.test( location.pathname ) ) return;
 		var base = ( $('#tabs .youarehere').attr('href') || "" ).replace( /#.*/, "" );
 
 		SOUP.addContentFilter( function () {
@@ -580,8 +586,8 @@ fixes.mse220337 = {
 fixes.mse172931 = {
 	title:	"Please put answers underneath questions in Close review queue",
 	url:	"http://meta.stackexchange.com/q/172931",
+	path:	/^\/review\b/,
 	script:	function () {
-		if ( ! /^\/review\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			$('.reviewable-post').not(':has(.answer)').each( function () {
 				var post = $(this), question = post.find('.question');
@@ -812,8 +818,8 @@ fixes.mse243519 = {
 fixes.mse220611 = {
 	title:	"Blue background on nominee comments only when expanded",
 	url:	"http://meta.stackexchange.com/q/220611",
+	path:	/^\/election\b/,
 	script:	function () {
-		if ( ! /^\/election\b/.test( location.pathname ) ) return;
 		// XXX: This seems to only happen on the initialpage view, so no need to make it a content filter.
 		$('body.election-page div[id^="post-"]').each( function () {
 			var $this = $(this), href = $this.find('.post-signature.owner .user-details > a:first').attr('href');
@@ -886,8 +892,8 @@ fixes.mso284223 = {
 fixes.mso297489 = {
 	title:	"Add close option to the “Help and Improvement” queue to avoid cluttering flags?",
 	url:	"http://meta.stackoverflow.com/q/297489",
+	path:	/^\/review\/helper\b/,
 	script:	function () {
-		if ( ! /^\/review\/helper\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			StackExchange.vote_closingAndFlagging.init();
 			$('.post-menu .close-question-link').show();
@@ -897,8 +903,8 @@ fixes.mso297489 = {
 fixes.mso295276 = {
 	title:	"Username filter does not abort old pending Ajax requests",
 	url:	"http://meta.stackoverflow.com/q/295276",
+	path:	/^\/(users|tags)$/,
 	script:	function () {
-		if ( ! /^\/(users|tags)$/.test( location.pathname ) ) return;
 		var prevXhr = null;
 		$( document ).ajaxSend( function( event, xhr, settings ) {
 			if ( ! /^\/(users\/filter|filter\/tags-for-index)\b/.test( settings.url ) ) return;
@@ -991,9 +997,9 @@ fixes.mso300679 = {
 fixes.mse266034 = {
 	title:	"Link the title of the linked questions sidebar to the list of linked questions",
 	url:	"http://meta.stackexchange.com/q/266034",
+	path:	/^\/questions\/(\d+)\b/,
 	script:	function () {
 		var m = /^\/questions\/(\d+)\b/.exec( location.pathname );
-		if ( !m ) return;
 		$('#h-linked').not(':has(a)').wrapInner('<a href="/questions/linked/' + m[1] + '"></a>');
 	},
 	css:	"#h-linked a, #h-linked a:visited { color: inherit; font-size: 100%; font-family: inherit; font-weight: inherit; line-height: inherit; display: inline }"
@@ -1127,8 +1133,8 @@ fixes.mso306552 = {
 	title:	"Votes cast has upvote-like symbol and is confusing",
 	url:	"http://meta.stackoverflow.com/q/306552",
 	credit:	"AgeDeO and misterManSam",
+	path:	/^\/users\/\d+/,
 	script:	function () {
-		if ( ! /^\/users\/\d+/.test( location.pathname ) ) return;
 		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
 	},
 	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
@@ -1290,8 +1296,8 @@ fixes.mse259692 = {
 	title:	"Reputation for graph is off by a day",
 	url:	"http://meta.stackexchange.com/q/259692",
 	// TODO: fix the incorrect tooltips too
+	path:	/^\/users\/\d+/,
 	script:	function () {
-		if ( ! /^\/users\/\d+/.exec(location.pathname) ) return;
 		var re = /^(\/ajax\/users\/\d+\/rep\/day\/)(\d+)([\/?#].*)?$/;
 		$.ajaxPrefilter( function( options ) {
 			var m = re.exec( options.url );
@@ -1387,8 +1393,8 @@ fixes.mse264171 = {
 	title:	"SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'",
 	url:	"http://meta.stackexchange.com/q/264171",
 	sites:	/^blog\./,
+	path:	/^\/tags\/[0-9A-Za-z]+-com\/?$/,
 	early:	function () {
-		if ( ! /^\/tags\/[0-9A-Za-z]+-com\/?$/.test( location.pathname ) ) return;
 		// bah, no jQuery in the blogs :(
 		document.addEventListener( 'DOMContentLoaded', function (event) { 
 			var is404 = document.head.querySelector( 'meta[property="og:url"][content="/404/"]' );
@@ -1452,8 +1458,8 @@ fixes.mse221304 = {
 fixes.mse209393 = {
 	title:	"Render MathJax in the 10k tools",
 	url:	"http://meta.stackexchange.com/q/209393",
+	path:	/^\/tools\b/,
 	script:	function () {
-		if ( !/^\/tools\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/tools\b/, function () {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 		} );
@@ -1467,19 +1473,19 @@ fixes.math11036 = {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
 		} );
 		// similar issue in user profiles (TODO: split into separate fix?)
-        if ( /^\/users\/\d+\//.test( location.pathname ) ) {
-    		SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
-	    	} );
-	    	SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
-	    	} );
-	    	// v1.31.0: expanded posts in activity tab
-	    	SOUP.hookAjax( /^\/posts\/\d+\/body\b/, function () {
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
-	    	} );
-	    }
+		if ( /^\/users\/\d+\//.test( location.pathname ) ) {
+			SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
+			} );
+			SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
+			} );
+			// v1.31.0: expanded posts in activity tab
+			SOUP.hookAjax( /^\/posts\/\d+\/body\b/, function () {
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
+			} );
+		}
 	}
 };
 
@@ -1581,8 +1587,8 @@ fixes.mse229363 = {
 fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"http://meta.math.stackexchange.com/q/19650",
+	path:	/^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/,
 	mathjax:	function () {
-		if ( ! /^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/.test( location.pathname ) ) return;
 		MathJax.Hub.Register.StartupHook( "End Config", function () {
 			var conf = MathJax.Hub.config.tex2jax;
 			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
@@ -1908,6 +1914,7 @@ var soupLateSetup = function () {
 var fixIsEnabled = function ( fix ) {
 	if ( fix.sites && !fix.sites.test( location.hostname ) ) return false;
 	if ( fix.exclude && fix.exclude.test( location.hostname ) ) return false;
+	if ( fix.path && !fix.path.test( location.pathname ) ) return false;
 	return true;
 };
 

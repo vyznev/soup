@@ -12,6 +12,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
 * [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692) (partial fix)
+* [mso315436: The open source ads preview page is still using the old size; ads appear distorted as a result](http://meta.stackoverflow.com/q/315436)
 
 **Removed fixes:**
 
@@ -26,6 +27,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse265889](http://meta.stackexchange.com/q/265889): Move heading to just before the answer text (but after the vote buttons); tweak heading format to emphasize score more.  (Thanks to Samuli Kärkkäinen for feedback.)
 * Make the [mse115702](http://meta.stackexchange.com/q/115702) fix work in first posts / late answers review again (was broken since v1.38).
 * [mse172931](http://meta.stackexchange.com/q/172931): Fix broken MathJax rendering in Ajax-loaded answers.
+* Add optional `path` regexp to fixes, to allow CSS fixes to be active only on certain pages; edit existing fixes with in-code path filtering to use it.
 
 
 1.42 (2 Dec 2015)
