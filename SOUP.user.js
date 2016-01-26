@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.43.11
+// @version     1.43.12
 // @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -388,13 +388,6 @@ fixes.rpg5812 = {
 	credit:	"polkovnikov.ph",
 	css:	".new-login-form .new-login-right input, .new-login-form .new-login-right table  { width: 100%; box-sizing: border-box }"
 };
-fixes.mse270294 = {
-	title:	"Issue with layout of icon in apply button",
-	url:	"http://meta.stackexchange.com/q/270294",
-	credit:	"Mike S",
-	sites:	/^careers\./,
-	css:	"a.apply.url { background-position: 28px 24px; background-origin: border-box }"
-};
 
 
 
@@ -540,16 +533,20 @@ fixes.mse66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"http://meta.stackexchange.com/q/66646",
 	script:	function () {
-		if ( !window.StackExchange || !StackExchange.options ) return;
-		StackExchange.options.desc = true;  // disable SE keyup/press handler
-		$('body').on( 'keydown keypress', 'form[id*="-comment-"] textarea',
-			function (e) {
-				if ( e.which != 13 || e.shiftKey ) return;
-				e.preventDefault();
-				if ( e.type == 'keydown' && $(this).prev('#tabcomplete:visible').length == 0 )
-					$(this).closest('form').submit();
-			}
-		);
+		if ( !window.StackExchange || !StackExchange.options || !StackExchange.helpers ) return;
+		// this function is copied from http://cdn-dev.sstatic.net/Js/stub.en.js, but with s/keyup/keydown/
+		StackExchange.helpers.submitFormOnEnterPress = function ($form) {
+			var $txt = $form.find('textarea');
+			$txt.keydown(function (event) {
+				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete:visible").length) {
+					$form.submit();
+				}
+			}).keypress(function (event) {
+				// disable hitting enter to produce a newline, but allow <shift> + <enter>
+				return event.which !== 13 || event.shiftKey;
+			});
+		};
+		StackExchange.options.disableCommentSubmitOnEnter = false;
 	}
 };
 fixes.mse210132 = {

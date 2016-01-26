@@ -84,7 +84,6 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (applied globally)
-* [mse270294: Issue with layout of icon in apply button](http://meta.stackexchange.com/q/270294) (careers.SO)
 
 ### Chat-only fixes
 

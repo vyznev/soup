@@ -8,7 +8,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.43.x:**
 
-* [mse270294: Issue with layout of icon in apply button](http://meta.stackexchange.com/q/270294) (careers.SO only)
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
 * [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692) (partial fix)
@@ -28,6 +27,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Make the [mse115702](http://meta.stackexchange.com/q/115702) fix work in first posts / late answers review again (was broken since v1.38).
 * [mse172931](http://meta.stackexchange.com/q/172931): Fix broken MathJax rendering in Ajax-loaded answers.
 * Add optional `path` regexp to fixes, to allow CSS fixes to be active only on certain pages; edit existing fixes with in-code path filtering to use it.
+* Rewrite [mse66646](http://meta.stackexchange.com/q/66646) to accommodate changes to SE code.
 
 
 1.42 (2 Dec 2015)
