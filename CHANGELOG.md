@@ -3,10 +3,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
-1.43 (development)
+1.44 (5 Feb 2016)
 ====
 
-**New fixes in 1.43.x:**
+Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying out a new release strategy that should *hopefully* make the branch history easier to follow in the future.
+
+**New fixes in 1.44.0:**
 
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)

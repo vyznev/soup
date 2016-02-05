@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.43 -->
+<!-- version: 1.44 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -18,18 +18,20 @@ The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) o
 
 The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
 
-SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
+SOUP may also run on other browsers with compatible user script support, such as Opera or Safari, but has not been fully tested on them.  For instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
 
 **Notes:**
 
-* When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+* When installing SOUP on Opera 12 and earlier, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
 
 * SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
 
 Included fixes
 --------------
 
-SOUP v1.43 (development) includes fixes or workarounds for the following issues.
+SOUP v1.44
+<!-- odd-numbered minor versions appear only in the development branch -->
+(development) includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -209,7 +211,7 @@ See also
    [devDL]: https://github.com/vyznev/soup/raw/devel/SOUP.user.js "Download / install SOUP (development branch) from GitHub"
    [wiki]: https://github.com/vyznev/soup/wiki "SOUP wiki on GitHub"
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"
-   [TM]: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo "Chrome Web Store: Tampermonkey"
+   [TM]: http://tampermonkey.net/ "Tampermonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
    [vyznev]: http://meta.stackexchange.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Exchange"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on Stack Apps"
