@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.42.0 -->
+<!-- version: 1.44 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -18,18 +18,20 @@ The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) o
 
 The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
 
-SOUP can also be used on other browsers with compatible user script support, such as Opera or Safari.  For detailed instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
+SOUP may also run on other browsers with compatible user script support, such as Opera or Safari, but has not been fully tested on them.  For instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
 
 **Notes:**
 
-* When installing SOUP on Opera, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+* When installing SOUP on Opera 12 and earlier, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
 
 * SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
 
 Included fixes
 --------------
 
-SOUP v1.42.0 includes fixes or workarounds for the following issues.
+SOUP v1.44
+&#x20;
+includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
@@ -63,6 +65,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
+* [mso315436: The open source ads preview page is still using the old size; ads appear distorted as a result](http://meta.stackoverflow.com/q/315436)
 
 ### Site-specific CSS fixes
 
@@ -81,9 +84,8 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
-* [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
-* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (enabled globally)
+* [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (applied globally)
 
 ### Chat-only fixes
 
@@ -94,7 +96,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse222509: Getting Red Line under tags](http://meta.stackexchange.com/q/222509)
 * [mse134268: U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233)
-* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175)
 
 ### General fixes
 
@@ -118,7 +119,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse230536: Large down-vote count doesn't display negative sign](http://meta.stackexchange.com/q/230536)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](http://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](http://meta.stackoverflow.com/q/284223)
-* [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
 * **[mso295666: Disable annoying autofocus when clicking preview](http://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](http://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](http://meta.stackoverflow.com/q/300679)**
@@ -130,9 +130,11 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](http://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](http://meta.stackexchange.com/q/259325)
 * [mso306552: Votes cast has upvote-like symbol and is confusing](http://meta.stackoverflow.com/q/306552)
-* [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
 * [mse268584: When a user is deleted, OP highlighting is lost](http://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](http://meta.stackoverflow.com/q/310158)
+* [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
+* [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
+* [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692) (partial fix)
 
 ### Site-specific fixes
 
@@ -162,7 +164,6 @@ These fixes apply only to sites using [MathJax](http://www.mathjax.org) for LaTe
 
 * [mse209393: Render MathJax in the 10k tools](http://meta.stackexchange.com/q/209393)
 * [math11036: Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036)
-* [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537)
 * **[math4130: The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130)**
 * **[math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392)**
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363)
@@ -210,7 +211,7 @@ See also
    [devDL]: https://github.com/vyznev/soup/raw/devel/SOUP.user.js "Download / install SOUP (development branch) from GitHub"
    [wiki]: https://github.com/vyznev/soup/wiki "SOUP wiki on GitHub"
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"
-   [TM]: https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo "Chrome Web Store: Tampermonkey"
+   [TM]: http://tampermonkey.net/ "Tampermonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
    [vyznev]: http://meta.stackexchange.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Exchange"
    [SA]: http://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on Stack Apps"

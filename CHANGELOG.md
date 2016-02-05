@@ -3,6 +3,37 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
+1.44 (5 Feb 2016)
+====
+
+Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying out a new release strategy that should *hopefully* make the branch history easier to follow in the future.
+
+**New fixes in 1.44.0:**
+
+* [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
+* [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
+* [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692) (partial fix)
+* [mso315436: The open source ads preview page is still using the old size; ads appear distorted as a result](http://meta.stackoverflow.com/q/315436)
+
+**Removed fixes:**
+
+* [rpg3554: Skin does not handle read-only mode well](http://meta.rpg.stackexchange.com/q/3554)
+* [cs537: Missing MathJaX in the duplicate subtab of the close review queue](http://meta.cs.stackexchange.com/q/537) (original bug has been fixed; the SOUP fix was causing broken math rendering in various places, such as in the "vote to close as duplicate" dialog)
+* [mse139175: When starring a message from the star board, it's not reflected in the main chat window](http://meta.stackexchange.com/q/139175)
+* [mso295276: Username filter does not abort old pending Ajax requests](http://meta.stackoverflow.com/q/295276)
+* [mso308672: Alerts no longer work in StackOverflow snippets in Chrome 46+](http://meta.stackoverflow.com/q/308672)
+
+**Other changes:**
+
+* [mse234680](http://meta.stackexchange.com/q/234680): Be less picky about what constitutes a valid hostname, rely on the browser to reject invalid ones.
+* [mse153528](http://meta.stackexchange.com/q/153528), [mso310158](http://meta.stackoverflow.com/q/310158): Avoid a ReferenceError if the StackExchange object is unavailable.
+* [mse265889](http://meta.stackexchange.com/q/265889): Move heading to just before the answer text (but after the vote buttons); tweak heading format to emphasize score more.  (Thanks to Samuli Kärkkäinen for feedback.)
+* Make the [mse115702](http://meta.stackexchange.com/q/115702) fix work in first posts / late answers review again (was broken since v1.38).
+* [mse172931](http://meta.stackexchange.com/q/172931): Fix broken MathJax rendering in Ajax-loaded answers.
+* Add optional `path` regexp to fixes, to allow CSS fixes to be active only on certain pages; edit existing fixes with in-code path filtering to use it.
+* Rewrite [mse66646](http://meta.stackexchange.com/q/66646) to accommodate changes to SE code.
+
+
 1.42 (2 Dec 2015)
 ====
 

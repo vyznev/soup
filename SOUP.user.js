@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        Stack Overflow Unofficial Patch
 // @namespace   https://github.com/vyznev/
-// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
+// @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.42.0
-// @copyright   2014-2015, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.44.0
+// @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -22,7 +22,7 @@
 // ==/UserScript==
 
 
-// Copyright (C) 2014 Ilmari Karonen and other contributors
+// Copyright (C) 2014-2016 by Ilmari Karonen and other contributors
 //
 // Permission to use, copy, modify, and/or distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -242,6 +242,12 @@ fixes.mse266258 = {
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
 };
+fixes.mso315436 = {
+	title:	"The open source ads preview page is still using the old size; ads appear distorted as a result",
+	url:	"http://meta.stackoverflow.com/q/315436",
+	path:	/^\/ads\/display\/\d+/,
+	css:	'a[href*="/ads/ct/"] img { height: auto }'
+};
 
 
 // site-specific CSS fixes:
@@ -362,12 +368,6 @@ fixes.mse244587 = {
 		"body .users-sidebar .userDetails img { margin-right: 0 }" +
 		"body .users-sidebar .userDetails { overflow: hidden }"
 };
-fixes.rpg3554 = {
-	title:	"Skin does not handle read-only mode well",
-	url:	"http://meta.rpg.stackexchange.com/q/3554",
-	sites:	/^(meta\.)?rpg\./,
-	css:	"body #system-message { clear: both }"  // "body" added to override SE style
-};
 fixes.mso306325 = {
 	title:	"The yellow star in the sprites.svg image looks “unfinished”",
 	url:	"http://meta.stackoverflow.com/q/306325",
@@ -446,26 +446,7 @@ fixes.mse224233 = {
 		} ).filter('.watermark').val('').removeClass('watermark');
 	}
 };
-fixes.mse139175 = {
-	title:	"When starring a message from the star board, it's not reflected in the main chat window",
-	url:	"http://meta.stackexchange.com/q/139175",
-	sites:	/^chat\./,
-	script:	function () {
-		var syncMsgStar = function () {
-			var $this = $(this);
-			var starred = $this.hasClass('user-star');
-			var id = $this.closest('li').attr('id').match(/\d+/)[0];
-			var msgStar = $('#message-' + id + ' .stars');
 
-			if ( starred ) msgStar.addClass('user-star');
-			else msgStar.removeClass('user-star');
-		};
-		var selector = '#starred-posts .sidebar-vote';
-		// XXX: this needs to run after the SE click handler; looks like it does
-		$(document).on( 'click', selector, syncMsgStar );
-		SOUP.hookAjax( /^\/chats\/stars\b/, function () { $(selector).each(syncMsgStar) } );
-	}
-};
 
 
 //
@@ -552,16 +533,20 @@ fixes.mse66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"http://meta.stackexchange.com/q/66646",
 	script:	function () {
-		if ( !window.StackExchange || !StackExchange.options ) return;
-		StackExchange.options.desc = true;  // disable SE keyup/press handler
-		$('body').on( 'keydown keypress', 'form[id*="-comment-"] textarea',
-			function (e) {
-				if ( e.which != 13 || e.shiftKey ) return;
-				e.preventDefault();
-				if ( e.type == 'keydown' && $(this).prev('#tabcomplete:visible').length == 0 )
-					$(this).closest('form').submit();
-			}
-		);
+		if ( !window.StackExchange || !StackExchange.options || !StackExchange.helpers ) return;
+		// this function is copied from http://cdn-dev.sstatic.net/Js/stub.en.js, but with s/keyup/keydown/
+		StackExchange.helpers.submitFormOnEnterPress = function ($form) {
+			var $txt = $form.find('textarea');
+			$txt.keydown(function (event) {
+				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete:visible").length) {
+					$form.submit();
+				}
+			}).keypress(function (event) {
+				// disable hitting enter to produce a newline, but allow <shift> + <enter>
+				return event.which !== 13 || event.shiftKey;
+			});
+		};
+		StackExchange.options.disableCommentSubmitOnEnter = false;
 	}
 };
 fixes.mse210132 = {
@@ -577,8 +562,8 @@ fixes.mse220337 = {
 	title:	"Election comments have no permalink link",
 	url:	"http://meta.stackexchange.com/q/220337",
 	credit:	"FEichinger",
+	path:	/^\/election\b/,
 	script:	function () {
-		if ( !/^\/election\b/.test( location.pathname ) ) return;
 		var base = ( $('#tabs .youarehere').attr('href') || "" ).replace( /#.*/, "" );
 
 		SOUP.addContentFilter( function () {
@@ -598,8 +583,8 @@ fixes.mse220337 = {
 fixes.mse172931 = {
 	title:	"Please put answers underneath questions in Close review queue",
 	url:	"http://meta.stackexchange.com/q/172931",
+	path:	/^\/review\b/,
 	script:	function () {
-		if ( ! /^\/review\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			$('.reviewable-post').not(':has(.answer)').each( function () {
 				var post = $(this), question = post.find('.question');
@@ -634,8 +619,9 @@ fixes.mse172931 = {
 					var header = $('<div id="answers-header"><div class="subheader answers-subheader"><h2></h2></div></div>');
 					header.find('h2').text( n + ( shown ? ' Other' : '') + ' Answer' + ( n == 1 ? '' : 's' ) );
 					header.insertAfter( question );
-					answers.insertAfter( header ).mathjax();
+					answers.insertAfter( header );
 					SOUP.runContentFilters( 'post', answers );
+					window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 				};
 				$.ajax( { method: 'GET', url: url, dataType: 'html', success: injectAnswers } );
 			} );
@@ -662,13 +648,12 @@ fixes.mse115702 = {
 		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
-		SOUP.subscribeToQuestion( function ( data ) {
-			if ( data.a !== 'score' ) return;
-			var isAnswer = $('#answer-' + data.id).length > 0;
+		function updateDeleteLinks( postid, score ) {
+			var isAnswer = $('#answer-' + postid).length > 0;
 			if ( ! isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
 
-			var deleteLinks = $('[id="delete-post-' + data.id + '"]');  // XXX: there might be several
-			if ( data.score >= (isAnswer ? 0 : -2) ) {
+			var deleteLinks = $('[id="delete-post-' + postid + '"]');  // XXX: there might be several
+			if ( score >= (isAnswer ? 0 : -2) ) {
 				// XXX: just to be safe, don't remove any delete links that we didn't add
 				deleteLinks = deleteLinks.filter('.soup-delete-link');
 				deleteLinks.next('span.lsep').andSelf().hide();
@@ -676,11 +661,20 @@ fixes.mse115702 = {
 				deleteLinks.next('span.lsep').andSelf().show();  // show existing links
 			} else {
 				// need to create a new delete link from scratch and slip it into the menu
-				var target = $('.flag-post-link[data-postid=' + data.id + ']');
+				var target = $('.flag-post-link[data-postid=' + postid + ']');
 				var lsep = target.prev('span.lsep').clone(true);
 				if (lsep.length == 0) lsep = $('<span class="lsep">|</span>');
-				$(html).attr('id', 'delete-post-' + data.id).insertBefore(target).after(lsep);
+				$(html).attr('id', 'delete-post-' + postid).insertBefore(target).after(lsep);
 			}
+		}
+		SOUP.subscribeToQuestion( function (data) {
+			if ( data.a === 'score' ) updateDeleteLinks( data.id, data.score );
+		} );
+		// fallback to make this fix work in review too (TODO: hook the button clicks directly?)
+		SOUP.hookAjax( /^\/posts\/(\d+)\/vote\/[023]\b/, function ( event, xhr, settings, match ) {
+			var score = $.parseJSON( xhr.responseText ).NewScore;
+			var postid = match[1];
+			updateDeleteLinks( postid, score );
 		} );
 	}
 };
@@ -752,13 +746,11 @@ fixes.mse234680 = {
 		// backup content filter for existing broken links with percent-encoded hostnames
 		SOUP.addContentFilter( function ( where ) {
 			var percentRegexp = /%[0-9A-Fa-f]{2}/;
-			var badChars = /[\0-\x2C\x2F\x3A-\x40\x5B-\x60\x7B-\x7F]/;  // RFC 3490 §4.1
-			$(where).find('a[href]').each( function () {
-				if ( !percentRegexp.test( this.hostname ) ) return;
-				var decodedHost = decodeURIComponent( this.hostname );
-				if ( badChars.test( decodedHost ) ) return;
-				this.hostname = decodedHost;
-			} );
+			$(where).find('a[href*="//"]').not('.soup-punycode-fixed').filter( function () {
+				if ( !percentRegexp.test( this.hostname ) ) return false;
+				this.hostname = decodeURIComponent( this.hostname );
+				return true;
+			} ).addClass('soup-punycode-fixed');
 		}, 'IDN escape fix' );
 	}
 };
@@ -823,8 +815,8 @@ fixes.mse243519 = {
 fixes.mse220611 = {
 	title:	"Blue background on nominee comments only when expanded",
 	url:	"http://meta.stackexchange.com/q/220611",
+	path:	/^\/election\b/,
 	script:	function () {
-		if ( ! /^\/election\b/.test( location.pathname ) ) return;
 		// XXX: This seems to only happen on the initialpage view, so no need to make it a content filter.
 		$('body.election-page div[id^="post-"]').each( function () {
 			var $this = $(this), href = $this.find('.post-signature.owner .user-details > a:first').attr('href');
@@ -897,27 +889,11 @@ fixes.mso284223 = {
 fixes.mso297489 = {
 	title:	"Add close option to the “Help and Improvement” queue to avoid cluttering flags?",
 	url:	"http://meta.stackoverflow.com/q/297489",
+	path:	/^\/review\/helper\b/,
 	script:	function () {
-		if ( ! /^\/review\/helper\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			StackExchange.vote_closingAndFlagging.init();
 			$('.post-menu .close-question-link').show();
-		} );
-	}
-};
-fixes.mso295276 = {
-	title:	"Username filter does not abort old pending Ajax requests",
-	url:	"http://meta.stackoverflow.com/q/295276",
-	script:	function () {
-		if ( ! /^\/(users|tags)$/.test( location.pathname ) ) return;
-		var prevXhr = null;
-		$( document ).ajaxSend( function( event, xhr, settings ) {
-			if ( ! /^\/(users\/filter|filter\/tags-for-index)\b/.test( settings.url ) ) return;
-			if ( prevXhr ) prevXhr.abort();
-			prevXhr = xhr;
-			xhr.always( function () {
-				if ( prevXhr === xhr ) prevXhr = null;
-			} );
 		} );
 	}
 };
@@ -1002,9 +978,9 @@ fixes.mso300679 = {
 fixes.mse266034 = {
 	title:	"Link the title of the linked questions sidebar to the list of linked questions",
 	url:	"http://meta.stackexchange.com/q/266034",
+	path:	/^\/questions\/(\d+)\b/,
 	script:	function () {
 		var m = /^\/questions\/(\d+)\b/.exec( location.pathname );
-		if ( !m ) return;
 		$('#h-linked').not(':has(a)').wrapInner('<a href="/questions/linked/' + m[1] + '"></a>');
 	},
 	css:	"#h-linked a, #h-linked a:visited { color: inherit; font-size: 100%; font-family: inherit; font-weight: inherit; line-height: inherit; display: inline }"
@@ -1017,10 +993,12 @@ fixes.mse265889 = {
 		var updateAnswerHeadings = function (where) {
 			$(where).filter('.answer').add( $('.answer', where) ).each( function () {
 				var answer = $(this);
+				var isDeleted = answer.hasClass('deleted-answer');
 				var signature = answer.find('.post-signature').eq(-1);
 				var isWiki = signature.find('.community-wiki').length > 0;
-				var author = signature.find('.user-details a[href^="/users/"]');
-				
+				var author = signature.find('.user-details');
+				if ( author.find('a').length > 0 ) author = author.find('a[href^="/users/"]');
+
 				var voteCount = answer.find('.vote-count-post');
 				var score = Number( voteCount.text() );
 				if ( voteCount.find('.vote-count-separator').length > 0 ) {
@@ -1029,20 +1007,23 @@ fixes.mse265889 = {
 				}
 				var isAccepted = answer.find('.vote-accepted-on').length > 0;
 
-				var text = ( isWiki ? 'Community wiki answer' : 'Answer' );
-				if ( answer.hasClass('deleted-answer') ) text = 'Deleted ' + text.toLowerCase();
-				if ( author.length > 0 ) text += ' by ' + author.text();
-				text += ' (score ' + score + ( isAccepted ? ', accepted answer' : '' ) + ')';
+				var attrs = [ 'score ' + score ];
+				if ( isAccepted ) attrs.push('accepted');
+				if ( isWiki ) attrs.push('community wiki');
+
+				var text = ( isDeleted ? 'Deleted answer' : 'Answer' );
+				text += ' (' + attrs.join(', ') + ')';
+				if ( author.length > 0 ) text += ' by ' + author.text().trim();
 
 				var heading = answer.find('.soup-answer-heading');
-				if ( heading.length < 1 ) heading = $('<h6 class="soup-answer-heading">').prependTo(answer);
-				heading.text(text);
+				if ( heading.length < 1 ) heading = $('<h6 class="soup-answer-heading">');
+				heading.text(text).prependTo(answer.find('.answercell'));
 			} );
 		};
 		SOUP.addContentFilter( updateAnswerHeadings, 'mse265889', null, ['load', 'post'] );
 		SOUP.subscribeToQuestion( function (data) {
 			if ( /^(score|(un)?accept)$/.test( data.a ) ) setTimeout( function () {
-				updateAnswerHeadings( '#answer-' + data.id );
+				updateAnswerHeadings( '#answer-' + (data.answerid || data.id) );
 			}, 10 );
 		} );
 	},
@@ -1096,6 +1077,7 @@ fixes.mse153528 = {
 	title:	"Don't ask for a comment when downvoting, if the user just voted on a comment",
 	url:	"http://meta.stackexchange.com/q/153528",
 	script:	function () {
+		if ( ! window.StackExchange ) return;
 		// TODO: add localized message variants?
 		var re = /^Please consider adding a comment if you think this post can be improved\.$/;
 		var oldShowInfoMsg = StackExchange.helpers.showInfoMessage;
@@ -1132,22 +1114,11 @@ fixes.mso306552 = {
 	title:	"Votes cast has upvote-like symbol and is confusing",
 	url:	"http://meta.stackoverflow.com/q/306552",
 	credit:	"AgeDeO and misterManSam",
+	path:	/^\/users\/\d+/,
 	script:	function () {
-		if ( ! /^\/users\/\d+/.test( location.pathname ) ) return;
 		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
 	},
 	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
-};
-fixes.mso308672 = {
-	title:	"Alerts no longer work in StackOverflow snippets in Chrome 46+",
-	url:	"http://meta.stackoverflow.com/q/308672",
-	script:	function () {
-		$(document).on( 'submit', 'form[action="//stacksnippets.net/js"]', function () {
-			if ( ! /^[\-0-9A-Za-z]+$/.test( this.target ) ) return;  // safety check
-			var iframe = $( 'iframe[name="' + this.target + '"][sandbox=allow-scripts]' );
-			iframe.attr( 'sandbox', 'allow-scripts allow-modals' );
-		} );
-	}
 };
 fixes.mse268584 = {
 	title:	"When a user is deleted, OP highlighting is lost",
@@ -1223,23 +1194,90 @@ fixes.mso310158 = {
 		};
 
 		// KLUGE: we hook disableSubmitButton because it's called from the SE submit event handler just before the Ajax request
-		var oldDisableSubmitButton = StackExchange.helpers.disableSubmitButton;
-		StackExchange.helpers.disableSubmitButton = function (form) {
-			var $form = $(form), id = $form.attr('id');
-			if ( /^(add|edit)-comment-/.test(id) ) {
-				var inputBox = $form.find('textarea');
-				var oldText = inputBox.val();
-				var newText = sanitizeBiDi(oldText).replace( mayEndInRTL, "$1\u200E" );
-				if ( newText !== oldText ) {
-					inputBox.val( newText )
-					SOUP.log( 'soup sanitized', escapeUnicode(oldText), 'to', escapeUnicode(newText) );
+		if ( window.StackExchange ) {
+			var oldDisableSubmitButton = StackExchange.helpers.disableSubmitButton;
+			StackExchange.helpers.disableSubmitButton = function (form) {
+				var $form = $(form), id = $form.attr('id');
+				if ( /^(add|edit)-comment-/.test(id) ) {
+					var inputBox = $form.find('textarea');
+					var oldText = inputBox.val();
+					var newText = sanitizeBiDi(oldText).replace( mayEndInRTL, "$1\u200E" );
+					if ( newText !== oldText ) {
+						inputBox.val( newText )
+						SOUP.log( 'soup sanitized', escapeUnicode(oldText), 'to', escapeUnicode(newText) );
+					}
 				}
-			}
-			return oldDisableSubmitButton.apply(this, arguments);
-		};
+				return oldDisableSubmitButton.apply(this, arguments);
+			};
+		}
+		// TODO: figure out how to make this work in chat too
 	}
 };
+fixes.mse223737 = {
+	title:	"Inbox heading should be a link",
+	url:	"http://meta.stackexchange.com/q/223737",
+	script:	function () {
+		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
+			if ( $('#soup-mse223737-link').length > 0 ) return;
+			$('.topbar .inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar .inbox-dialog h3:first-of-type');
+		} ).code();
+	},
+	css:	"#soup-mse223737-link { float: right }"
+};
+fixes.mso313853 = {
+	title:	"“Per page” pagination returns no results when increasing limit on last page",
+	url:	"http://meta.stackoverflow.com/q/313853",
+	script:	function () {
+		var re = {
+			page: /^([^?#]*\?(?:[^&#]*&)*)page=(\d+)([&#]|$)/,
+			size: /^([^?#]*\?(?:[^&#]*&)*)pagesize=(\d+)([&#]|$)/,
+			text: /^(\s*)(\d+)\s*$/
+		};
+		SOUP.hookAjax( /^\/(questions\/?)?([?#]|$)|^\/questions\/[a-z]/, function () {
+			$('.page-sizer').each( function () {
+				var sizer = $(this), curURL = sizer.find('a.current').attr('href').replace(/#.*/, '');
+				var sizeMatch = re.size.exec(curURL), pageMatch = re.page.exec(curURL);
+				if ( ! sizeMatch ) return;
+				if ( ! pageMatch ) {
+					// try a few other ways to obtain the current page number
+					var altURL = sizer.parent().find('.pager a.current').attr('href');
+					var altText = sizer.parent().find('.pager span.current').text().replace(/,/g, '');
+					pageMatch = re.page.exec(altURL) || re.text.exec(altText) || re.page.exec(location.href);
+				}
+				if ( ! pageMatch ) return;
+				var curSize = Number( sizeMatch[2] ), curPage = Number( pageMatch[2] );
 
+				sizer.find('a.page-numbers').attr( 'href', function (i, href) {
+					var sizeMatch = re.size.exec(href), pageMatch = re.page.exec(href);
+					if ( ! sizeMatch ) return;
+					var newSize = Number( sizeMatch[2] );
+					var newPage = Math.floor((curPage - 1) * curSize / newSize) + 1;
+					if ( pageMatch ) {
+						return href.replace(re.page, '$1page=' + newPage + '$3');
+					} else {
+						return href.replace(/([^?#]*\?)/, '$1page=' + newPage + '&');
+					}
+				} );
+			} );
+		} ).code();
+	}
+};
+fixes.mse259692 = {
+	title:	"Reputation for graph is off by a day",
+	url:	"http://meta.stackexchange.com/q/259692",
+	// TODO: fix the incorrect tooltips too
+	path:	/^\/users\/\d+/,
+	script:	function () {
+		var re = /^(\/ajax\/users\/\d+\/rep\/day\/)(\d+)([\/?#].*)?$/;
+		$.ajaxPrefilter( function( options ) {
+			var m = re.exec( options.url );
+			if (!m) return;
+			var t = 1*m[2], day = 24*60*60, offset = t % day;
+			if (2*offset > day) offset -= day;
+			options.url = m[1] + (t - offset) + m[3];
+		} );
+	}
+};
 
 
 //
@@ -1325,8 +1363,8 @@ fixes.mse264171 = {
 	title:	"SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'",
 	url:	"http://meta.stackexchange.com/q/264171",
 	sites:	/^blog\./,
+	path:	/^\/tags\/[0-9A-Za-z]+-com\/?$/,
 	early:	function () {
-		if ( ! /^\/tags\/[0-9A-Za-z]+-com\/?$/.test( location.pathname ) ) return;
 		// bah, no jQuery in the blogs :(
 		document.addEventListener( 'DOMContentLoaded', function (event) { 
 			var is404 = document.head.querySelector( 'meta[property="og:url"][content="/404/"]' );
@@ -1390,8 +1428,8 @@ fixes.mse221304 = {
 fixes.mse209393 = {
 	title:	"Render MathJax in the 10k tools",
 	url:	"http://meta.stackexchange.com/q/209393",
+	path:	/^\/tools\b/,
 	script:	function () {
-		if ( !/^\/tools\b/.test( location.pathname ) ) return;
 		SOUP.hookAjax( /^\/tools\b/, function () {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
 		} );
@@ -1405,32 +1443,19 @@ fixes.math11036 = {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'question-suggestions']);
 		} );
 		// similar issue in user profiles (TODO: split into separate fix?)
-        if ( /^\/users\/\d+\//.test( location.pathname ) ) {
-    		SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
-	    	} );
-	    	SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
-	    	} );
-	    	// v1.31.0: expanded posts in activity tab
-	    	SOUP.hookAjax( /^\/posts\/\d+\/body\b/, function () {
-	    		window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
-	    	} );
-	    }
-	}
-};
-fixes.cs537 = {
-	title:	"Missing MathJaX in the duplicate subtab of the close review queue",
-	url:	"http://meta.cs.stackexchange.com/q/537",
-	script:	function () {
-		var oldShow = $.fn.show;
-		$.fn.show = function () {
-			this.filter('.dno').hide().removeClass('dno').each( function () {
-				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, this]);
+		if ( /^\/users\/\d+\//.test( location.pathname ) ) {
+			SOUP.hookAjax( /^\/ajax\/users\/panel\b/, function () {
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-questions']);
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-panel-answers']);
 			} );
-			return oldShow.apply(this, arguments);
-		};
+			SOUP.hookAjax( /^\/ajax\/users\/\d+\/rep\b/, function () {
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'rep-page-container']);
+			} );
+			// v1.31.0: expanded posts in activity tab
+			SOUP.hookAjax( /^\/posts\/\d+\/body\b/, function () {
+				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
+			} );
+		}
 	}
 };
 
@@ -1532,8 +1557,8 @@ fixes.mse229363 = {
 fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"http://meta.math.stackexchange.com/q/19650",
+	path:	/^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/,
 	mathjax:	function () {
-		if ( ! /^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/.test( location.pathname ) ) return;
 		MathJax.Hub.Register.StartupHook( "End Config", function () {
 			var conf = MathJax.Hub.config.tex2jax;
 			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
@@ -1829,7 +1854,8 @@ var soupLateSetup = function () {
 	} );
 
 
-	// subscribe to SE realtime question events (TODO: defer until needed?)
+	// subscribe to SE realtime question events
+	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
 		// ewww... UGLY HACK to extract site and question IDs from page scripts
 		var sid, qid;
@@ -1858,6 +1884,7 @@ var soupLateSetup = function () {
 var fixIsEnabled = function ( fix ) {
 	if ( fix.sites && !fix.sites.test( location.hostname ) ) return false;
 	if ( fix.exclude && fix.exclude.test( location.hostname ) ) return false;
+	if ( fix.path && !fix.path.test( location.pathname ) ) return false;
 	return true;
 };
 
