@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.44 -->
+<!-- version: 1.45 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP may also run on other browsers with compatible user script support, such as
 Included fixes
 --------------
 
-SOUP v1.44
+SOUP v1.45
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 
@@ -84,7 +84,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
-* [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325)
+* [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325) (temporarily disabled)
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (applied globally)
 
 ### Chat-only fixes

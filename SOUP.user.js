@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.44.0
+// @version     1.45.0
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -371,6 +371,7 @@ fixes.mse244587 = {
 fixes.mso306325 = {
 	title:	"The yellow star in the sprites.svg image looks “unfinished”",
 	url:	"http://meta.stackoverflow.com/q/306325",
+	disabled:	true,  // reported to break on Firefox ESR, https://github.com/vyznev/soup/issues/24
 	sites:	/^(meta\.)stackoverflow\./,
 	css:	'body .star-off, body .star-on { height: 30px; width: 40px; ' +
 		'background-image: url("data:image/svg+xml,' + encodeURIComponent(
@@ -1882,6 +1883,7 @@ var soupLateSetup = function () {
 // Check if a fix should run on this site
 //
 var fixIsEnabled = function ( fix ) {
+	if ( fix.disabled ) return false;
 	if ( fix.sites && !fix.sites.test( location.hostname ) ) return false;
 	if ( fix.exclude && fix.exclude.test( location.hostname ) ) return false;
 	if ( fix.path && !fix.path.test( location.pathname ) ) return false;

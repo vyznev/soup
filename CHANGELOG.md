@@ -33,6 +33,11 @@ Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying
 * Add optional `path` regexp to fixes, to allow CSS fixes to be active only on certain pages; edit existing fixes with in-code path filtering to use it.
 * Rewrite [mse66646](http://meta.stackexchange.com/q/66646) to accommodate changes to SE code.
 
+**Changes in v1.44.1:**
+
+* Add `disabled` flag to temporarily turn off fixes.
+* Temporarily disable [mso306325](http://meta.stackoverflow.com/q/306325) fix due to reported [issues](https://github.com/vyznev/soup/issues/24) on Firefox ESR.
+
 
 1.42 (2 Dec 2015)
 ====
