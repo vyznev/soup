@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.0
+// @version     1.45.1
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -247,6 +247,18 @@ fixes.mso315436 = {
 	url:	"http://meta.stackoverflow.com/q/315436",
 	path:	/^\/ads\/display\/\d+/,
 	css:	'a[href*="/ads/ct/"] img { height: auto }'
+};
+fixes.mse274424 = {
+	title:	"Social login buttons CSS on the login/register page break when zoom less than 100%",
+	url:	"http://meta.stackexchange.com/q/274424",
+	css:	( // XXX: regex hack used to simplify long and ugly selectors
+		"PDIV .icon-container , PDIV .text" +
+		" { display: table-cell; height: 38px; text-align: center; vertical-align: middle; float: none }" +
+		"PDIV .icon { display: inline-block; margin: 0; position: relative; top: 2px }" +
+		"PDIV .text span { display: inline }" +
+		"PDIV.google-login { background: #e0492f }" +
+		"PDIV.facebook-login { background: #395697 }"
+		).replace( /PDIV([^,{]*)/g, "#add-login-page div.major-provider$1, #login-page div.major-provider$1, #signup-page div.major-provider$1" )
 };
 
 
