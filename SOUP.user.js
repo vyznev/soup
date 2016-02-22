@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.1
+// @version     1.45.2
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1278,17 +1278,35 @@ fixes.mso313853 = {
 fixes.mse259692 = {
 	title:	"Reputation for graph is off by a day",
 	url:	"http://meta.stackexchange.com/q/259692",
-	// TODO: fix the incorrect tooltips too
 	path:	/^\/users\/\d+/,
-	script:	function () {
-		var re = /^(\/ajax\/users\/\d+\/rep\/day\/)(\d+)([\/?#].*)?$/;
-		$.ajaxPrefilter( function( options ) {
-			var m = re.exec( options.url );
-			if (!m) return;
-			var t = 1*m[2], day = 24*60*60, offset = t % day;
-			if (2*offset > day) offset -= day;
-			options.url = m[1] + (t - offset) + m[3];
-		} );
+	early:	function () {
+		if ( ! /[?&]tab=reputation(&|$)/.test(location.search) ) return;
+		SOUP.log("soup mse259692: hacking Date class to pretend that local time is UTC");
+		function instantiate (Cls, args) {
+			return new ( Function.bind.bind(Cls, null).apply(null, args) );
+		}
+		var OldDate = window.Date;
+		window.Date = function () {
+			// XXX: Date.parse() and new Date (str) may still assume local time zone :(
+			if (arguments.length < 2) return instantiate(OldDate, arguments);
+			var timestamp = OldDate.UTC.apply(OldDate, arguments);
+			return instantiate(OldDate, [timestamp]);
+		};
+		Date.UTC = OldDate.UTC;
+		Date.parse = OldDate.parse;
+		Date.now = OldDate.now;
+		var proto = Date.prototype = OldDate.prototype;
+		// XXX: these modify the original Date prototype!
+		proto.getTimezoneOffset = function () { return 0 };
+		proto.getMilliseconds = proto.getUTCMilliseconds;
+		proto.getSeconds = proto.getUTCSeconds;
+		proto.getMinutes = proto.getUTCMinutes;
+		proto.getHours = proto.getUTCHours;
+		proto.getDay = proto.getUTCDay;
+		proto.getDate = proto.getUTCDate;
+		proto.getMonth = proto.getUTCMonth;
+		var getFullYear = proto.getFullYear = proto.getUTCFullYear;
+		proto.getYear = function () { return getFullYear.apply(this, arguments) - 1900 };
 	}
 };
 
