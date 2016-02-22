@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.2
+// @version     1.45.3
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -259,6 +259,12 @@ fixes.mse274424 = {
 		"PDIV.google-login { background: #e0492f }" +
 		"PDIV.facebook-login { background: #395697 }"
 		).replace( /PDIV([^,{]*)/g, "#add-login-page div.major-provider$1, #login-page div.major-provider$1, #signup-page div.major-provider$1" )
+};
+fixes.mse275976 = {
+	title:	"Unable to see completed badges",
+	url:	"http://meta.stackexchange.com/q/275976",
+	credit:	"Patrick Hofman",
+	css:	"body .popup-badges .all-badge-progress .completed::before { z-index: -1 }"
 };
 
 
