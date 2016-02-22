@@ -8,7 +8,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.45:**
 
-* [mse274424: Social login buttons CSS on the login/register page break when zoom less than 100%](http://meta.stackexchange.com/q/274424)
 * [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976) (credit: Patrick Hofman)
 
 **Other changes:**
