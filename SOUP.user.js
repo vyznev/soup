@@ -1882,13 +1882,9 @@ var soupLateSetup = function () {
 	// subscribe to SE realtime question events
 	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
-		// ewww... UGLY HACK to extract site and question IDs from page scripts
 		var sid, qid;
-		var re = /\bStackExchange\.realtime\.subscribeToQuestion\(\s*['"]?(\d+)['"]?\s*,\s*['"]?(\d+)['"]?\)/;
-		$('script').each( function () {
-			var match = re.exec( this.textContent );
-			if ( match ) { sid = match[1], qid = match[2] }
-		} );  
+		sid = StackExchange.options.site.id;
+		qid = StackExchange.question.getQuestionId();
 		if ( !sid || !qid || ! StackExchange.realtime ) return;
 		StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
 			var data = $.parseJSON( json );
