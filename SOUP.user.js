@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.4
+// @version     1.45.5
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1303,6 +1303,15 @@ fixes.mse259692 = {
 		proto.getYear = function () { return getFullYear.apply(this, arguments) - 1900 };
 	}
 };
+fixes.mso318781 = {
+	title:	"Code-only answers override the purple deleted colour",
+	url:	"http://meta.stackoverflow.com/q/318781",
+	path:	/^\/tools\/new-answers-old-questions\b/,
+	script:	function () {
+		$('table.default-view-post-table tr').has('.deleted-answer').addClass('deleted-answer');
+	}
+};
+
 
 
 //
