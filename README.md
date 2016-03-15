@@ -137,6 +137,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
 * [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692)
 * [mso318781: Code-only answers override the purple deleted colour](http://meta.stackoverflow.com/q/318781)
+* **[mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274)**
 
 ### Site-specific fixes
 

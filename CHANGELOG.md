@@ -10,6 +10,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976) (credit: Patrick Hofman)
 * [mso318781: Code-only answers override the purple deleted colour](http://meta.stackoverflow.com/q/318781)
+* [mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274) (incomplete)
 
 **Other changes:**
 

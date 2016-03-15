@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.5
+// @version     1.45.6
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1311,7 +1311,39 @@ fixes.mso318781 = {
 		$('table.default-view-post-table tr').has('.deleted-answer').addClass('deleted-answer');
 	}
 };
+fixes.mse74274 = {
+	title:	"Privacy leak in permalink?",
+	url:	"http://meta.stackexchange.com/q/74274",
+	script:	function () {
+		// TODO: we should strip the user ID from the share link URL itself!
+		// The problem is that showShareTip() pulls the URL from the link,
+		// so this would anonymize the popup *too* completely. :-(
 
+		var anonShareTip = function () {
+			// there should be only one share tip, but let's play it safe
+			try { $('.share-tip:not(:has(.share-anon))').each( function () {
+				var input = $(this).find('input').first(), anon = input.clone();
+				anon.val( input.val().replace(/(\/[qa]\/\d+)\/\d+$/, '$1') );
+				if (anon.val() === input.val()) return;
+				anon.addClass('share-anon');
+				input.after(anon).after('anonymous');  // TODO: localize?
+			} ) }
+			catch (e) { SOUP.log( 'SOUP anonShareTip():', e ) }
+		};
+		// inject call to anonShareTip() after StackExchange.question.showShareTip()
+		var oldShareTip = StackExchange.question.showShareTip;
+		StackExchange.question.showShareTip = function () {
+			var rv = oldShareTip.apply(this, arguments);
+			anonShareTip();
+			return rv;
+		};
+		// the share link click handler calls the original showShareTip() directly
+		$('.post-menu a.short-link').live('click', anonShareTip);
+	},
+	// minor CSS tweak to make the close link take up less vertical space
+	css:	".share-tip #share-icons { float: left }" +
+		".share-tip .close-share-tip { position: relative; top: 4px }"
+};
 
 
 //
