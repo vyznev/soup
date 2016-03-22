@@ -1885,6 +1885,8 @@ var soupLateSetup = function () {
 		var sid, qid;
 		sid = StackExchange.options.site.id;
 		qid = StackExchange.question.getQuestionId();
+		var re = /\bStackExchange\.realtime\.subscribeToQuestion\(\s*['"]?(\d+)['"]?\s*,\s*['"]?(\d+)['"]?\)/;
+		
 		if ( !sid || !qid || ! StackExchange.realtime ) return;
 		StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
 			var data = $.parseJSON( json );
