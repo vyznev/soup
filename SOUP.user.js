@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.6
+// @version     1.45.7
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -275,15 +275,6 @@ fixes.codegolf959 = {
 	url:	"http://meta.codegolf.stackexchange.com/q/959",
 	sites:	/^(meta\.)?(codegolf|puzzling)\./,
 	css:	"pre { line-height: 1.15 }"
-};
-fixes.mse229797 = {
-	title:	"You are here, but where's here?",
-	url:	"http://meta.stackexchange.com/q/229797",
-	credit:	"Tim Stone",
-	sites:	/^meta\.stackexchange\.com$/,
-	css:	".nav ul li.youarehere a { display: inline-block;" +
-		" padding: 5px; margin: -5px; border-radius: 5px;" +
-		" background-color: rgba(0, 80, 112, 0.25); color: #A1E9FF }"
 };
 fixes.math12902 = {
 	title:	"Visited questions are practically indistinguishable in search results",

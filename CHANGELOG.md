@@ -12,6 +12,9 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso318781: Code-only answers override the purple deleted colour](http://meta.stackoverflow.com/q/318781)
 * [mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274) (incomplete)
 
+**Removed fixes:**
+* [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE only)
+
 **Other changes:**
 
 * Improved [mse259692](http://meta.stackexchange.com/q/259692) fix by hacking the JS Date constructor and methods to pretend that local time is UTC.
