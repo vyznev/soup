@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.44.1 -->
+<!-- version: 1.44.2 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP may also run on other browsers with compatible user script support, such as
 Included fixes
 --------------
 
-SOUP v1.44.1
+SOUP v1.44.2
 &#x20;
 includes fixes or workarounds for the following issues.
 
@@ -73,7 +73,6 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 
 * [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](http://meta.math.stackexchange.com/q/12803) (partially applied globally)
 * **[codegolf959: Add line-height shortener to the ascii-art tag](http://meta.codegolf.stackexchange.com/q/959)**
-* [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797)
 * [math12902: Visited questions are practically indistinguishable in search results](http://meta.math.stackexchange.com/q/12902)
 * [math16559: Typo in site CSS disables visited link color in community bulletin](http://meta.math.stackexchange.com/q/16559)
 * [electronics3162: Error for profile less info](http://meta.electronics.stackexchange.com/q/3162)

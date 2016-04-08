@@ -38,6 +38,10 @@ Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying
 * Add `disabled` flag to temporarily turn off fixes.
 * Temporarily disable [mso306325](http://meta.stackoverflow.com/q/306325) fix due to reported [issues](https://github.com/vyznev/soup/issues/24) on Firefox ESR.
 
+**Changes in v1.44.2:**
+
+* Remove [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797), fixed by SE (and interfering with SOUP fix).
+
 
 1.42 (2 Dec 2015)
 ====
