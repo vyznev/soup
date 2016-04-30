@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.7
+// @version     1.45.8
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -453,8 +453,9 @@ fixes.mse224233 = {
 fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
 	url:	"http://meta.stackexchange.com/q/217779",
-	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
-		".soup-spoiler:hover > *, .soup-spoiler.visible > * { opacity: 1 }",
+	css:	".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
+		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
+		".spoiler, .spoiler * { transition: all 1s ease-in 0.5s }",  // backup while waiting for JS to run
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {

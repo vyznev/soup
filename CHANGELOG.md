@@ -18,6 +18,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Other changes:**
 
 * Improved [mse259692](http://meta.stackexchange.com/q/259692) fix by hacking the JS Date constructor and methods to pretend that local time is UTC.
+* Tweaked [mse217779](http://meta.stackexchange.com/q/217779) CSS to slightly slow down spoiler fade-in per [request](http://meta.stackexchange.com/q/278935).
 
 
 1.44 (5 Feb 2016)
