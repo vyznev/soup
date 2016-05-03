@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.8
+// @version     1.45.9
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -455,7 +455,12 @@ fixes.mse217779 = {
 	url:	"http://meta.stackexchange.com/q/217779",
 	css:	".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
-		".spoiler, .spoiler * { transition: all 1s ease-in 0.5s }",  // backup while waiting for JS to run
+		// backup to avoid accidentally revealing spoilers while waiting for JS fix to run
+		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
+		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
+		// bonus: differentiate spoilers from empty blockquotes, per http://meta.stackexchange.com/q/104085
+		".soup-spoiler::before, .spoiler::before { position: absolute; content: 'spoiler: hover / click to reveal'; color: #bbb; transition: opacity 0.5s ease-in 0.5s } " +
+		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; transition: opacity 0.5s ease-in 0s }",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
