@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.9
+// @version     1.45.10
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1620,15 +1620,22 @@ fixes.mse229363 = {
 fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"http://meta.math.stackexchange.com/q/19650",
-	path:	/^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/,
 	mathjax:	function () {
-		MathJax.Hub.Register.StartupHook( "End Config", function () {
-			var conf = MathJax.Hub.config.tex2jax;
-			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
-			conf.displayMath = [];
+		var displayMathScripts = 'script[type^="math/"][type$="mode=display"]';
+		var excludedParents = '.comment, .summary, #sidebar, #question-header';
+		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
+			try {
+				var elements = message[1];
+				$(elements).find(displayMathScripts).each( function () {
+					if ( $(this).closest(excludedParents).length == 0 ) return;
+					this.type = this.type.replace(/;\s*mode=display$/, "");
+				} );
+			} catch (e) { SOUP.log('math19650 hook failed:', e) }
 		} );
 	}
 };
+
+
 
 //
 // Initialization code and utility functions:
