@@ -112,7 +112,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * **[mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)**
 * [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
-* [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
+* [mse240417: Should moderator diamonds be inside or outside the highlight box?](http://meta.stackoverflow.com/q/240417)
 * [mse243519: Dangling signature dash in comments](http://meta.stackoverflow.com/q/243519)
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)

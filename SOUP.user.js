@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.10
+// @version     1.45.11
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -795,7 +795,7 @@ fixes.mse239549 = {
 	}
 };
 fixes.mse240417 = {
-	title:	"Inside or outside?",
+	title:	"Should moderator diamonds be inside or outside the highlight box?",
 	url:	"http://meta.stackoverflow.com/q/240417",
 	script:	function () {
 		SOUP.addContentFilter( function () {
