@@ -44,6 +44,7 @@
 // This permission grant does not extend to any code written by third parties,
 // unless said parties also agree to it.
 
+document.getElementById("soup-confirmer").innerHTML="Successfully installed SOUP!"; 
 
 ( function () {  // start of anonymous wrapper function (needed to restrict variable scope on Opera)
 
