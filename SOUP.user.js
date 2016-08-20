@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.44.2
+// @version     1.45.0
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -19,6 +19,7 @@
 // @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
+// @sourceURL  https://github.com/vyznev/soup/raw/master/SOUP.user.js
 // ==/UserScript==
 
 
@@ -44,9 +45,10 @@
 // This permission grant does not extend to any code written by third parties,
 // unless said parties also agree to it.
 
-document.getElementById("soup-confirmer").innerHTML="Successfully installed SOUP!"; 
+function soupRunner() {
 
-( function () {  // start of anonymous wrapper function (needed to restrict variable scope on Opera)
+var confirmer = document.getElementById("footer");
+confirmer.innerHTML += "Successfully installed SOUP!"; 
 
 // Opera does not support @match, so re-check that we're on an SE site before doing anything
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
@@ -1942,4 +1944,6 @@ if (document.body) injectScripts();
 else if (window.opera) addEventListener( 'load', injectScripts, false );
 else document.addEventListener( 'DOMContentLoaded', injectScripts );
 
-} )();  // end of anonymous wrapper function
+};
+
+window.onload=soupRunner;
