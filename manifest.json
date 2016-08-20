@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "SOUP",
-	"version": "1.43.0",
+	"version": "1.45.0",
 	"permissions": ["tabs", "*://*.stackexchange.com/*", "*://*.stackoverflow.com/*", "*://*.superuser.com/*", "*://*.serverfault.com/*", "*://*.stackapps.com/*", "*://*.mathoverflow.net/*", "*://*.askubuntu.com/*"],
         "content_scripts": [{
             "matches" : ["*://*.stackexchange.com/*", "*://*.stackoverflow.com/*", "*://*.superuser.com/*", "*://*.serverfault.com/*", "*://*.stackapps.com/*", "*://*.mathoverflow.net/*", "*://*.askubuntu.com/*"],
