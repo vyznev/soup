@@ -1615,7 +1615,7 @@ fixes.mse229363 = {
 	mathjax:	function () {
 		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
 		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|(data|earth)science|dsp|engineering|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
+		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|computergraphics|crypto|cs|cstheory|datascience|dsp|earthscience|economics|engineering|ham|hsm|math|matheducators|mathematica|physics|puzzling|quant|robotics|rpg|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
