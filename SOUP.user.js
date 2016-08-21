@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.13
+// @version     1.45.14
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1933,20 +1933,21 @@ var soupLateSetup = function () {
 	// subscribe to SE realtime question events
 	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
-		var sid, qid;
-		sid = StackExchange.options.site.id;
-		qid = StackExchange.question.getQuestionId();
-		var re = /\bStackExchange\.realtime\.subscribeToQuestion\(\s*['"]?(\d+)['"]?\s*,\s*['"]?(\d+)['"]?\)/;
+		try {
+			var sid = StackExchange.options.site.id;
+			var qid = StackExchange.question.getQuestionId();
 		
-		if ( !sid || !qid || ! StackExchange.realtime ) return;
-		StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
-			var data = $.parseJSON( json );
-			var hooks = SOUP.questionSubscriptions;
-			for ( var i = 0; i < hooks.length; i++ ) {
-				SOUP.try( hooks[i].key, hooks[i].code, [data] );
-			}
-		} );
-		SOUP.log( 'soup subscribed to realtime feed for question ' + qid + ' on site ' + sid );
+			StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
+				var data = $.parseJSON( json );
+				var hooks = SOUP.questionSubscriptions;
+				for ( var i = 0; i < hooks.length; i++ ) {
+					SOUP.try( hooks[i].key, hooks[i].code, [data] );
+				}
+			} );
+			SOUP.log( 'soup subscribed to realtime feed for question ' + qid + ' on site ' + sid );
+		} catch (e) {
+			SOUP.log( 'soup failed to subscribe to realtime feed:', e );
+		}
 	} );
 	
 	SOUP.log( 'soup setup complete' );
