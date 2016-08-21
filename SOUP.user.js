@@ -1478,7 +1478,7 @@ if ( 'https:' === location.protocol ) fixes.mse221304 = {
 		if ( ! document.head && ! window.MutationObserver ) return;
 		var csp = document.createElement('meta');
 		csp.setAttribute( 'http-equiv', 'Content-Security-Policy' );
-		csp.setAttribute( 'content', "upgrade-insecure-requests" );
+		csp.setAttribute( 'content', 'upgrade-insecure-requests' );
 		// wait until document.head is available, then add the meta tag
 		if ( document.head ) return document.head.appendChild( csp );
 		var observer = new MutationObserver( function () {
@@ -1490,7 +1490,7 @@ if ( 'https:' === location.protocol ) fixes.mse221304 = {
 	},
 	script:	function () {
 		// fallback: try to reload failed insecure images over HTTPS
-		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
+		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook|googleapis)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
 		var fixImages = function (target) {
 			$(target).find('img[src^="http://"]').each( function () {
 				if ( ! urlRegex.test( this.src ) ) return;
