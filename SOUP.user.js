@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.14
+// @version     1.45.15
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1630,7 +1630,7 @@ fixes.math19650 = {
 	url:	"http://meta.math.stackexchange.com/q/19650",
 	mathjax:	function () {
 		var displayMathScripts = 'script[type^="math/"][type$="mode=display"]';
-		var excludedParents = '.comment, .summary, #sidebar, #question-header';
+		var excludedParents = '.summary, #sidebar, #question-header';
 		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
 			try {
 				var elements = message[1];
