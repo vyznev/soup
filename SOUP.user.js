@@ -1455,8 +1455,7 @@ fixes.mse223725 = {
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
-		// XXX: per-site metas (meta.*.stackexchange.com) are currently broken over HTTPS (http://meta.stackexchange.com/q/265918)
-		var filter   = /^([^.]+\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		var filter   = /^([^.]+\.)*((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
@@ -1719,7 +1718,7 @@ var soupInit = function () {
 	// the function will be passed a jQuery selector to process.
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
-	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [], usercard: [] };
+	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [], usercard: [], topbar: [] };
 	SOUP.addContentFilter = function ( filter, key, where, events ) {
 		key = key || 'content filter';
 		events = events || Object.getOwnPropertyNames( SOUP.contentFilters );
@@ -1735,13 +1734,11 @@ var soupInit = function () {
 		}
 	};
 
-	var contentFilterRegexp = /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/;
-	SOUP.hookAjax( contentFilterRegexp, function ( event, xhr, settings, match ) {
+	SOUP.hookAjax( /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings, match ) {
 		var where = ( match ? '#answer-' + match[1] + ', .question[data-questionid=' + match[1] + ']' : '#content' );
 		SOUP.runContentFilters( 'post', where );
 	} );
-	var ajaxLoadRegexp = /^\/posts\/ajax-load-realtime\/([\d;]+)(\?title=true)?/;
-	SOUP.hookAjax( ajaxLoadRegexp, function ( event, xhr, settings, match ) {
+	SOUP.hookAjax( /^\/posts\/ajax-load-realtime\/([\d;]+)(\?title=true)?/, function ( event, xhr, settings, match ) {
 		var posts = match[1].split( ";" );
 		for ( var i = 0; i < posts.length; i++ ) {
 			posts[i] = '#answer-' + posts[i] + ', .question[data-questionid=' + posts[i] + ']';
@@ -1750,10 +1747,13 @@ var soupInit = function () {
 		var delay = ( match[2] ? 300 : 0 );  // KLUGE: the old content takes 150ms to fade out
 		setTimeout( function () { SOUP.runContentFilters( 'post', posts.join( ", " ) ) }, delay );
 	} );
-	var commentRegex = /^\/posts\/((\d+)\/comments|comments\/(\d+))\b/;  // yes, both variants are in use :-(
-	SOUP.hookAjax( commentRegex, function ( event, xhr, settings, match ) {
+	SOUP.hookAjax( /^\/posts\/((\d+)\/comments|comments\/(\d+))\b/, function ( event, xhr, settings, match ) { // yes, both variants are in use :-(
 		var where = ( match[2] ? '#comments-' + match[2] : '#comment-' + match[3] );
 		SOUP.runContentFilters( 'comments', where );
+	} );
+	SOUP.hookAjax( /^\/topbar\/(site-switcher|inbox|achievements)\b/, function ( event, xhr, settings, match ) {
+		var where = '.topbar-dialog.' + match[1].replace( /site-switcher/, 'siteSwitcher' ) + '-dialog';
+		SOUP.runContentFilters( 'topbar', where );
 	} );
 	SOUP.chatContentFiltersPending = false;
 	SOUP.runChatContentFilters = function () {
