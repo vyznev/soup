@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.12
+// @version     1.45.13
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -53,6 +53,12 @@ if ( ! include_re.test( location.hostname ) ) return;
 
 // we don't want to mess with iframes; SE does frame-busting anyway, so any real SE pages should be in top-level frames
 try { if ( window.self !== window.top ) return } catch (e) { return }
+
+// guard against double inclusion (e.g. user script + extension)
+if ( document.getElementById( 'soup-init' ) ) {
+	if ( window.console && console.log ) console.log( "soup aborting double injection!" );
+	return;
+}
 
 var fixes = {};
 
