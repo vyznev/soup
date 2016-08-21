@@ -1272,48 +1272,6 @@ fixes.mso313853 = {
 		} ).code();
 	}
 };
-fixes.mse259692 = {
-	title:	"Reputation for graph is off by a day",
-	url:	"http://meta.stackexchange.com/q/259692",
-	path:	/^\/users\/\d+/,
-	early:	function () {
-		if ( ! /[?&]tab=reputation(&|$)/.test(location.search) ) return;
-		SOUP.log("soup mse259692: hacking Date class to pretend that local time is UTC");
-		function instantiate (Cls, args) {
-			return new ( Function.bind.bind(Cls, null).apply(null, args) );
-		}
-		var OldDate = window.Date;
-		window.Date = function () {
-			// XXX: Date.parse() and new Date (str) may still assume local time zone :(
-			if (arguments.length < 2) return instantiate(OldDate, arguments);
-			var timestamp = OldDate.UTC.apply(OldDate, arguments);
-			return instantiate(OldDate, [timestamp]);
-		};
-		Date.UTC = OldDate.UTC;
-		Date.parse = OldDate.parse;
-		Date.now = OldDate.now;
-		var proto = Date.prototype = OldDate.prototype;
-		// XXX: these modify the original Date prototype!
-		proto.getTimezoneOffset = function () { return 0 };
-		proto.getMilliseconds = proto.getUTCMilliseconds;
-		proto.getSeconds = proto.getUTCSeconds;
-		proto.getMinutes = proto.getUTCMinutes;
-		proto.getHours = proto.getUTCHours;
-		proto.getDay = proto.getUTCDay;
-		proto.getDate = proto.getUTCDate;
-		proto.getMonth = proto.getUTCMonth;
-		var getFullYear = proto.getFullYear = proto.getUTCFullYear;
-		proto.getYear = function () { return getFullYear.apply(this, arguments) - 1900 };
-	}
-};
-fixes.mso318781 = {
-	title:	"Code-only answers override the purple deleted colour",
-	url:	"http://meta.stackoverflow.com/q/318781",
-	path:	/^\/tools\/new-answers-old-questions\b/,
-	script:	function () {
-		$('table.default-view-post-table tr').has('.deleted-answer').addClass('deleted-answer');
-	}
-};
 fixes.mse74274 = {
 	title:	"Privacy leak in permalink?",
 	url:	"http://meta.stackexchange.com/q/74274",

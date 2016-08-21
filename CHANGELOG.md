@@ -9,12 +9,12 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.45:**
 
 * [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976) (credit: Patrick Hofman)
-* [mso318781: Code-only answers override the purple deleted colour](http://meta.stackoverflow.com/q/318781)
 * [mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274) (incomplete)
 
 **Removed fixes:**
 * [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE only)
 * [math11392: MathJax preview broken when equations contain `\\label`s](http://meta.math.stackexchange.com/q/11392)
+* [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692)
 
 **Other changes:**
 
