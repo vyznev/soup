@@ -24,6 +24,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Tweaked [mse217779](http://meta.stackexchange.com/q/217779) CSS to slightly slow down spoiler fade-in per [request](http://meta.stackexchange.com/q/278935) and to add a notice text to spoilers per [another request](http://meta.stackexchange.com/q/104085).
 * Rewrote the [math19650](http://meta.math.stackexchange.com/q/19650) fix to handle any display math syntax (including e.g. `\begin{equation}` ... `\end{equation}`) and to selectively disable display math in elements that should not contain it (currently comments, post summaries, question titles and the sidebar).
 * Update [mse240417](http://meta.stackoverflow.com/q/240417) fix title.
+* The [mse221304](http://meta.stackexchange.com/q/221304) fix now injects a `Content-Security-Policy: upgrade-insecure-requests' meta tag, making browsers that support it automatically try to load images over HTTPS.  Note that **this will break images from hosts that don't support HTTPS** even if your browser would normally allow them! (This is an experimental feature; it will probably not appear in v1.46!)
 
 
 1.44 (5 Feb 2016)

@@ -1470,11 +1470,26 @@ fixes.mse223725 = {
 		$(document).on( 'mouseover click', selector, fixLink );
 	}
 };
-fixes.mse221304 = {
+if ( 'https:' === location.protocol ) fixes.mse221304 = {
 	title:	"Make all i.stack.imgur.com links protocol-relative",
 	url:	"http://meta.stackexchange.com/q/221304",
+	early:	function () {
+		// try to set a CSP to make browsers upgrade images silently
+		if ( ! document.head && ! window.MutationObserver ) return;
+		var csp = document.createElement('meta');
+		csp.setAttribute( 'http-equiv', 'Content-Security-Policy' );
+		csp.setAttribute( 'content', "upgrade-insecure-requests" );
+		// wait until document.head is available, then add the meta tag
+		if ( document.head ) return document.head.appendChild( csp );
+		var observer = new MutationObserver( function () {
+			if ( ! document.head ) return;
+			document.head.appendChild( csp );
+			observer.disconnect();
+		} );
+		observer.observe( document.documentElement, { childList: true, subtree: false } );
+	},
 	script:	function () {
-		if ( 'https:' != location.protocol ) return;
+		// fallback: try to reload failed insecure images over HTTPS
 		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
 		var fixImages = function (target) {
 			$(target).find('img[src^="http://"]').each( function () {
