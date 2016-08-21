@@ -1590,25 +1590,6 @@ fixes.math4130 = {
 	},
 	css:	".soup-mathjax-reset { display: none }"
 };
-fixes.math11392 = {
-	title:	"MathJax preview broken when equations contain `\\label`s",
-	url:	"http://meta.math.stackexchange.com/q/11392",
-	credit:	"Davide Cervone",
-	mathjax:	function () {
-		MathJax.Hub.Register.MessageHook("Begin Process",function (message) {
-			if (message[1].id && message[1].id.match(/^wmd-preview/)) {
-				if ( MathJax.InputJax.TeX.resetEquationNumbers )
-					MathJax.InputJax.TeX.resetEquationNumbers();
-				MathJax.Hub.Config({TeX:{noErrors:{disabled:true}}});
-			}
-		});
-		MathJax.Hub.Register.MessageHook("End Process",function (message) {
-			if (message[1].id && message[1].id.match(/^wmd-preview/)) {
-				MathJax.Hub.Config({TeX:{noErrors:{disabled:false}}});
-			}
-		});
-	}
-};
 fixes.mse229363 = {
 	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
 	url:	"http://meta.stackexchange.com/q/229363",

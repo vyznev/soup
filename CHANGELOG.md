@@ -14,6 +14,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Removed fixes:**
 * [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE only)
+* [math11392: MathJax preview broken when equations contain `\\label`s](http://meta.math.stackexchange.com/q/11392)
 
 **Other changes:**
 
