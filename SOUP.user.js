@@ -1318,6 +1318,8 @@ fixes.mse74274 = {
 	title:	"Privacy leak in permalink?",
 	url:	"http://meta.stackexchange.com/q/74274",
 	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.question || ! StackExchange.question.showShareTip ) return;
+		
 		// TODO: we should strip the user ID from the share link URL itself!
 		// The problem is that showShareTip() pulls the URL from the link,
 		// so this would anonymize the popup *too* completely. :-(
@@ -1341,7 +1343,7 @@ fixes.mse74274 = {
 			return rv;
 		};
 		// the share link click handler calls the original showShareTip() directly
-		$('.post-menu a.short-link').live('click', anonShareTip);
+		$(document).on( 'click', '.post-menu a.short-link', anonShareTip );
 	},
 	// minor CSS tweak to make the close link take up less vertical space
 	css:	".share-tip #share-icons { float: left }" +
