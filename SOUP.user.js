@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.15
+// @version     1.45.16
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1891,7 +1891,8 @@ var soupLateSetup = function () {
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
 		try {
 			var sid = StackExchange.options.site.id;
-			var qid = StackExchange.question.getQuestionId();
+			var qid = $('.question').data('questionid');
+			if ( !sid || !qid ) return;
 		
 			StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
 				var data = $.parseJSON( json );
