@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.16
+// @version     1.45.17
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -610,13 +610,17 @@ fixes.mse172931 = {
 				SOUP.log( 'soup loading ' + (count - shown) + ' missing answers from ' + url );
 				
 				var injectAnswers = function ( html ) {
-					// kluge: disable script tags; $.parseHTML() would be better, but needs jQuery 1.8+
-					// (we do this in two passes: the first is cleaner, but could potentially miss some cases)
-					html = html.replace( /<script\b([^>'"]+|"[^"]*"|'[^']*')*>[\s\S]*?<\/script\s*>/ig, '' );
-					html = html.replace( /(<\/?)(script)/ig, '$1disabled$2' );
-					var answers = $( html ).find('.answer').filter( function () {
-						return ! document.getElementById( this.id );
-					} ), n = answers.length;
+					// new cleaner parsing!
+					var parser = new DOMParser();
+					var doc = parser.parseFromString( html, 'text/html' );
+					var rawAnswers = doc.querySelectorAll('.answer');  // XXX: don't use .getElementsByClassName(), loop below needs a static NodeList!
+					var answers = $('<div>'), n = 0;
+					for (var i = 0; i < rawAnswers.length; i++) {
+						if ( document.getElementById( rawAnswers[i].id ) ) continue;
+						answers[0].appendChild( rawAnswers[i] );
+						n++;
+					}
+					answers = answers.children();
 					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
 					
 					// mangle the answer wrappers to look like the review page before injecting them

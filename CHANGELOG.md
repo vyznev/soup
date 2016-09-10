@@ -27,6 +27,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * The [mse221304](http://meta.stackexchange.com/q/221304) fix now injects a `Content-Security-Policy: upgrade-insecure-requests' meta tag, making browsers that support it automatically try to load images over HTTPS.  Note that **this will break images from hosts that don't support HTTPS** even if your browser would normally allow them! (This is an experimental feature; it will probably not appear in v1.46!)
 * Content filters are now properly applied to the top bar menus (site switcher, inbox and achievements) loaded via Ajax.
 * Re-enable [mse22372](http://meta.stackexchange.com/q/22372) HTTPS link rewriting for per-site metas (disabled in v1.42 due to [issues with Cloudflare](http://meta.stackexchange.com/q/265918)).
+* [mse172931](http://meta.stackexchange.com/q/172931) fix now uses DOMParser instead of an ugly jQuery hack to extract answers from the question page HTML.
 
 
 1.44 (5 Feb 2016)
