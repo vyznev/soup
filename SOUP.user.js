@@ -727,15 +727,24 @@ fixes.mse234680 = {
 				text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
 				if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;
 				
+				// Separate URL and optional title, fix possibly broken % encoding in URL
+				// (based on properlyEncoded() from wmd.en.js, but simplified):
+				var m = /^\s*(.*?)(?:\s+"(.*)")?\s*$/.exec(text);
+				var url = m[1], title = m[2];
+				var normalized = url.replace(/%(?:[\da-fA-F]{2})|[^\w\d-./[\]?+]/g, function (match) {
+					if (match.length === 3 && match.charAt(0) == "%") return match;
+					else return encodeURI(match);
+				} );
+
 				// On Chrome, link.hostname / link.href return Punycode host names, so
 				// just returning link.href would be enough; on Firefox, they return
 				// Unicode, so we need to use the punycode.js library to convert them.
 				// Either way, the following code should produce what we want:
-				link.href = text;
+				link.href = normalized;
 				var host = SOUP.punycode.toASCII( link.hostname );
 				var fixed = link.href.replace( link.hostname, host );
-				if (text != fixed) SOUP.log('soup fixed ' + text + ' to ' + fixed + ' (via ' + link.href + ')');
-				return fixed;
+				if (url !== fixed) SOUP.log('soup mse234680 fixed ' + url + ' -> ' + normalized + ' -> ' + link.href + ' -> ' + fixed);
+				return typeof(title) === 'undefined' ? fixed : fixed + ' "' + title + '"';
 			} );
 		};
 		
