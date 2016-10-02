@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.44.2
+// @version     1.44.3
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -700,7 +700,7 @@ fixes.mse234680 = {
 		
 		var link = document.createElement('a');  // work-around for cross-browser access to URLUtils
 		var fixURLInput = function (where) {
-			$(where).find('input[type=text]').attr('value', function (i, text) {
+			$(where).find('input[type=text]').val( function (i, text) {
 				// The following two lines are copied from ui.prompt() in wmd.en.js:
 				text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
 				if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;

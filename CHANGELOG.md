@@ -42,6 +42,10 @@ Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying
 
 * Remove [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797), fixed by SE (and interfering with SOUP fix).
 
+**Changes in v1.44.3:**
+
+* The [mse234680](http://meta.stackexchange.com/q/234680) fix broke on jQuery v1.12.4, fixed. (Reported by DavidPostill, thanks!)
+
 
 1.42 (2 Dec 2015)
 ====
