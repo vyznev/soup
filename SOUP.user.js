@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.21
+// @version     1.45.22
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -548,10 +548,14 @@ fixes.mse66646 = {
 		// XXX: with this change, all the messing around with composition events should be unnecessary
 		StackExchange.helpers.submitFormOnEnterPress = function ($form) {
 			var $txt = $form.find('textarea');
+			var enterHeldDown = false;
 			$txt.keydown(function (event) {
-				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete > li:visible").length) {
-					$form.submit();
+				if (event.which === 13 && !enterHeldDown) {
+					enterHeldDown = true;
+					if (!event.shiftKey && !$txt.prev("#tabcomplete > li:visible").length) $form.submit();
 				}
+			}).keyup(function (event) {
+				if (event.which === 13) enterHeldDown = false;
 			}).keypress(function (event) {
 				// disable hitting enter to produce a newline, but allow <shift> + <enter>
 				return event.which !== 13 || event.shiftKey;
