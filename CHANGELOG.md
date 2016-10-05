@@ -18,7 +18,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* **SOUP can now be installed as a Chrome extension.** (Thanks to Peanut for help and for prodding me into actually doing this!)
+* **SOUP can now be installed as a Firefox / Chrome extension.** (Thanks to Peanut for help and for prodding me into actually doing this!)
 * Use a less hacky way to obtain the site and question IDs for realtime update subscription. (Thanks, enki-code!)
 * Improved [mse259692](http://meta.stackexchange.com/q/259692) fix by hacking the JS Date constructor and methods to pretend that local time is UTC.
 * Tweaked [mse217779](http://meta.stackexchange.com/q/217779) CSS to slightly slow down spoiler fade-in per [request](http://meta.stackexchange.com/q/278935) and to add a notice text to spoilers per [another request](http://meta.stackexchange.com/q/104085).
@@ -28,6 +28,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Content filters are now properly applied to the top bar menus (site switcher, inbox and achievements) loaded via Ajax.
 * Re-enable [mse22372](http://meta.stackexchange.com/q/22372) HTTPS link rewriting for per-site metas (disabled in v1.42 due to [issues with Cloudflare](http://meta.stackexchange.com/q/265918)).
 * [mse172931](http://meta.stackexchange.com/q/172931) fix now uses DOMParser instead of an ugly jQuery hack to extract answers from the question page HTML.
+* [mse234680](http://meta.stackexchange.com/q/234680) fix handles optional link titles correctly (and fixes [a bug with non-BMP Unicode characters in URLs](http://meta.stackexchange.com/q/285366) as a side effect).
 
 
 1.44 (5 Feb 2016)

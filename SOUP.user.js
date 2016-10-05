@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.18
+// @version     1.45.19
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -728,10 +728,11 @@ fixes.mse234680 = {
 				if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;
 				
 				// Separate URL and optional title, fix possibly broken % encoding in URL
-				// (based on properlyEncoded() from wmd.en.js, but simplified):
+				// (based on properlyEncoded() from wmd.en.js, but simplified and debugged):
+				// XXX: this also fixes http://meta.stackexchange.com/q/285366
 				var m = /^\s*(.*?)(?:\s+"(.*)")?\s*$/.exec(text);
 				var url = m[1], title = m[2];
-				var normalized = url.replace(/%(?:[\da-fA-F]{2})|[^\w\d-./[\]?+]/g, function (match) {
+				var normalized = url.replace(/%(?:[\da-fA-F]{2})|[^\w\d\-./[\]%?+]+/g, function (match) {
 					if (match.length === 3 && match.charAt(0) == "%") return match;
 					else return encodeURI(match);
 				} );
@@ -749,7 +750,7 @@ fixes.mse234680 = {
 		};
 		
 		// rebind the submit / click handlers for the "Insert Hyperlink" dialog
-		// XXX: this is kind of fragile, and liable to stop working if the implementation is changed
+		// FIXME: this doesn't work with the new-style hyperlink dialog on SO
 		$(document).on( 'focus', '.wmd-prompt-dialog form:not(.soup-punycode-fixed) input', function (e) {
 			$(this).closest('form').addClass('soup-punycode-fixed').each( function () {
 				var oldSubmit = this.onsubmit;
