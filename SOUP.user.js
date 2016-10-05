@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.19
+// @version     1.45.20
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -537,26 +537,6 @@ fixes.mse261721 = {
 		} ).on( 'click', '.answer.downvoted-answer-clicked .post-text', function () {
 			$(this).closest('.answer').addClass('downvoted-answer').removeClass('downvoted-answer-clicked');
 		} );
-	}
-};
-fixes.mse66646 = {
-	title:	"Confirming context menu entries via Enter triggers comment to be posted",
-	url:	"http://meta.stackexchange.com/q/66646",
-	script:	function () {
-		if ( !window.StackExchange || !StackExchange.options || !StackExchange.helpers ) return;
-		// this function is copied from http://cdn-dev.sstatic.net/Js/stub.en.js, but with s/keyup/keydown/
-		StackExchange.helpers.submitFormOnEnterPress = function ($form) {
-			var $txt = $form.find('textarea');
-			$txt.keydown(function (event) {
-				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete:visible").length) {
-					$form.submit();
-				}
-			}).keypress(function (event) {
-				// disable hitting enter to produce a newline, but allow <shift> + <enter>
-				return event.which !== 13 || event.shiftKey;
-			});
-		};
-		StackExchange.options.disableCommentSubmitOnEnter = false;
 	}
 };
 fixes.mse210132 = {

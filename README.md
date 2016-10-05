@@ -103,7 +103,6 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse78989: Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [mse207526: Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
 * **[mse261721: Un-fade low-score answers on click/tap too](http://meta.stackexchange.com/q/261721)**
-* **[mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)**
 * [mse210132: New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
 * [mse220337: Election comments have no permalink link](http://meta.stackexchange.com/q/220337)
 * [mse224533: Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)

@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE only)
 * [math11392: MathJax preview broken when equations contain `\\label`s](http://meta.math.stackexchange.com/q/11392)
 * [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692)
+* [mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646) (IME issue seems to be [fixed](http://meta.japanese.stackexchange.com/q/1602), username tab completer no longer reacts to Enter anyway)
 
 **Other changes:**
 
