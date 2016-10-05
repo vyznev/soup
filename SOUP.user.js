@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.44.3
+// @version     1.44.4
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -530,7 +530,7 @@ fixes.mse66646 = {
 		StackExchange.helpers.submitFormOnEnterPress = function ($form) {
 			var $txt = $form.find('textarea');
 			$txt.keydown(function (event) {
-				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete:visible").length) {
+				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete > li:visible").length) {
 					$form.submit();
 				}
 			}).keypress(function (event) {

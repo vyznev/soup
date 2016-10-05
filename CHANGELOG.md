@@ -46,6 +46,10 @@ Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying
 
 * The [mse234680](http://meta.stackexchange.com/q/234680) fix broke on jQuery v1.12.4, fixed. (Reported by DavidPostill, thanks!)
 
+**Changes in v1.44.4:**
+
+* Update [mse66646](http://meta.stackexchange.com/q/66646) fix for jQuery v1.12.4 compatibility.
+
 
 1.42 (2 Dec 2015)
 ====
