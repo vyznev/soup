@@ -15,7 +15,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE only)
 * [math11392: MathJax preview broken when equations contain `\\label`s](http://meta.math.stackexchange.com/q/11392)
 * [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692)
-* [mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646) (IME issue seems to be [fixed](http://meta.japanese.stackexchange.com/q/1602), username tab completer no longer reacts to Enter anyway)
 
 **Other changes:**
 
@@ -30,6 +29,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Re-enable [mse22372](http://meta.stackexchange.com/q/22372) HTTPS link rewriting for per-site metas (disabled in v1.42 due to [issues with Cloudflare](http://meta.stackexchange.com/q/265918)).
 * [mse172931](http://meta.stackexchange.com/q/172931) fix now uses DOMParser instead of an ugly jQuery hack to extract answers from the question page HTML.
 * [mse234680](http://meta.stackexchange.com/q/234680) fix handles optional link titles correctly (and fixes [a bug with non-BMP Unicode characters in URLs](http://meta.stackexchange.com/q/285366) as a side effect).
+* Rewrote [mse66646](http://meta.stackexchange.com/q/66646) fix for compatibility with new SE code.  (The [related IME issue](http://meta.stackexchange.com/q/216834) seems to have been fixed, but this can still be triggered e.g. by the Firefox spell checker menu.)
 
 
 1.44 (5 Feb 2016)
