@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.22
+// @version     1.45.23
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -247,12 +247,6 @@ fixes.mse266258 = {
 	title:	"Left side markdown diff outside of its area",
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
-};
-fixes.mso315436 = {
-	title:	"The open source ads preview page is still using the old size; ads appear distorted as a result",
-	url:	"http://meta.stackoverflow.com/q/315436",
-	path:	/^\/ads\/display\/\d+/,
-	css:	'a[href*="/ads/ct/"] img { height: auto }'
 };
 fixes.mse275976 = {
 	title:	"Unable to see completed badges",
