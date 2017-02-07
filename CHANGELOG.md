@@ -31,6 +31,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse172931](http://meta.stackexchange.com/q/172931) fix now uses DOMParser instead of an ugly jQuery hack to extract answers from the question page HTML.
 * [mse234680](http://meta.stackexchange.com/q/234680) fix handles optional link titles correctly (and fixes [a bug with non-BMP Unicode characters in URLs](http://meta.stackexchange.com/q/285366) as a side effect).
 * Rewrote [mse66646](http://meta.stackexchange.com/q/66646) fix for compatibility with new SE code.  (The [related IME issue](http://meta.stackexchange.com/q/216834) seems to have been fixed, but this can still be triggered e.g. by the Firefox spell checker menu.)
+* Disabled the [mse207526](http://meta.stackexchange.com/q/207526) fix when the [new topbar](http://meta.stackoverflow.com/q/343103) is enabled, to avoid issues with dialog positioning.  (Thanks, mjpieters!)
 
 
 1.44 (5 Feb 2016)

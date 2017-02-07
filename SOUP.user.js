@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.23
+// @version     1.45.24
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -494,6 +494,13 @@ fixes.mse207526 = {
 	url:	"http://meta.stackexchange.com/q/207526",
 	script:	function () {
 		if ( !window.StackExchange || !StackExchange.topbar ) return;
+
+		// FIXME: this fix messes up dialog placement on the new SO topbar (http://meta.stackoverflow.com/q/343103)
+		if ( $('body > div.topbar > div.topbar-wrapper > div.js-topbar-dialog-corral').length != 1 ) {
+			SOUP.log('soup mse207526: expected topbar structure not found, skipping fix to avoid incompatibility with new topbar.');
+			return;
+		}
+        
 		SOUP.hookAjax( /^\/topbar\//, function () {
 			$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
 			$('.js-inbox-button').after($('.inbox-dialog'));
