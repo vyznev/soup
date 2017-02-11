@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.44.4
+// @version     1.46.0
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -53,6 +53,12 @@ if ( ! include_re.test( location.hostname ) ) return;
 
 // we don't want to mess with iframes; SE does frame-busting anyway, so any real SE pages should be in top-level frames
 try { if ( window.self !== window.top ) return } catch (e) { return }
+
+// guard against double inclusion (e.g. user script + extension)
+if ( document.getElementById( 'soup-init' ) ) {
+	if ( window.console && console.log ) console.log( "soup aborting double injection!" );
+	return;
+}
 
 var fixes = {};
 
@@ -242,11 +248,11 @@ fixes.mse266258 = {
 	url:	"http://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
 };
-fixes.mso315436 = {
-	title:	"The open source ads preview page is still using the old size; ads appear distorted as a result",
-	url:	"http://meta.stackoverflow.com/q/315436",
-	path:	/^\/ads\/display\/\d+/,
-	css:	'a[href*="/ads/ct/"] img { height: auto }'
+fixes.mse275976 = {
+	title:	"Unable to see completed badges",
+	url:	"http://meta.stackexchange.com/q/275976",
+	credit:	"Patrick Hofman",
+	css:	"body .popup-badges .all-badge-progress .completed::before { z-index: -1 }"
 };
 
 
@@ -447,8 +453,14 @@ fixes.mse224233 = {
 fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
 	url:	"http://meta.stackexchange.com/q/217779",
-	css:	".soup-spoiler > * { opacity: 0; transition: opacity 0.5s ease-in }" +
-		".soup-spoiler:hover > *, .soup-spoiler.visible > * { opacity: 1 }",
+	css:	".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
+		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
+		// backup to avoid accidentally revealing spoilers while waiting for JS fix to run
+		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
+		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
+		// bonus: differentiate spoilers from empty blockquotes, per http://meta.stackexchange.com/q/104085
+		".soup-spoiler::before, .spoiler::before { position: absolute; content: 'spoiler: hover / click to reveal'; color: #bbb; transition: opacity 0.5s ease-in 0.5s } " +
+		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; transition: opacity 0.5s ease-in 0s }",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
@@ -482,6 +494,13 @@ fixes.mse207526 = {
 	url:	"http://meta.stackexchange.com/q/207526",
 	script:	function () {
 		if ( !window.StackExchange || !StackExchange.topbar ) return;
+
+		// FIXME: this fix messes up dialog placement on the new SO topbar (http://meta.stackoverflow.com/q/343103)
+		if ( $('body > div.topbar > div.topbar-wrapper > div.js-topbar-dialog-corral').length != 1 ) {
+			SOUP.log('soup mse207526: expected topbar structure not found, skipping fix to avoid incompatibility with new topbar.');
+			return;
+		}
+        
 		SOUP.hookAjax( /^\/topbar\//, function () {
 			$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
 			$('.js-inbox-button').after($('.inbox-dialog'));
@@ -525,20 +544,24 @@ fixes.mse66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"http://meta.stackexchange.com/q/66646",
 	script:	function () {
-		if ( !window.StackExchange || !StackExchange.options || !StackExchange.helpers ) return;
+		if ( !window.StackExchange || !StackExchange.helpers ) return;
 		// this function is copied from http://cdn-dev.sstatic.net/Js/stub.en.js, but with s/keyup/keydown/
+		// XXX: with this change, all the messing around with composition events should be unnecessary
 		StackExchange.helpers.submitFormOnEnterPress = function ($form) {
 			var $txt = $form.find('textarea');
+			var enterHeldDown = false;
 			$txt.keydown(function (event) {
-				if (event.which === 13 && !event.shiftKey && !$txt.prev("#tabcomplete > li:visible").length) {
-					$form.submit();
+				if (event.which === 13 && !enterHeldDown) {
+					enterHeldDown = true;
+					if (!event.shiftKey && !$txt.prev("#tabcomplete > li:visible").length) $form.submit();
 				}
+			}).keyup(function (event) {
+				if (event.which === 13) enterHeldDown = false;
 			}).keypress(function (event) {
 				// disable hitting enter to produce a newline, but allow <shift> + <enter>
 				return event.which !== 13 || event.shiftKey;
 			});
 		};
-		StackExchange.options.disableCommentSubmitOnEnter = false;
 	}
 };
 fixes.mse210132 = {
@@ -592,13 +615,17 @@ fixes.mse172931 = {
 				SOUP.log( 'soup loading ' + (count - shown) + ' missing answers from ' + url );
 				
 				var injectAnswers = function ( html ) {
-					// kluge: disable script tags; $.parseHTML() would be better, but needs jQuery 1.8+
-					// (we do this in two passes: the first is cleaner, but could potentially miss some cases)
-					html = html.replace( /<script\b([^>'"]+|"[^"]*"|'[^']*')*>[\s\S]*?<\/script\s*>/ig, '' );
-					html = html.replace( /(<\/?)(script)/ig, '$1disabled$2' );
-					var answers = $( html ).find('.answer').filter( function () {
-						return ! document.getElementById( this.id );
-					} ), n = answers.length;
+					// new cleaner parsing!
+					var parser = new DOMParser();
+					var doc = parser.parseFromString( html, 'text/html' );
+					var rawAnswers = doc.querySelectorAll('.answer');  // XXX: don't use .getElementsByClassName(), loop below needs a static NodeList!
+					var answers = $('<div>'), n = 0;
+					for (var i = 0; i < rawAnswers.length; i++) {
+						if ( document.getElementById( rawAnswers[i].id ) ) continue;
+						answers[0].appendChild( rawAnswers[i] );
+						n++;
+					}
+					answers = answers.children();
 					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
 					
 					// mangle the answer wrappers to look like the review page before injecting them
@@ -705,20 +732,30 @@ fixes.mse234680 = {
 				text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
 				if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;
 				
+				// Separate URL and optional title, fix possibly broken % encoding in URL
+				// (based on properlyEncoded() from wmd.en.js, but simplified and debugged):
+				// XXX: this also fixes http://meta.stackexchange.com/q/285366
+				var m = /^\s*(.*?)(?:\s+"(.*)")?\s*$/.exec(text);
+				var url = m[1], title = m[2];
+				var normalized = url.replace(/%(?:[\da-fA-F]{2})|[^\w\d\-./[\]%?+]+/g, function (match) {
+					if (match.length === 3 && match.charAt(0) == "%") return match;
+					else return encodeURI(match);
+				} );
+
 				// On Chrome, link.hostname / link.href return Punycode host names, so
 				// just returning link.href would be enough; on Firefox, they return
 				// Unicode, so we need to use the punycode.js library to convert them.
 				// Either way, the following code should produce what we want:
-				link.href = text;
+				link.href = normalized;
 				var host = SOUP.punycode.toASCII( link.hostname );
 				var fixed = link.href.replace( link.hostname, host );
-				if (text != fixed) SOUP.log('soup fixed ' + text + ' to ' + fixed + ' (via ' + link.href + ')');
-				return fixed;
+				if (url !== fixed) SOUP.log('soup mse234680 fixed ' + url + ' -> ' + normalized + ' -> ' + link.href + ' -> ' + fixed);
+				return typeof(title) === 'undefined' ? fixed : fixed + ' "' + title + '"';
 			} );
 		};
 		
 		// rebind the submit / click handlers for the "Insert Hyperlink" dialog
-		// XXX: this is kind of fragile, and liable to stop working if the implementation is changed
+		// FIXME: this doesn't work with the new-style hyperlink dialog on SO
 		$(document).on( 'focus', '.wmd-prompt-dialog form:not(.soup-punycode-fixed) input', function (e) {
 			$(this).closest('form').addClass('soup-punycode-fixed').each( function () {
 				var oldSubmit = this.onsubmit;
@@ -783,7 +820,7 @@ fixes.mse239549 = {
 	}
 };
 fixes.mse240417 = {
-	title:	"Inside or outside?",
+	title:	"Should moderator diamonds be inside or outside the highlight box?",
 	url:	"http://meta.stackoverflow.com/q/240417",
 	script:	function () {
 		SOUP.addContentFilter( function () {
@@ -1254,21 +1291,40 @@ fixes.mso313853 = {
 		} ).code();
 	}
 };
-fixes.mse259692 = {
-	title:	"Reputation for graph is off by a day",
-	url:	"http://meta.stackexchange.com/q/259692",
-	// TODO: fix the incorrect tooltips too
-	path:	/^\/users\/\d+/,
+fixes.mse74274 = {
+	title:	"Privacy leak in permalink?",
+	url:	"http://meta.stackexchange.com/q/74274",
 	script:	function () {
-		var re = /^(\/ajax\/users\/\d+\/rep\/day\/)(\d+)([\/?#].*)?$/;
-		$.ajaxPrefilter( function( options ) {
-			var m = re.exec( options.url );
-			if (!m) return;
-			var t = 1*m[2], day = 24*60*60, offset = t % day;
-			if (2*offset > day) offset -= day;
-			options.url = m[1] + (t - offset) + m[3];
-		} );
-	}
+		if ( ! window.StackExchange || ! StackExchange.question || ! StackExchange.question.showShareTip ) return;
+		
+		// TODO: we should strip the user ID from the share link URL itself!
+		// The problem is that showShareTip() pulls the URL from the link,
+		// so this would anonymize the popup *too* completely. :-(
+
+		var anonShareTip = function () {
+			// there should be only one share tip, but let's play it safe
+			try { $('.share-tip:not(:has(.share-anon))').each( function () {
+				var input = $(this).find('input').first(), anon = input.clone();
+				anon.val( input.val().replace(/(\/[qa]\/\d+)\/\d+$/, '$1') );
+				if (anon.val() === input.val()) return;
+				anon.addClass('share-anon');
+				input.after(anon).after('anonymous');  // TODO: localize?
+			} ) }
+			catch (e) { SOUP.log( 'SOUP anonShareTip():', e ) }
+		};
+		// inject call to anonShareTip() after StackExchange.question.showShareTip()
+		var oldShareTip = StackExchange.question.showShareTip;
+		StackExchange.question.showShareTip = function () {
+			var rv = oldShareTip.apply(this, arguments);
+			anonShareTip();
+			return rv;
+		};
+		// the share link click handler calls the original showShareTip() directly
+		$(document).on( 'click', '.post-menu a.short-link', anonShareTip );
+	},
+	// minor CSS tweak to make the close link take up less vertical space
+	css:	".share-tip #share-icons { float: left }" +
+		".share-tip .close-share-tip { position: relative; top: 4px }"
 };
 
 
@@ -1376,8 +1432,7 @@ fixes.mse223725 = {
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
-		// XXX: per-site metas (meta.*.stackexchange.com) are currently broken over HTTPS (http://meta.stackexchange.com/q/265918)
-		var filter   = /^([^.]+\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		var filter   = /^([^.]+\.)*((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
@@ -1391,12 +1446,12 @@ fixes.mse223725 = {
 		$(document).on( 'mouseover click', selector, fixLink );
 	}
 };
-fixes.mse221304 = {
+if ( 'https:' === location.protocol ) fixes.mse221304 = {
 	title:	"Make all i.stack.imgur.com links protocol-relative",
 	url:	"http://meta.stackexchange.com/q/221304",
 	script:	function () {
-		if ( 'https:' != location.protocol ) return;
-		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
+		// fallback: try to reload failed insecure images over HTTPS
+		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook|googleapis)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
 		var fixImages = function (target) {
 			$(target).find('img[src^="http://"]').each( function () {
 				if ( ! urlRegex.test( this.src ) ) return;
@@ -1511,32 +1566,13 @@ fixes.math4130 = {
 	},
 	css:	".soup-mathjax-reset { display: none }"
 };
-fixes.math11392 = {
-	title:	"MathJax preview broken when equations contain `\\label`s",
-	url:	"http://meta.math.stackexchange.com/q/11392",
-	credit:	"Davide Cervone",
-	mathjax:	function () {
-		MathJax.Hub.Register.MessageHook("Begin Process",function (message) {
-			if (message[1].id && message[1].id.match(/^wmd-preview/)) {
-				if ( MathJax.InputJax.TeX.resetEquationNumbers )
-					MathJax.InputJax.TeX.resetEquationNumbers();
-				MathJax.Hub.Config({TeX:{noErrors:{disabled:true}}});
-			}
-		});
-		MathJax.Hub.Register.MessageHook("End Process",function (message) {
-			if (message[1].id && message[1].id.match(/^wmd-preview/)) {
-				MathJax.Hub.Config({TeX:{noErrors:{disabled:false}}});
-			}
-		});
-	}
-};
 fixes.mse229363 = {
 	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
 	url:	"http://meta.stackexchange.com/q/229363",
 	mathjax:	function () {
 		// list of MathJax enabled sites from http://meta.stackexchange.com/a/216607
 		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|crypto|cs(theory)?|(data|earth)science|dsp|engineering|ham|math(educators|ematica)?|physics|puzzling|quant|robotics|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
+		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|computergraphics|crypto|cs|cstheory|datascience|dsp|earthscience|economics|engineering|ham|hsm|math|matheducators|mathematica|physics|puzzling|quant|robotics|rpg|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
 		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
 			SOUP.try( 'mse229363', function () {
 				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
@@ -1549,15 +1585,22 @@ fixes.mse229363 = {
 fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"http://meta.math.stackexchange.com/q/19650",
-	path:	/^\/?(questions(\/tagged\/.*)?|search|unanswered(\/.*)?)\/?$/,
 	mathjax:	function () {
-		MathJax.Hub.Register.StartupHook( "End Config", function () {
-			var conf = MathJax.Hub.config.tex2jax;
-			conf.inlineMath = conf.inlineMath.concat( conf.displayMath );
-			conf.displayMath = [];
+		var displayMathScripts = 'script[type^="math/"][type$="mode=display"]';
+		var excludedParents = '.summary, #sidebar, #question-header';
+		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
+			try {
+				var elements = message[1];
+				$(elements).find(displayMathScripts).each( function () {
+					if ( $(this).closest(excludedParents).length == 0 ) return;
+					this.type = this.type.replace(/;\s*mode=display$/, "");
+				} );
+			} catch (e) { SOUP.log('math19650 hook failed:', e) }
 		} );
 	}
 };
+
+
 
 //
 // Initialization code and utility functions:
@@ -1637,7 +1680,7 @@ var soupInit = function () {
 	// the function will be passed a jQuery selector to process.
 	// NOTE: the function should be idempotent, i.e. it should be safe to
 	// call it several times.
-	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [], usercard: [] };
+	SOUP.contentFilters = { load: [], post: [], comments: [], preview: [], chat: [], usercard: [], topbar: [] };
 	SOUP.addContentFilter = function ( filter, key, where, events ) {
 		key = key || 'content filter';
 		events = events || Object.getOwnPropertyNames( SOUP.contentFilters );
@@ -1653,13 +1696,11 @@ var soupInit = function () {
 		}
 	};
 
-	var contentFilterRegexp = /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/;
-	SOUP.hookAjax( contentFilterRegexp, function ( event, xhr, settings, match ) {
+	SOUP.hookAjax( /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings, match ) {
 		var where = ( match ? '#answer-' + match[1] + ', .question[data-questionid=' + match[1] + ']' : '#content' );
 		SOUP.runContentFilters( 'post', where );
 	} );
-	var ajaxLoadRegexp = /^\/posts\/ajax-load-realtime\/([\d;]+)(\?title=true)?/;
-	SOUP.hookAjax( ajaxLoadRegexp, function ( event, xhr, settings, match ) {
+	SOUP.hookAjax( /^\/posts\/ajax-load-realtime\/([\d;]+)(\?title=true)?/, function ( event, xhr, settings, match ) {
 		var posts = match[1].split( ";" );
 		for ( var i = 0; i < posts.length; i++ ) {
 			posts[i] = '#answer-' + posts[i] + ', .question[data-questionid=' + posts[i] + ']';
@@ -1668,10 +1709,13 @@ var soupInit = function () {
 		var delay = ( match[2] ? 300 : 0 );  // KLUGE: the old content takes 150ms to fade out
 		setTimeout( function () { SOUP.runContentFilters( 'post', posts.join( ", " ) ) }, delay );
 	} );
-	var commentRegex = /^\/posts\/((\d+)\/comments|comments\/(\d+))\b/;  // yes, both variants are in use :-(
-	SOUP.hookAjax( commentRegex, function ( event, xhr, settings, match ) {
+	SOUP.hookAjax( /^\/posts\/((\d+)\/comments|comments\/(\d+))\b/, function ( event, xhr, settings, match ) { // yes, both variants are in use :-(
 		var where = ( match[2] ? '#comments-' + match[2] : '#comment-' + match[3] );
 		SOUP.runContentFilters( 'comments', where );
+	} );
+	SOUP.hookAjax( /^\/topbar\/(site-switcher|inbox|achievements)\b/, function ( event, xhr, settings, match ) {
+		var where = '.topbar-dialog.' + match[1].replace( /site-switcher/, 'siteSwitcher' ) + '-dialog';
+		SOUP.runContentFilters( 'topbar', where );
 	} );
 	SOUP.chatContentFiltersPending = false;
 	SOUP.runChatContentFilters = function () {
@@ -1849,22 +1893,22 @@ var soupLateSetup = function () {
 	// subscribe to SE realtime question events
 	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( function () {
-		// ewww... UGLY HACK to extract site and question IDs from page scripts
-		var sid, qid;
-		var re = /\bStackExchange\.realtime\.subscribeToQuestion\(\s*['"]?(\d+)['"]?\s*,\s*['"]?(\d+)['"]?\)/;
-		$('script').each( function () {
-			var match = re.exec( this.textContent );
-			if ( match ) { sid = match[1], qid = match[2] }
-		} );  
-		if ( !sid || !qid || ! StackExchange.realtime ) return;
-		StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
-			var data = $.parseJSON( json );
-			var hooks = SOUP.questionSubscriptions;
-			for ( var i = 0; i < hooks.length; i++ ) {
-				SOUP.try( hooks[i].key, hooks[i].code, [data] );
-			}
-		} );
-		SOUP.log( 'soup subscribed to realtime feed for question ' + qid + ' on site ' + sid );
+		try {
+			var sid = StackExchange.options.site.id;
+			var qid = $('.question').data('questionid');
+			if ( !sid || !qid ) return;
+		
+			StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
+				var data = $.parseJSON( json );
+				var hooks = SOUP.questionSubscriptions;
+				for ( var i = 0; i < hooks.length; i++ ) {
+					SOUP.try( hooks[i].key, hooks[i].code, [data] );
+				}
+			} );
+			SOUP.log( 'soup subscribed to realtime feed for question ' + qid + ' on site ' + sid );
+		} catch (e) {
+			SOUP.log( 'soup failed to subscribe to realtime feed:', e );
+		}
 	} );
 	
 	SOUP.log( 'soup setup complete' );

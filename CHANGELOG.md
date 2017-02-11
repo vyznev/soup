@@ -3,6 +3,44 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
+1.46 (11 Feb 2017)
+====
+
+It's been over a year since the last stable SOUP release, and this release consists mostly of the backlog of changes accumulated in the development branch during that time.
+
+Unfortunately, I haven't had as much time to devote to maintaining SOUP lately as I had in the past.  When I started this project, I was hoping that others would join in to actively contribute patches to SOUP and maybe even become co-developers, so that I could eventually focus my efforts on coordination and quality control.  Alas, except for a couple of notable exceptions, this hasn't really happened, and so the development rate of SOUP remains limited by my personal free time and interest.  If you'd be interested in contributing to SOUP, or have any suggestions on how to make the project more accessible to new contributors, please let me know!
+
+In particular, I haven't had time to do the extensive cross-browser pre-release testing of each fix that I used to do before each stable release.  I'm confident that none of the new fixes should have any major issues on either Chrome or Firefox, since I've been using them personally on both browsers for most of a year, but it's possible and even likely that some of the fixes in this release may have been made redundant in the mean time.  The best I can say is that at least this release is more up to date than v1.44. :)  Please report any problems or obsolete fixes that you may find, either on [GitHub](https://github.com/vyznev/soup/issues) or at [Stack Apps](http://stackapps.com/a/4488).
+
+A major new feature in this release is that SOUP v1.46 will be the first stable SOUP release available as a browser extension on Chrome and Firefox.  A snapshot of the v1.45 development branch has been experimentally available as a browser extension for some time, but with this release, SOUP-as-an-extension is finally going official.  In particular, this means that you can now install SOUP on Firefox for Android!  Expect more mobile-specific fixes in future SOUP releases, and again, please report any and all problems you may observe.
+
+**New fixes in 1.46.0:**
+
+* [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976) (credit: Patrick Hofman)
+* [mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274) (incomplete)
+
+**Removed fixes:**
+* [mse229797: You are here, but where's here?](http://meta.stackexchange.com/q/229797) (meta.SE only)
+* [math11392: MathJax preview broken when equations contain `\\label`s](http://meta.math.stackexchange.com/q/11392)
+* [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692)
+* [mso315436: The open source ads preview page is still using the old size; ads appear distorted as a result](http://meta.stackoverflow.com/q/315436)
+
+**Other changes:**
+
+* **SOUP can now be installed as a Firefox / Chrome extension.** (Thanks to Peanut for help and for prodding me into actually doing this!)
+* Use a less hacky way to obtain the site and question IDs for realtime update subscription. (Thanks, enki-code!)
+* Improved [mse259692](http://meta.stackexchange.com/q/259692) fix by hacking the JS Date constructor and methods to pretend that local time is UTC.
+* Tweaked [mse217779](http://meta.stackexchange.com/q/217779) CSS to slightly slow down spoiler fade-in per [request](http://meta.stackexchange.com/q/278935) and to add a notice text to spoilers per [another request](http://meta.stackexchange.com/q/104085).
+* Rewrote the [math19650](http://meta.math.stackexchange.com/q/19650) fix to handle any display math syntax (including e.g. `\begin{equation}` ... `\end{equation}`) and to selectively disable display math in elements that should not contain it (currently comments, post summaries, question titles and the sidebar).
+* Update [mse240417](http://meta.stackoverflow.com/q/240417) fix title.
+* Content filters are now properly applied to the top bar menus (site switcher, inbox and achievements) loaded via Ajax.
+* Re-enable [mse22372](http://meta.stackexchange.com/q/22372) HTTPS link rewriting for per-site metas (disabled in v1.42 due to [issues with Cloudflare](http://meta.stackexchange.com/q/265918)).
+* [mse172931](http://meta.stackexchange.com/q/172931) fix now uses DOMParser instead of an ugly jQuery hack to extract answers from the question page HTML.
+* [mse234680](http://meta.stackexchange.com/q/234680) fix handles optional link titles correctly (and fixes [a bug with non-BMP Unicode characters in URLs](http://meta.stackexchange.com/q/285366) as a side effect).
+* Rewrote [mse66646](http://meta.stackexchange.com/q/66646) fix for compatibility with new SE code.  (The [related IME issue](http://meta.stackexchange.com/q/216834) seems to have been fixed, but this can still be triggered e.g. by the Firefox spell checker menu.)
+* Disabled the [mse207526](http://meta.stackexchange.com/q/207526) fix when the [new topbar](http://meta.stackoverflow.com/q/343103) is enabled, to avoid issues with dialog positioning.  (Thanks, mjpieters!)
+
+
 1.44 (5 Feb 2016)
 ====
 

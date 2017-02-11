@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.44.3 -->
+<!-- version: 1.46.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -11,25 +11,30 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
+### Installing as a user script
+
+The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for multiple browsers) extension for managing user scripts.  (Other Greasemonkey compatible user script extensions should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install</kbd>][DL]  
 > <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
 
 The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
 
-SOUP may also run on other browsers with compatible user script support, such as Opera or Safari, but has not been fully tested on them.  For instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
+SOUP has been mainly developed and tested on Firefox and Chrome.  It may also run on other browsers with user script support (via Tampermonkey or other compatible extensions), but has not been fully tested on them.  Any reports of cross-browser issues are welcome.
 
-**Notes:**
+### Installing as a browser extension
 
-* When installing SOUP on Opera 12 and earlier, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+As of version 1.46, SOUP can now be installed directly as a browser extension on [Firefox](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons") and [Chrome](https://chrome.google.com/webstore/detail/stack-overflow-unofficial/bagdnnmjfkaolcegcgeohpboeocfalpj "SOUP on Chrome Web Store"), without the need for a user script manager.  In particular, using SOUP as an extension on Firefox for Android is now possible and supported.
 
-* SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
+(An Opera extension may be available at a later date.  In the mean time, Opera users may use the Chrome extension via [Download Chrome Extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/), or just use the user script version with e.g. [Tampermonkey for Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/).)
+
+Note that updates to the extension packages available at Firefox Add-ons and Chrome Web Store may take a few days to appear, even after a new stable user script version is released, due to review and other delays.
+
 
 Included fixes
 --------------
 
-SOUP v1.44.3
+SOUP v1.46.0
 &#x20;
 includes fixes or workarounds for the following issues.
 
@@ -65,7 +70,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](http://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
-* [mso315436: The open source ads preview page is still using the old size; ads appear distorted as a result](http://meta.stackoverflow.com/q/315436)
+* [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976)
 
 ### Site-specific CSS fixes
 
@@ -102,7 +107,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse78989: Clicking on tags broken?](http://meta.stackexchange.com/q/78989)
 * [mse207526: Cannot navigate into the multicollider with keyboard](http://meta.stackexchange.com/q/207526)
 * **[mse261721: Un-fade low-score answers on click/tap too](http://meta.stackexchange.com/q/261721)**
-* **[mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)**
+* [mse66646: Confirming context menu entries via Enter triggers comment to be posted](http://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](http://meta.stackexchange.com/q/210132)
 * [mse220337: Election comments have no permalink link](http://meta.stackexchange.com/q/220337)
 * [mse224533: Soft-hyphen hides subsequent text when using Opera 12.16](http://meta.stackexchange.com/q/224533)
@@ -111,7 +116,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * **[mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](http://meta.stackexchange.com/q/234680)**
 * [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](http://meta.stackoverflow.com/q/266852)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](http://meta.stackexchange.com/q/239549)
-* [mse240417: Inside or outside?](http://meta.stackoverflow.com/q/240417)
+* [mse240417: Should moderator diamonds be inside or outside the highlight box?](http://meta.stackoverflow.com/q/240417)
 * [mse243519: Dangling signature dash in comments](http://meta.stackoverflow.com/q/243519)
 * [mse220611: Blue background on nominee comments only when expanded](http://meta.stackexchange.com/q/220611)
 * [mse121682: Links to election nominations don't work after nominations close](http://meta.stackexchange.com/q/121682)
@@ -133,7 +138,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](http://meta.stackoverflow.com/q/310158)
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
-* [mse259692: Reputation for graph is off by a day](http://meta.stackexchange.com/q/259692) (partial fix)
+* **[mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274)**
 
 ### Site-specific fixes
 
@@ -164,7 +169,6 @@ These fixes apply only to sites using [MathJax](http://www.mathjax.org) for LaTe
 * [mse209393: Render MathJax in the 10k tools](http://meta.stackexchange.com/q/209393)
 * [math11036: Can we have the suggested questions' titles parsed by default?](http://meta.math.stackexchange.com/q/11036)
 * **[math4130: The scope of \newcommand is the entire page](http://meta.math.stackexchange.com/q/4130)**
-* **[math11392: MathJax preview broken when equations contain `\label`s](http://meta.math.stackexchange.com/q/11392)**
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](http://meta.stackexchange.com/q/229363)
 * **[math19650: Post with many lines of display math takes up most of the Questions page](http://meta.math.stackexchange.com/q/19650)**
 
