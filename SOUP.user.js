@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.24
+// @version     1.46.0
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1449,21 +1449,6 @@ fixes.mse223725 = {
 if ( 'https:' === location.protocol ) fixes.mse221304 = {
 	title:	"Make all i.stack.imgur.com links protocol-relative",
 	url:	"http://meta.stackexchange.com/q/221304",
-	early:	function () {
-		// try to set a CSP to make browsers upgrade images silently
-		if ( ! document.head && ! window.MutationObserver ) return;
-		var csp = document.createElement('meta');
-		csp.setAttribute( 'http-equiv', 'Content-Security-Policy' );
-		csp.setAttribute( 'content', 'upgrade-insecure-requests' );
-		// wait until document.head is available, then add the meta tag
-		if ( document.head ) return document.head.appendChild( csp );
-		var observer = new MutationObserver( function () {
-			if ( ! document.head ) return;
-			document.head.appendChild( csp );
-			observer.disconnect();
-		} );
-		observer.observe( document.documentElement, { childList: true, subtree: false } );
-	},
 	script:	function () {
 		// fallback: try to reload failed insecure images over HTTPS
 		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook|googleapis)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;

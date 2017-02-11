@@ -3,10 +3,18 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
-1.45 (development)
+1.46 (11 Feb 2017)
 ====
 
-**New fixes in 1.45:**
+It's been over a year since the last stable SOUP release, and this release consists mostly of the backlog of changes accumulated in the development branch during that time.
+
+Unfortunately, I haven't had as much time to devote to maintaining SOUP lately as I had in the past.  When I started this project, I was hoping that others would join in to actively contribute patches to SOUP and maybe even become co-developers, so that I could eventually focus my efforts on coordination and quality control.  Alas, except for a couple of notable exceptions, this hasn't really happened, and so the development rate of SOUP remains limited by my personal free time and interest.  If you'd be interested in contributing to SOUP, or have any suggestions on how to make the project more accessible to new contributors, please let me know!
+
+In particular, I haven't had time to do the extensive cross-browser pre-release testing of each fix that I used to do before each stable release.  I'm confident that none of the new fixes should have any major issues on either Chrome or Firefox, since I've been using them personally on both browsers for most of a year, but it's possible and even likely that some of the fixes in this release may have been made redundant in the mean time.  The best I can say is that at least this release is more up to date than v1.44. :)  Please report any problems or obsolete fixes that you may find, either on [GitHub](https://github.com/vyznev/soup/issues) or at [Stack Apps](http://stackapps.com/a/4488).
+
+A major new feature in this release is that SOUP v1.46 will be the first stable SOUP release available as a browser extension on Chrome and Firefox.  A snapshot of the v1.45 development branch has been experimentally available as a browser extension for some time, but with this release, SOUP-as-an-extension is finally going official.  In particular, this means that you can now install SOUP on Firefox for Android!  Expect more mobile-specific fixes in future SOUP releases, and again, please report any and all problems you may observe.
+
+**New fixes in 1.46.0:**
 
 * [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976) (credit: Patrick Hofman)
 * [mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274) (incomplete)
@@ -25,7 +33,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Tweaked [mse217779](http://meta.stackexchange.com/q/217779) CSS to slightly slow down spoiler fade-in per [request](http://meta.stackexchange.com/q/278935) and to add a notice text to spoilers per [another request](http://meta.stackexchange.com/q/104085).
 * Rewrote the [math19650](http://meta.math.stackexchange.com/q/19650) fix to handle any display math syntax (including e.g. `\begin{equation}` ... `\end{equation}`) and to selectively disable display math in elements that should not contain it (currently comments, post summaries, question titles and the sidebar).
 * Update [mse240417](http://meta.stackoverflow.com/q/240417) fix title.
-* The [mse221304](http://meta.stackexchange.com/q/221304) fix now injects a `Content-Security-Policy: upgrade-insecure-requests' meta tag, making browsers that support it automatically try to load images over HTTPS.  Note that **this will break images from hosts that don't support HTTPS** even if your browser would normally allow them! (This is an experimental feature; it will probably not appear in v1.46!)
 * Content filters are now properly applied to the top bar menus (site switcher, inbox and achievements) loaded via Ajax.
 * Re-enable [mse22372](http://meta.stackexchange.com/q/22372) HTTPS link rewriting for per-site metas (disabled in v1.42 due to [issues with Cloudflare](http://meta.stackexchange.com/q/265918)).
 * [mse172931](http://meta.stackexchange.com/q/172931) fix now uses DOMParser instead of an ugly jQuery hack to extract answers from the question page HTML.

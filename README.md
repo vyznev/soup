@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.45 -->
+<!-- version: 1.46.0 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -11,27 +11,32 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for Chrome) extension for managing user scripts.  (Other similar extensions, like Scriptish or NinjaKit, should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
+### Installing as a user script
+
+The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for multiple browsers) extension for managing user scripts.  (Other Greasemonkey compatible user script extensions should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install</kbd>][DL]  
 > <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
 
 The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
 
-SOUP may also run on other browsers with compatible user script support, such as Opera or Safari, but has not been fully tested on them.  For instructions on how to enable and install user scripts on different browsers, see the **["script" tag wiki on Stack Apps](http://stackapps.com/tags/script/info "'script' tag wiki - Stack Apps")**.
+SOUP has been mainly developed and tested on Firefox and Chrome.  It may also run on other browsers with user script support (via Tampermonkey or other compatible extensions), but has not been fully tested on them.  Any reports of cross-browser issues are welcome.
 
-**Notes:**
+### Installing as a browser extension
 
-* When installing SOUP on Opera 12 and earlier, please *remove the "<code>.user</code>" part from the file name* to disable Greasemonkey compatibility mode.  While SOUP can run in either native or compatibility mode, a few MathJax-related fixes require native mode.
+As of version 1.46, SOUP can now be installed directly as a browser extension on [Firefox](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons") and [Chrome](https://chrome.google.com/webstore/detail/stack-overflow-unofficial/bagdnnmjfkaolcegcgeohpboeocfalpj "SOUP on Chrome Web Store"), without the need for a user script manager.  In particular, using SOUP as an extension on Firefox for Android is now possible and supported.
 
-* SOUP has not yet been tested on Safari, but in principle it _should_ work.  If you do try to use it, please let me know how / if it works.
+(An Opera extension may be available at a later date.  In the mean time, Opera users may use the Chrome extension via [Download Chrome Extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/), or just use the user script version with e.g. [Tampermonkey for Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/).)
+
+Note that updates to the extension packages available at Firefox Add-ons and Chrome Web Store may take a few days to appear, even after a new stable user script version is released, due to review and other delays.
+
 
 Included fixes
 --------------
 
-SOUP v1.45
+SOUP v1.46
 &#x20;
-(development) includes fixes or workarounds for the following issues.
+includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 
