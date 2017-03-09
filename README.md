@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.46.0 -->
+<!-- version: 1.46.1 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -34,7 +34,7 @@ Note that updates to the extension packages available at Firefox Add-ons and Chr
 Included fixes
 --------------
 
-SOUP v1.46.0
+SOUP v1.46.1
 &#x20;
 includes fixes or workarounds for the following issues.
 
@@ -160,7 +160,6 @@ These fixes apply to the post review interface.  I've listed them separately her
 These fixes are only applied when using Stack Exchange over HTTPS.  Note that [HTTPS support for Stack Exchange is still experimental.](http://meta.stackexchange.com/questions/116782/better-https-support-for-stack-exchange-sites)
 
 * **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](http://meta.stackexchange.com/q/223725)**
-* **[mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)**
 
 ### MathJax-related fixes:
 

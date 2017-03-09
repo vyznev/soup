@@ -40,6 +40,12 @@ A major new feature in this release is that SOUP v1.46 will be the first stable 
 * Rewrote [mse66646](http://meta.stackexchange.com/q/66646) fix for compatibility with new SE code.  (The [related IME issue](http://meta.stackexchange.com/q/216834) seems to have been fixed, but this can still be triggered e.g. by the Firefox spell checker menu.)
 * Disabled the [mse207526](http://meta.stackexchange.com/q/207526) fix when the [new topbar](http://meta.stackoverflow.com/q/343103) is enabled, to avoid issues with dialog positioning.  (Thanks, mjpieters!)
 
+**Changes in 1.46.1:**
+
+* Removed **[mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)** (no longer needed)
+* Prepare for the renaming of per-site meta hostnames from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, make sure fixes continue to run on the correct sites.
+* Don't auto-rewrite links to the old meta hostnames to use HTTPS, since they have broken certs.
+
 
 1.44 (5 Feb 2016)
 ====
