@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.45.24
+// @version     1.47.0
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -279,7 +279,7 @@ fixes.codegolf959 = {
 fixes.math12902 = {
 	title:	"Visited questions are practically indistinguishable in search results",
 	url:	"http://meta.math.stackexchange.com/q/12902",
-	sites:	/^math\./,
+	sites:	/^math\.stackexchange\./,
 	// "body" added to override conflicting SE styles
 	css:	"body a, body .question-hyperlink { color: #145d8a }" + 
 		"body a:visited, body .question-hyperlink:visited { color: #003b52 }" +
@@ -294,21 +294,21 @@ fixes.math12902 = {
 fixes.math12902_meta = {
 	title:	"Visited questions are practically indistinguishable in search results (meta)",
 	url:	"http://meta.math.stackexchange.com/q/12902",
-	sites:	/^meta\.math\./,
+	sites:	/^meta\.math\.|^math\.meta\./,
 	// "body" added to override conflicting SE styles
 	css:	"body a { color: #a29131 } body a:visited { color: #736722 }"
 };
 fixes.math16559 = {
 	title:	"Typo in site CSS disables visited link color in community bulletin",
 	url:	"http://meta.math.stackexchange.com/q/16559",
-	sites:	/^math\./,
+	sites:	/^math\.stackexchange\./,
 	// this rule is already in the site CSS, but without the colon in "a:visited"
 	css:	".module.community-bulletin a:visited { color: #32455d !important }"
 };
 fixes.math16559_meta = {
 	title:	"Typo in site CSS disables visited link color in community bulletin (meta)",
 	url:	"http://meta.math.stackexchange.com/q/16559",
-	sites:	/^meta\.math\./,
+	sites:	/^meta\.math\.|^math\.meta\./,
 	css:	".module.community-bulletin a:visited { color: #444 !important }"
 };
 fixes.electronics3162 = {
@@ -1432,7 +1432,7 @@ fixes.mse223725 = {
 	script:	function () {
 		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
-		var filter   = /^([^.]+\.)*((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		var filter   = /^([^.]+\.)?(((meta\.)?stackexchange|stackoverflow|stackapps|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
 		var fixLink  = function () {
 			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
@@ -1444,42 +1444,6 @@ fixes.mse223725 = {
 		var fixAllLinks = function (where) { $(where).find(selector).each( fixLink ) };
 		SOUP.addContentFilter( fixAllLinks, 'HTTPS link fix' );
 		$(document).on( 'mouseover click', selector, fixLink );
-	}
-};
-if ( 'https:' === location.protocol ) fixes.mse221304 = {
-	title:	"Make all i.stack.imgur.com links protocol-relative",
-	url:	"http://meta.stackexchange.com/q/221304",
-	early:	function () {
-		// try to set a CSP to make browsers upgrade images silently
-		if ( ! document.head && ! window.MutationObserver ) return;
-		var csp = document.createElement('meta');
-		csp.setAttribute( 'http-equiv', 'Content-Security-Policy' );
-		csp.setAttribute( 'content', 'upgrade-insecure-requests' );
-		// wait until document.head is available, then add the meta tag
-		if ( document.head ) return document.head.appendChild( csp );
-		var observer = new MutationObserver( function () {
-			if ( ! document.head ) return;
-			document.head.appendChild( csp );
-			observer.disconnect();
-		} );
-		observer.observe( document.documentElement, { childList: true, subtree: false } );
-	},
-	script:	function () {
-		// fallback: try to reload failed insecure images over HTTPS
-		var urlRegex = /^http:\/\/(([a-z0-9\-]+\.)*((imgur|gravatar|facebook|googleapis)\.com|wikimedia\.org|sstatic\.net|(stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net))\//i;
-		var fixImages = function (target) {
-			$(target).find('img[src^="http://"]').each( function () {
-				if ( ! urlRegex.test( this.src ) ) return;
-				if ( ! this.complete || this.naturalWidth > 0 ) return;
-				var newUrl = this.src.replace( urlRegex, 'https://$1/' );
-				SOUP.log( 'soup mse221304 fixing img ' + this.src + ' -> ' + newUrl );
-				this.src = newUrl;
-			} );
-		};
-		SOUP.addContentFilter( fixImages, 'HTTPS image fix' );
-		$(document).on( 'mouseenter', '#user-menu', function () {
-			SOUP.try( 'HTTPS image fix', fixImages, [this] );
-		} );
 	}
 };
 
@@ -1626,7 +1590,7 @@ var soupInit = function () {
 	// basic environment detection, part 1
 	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mse215450)
 	SOUP.isChat = /^chat\./.test( location.hostname );
-	SOUP.isMeta = /^meta\./.test( location.hostname );
+	SOUP.isMeta = /(^|\.)meta\./.test( location.hostname );
 	
 	// run code after jQuery and/or SE framework have loaded
 	SOUP.readyQueue = {};
