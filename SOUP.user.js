@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.2
+// @version     1.47.3
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -182,7 +182,8 @@ fixes.mse84296 = {
 	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
 	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
 	// SEE ALSO: mso310158 (prevent runaway BiDi overrides in new comments)
-	css:	".comment-copy, .comment-user, .user-details a " +
+	// NOTE: the #chat-body selectors and the .soup-bidi-isolate class are used by the mse342361 fix
+	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate ' +
 		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
 };
 fixes.mse240710 = {
@@ -263,6 +264,13 @@ fixes.mso342634 = {
 	title:	"“Hot Meta Posts” with a 4-digit score wrap onto a second line",
 	url:	"https://meta.stackoverflow.com/q/342634",
 	css:	".bulletin-item-type { white-space: nowrap }"
+};
+fixes.mse186748 = {
+	title:	"Duplicate dialog close button causes preview to be too narrow",
+	url:	"https://meta.stackexchange.com/q/186748",
+	css:	".popup-close { margin-left: -100% }" +
+		".popup #search-text, .popup .close-as-duplicate-pane .actual-edit-overlay" +
+		" { width: 100% !important; box-sizing: border-box }"
 };
 
 
@@ -381,6 +389,12 @@ fixes.rpg5812 = {
 	credit:	"polkovnikov.ph",
 	css:	".new-login-form .new-login-right input, .new-login-form .new-login-right table  { width: 100%; box-sizing: border-box }"
 };
+fixes.mse294574 = {
+	title:	"Unbroken line in preview text causes whole post block to side scroll",
+	url:	"https://meta.stackexchange.com/q/294574",
+	sites:	/^stackexchange\.com$/,
+	css:	"#question-list .question { word-wrap: break-word }"
+};
 
 
 //
@@ -442,7 +456,34 @@ fixes.mso342361 = {
 	title:	"Minor (funny) chat star bug for Hebrew text",
 	url:	"https://meta.stackoverflow.com/q/342361",
 	sites:	/^chat\./,
-	css:	"#starred-posts .relativetime { unicode-bidi: embed }"
+	script:	function () {
+		SOUP.hookAjax( /^\/chats\/stars\/\d+\b/, function () {
+			$('#starred-posts li').each( function () {
+				// jQuery doesn't work well with raw text nodes :(
+				var nodes = null;
+				for ( var node = this.firstChild; node; node = node.nextSibling ) {
+					if ( /\bpermalink\b/.test( node.className ) ) break;
+					else if ( /\bstars\b/.test( node.className ) ) nodes = [];
+					else if ( nodes ) nodes.push( node );
+				}
+				if ( ! nodes || nodes.length < 1 ) return;
+				// unwrap the trailing dash
+				var firstNode = nodes[0], lastNode = nodes[nodes.length - 1], text = lastNode.nodeValue;
+				var match = /(\s+-\s*)$/.exec( text );
+				if ( match ) {
+					nodes[nodes.length - 1] = document.createTextNode( text.substr(0, match.index) );  // wrap this...
+					lastNode.nodeValue = match[0];  // ...instead of this
+				}
+				var wrapper = document.createElement( 'span' );
+				wrapper.className = "soup-bidi-isolate";  // XXX: defined by mse84296 fix
+				this.insertBefore( wrapper, firstNode );
+				for ( var i = 0; i < nodes.length; i++ ) {
+					wrapper.appendChild( nodes[i] );
+				}
+			} );
+		} ).code();
+	},
+	css:	"#starred-posts .relativetime { unicode-bidi: embed }" // fallback
 };
 
 
@@ -1347,6 +1388,45 @@ fixes.mso338932 = {
 			// FIXME: this might do too much, if multiple external editors are active
 			$wmdPreview.on( 'touchstart', bypassTouchBlocker );
 		} );
+	}
+};
+fixes.mse287473 = {
+	title:	"Tooltip banner blinking for question closed by the user with the golden badge in small screens",
+	url:	"https://meta.stackexchange.com/q/287473",
+	// NOTE: This actually fixes a more generic bug in StackExchange.helpers.showMessage, where the positioning
+	// calculation fails to account for the possibility that moving the message box to its target position might
+	// cause its content to wrap, thus making it taller than expected.  We fix this by setting a max-width style
+	// on the message box that matches the space actually available for it.
+	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.helpers ) return;
+		var oldShowMessage = StackExchange.helpers.showMessage;
+		var tipSize = 9; // must match css and SE code
+		StackExchange.helpers.showMessage = function ( $elem, message, options ) {
+			if ( options && options.position && options.position.my && ! ( options.css && options.css['max-width'] ) ) {
+				$elem = $( $elem );
+				if ( $elem.length < 1 ) return;
+				
+				// calculate horizontal position of the message tip
+				var tipLeft = $elem.offset().left;
+				if ( /right/.test( options.position.at ) ) tipLeft += $elem.outerWidth(true);
+				else if ( /^(top|bottom) center$/.test( options.position.at ) ) tipLeft += $elem.outerWidth(true) / 2;
+				var tipRight = $(document).width() - tipLeft;
+
+				// calculate space available for the message
+				var maxWidth = -1;
+				if ( /left/.test( options.position.my ) ) maxWidth = tipRight;
+				else if ( /center/.test( options.position.my ) ) maxWidth = Math.min(tipLeft, tipRight) * 2;
+				else if ( /right/.test( options.position.my ) ) maxWidth = tipLeft;
+				if ( /^(left|right)/.test( options.position.my ) ) maxWidth -= tipSize;
+				
+				// XXX: refuse to set an absurdly small max-width
+				if ( maxWidth >= 50 ) {
+					if ( ! options.css ) options.css = {};
+					options.css['max-width'] = Math.floor(maxWidth) + 'px';
+				}
+			}
+			return oldShowMessage.call( this, $elem, message, options );
+		};
 	}
 };
 

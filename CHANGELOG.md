@@ -13,6 +13,9 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634) (CSS)
 * [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361) (CSS, chat only)
 * [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
+* [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574) (CSS, SE.com main site only)
+* [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748) (CSS)
+* [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 
 **Removed fixes:**
 

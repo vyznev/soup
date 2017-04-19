@@ -68,6 +68,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976)
 * [mso345935: Answers vote count font-size is not homogeneous](https://meta.stackoverflow.com/q/345935)
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634)
+* [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748)
 
 ### Site-specific CSS fixes
 
@@ -86,6 +87,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (applied globally)
+* [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574)
 
 ### Chat-only fixes
 
@@ -138,6 +140,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * **[mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274)**
 * [mso300264: Hot network questions not expanding after changing tag filter](https://meta.stackoverflow.com/q/300264)
 * [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
+* [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 
 ### Site-specific fixes
 
