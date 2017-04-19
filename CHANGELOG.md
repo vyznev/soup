@@ -6,9 +6,18 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.47 (development)
 ====
 
+**New fixes in 1.47.x:**
+
+* [mso300264: Hot network questions not expanding after changing tag filter](https://meta.stackoverflow.com/q/300264)
+* [mso345935: Answers vote count font-size is not homogeneous](https://meta.stackoverflow.com/q/345935) (CSS)
+* [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634) (CSS)
+* [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361) (CSS, chat only)
+* [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
+
 **Removed fixes:**
 
 * **[mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)** (no longer needed)
+* [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325) (no longer needed)
 
 **Other changes:**
 

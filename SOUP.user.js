@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.1
+// @version     1.47.2
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -254,6 +254,16 @@ fixes.mse275976 = {
 	credit:	"Patrick Hofman",
 	css:	"body .popup-badges .all-badge-progress .completed::before { z-index: -1 }"
 };
+fixes.mso345935 = {
+	title:	"Answers vote count font-size is not homogeneous",
+	url:	"https://meta.stackoverflow.com/q/345935",
+	css:	".answered .vote-count-post strong { font-size: 100% }"
+};
+fixes.mso342634 = {
+	title:	"“Hot Meta Posts” with a 4-digit score wrap onto a second line",
+	url:	"https://meta.stackoverflow.com/q/342634",
+	css:	".bulletin-item-type { white-space: nowrap }"
+};
 
 
 // site-specific CSS fixes:
@@ -365,28 +375,12 @@ fixes.mse244587 = {
 		"body .users-sidebar .userDetails img { margin-right: 0 }" +
 		"body .users-sidebar .userDetails { overflow: hidden }"
 };
-fixes.mso306325 = {
-	title:	"The yellow star in the sprites.svg image looks “unfinished”",
-	url:	"http://meta.stackoverflow.com/q/306325",
-	disabled:	true,  // reported to break on Firefox ESR, https://github.com/vyznev/soup/issues/24
-	sites:	/^(meta\.)stackoverflow\./,
-	css:	'body .star-off, body .star-on { height: 30px; width: 40px; ' +
-		'background-image: url("data:image/svg+xml,' + encodeURIComponent(
-			'<svg xmlns="http://www.w3.org/2000/svg" width="80" height="30">' +
-			'<path d="M17.5,12.5h-8.5l6.8,5-2.6,8.1,6.8-5,6.8,5-2.6-8.1,6.8-5h-8.5l-2.6-8.1z" fill="#c0c0c0" stroke="#c0c0c0"/>' +
-			'<path d="M57.5,12.5h-8.5l6.8,5-2.6,8.1,6.8-5,6.8,5-2.6-8.1,6.8-5h-8.5l-2.6-8.1z" fill="#ffd83d" stroke="#eac328"/>' +
-			'</svg>'
-		) + '") }' +
-		'body .star-off { background-position: 0px 0px }' +
-		'body .star-on { background-position: -40px 0px }'
-};
 fixes.rpg5812 = {
 	title:	"Post as a guest: CSS bug",
 	url:	"http://meta.rpg.stackexchange.com/q/5812",
 	credit:	"polkovnikov.ph",
 	css:	".new-login-form .new-login-right input, .new-login-form .new-login-right table  { width: 100%; box-sizing: border-box }"
 };
-
 
 
 //
@@ -444,7 +438,12 @@ fixes.mse224233 = {
 		} ).filter('.watermark').val('').removeClass('watermark');
 	}
 };
-
+fixes.mso342361 = {
+	title:	"Minor (funny) chat star bug for Hebrew text",
+	url:	"https://meta.stackoverflow.com/q/342361",
+	sites:	/^chat\./,
+	css:	"#starred-posts .relativetime { unicode-bidi: embed }"
+};
 
 
 //
@@ -1325,6 +1324,30 @@ fixes.mse74274 = {
 	// minor CSS tweak to make the close link take up less vertical space
 	css:	".share-tip #share-icons { float: left }" +
 		".share-tip .close-share-tip { position: relative; top: 4px }"
+};
+fixes.mso300264 = {
+	title:	"Hot network questions not expanding after changing tag filter",
+	url:	"https://meta.stackoverflow.com/q/300264",
+	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.helpers ) return;
+		if ( StackExchange.helpers.bindShowMoreHotNetworkQuestions || ! StackExchange.bindShowMoreHotNetworkQuestions ) return;
+		StackExchange.helpers.bindShowMoreHotNetworkQuestions = StackExchange.bindShowMoreHotNetworkQuestions;
+	}
+};
+fixes.mso338932 = {
+	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
+	url:	"https://meta.stackoverflow.com/q/338932",
+	script:	function () {
+		SOUP.addEditorCallback( function ( editor, postfix ) {
+			var $postEditor = $( '#post-editor' + postfix ), $wmdPreview = $( '#wmd-preview' + postfix );
+			var bypassTouchBlocker = function () {
+				if ( $postEditor.has('.wmd-snippet-button') ) $(this).off( 'touchend' );
+			};
+			$postEditor.on( 'touchstart', '.wmd-snippet-button > span', bypassTouchBlocker );
+			// FIXME: this might do too much, if multiple external editors are active
+			$wmdPreview.on( 'touchstart', bypassTouchBlocker );
+		} );
+	}
 };
 
 

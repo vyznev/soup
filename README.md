@@ -66,6 +66,8 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse242944: Long display name with no spaces breaks design of review history pages](http://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](http://meta.stackexchange.com/q/266258)
 * [mse275976: Unable to see completed badges](http://meta.stackexchange.com/q/275976)
+* [mso345935: Answers vote count font-size is not homogeneous](https://meta.stackoverflow.com/q/345935)
+* [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634)
 
 ### Site-specific CSS fixes
 
@@ -83,7 +85,6 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](http://meta.movies.stackexchange.com/q/1652)
 * [graphicdesign2415: Design Bug: Tag alert CSS](http://meta.graphicdesign.stackexchange.com/q/2415) (applied globally)
 * [mse244587: “Top Network Users” should contain themselves!](http://meta.stackexchange.com/q/244587)
-* [mso306325: The yellow star in the sprites.svg image looks “unfinished”](http://meta.stackoverflow.com/q/306325) (temporarily disabled)
 * [rpg5812: Post as a guest: CSS bug](http://meta.rpg.stackexchange.com/q/5812) (applied globally)
 
 ### Chat-only fixes
@@ -95,6 +96,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse222509: Getting Red Line under tags](http://meta.stackexchange.com/q/222509)
 * [mse134268: U+0008 inserted into chat @-pings](http://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](http://meta.stackexchange.com/q/224233)
+* [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361)
 
 ### General fixes
 
@@ -134,6 +136,8 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mse223737: Inbox heading should be a link](http://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](http://meta.stackoverflow.com/q/313853)
 * **[mse74274: Privacy leak in permalink?](http://meta.stackexchange.com/q/74274)**
+* [mso300264: Hot network questions not expanding after changing tag filter](https://meta.stackoverflow.com/q/300264)
+* [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
 
 ### Site-specific fixes
 
