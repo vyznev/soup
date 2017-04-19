@@ -1,5 +1,5 @@
 <!-- thumbnail: http://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.45 -->
+<!-- version: 1.47 -->
 
 ![](http://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,7 +29,7 @@ SOUP may also run on other browsers with compatible user script support, such as
 Included fixes
 --------------
 
-SOUP v1.45
+SOUP v1.47
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 
