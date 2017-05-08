@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.3
+// @version     1.47.4
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1427,6 +1427,15 @@ fixes.mse287473 = {
 			}
 			return oldShowMessage.call( this, $elem, message, options );
 		};
+	}
+};
+fixes.mse295252 = {
+	title:	"Blocking google.com and maps.googleapis.com breaks the site",
+	url:	"https://meta.stackexchange.com/q/295252",
+	path:	/^\/users\/edit\//,
+	// just define this global, so that naively testing for it won't throw a ReferenceError
+	early:	function () {
+		if ( typeof( window.google ) === 'undefined' ) window.google = null;
 	}
 };
 

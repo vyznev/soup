@@ -16,6 +16,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574) (CSS, SE.com main site only)
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748) (CSS)
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
+* [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
 
 **Removed fixes:**
 

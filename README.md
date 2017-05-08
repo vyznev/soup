@@ -141,6 +141,7 @@ These fixes apply only to the [Stack Exchange Network chat](http://chat.stackexc
 * [mso300264: Hot network questions not expanding after changing tag filter](https://meta.stackoverflow.com/q/300264)
 * [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
+* [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
 
 ### Site-specific fixes
 
