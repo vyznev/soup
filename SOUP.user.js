@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.4
+// @version     1.47.5
 // @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1379,15 +1379,19 @@ fixes.mso338932 = {
 	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
 	url:	"https://meta.stackoverflow.com/q/338932",
 	script:	function () {
+		// also fix the citation helper button on MO; see https://meta.mathoverflow.net/a/3295
+		var buttonSelector = '.wmd-snippet-button > span, .wmd-cite-button > span';
+		var bypassTouchBlocker = function () {
+			// to minimize risk of unwanted side effects, only disable the preview pane touchend handler if the snippet editor is enabled
+			if ( $(this).is(buttonSelector) || $(this).closest('.post-editor').has('.wmd-snippet-button') ) $(this).off('touchend');
+		};
 		SOUP.addEditorCallback( function ( editor, postfix ) {
-			var $postEditor = $( '#post-editor' + postfix ), $wmdPreview = $( '#wmd-preview' + postfix );
-			var bypassTouchBlocker = function () {
-				if ( $postEditor.has('.wmd-snippet-button') ) $(this).off( 'touchend' );
-			};
-			$postEditor.on( 'touchstart', '.wmd-snippet-button > span', bypassTouchBlocker );
-			// FIXME: this might do too much, if multiple external editors are active
-			$wmdPreview.on( 'touchstart', bypassTouchBlocker );
+			$('#post-editor' + postfix).on( 'touchstart', buttonSelector, bypassTouchBlocker );
+			$('#wmd-preview' + postfix).on( 'touchstart', bypassTouchBlocker );
 		} );
+		// just in case, also fix any editors that have already been initialized
+		$('.post-editor').on( 'touchstart', buttonSelector, bypassTouchBlocker );
+		$('.wmd-preview').on( 'touchstart', bypassTouchBlocker );
 	}
 };
 fixes.mse287473 = {
