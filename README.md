@@ -69,6 +69,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso345935: Answers vote count font-size is not homogeneous](https://meta.stackoverflow.com/q/345935)
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634)
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748)
+* [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496)
 
 ### Site-specific CSS fixes
 
@@ -145,6 +146,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
 * **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
 * **[mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/29908)**
+* [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
 
 ### Site-specific fixes
 

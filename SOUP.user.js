@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.10
+// @version     1.47.11
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -272,6 +272,12 @@ fixes.mse186748 = {
 		".popup #search-text, .popup .close-as-duplicate-pane .actual-edit-overlay" +
 		" { width: 100% !important; box-sizing: border-box }"
 };
+fixes.mse290496 = {
+	title:	"Minor alignment issue in few of the Badge page's “Awarded to” text",
+	url:	"https://meta.stackexchange.com/q/290496",
+	css:	"body.badges-page .single-badge-table .single-badge-row-double .single-badge-awarded { width: 100% }"
+};
+
 
 
 // site-specific CSS fixes:
@@ -395,6 +401,7 @@ fixes.mse294574 = {
 	sites:	/^stackexchange\.com$/,
 	css:	"#question-list .question { word-wrap: break-word }"
 };
+
 
 
 //
@@ -1490,6 +1497,16 @@ fixes.mse299086 = {
 		var fixAllLinks = function (where) { $(where).find(selector).each(fixLink) };
 		SOUP.addContentFilter( fixAllLinks, 'soup HTTPS meta link fix' );
 		$(document).on( 'mouseover click', selector, fixLink );
+	}
+};
+fixes.mse295065 = {
+	title:	"Clicking “flags remaining” should link to a user's flag history page",
+	url:	"https://meta.stackexchange.com/q/295065",
+	script:	function () {
+		var link = '<a href="/users/flag-summary/' + StackExchange.options.user.userId + '" style="color:inherit">';
+		SOUP.hookAjax( /^\/flags\/(posts|comments)\/\d+\/popup/,  function () {
+			$('#popup-flag-post .flag-remaining-inform, .popup-flag-comment .flag-remaining-spam').not(':has(a)').wrapInner(link);
+		} );
 	}
 };
 
