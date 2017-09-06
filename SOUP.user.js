@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.7
+// @version     1.47.8
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1463,6 +1463,26 @@ fixes.mse135710 = {
  	css:	'table.soup-mse135710 { width: 100% }\n' +
  		'table.soup-mse135710 h2 { margin-bottom: 0 }'
 };
+fixes.mse223725 = {
+	title:	"All internal links on Stack Exchange sites should be protocol-relative",
+	url:	"https://meta.stackexchange.com/q/223725",
+	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
+	script:	function () {
+		if ( 'https:' != location.protocol ) return;
+		var selector = 'a[href^="http://"]';
+		var filter   = /^([^.]+\.)?(meta\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
+		var oldmeta  = /^meta\.([^.]+)\.(stackexchange\.com)$/;  // these hostnames need mangling to work over HTTPS
+		var fixLink  = function () {
+			if ( ! filter.test( this.hostname ) && ! oldmeta.test( this.hostname ) ) return;
+			this.protocol = 'https:';
+			this.hostname = this.hostname.replace( oldmeta, '$1.meta.$2' );
+			$(this).addClass( 'soup-https-fixed' );
+		};
+		var fixAllLinks = function (where) { $(where).find(selector).each( fixLink ) };
+		SOUP.addContentFilter( fixAllLinks, 'HTTPS link fix' );
+		$(document).on( 'mouseover click', selector, fixLink );
+	}
+};
 
 
 //
@@ -1558,31 +1578,6 @@ fixes.mse264171 = {
 	}
 };
 
-
-//
-// HTTPS fixes:
-//
-fixes.mse223725 = {
-	title:	"All internal links on Stack Exchange sites should be protocol-relative",
-	url:	"https://meta.stackexchange.com/q/223725",
-	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
-	script:	function () {
-		if ( 'https:' != location.protocol ) return;
-		var selector = 'a[href^="http://"]';
-		var filter   = /^([^.]+\.)?(meta\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
-		var exclude  = /^(blog|elections)\./;  // these sites still don't work properly over HTTPS :-(
-		var fixLink  = function () {
-			if ( ! filter.test( this.hostname ) || exclude.test( this.hostname ) ) return;
-			this.protocol = 'https:';
-			// workaround for permalink redirect bug (https://meta.stackexchange.com/q/223728)
-			this.pathname = this.pathname.replace( /^\/[qa]\//, '/questions/' ).replace( /^\/u\//, '/users/' );
-			$(this).addClass( 'soup-https-fixed' );
-		};
-		var fixAllLinks = function (where) { $(where).find(selector).each( fixLink ) };
-		SOUP.addContentFilter( fixAllLinks, 'HTTPS link fix' );
-		$(document).on( 'mouseover click', selector, fixLink );
-	}
-};
 
 
 //

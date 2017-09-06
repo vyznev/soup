@@ -27,7 +27,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Other changes:**
 
 * Prepare for the renaming of per-site meta hostnames from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, make sure fixes continue to run on the correct sites.
-* Don't auto-rewrite links to the old meta hostnames to use HTTPS, since they have broken certs.
+* Simplify the [mse223725](https://meta.stackexchange.com/q/223725) HTTPS link fix and move it into general fixes.  Also automatically fix any old `meta.*.stackexchange.com` host names in links while converting them to HTTPS.
 
 
 1.46 (11 Feb 2017)

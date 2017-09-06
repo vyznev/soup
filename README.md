@@ -143,6 +143,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 * [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
+* **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
 
 ### Site-specific fixes
 
@@ -158,12 +159,6 @@ These fixes apply to the post review interface.  I've listed them separately her
 
 * **[mse172931: Please put answers underneath questions in Close review queue](https://meta.stackexchange.com/q/172931)**
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](https://meta.stackoverflow.com/q/297489)
-
-### HTTPS-only fixes
-
-These fixes are only applied when using Stack Exchange over HTTPS.  Note that [HTTPS support for Stack Exchange is still experimental.](https://meta.stackexchange.com/questions/116782/better-https-support-for-stack-exchange-sites)
-
-* **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
 
 ### MathJax-related fixes:
 
