@@ -17,6 +17,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748) (CSS)
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 * [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
+* [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
 
 **Removed fixes:**
 

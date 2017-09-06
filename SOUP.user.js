@@ -3,8 +3,8 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.5
-// @copyright   2014-2016, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.47.6
+// @copyright   2014-2017, Ilmari Karonen (http://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; http://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -1441,6 +1441,27 @@ fixes.mse295252 = {
 	early:	function () {
 		if ( typeof( window.google ) === 'undefined' ) window.google = null;
 	}
+};
+fixes.mse135710 = {
+	title:	"Please show changed titles separately in edit diffs",
+	url:	"https://meta.stackexchange.com/q/135710",
+	script:	function () {
+		function splitTitleDiff() {
+			// the selector below should skip unchanged titles and titles that have already been split
+			$('.suggested-edit div.summary > h2 > a.question-hyperlink:has(.diff-delete, .diff-add)').each( function () {
+				var oldTitle = $(this.parentNode);  // we want to also duplicate the h2
+				var newTitle = oldTitle.clone(true).insertAfter(oldTitle);
+				oldTitle.find('.diff-add').remove();
+				newTitle.find('.diff-delete').remove();
+				// KLUGE: the class "sox-better-title" stops SOX (https://stackapps.com/q/6091) from re-duplicating the title
+				oldTitle.add(newTitle).wrapAll('<table class="soup-mse135710 sox-better-title"><tr valign=top>').wrap('<td width="50%">');
+			} );
+		}
+		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, splitTitleDiff );
+		splitTitleDiff();
+ 	},
+ 	css:	'table.soup-mse135710 { width: 100% }\n' +
+ 		'table.soup-mse135710 h2 { margin-bottom: 0 }'
 };
 
 
