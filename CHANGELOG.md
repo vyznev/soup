@@ -18,6 +18,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 * [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
+* [mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/29908)
 
 **Removed fixes:**
 
@@ -27,7 +28,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Other changes:**
 
 * Prepare for the renaming of per-site meta hostnames from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, make sure fixes continue to run on the correct sites.
-* Simplify the [mse223725](https://meta.stackexchange.com/q/223725) HTTPS link fix and move it into general fixes.  Also automatically fix any old `meta.*.stackexchange.com` host names in links while converting them to HTTPS.
+* Simplify the [mse223725](https://meta.stackexchange.com/q/223725) HTTPS link fix, enable it regardless of current protocol and move it into general fixes.
 
 
 1.46 (11 Feb 2017)

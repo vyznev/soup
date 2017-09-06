@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.9
+// @version     1.47.10
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1463,20 +1463,32 @@ fixes.mse135710 = {
 fixes.mse223725 = {
 	title:	"All internal links on Stack Exchange sites should be protocol-relative",
 	url:	"https://meta.stackexchange.com/q/223725",
-	//css:	"a.soup-https-fixed:not(#specificity-hack) { color: green !important }", // uncomment to highlight affected links
 	script:	function () {
-		if ( 'https:' != location.protocol ) return;
 		var selector = 'a[href^="http://"]';
-		var filter   = /^([^.]+\.)?(meta\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
-		var oldmeta  = /^meta\.([^.]+)\.(stackexchange\.com)$/;  // these hostnames need mangling to work over HTTPS
+		var regexp   = /^([^.]+\.)?(meta\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 		var fixLink  = function () {
-			if ( ! filter.test( this.hostname ) && ! oldmeta.test( this.hostname ) ) return;
-			this.protocol = 'https:';
-			this.hostname = this.hostname.replace( oldmeta, '$1.meta.$2' );
-			$(this).addClass( 'soup-https-fixed' );
+			if ( regexp.test(this.hostname) ) this.protocol = 'https:';
 		};
-		var fixAllLinks = function (where) { $(where).find(selector).each( fixLink ) };
-		SOUP.addContentFilter( fixAllLinks, 'HTTPS link fix' );
+		var fixAllLinks = function (where) { $(where).find(selector).each(fixLink) };
+		SOUP.addContentFilter( fixAllLinks, 'soup HTTPS link fix' );
+		$(document).on( 'mouseover click', selector, fixLink );
+	}
+};
+fixes.mse299086 = {
+	title:	"HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)",
+	url:	"https://meta.stackexchange.com/q/299086",
+	// see also https://meta.stackexchange.com/questions/295686/parent-chat-user-still-links-to-discuss-area51
+	// and https://meta.stackexchange.com/questions/297042/chat-links-to-meta-sites-have-been-rewritten-with-invalid-https
+	script:	function () {
+		var selector = 'a[href*="//meta."], a[href*="//discuss.area51"]';
+		var regexp   = /^(meta|discuss)\.([^.]+)\.(stackexchange\.com)$/;
+		var fixLink  = function () {
+			if ( ! regexp.test(this.hostname) ) return;
+			this.hostname = this.hostname.replace( regexp, '$2.meta.$3' );
+			this.protocol = 'https:';
+		};
+		var fixAllLinks = function (where) { $(where).find(selector).each(fixLink) };
+		SOUP.addContentFilter( fixAllLinks, 'soup HTTPS meta link fix' );
 		$(document).on( 'mouseover click', selector, fixLink );
 	}
 };
@@ -1984,8 +1996,9 @@ var soupLateSetup = function () {
 
 	// utility and compatibility wrapper around the undocumented jQuery._data() function
 	SOUP.getEventHandlers = function ( element, type ) {
-		if ( $._data ) return $._data( element, 'events' )[type] || [];
-		else return [];
+		if ( ! $._data ) return [];
+		var events = $._data( element, 'events' ) || {};
+		return events[type] || [];
 	}
 
 
