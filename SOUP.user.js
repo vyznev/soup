@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.8
+// @version     1.47.9
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -549,8 +549,7 @@ fixes.mse207526 = {
 		// fix bug causing clicks on the site search box to close the menu
 		// XXX: this would be a lot easier if jQuery bubbled middle/right clicks :-(
 		var fixTopbarClickHandler = function () {
-			var clickHandlers = $._data(document, 'events').click || [];
-			clickHandlers.forEach( function (h) {
+			SOUP.getEventHandlers( document, 'click' ).forEach( function (h) {
 				if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
 				var oldHandler = h.handler;
 				h.handler = function (e) {
@@ -841,7 +840,7 @@ fixes.mse239549 = {
 		// make the event handler live
 		var selector = '.user-panel-subtabs select'; var matches = $(selector);
 		if ( ! matches.length ) return;
-		$._data( matches[0], 'events' ).change.forEach( function ( h ) {
+		SOUP.getEventHandlers( matches[0], 'change' ).forEach( function ( h ) {
 			if ( h.selector || ! /"div\[class='subheader'\]"/.test( h.handler.toString() ) ) return;
 			$('body').on( 'change', selector, h.handler );
 			matches.off( 'change', h.handler );
@@ -1105,7 +1104,7 @@ fixes.mse266523 = {
 	script:	function () {
 		$('#content').on('paste', function () {
 			if ( $('.modal-dropzone').length > 0 ) return;
-			( $._data( document.body, 'events' ).paste || [] ).forEach( function ( h ) {
+			SOUP.getEventHandlers( document.body, 'paste' ).forEach( function ( h ) {
 				if ( ! /\.modal-dropzone/.test( h.handler.toString() ) ) return;
 				$('body').off( 'paste', h.handler );
 			} );
@@ -1166,9 +1165,7 @@ fixes.mse259325 = {
 		// the initial hashchange event has already fired, so we can safely ignore any later
 		// events that don't correspond to an actual change in the hash
 		var oldHash = location.hash;
-		var events = $._data(window, 'events');
-		if ( !events || !events.hashchange ) return;
-		events.hashchange.forEach( function (h) {
+		SOUP.getEventHandlers( window, 'hashchange' ).forEach( function (h) {
 			if ( ! h.namespace || h.namespace !== 'highlightDestination' ) return;
 			var oldHandler = h.handler;
 			h.handler = function (e) {
@@ -1459,9 +1456,9 @@ fixes.mse135710 = {
 		}
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, splitTitleDiff );
 		splitTitleDiff();
- 	},
- 	css:	'table.soup-mse135710 { width: 100% }\n' +
- 		'table.soup-mse135710 h2 { margin-bottom: 0 }'
+	},
+	css:	'table.soup-mse135710 { width: 100% }\n' +
+		'table.soup-mse135710 h2 { margin-bottom: 0 }'
 };
 fixes.mse223725 = {
 	title:	"All internal links on Stack Exchange sites should be protocol-relative",
@@ -1483,6 +1480,7 @@ fixes.mse223725 = {
 		$(document).on( 'mouseover click', selector, fixLink );
 	}
 };
+
 
 
 //
@@ -1958,6 +1956,38 @@ var soupLateSetup = function () {
 		SOUP.log( 'soup found no jQuery, aborting setup' );
 		return;
 	}
+	// XXX: area51 is still using jQuery 1.4, which doesn't have .on()!
+	if ( ! $.fn.on && ! $.fn.off ) {
+		SOUP.log( 'soup injecting .on()/.off() polyfill for jQuery ' + $.fn.jquery );
+		$.fn.on = function ( arg1, arg2, arg3, arg4 ) {
+			if ( typeof arg2 === 'string' ) {
+				// .on(types, selector, [data], [fn]) -> .delegate(selector, types, data, fn)
+				return this.delegate.call( this, arg2, arg1, arg3, arg4 );
+			} else if ( arg4 === null ) {
+				// .on(types, [data], [fn]) -> .bind(types, data, fn)
+				return this.bind.call( this, arg1, arg2, arg3 );
+			} else {
+				// .on(types, null, data, fn) -> .bind(types, data, fn)
+				return this.bind.call( this, arg1, arg3, arg4 );
+			}
+		};
+		$.fn.off = function ( arg1, arg2, arg3 ) {
+			if ( typeof arg2 === 'string' ) {
+				return this.undelegate.call( this, arg2, arg1, arg3 );
+			} else if ( arg3 === null ) {
+				return this.unbind.call( this, arg1, arg2 );
+			} else {
+				return this.unbind.call( this, arg1, arg3 );
+			}
+		};
+	}
+
+	// utility and compatibility wrapper around the undocumented jQuery._data() function
+	SOUP.getEventHandlers = function ( element, type ) {
+		if ( $._data ) return $._data( element, 'events' )[type] || [];
+		else return [];
+	}
+
 
 	// basic environment detection, part 2
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
