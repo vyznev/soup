@@ -18,10 +18,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/29908)
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496) (CSS)
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
+* [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)
 
 **Removed fixes:**
 
-* **[mse221304: Make all i.stack.imgur.com links protocol-relative](https://meta.stackexchange.com/q/221304)** (no longer needed)
+* [mse221304: Make all i.stack.imgur.com links protocol-relative](https://meta.stackexchange.com/q/221304) (no longer needed)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](https://meta.stackoverflow.com/q/306325) (no longer needed)
 * [mse275976: Unable to see completed badges](https://meta.stackexchange.com/q/275976) (fixed)
 
