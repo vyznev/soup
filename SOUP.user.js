@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.12
+// @version     1.47.13
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1307,13 +1307,18 @@ fixes.mso313853 = {
 					pageMatch = re.page.exec(altURL) || re.text.exec(altText) || re.page.exec(location.href);
 				}
 				if ( ! pageMatch ) return;
-				var curSize = Number( sizeMatch[2] ), curPage = Number( pageMatch[2] );
+				var curSize = Number( sizeMatch[2] ), curPage = Number( pageMatch[2] ), offset = curSize * (curPage-1);
 
 				sizer.find('a.page-numbers').attr( 'href', function (i, href) {
 					var sizeMatch = re.size.exec(href), pageMatch = re.page.exec(href);
 					if ( ! sizeMatch ) return;
-					var newSize = Number( sizeMatch[2] );
-					var newPage = Math.floor((curPage - 1) * curSize / newSize) + 1;
+					var newSize = Number(sizeMatch[2]);
+					// round down if we're growing the page, round up if we're shrinking it
+					var newPage = (
+						newSize > curSize ? Math.floor(offset / newSize) + 1 :
+						newSize < curSize ? Math.ceil(offset / newSize) + 1 :
+						curPage // same size -> same page
+					);
 					if ( pageMatch ) {
 						return href.replace(re.page, '$1page=' + newPage + '$3');
 					} else {
