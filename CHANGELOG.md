@@ -8,15 +8,12 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.47.x:**
 
-* [mso300264: Hot network questions not expanding after changing tag filter](https://meta.stackoverflow.com/q/300264)
-* [mso345935: Answers vote count font-size is not homogeneous](https://meta.stackoverflow.com/q/345935) (CSS)
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634) (CSS)
 * [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361) (CSS, chat only)
 * [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
 * [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574) (CSS, SE.com main site only)
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748) (CSS)
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
-* [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
 * [mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/29908)
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496) (CSS)
@@ -26,6 +23,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * **[mse221304: Make all i.stack.imgur.com links protocol-relative](https://meta.stackexchange.com/q/221304)** (no longer needed)
 * [mso306325: The yellow star in the sprites.svg image looks “unfinished”](https://meta.stackoverflow.com/q/306325) (no longer needed)
+* [mse275976: Unable to see completed badges](https://meta.stackexchange.com/q/275976) (fixed)
 
 **Other changes:**
 

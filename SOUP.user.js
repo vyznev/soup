@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.11
+// @version     1.47.12
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -248,17 +248,6 @@ fixes.mse266258 = {
 	title:	"Left side markdown diff outside of its area",
 	url:	"https://meta.stackexchange.com/q/266258",
 	css:	".full-diff .diff-delete:after, .full-diff .diff-add:after { content: ''; font-size: 0px }"
-};
-fixes.mse275976 = {
-	title:	"Unable to see completed badges",
-	url:	"https://meta.stackexchange.com/q/275976",
-	credit:	"Patrick Hofman",
-	css:	"body .popup-badges .all-badge-progress .completed::before { z-index: -1 }"
-};
-fixes.mso345935 = {
-	title:	"Answers vote count font-size is not homogeneous",
-	url:	"https://meta.stackoverflow.com/q/345935",
-	css:	".answered .vote-count-post strong { font-size: 100% }"
 };
 fixes.mso342634 = {
 	title:	"“Hot Meta Posts” with a 4-digit score wrap onto a second line",
@@ -1370,15 +1359,6 @@ fixes.mse74274 = {
 	css:	".share-tip #share-icons { float: left }" +
 		".share-tip .close-share-tip { position: relative; top: 4px }"
 };
-fixes.mso300264 = {
-	title:	"Hot network questions not expanding after changing tag filter",
-	url:	"https://meta.stackoverflow.com/q/300264",
-	script:	function () {
-		if ( ! window.StackExchange || ! StackExchange.helpers ) return;
-		if ( StackExchange.helpers.bindShowMoreHotNetworkQuestions || ! StackExchange.bindShowMoreHotNetworkQuestions ) return;
-		StackExchange.helpers.bindShowMoreHotNetworkQuestions = StackExchange.bindShowMoreHotNetworkQuestions;
-	}
-};
 fixes.mso338932 = {
 	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
 	url:	"https://meta.stackoverflow.com/q/338932",
@@ -1435,15 +1415,6 @@ fixes.mse287473 = {
 			}
 			return oldShowMessage.call( this, $elem, message, options );
 		};
-	}
-};
-fixes.mse295252 = {
-	title:	"Blocking google.com and maps.googleapis.com breaks the site",
-	url:	"https://meta.stackexchange.com/q/295252",
-	path:	/^\/users\/edit\//,
-	// just define this global, so that naively testing for it won't throw a ReferenceError
-	early:	function () {
-		if ( typeof( window.google ) === 'undefined' ) window.google = null;
 	}
 };
 fixes.mse135710 = {

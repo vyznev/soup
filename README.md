@@ -65,8 +65,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso297678: Comment anchor links get “visited” highlighting](https://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](https://meta.stackexchange.com/q/242944)
 * [mse266258: Left side markdown diff outside of its area](https://meta.stackexchange.com/q/266258)
-* [mse275976: Unable to see completed badges](https://meta.stackexchange.com/q/275976)
-* [mso345935: Answers vote count font-size is not homogeneous](https://meta.stackoverflow.com/q/345935)
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634)
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748)
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496)
@@ -139,10 +137,8 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](https://meta.stackoverflow.com/q/313853)
 * **[mse74274: Privacy leak in permalink?](https://meta.stackexchange.com/q/74274)**
-* [mso300264: Hot network questions not expanding after changing tag filter](https://meta.stackoverflow.com/q/300264)
 * [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
-* [mse295252: Blocking google.com and maps.googleapis.com breaks the site](https://meta.stackexchange.com/q/295252)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
 * **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
 * **[mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/29908)**
