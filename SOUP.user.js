@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.14
+// @version     1.47.15
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -258,7 +258,7 @@ fixes.mse186748 = {
 	title:	"Duplicate dialog close button causes preview to be too narrow",
 	url:	"https://meta.stackexchange.com/q/186748",
 	css:	".popup-close { margin-left: -100% }" +
-		".popup #search-text, .popup .close-as-duplicate-pane .actual-edit-overlay" +
+		".popup .close-as-duplicate-pane #search-text, .popup .close-as-duplicate-pane .actual-edit-overlay" +
 		" { width: 100% !important; box-sizing: border-box }"
 };
 fixes.mse290496 = {
