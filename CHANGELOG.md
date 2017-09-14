@@ -31,6 +31,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Prepare for the renaming of per-site meta hostnames from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, make sure fixes continue to run on the correct sites.
 * Simplify the [mse223725](https://meta.stackexchange.com/q/223725) HTTPS link fix, enable it regardless of current protocol and move it into general fixes.
 * Slightly tweak the rounding algorithm for [mso313853](https://meta.stackoverflow.com/q/313853) to round the page number up when the page size is decreased (and down when it is increased).
+* Fix: content filters were not always properly applied to content diffs in edit review and post histories.
+* [mse217779](https://meta.stackexchange.com/q/217779): Only partially fade out spoilers in diffs, as per https://meta.stackexchange.com/a/300859.
 
 
 1.46 (11 Feb 2017)

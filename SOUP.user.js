@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.15
+// @version     1.47.16
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -496,7 +496,11 @@ fixes.mse217779 = {
 		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
 		// bonus: differentiate spoilers from empty blockquotes, per https://meta.stackexchange.com/q/104085
 		".soup-spoiler::before, .spoiler::before { position: absolute; content: 'spoiler: hover / click to reveal'; color: #bbb; transition: opacity 0.5s ease-in 0.5s } " +
-		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; transition: opacity 0.5s ease-in 0s }",
+		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; transition: opacity 0.5s ease-in 0s }" +
+		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
+		".diffs .soup-spoiler:not(:hover) > div, .body-diffs .soup-spoiler:not(:hover) > div { opacity: 0.25 }" +
+		".diffs .soup-spoiler:hover > div, .body-diffs .soup-spoiler:hover > div { transition: all 1s }" +
+		".diffs .soup-spoiler::before, .diffs .spoiler::before, .body-diffs .soup-spoiler::before, .body-diffs .spoiler::before { content: '' } ",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
@@ -533,7 +537,7 @@ fixes.mse207526 = {
 
 		// FIXME: this fix messes up dialog placement on the new SO topbar (https://meta.stackoverflow.com/q/343103)
 		if ( $('body > div.topbar > div.topbar-wrapper > div.js-topbar-dialog-corral').length != 1 ) {
-			SOUP.log('soup mse207526: expected topbar structure not found, skipping fix to avoid incompatibility with new topbar.');
+			// SOUP.log('soup mse207526: expected topbar structure not found, skipping fix to avoid incompatibility with new topbar.');
 			return;
 		}
         
@@ -1496,13 +1500,20 @@ fixes.mso345590 = {
 		$header.css( 'min-width', $('#content').outerWidth() );
 
 		// based on https://stackoverflow.com/a/12958987
-		function scrollHeader () { $header.css( 'left', -$window.scrollLeft() ) }
+		var lastOffset = 0;
+		function scrollHeader () {
+			var newOffset = -$window.scrollLeft();
+			if ( newOffset === lastOffset ) return;
+			$header.css( 'left', newOffset );
+			lastOffset = newOffset;
+		}
 
 		var isActive = false;
 		function maybeToggleHeaderFix () {
 			var isFixed = $header.hasClass('_fixed');
 			if ( isFixed === isActive ) return;
 			if ( isFixed ) {
+				lastOffset = $header.position().left;
 				$window.on( 'scroll resize', scrollHeader );
 				scrollHeader();
 			} else {
@@ -1843,8 +1854,12 @@ var soupInit = function () {
 	};
 
 	SOUP.hookAjax( /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings, match ) {
-		var where = ( match ? '#answer-' + match[1] + ', .question[data-questionid=' + match[1] + ']' : '#content' );
+		var where = '#content';
+		if ( match && match[1] ) where = '#answer-' + match[1] + ', .question[data-questionid=' + match[1] + ']';
 		SOUP.runContentFilters( 'post', where );
+	} );
+	SOUP.hookAjax( /^\/revisions\/(\d+)\/([0-9a-f\-]+)\/diff\b/, function ( event, xhr, settings, match ) {
+		SOUP.runContentFilters( 'post', '#rev' + match[2] );
 	} );
 	SOUP.hookAjax( /^\/posts\/ajax-load-realtime\/([\d;]+)(\?title=true)?/, function ( event, xhr, settings, match ) {
 		var posts = match[1].split( ";" );
