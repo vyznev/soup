@@ -3,10 +3,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
-1.47 (development)
+1.48 (20 Sep 2017)
 ====
 
-**New fixes in 1.47.x:**
+This release fixes a regression that broke the mhchem MathJax extension on sites that use it, and also contains several updates related to the recent switch to HTTPS and the upcoming top bar redesign.  Expect to possibly see a new stable release shortly, after the new top bar has been deployed to all SE sites.
+
+**New fixes in 1.48.0:**
 
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634) (CSS)
 * [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361) (CSS, chat only)
@@ -28,12 +30,14 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* Per-site metas have moved from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, make sure fixes continue to run on the correct sites.
+* Update all URLs in code and documentation to use HTTPS where possible.
+* Per-site metas have moved from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, update URLs and regexps to match.
 * Simplify the [mse223725](https://meta.stackexchange.com/q/223725) HTTPS link fix, enable it regardless of current protocol and move it into general fixes.
 * Slightly tweak the rounding algorithm for [mso313853](https://meta.stackoverflow.com/q/313853) to round the page number up when the page size is decreased (and down when it is increased).
 * Fix: content filters were not always properly applied to content diffs in edit review and post histories.
 * [mse217779](https://meta.stackexchange.com/q/217779): Only partially fade out spoilers in diffs, as per https://meta.stackexchange.com/a/300859.
 * [math4130](https://math.meta.stackexchange.com/q/4130): Don't break the loading of other extensions like mhchem on [chemistry.SE](https://chemistry.stackexchange.com).  (Possible regression due to MathJax upgrade.)
+* Add `SOUP.getEventHandlers()` utility wrapper for the undocumented `jQuery._data()` function.
 
 
 1.46 (11 Feb 2017)
@@ -72,6 +76,12 @@ A major new feature in this release is that SOUP v1.46 will be the first stable 
 * [mse234680](https://meta.stackexchange.com/q/234680) fix handles optional link titles correctly (and fixes [a bug with non-BMP Unicode characters in URLs](https://meta.stackexchange.com/q/285366) as a side effect).
 * Rewrote [mse66646](https://meta.stackexchange.com/q/66646) fix for compatibility with new SE code.  (The [related IME issue](https://meta.stackexchange.com/q/216834) seems to have been fixed, but this can still be triggered e.g. by the Firefox spell checker menu.)
 * Disabled the [mse207526](https://meta.stackexchange.com/q/207526) fix when the [new topbar](https://meta.stackoverflow.com/q/343103) is enabled, to avoid issues with dialog positioning.  (Thanks, mjpieters!)
+
+**Changes in 1.46.1:**
+
+* Removed **[mse221304: Make all i.stack.imgur.com links protocol-relative](http://meta.stackexchange.com/q/221304)** (no longer needed)
+* Prepare for the renaming of per-site meta hostnames from `meta.*.stackexchange.com` to `*.meta.stackexchange.com`, make sure fixes continue to run on the correct sites.
+* Don't auto-rewrite links to the old meta hostnames to use HTTPS, since they have broken certs.
 
 
 1.44 (5 Feb 2016)
@@ -116,6 +126,10 @@ Another somewhat delayed release.  A few fixes added, a few removed.  I'm trying
 **Changes in v1.44.3:**
 
 * The [mse234680](https://meta.stackexchange.com/q/234680) fix broke on jQuery v1.12.4, fixed. (Reported by DavidPostill, thanks!)
+
+**Changes in v1.44.4:**
+
+* Update [mse66646](http://meta.stackexchange.com/q/66646) fix for jQuery v1.12.4 compatibility.
 
 
 1.42 (2 Dec 2015)
