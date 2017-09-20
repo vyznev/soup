@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.16
+// @version     1.47.17
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1673,10 +1673,11 @@ fixes.math4130 = {
 	credit:	"idea by Davide Cervone",
 	mathjax:	function () {
 		var resetCmd = "resetstack";
-		MathJax.Hub.Config( { TeX: {
-			extensions: ["begingroup.js"],
-			Macros: { resetstack: ["Extension", "begingroup"] }
-		} } );
+		MathJax.Hub.Register.StartupHook( "TeX Jax Ready", function () {
+			MathJax.Hub.Insert( MathJax.InputJax.TeX.Definitions.macros, {
+				resetstack: ["Extension", "begingroup"]
+			} );
+		} );
 		MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
 			var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
 				NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
