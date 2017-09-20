@@ -39,6 +39,10 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 * [math4130](https://math.meta.stackexchange.com/q/4130): Don't break the loading of other extensions like mhchem on [chemistry.SE](https://chemistry.stackexchange.com).  (Possible regression due to MathJax upgrade.)
 * Add `SOUP.getEventHandlers()` utility wrapper for the undocumented `jQuery._data()` function.
 
+**Changes in 1.48.1:**
+
+* Re-enable [mso345590](https://meta.stackoverflow.com/q/345590) fix after a class name change effectively disabled it.
+
 
 1.46 (11 Feb 2017)
 ====
