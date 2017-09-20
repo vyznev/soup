@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.47 -->
+<!-- version: 1.48.0 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -29,9 +29,9 @@ SOUP may also run on other browsers with compatible user script support, such as
 Included fixes
 --------------
 
-SOUP v1.47
+SOUP v1.48
 &#x20;
-(development) includes fixes or workarounds for the following issues.
+includes fixes or workarounds for the following issues.
 
 The fixes highlighted in **boldface** include particularly major interface improvements or fix particularly severe or widespread issues.  The choice of which fixes to highlight is unavoidably somewhat subjective, but in my personal opinion, these are the fixes you should actually install SOUP for &mdash; the rest are just icing on the cake.
 

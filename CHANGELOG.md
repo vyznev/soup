@@ -3,10 +3,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
-1.47 (development)
+1.48 (20 Sep 2017)
 ====
 
-**New fixes in 1.47.x:**
+This release fixes a regression that broke the mhchem MathJax extension on sites that use it, and also contains several updates related to the recent switch to HTTPS and the upcoming top bar redesign.  Expect to possibly see a new stable release shortly, after the new top bar has been deployed to all SE sites.
+
+**New fixes in 1.48.0:**
 
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634) (CSS)
 * [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361) (CSS, chat only)
