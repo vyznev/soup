@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.47.17
+// @version     1.47.18
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1483,6 +1483,7 @@ fixes.mse295065 = {
 	title:	"Clicking “flags remaining” should link to a user's flag history page",
 	url:	"https://meta.stackexchange.com/q/295065",
 	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.options || ! StackExchange.options.user ) return;
 		var link = '<a href="/users/flag-summary/' + StackExchange.options.user.userId + '" style="color:inherit">';
 		SOUP.hookAjax( /^\/flags\/(posts|comments)\/\d+\/popup/,  function () {
 			$('#popup-flag-post .flag-remaining-inform, .popup-flag-comment .flag-remaining-spam').not(':has(a)').wrapInner(link);
