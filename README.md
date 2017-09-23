@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.47 -->
+<!-- version: 1.49 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -11,30 +11,42 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-### Installing as a user script
-
-The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for multiple browsers) extension for managing user scripts.  (Other Greasemonkey compatible user script extensions should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
-
-> ### [<kbd>Download / Install</kbd>][DL]  
-> <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
-
-The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
+SOUP can be installed either as a stand-alone browser extension or via a user script manager such as [Greasemonkey][GM] or [Tampermonkey][TM].
 
 SOUP has been mainly developed and tested on Firefox and Chrome.  It may also run on other browsers with user script support (via Tampermonkey or other compatible extensions), but has not been fully tested on them.  Any reports of cross-browser issues are welcome.
 
 ### Installing as a browser extension
 
-As of version 1.46, SOUP can now be installed directly as a browser extension on [Firefox](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons") and [Chrome](https://chrome.google.com/webstore/detail/stack-overflow-unofficial/bagdnnmjfkaolcegcgeohpboeocfalpj "SOUP on Chrome Web Store"), without the need for a user script manager.  In particular, using SOUP as an extension on Firefox for Android is now possible and supported.
+Users of Chrome or Firefox (including Firefox Mobile) can install SOUP as a browser extension:
+
+* [**SOUP on Firefox Add-ons**](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons")
+* [**SOUP on Chrome Web Store**](https://chrome.google.com/webstore/detail/stack-overflow-unofficial/bagdnnmjfkaolcegcgeohpboeocfalpj "SOUP on Chrome Web Store")
 
 (An Opera extension may be available at a later date.  In the mean time, Opera users may use the Chrome extension via [Download Chrome Extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/), or just use the user script version with e.g. [Tampermonkey for Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/).)
 
 Note that updates to the extension packages available at Firefox Add-ons and Chrome Web Store may take a few days to appear, even after a new stable user script version is released, due to review and other delays.
 
+### Installing as a user script
+
+To install SOUP as a user script, you first need to install a  user script manager such as [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM].  (Other Greasemonkey compatible user script managers should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
+
+> ### [<kbd>Download / Install SOUP</kbd>][DL]  
+> <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
+
+### Installing the development version
+
+If you like living on the edge, you can also install the development version of SOUP, which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
+
+> ### [<kbd>Download / Install SOUP (development branch)</kbd>][devDL]  
+> <sup>[View source][devsrc] / [GitHub repo][devel]</sup>
+
+Note that the development version of SOUP is currently only available as a user script.
+
 
 Included fixes
 --------------
 
-SOUP v1.47
+SOUP v1.49
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 
@@ -146,9 +158,10 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
 * **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
-* **[mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/299086)**
+* **[mse299086: HTTPS certificate error for meta redirect pages (meta.&lt;site&gt;.stackexchange.com)](https://meta.stackexchange.com/q/299086)**
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
 * [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)
+* [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 
 ### Site-specific fixes
 
@@ -164,6 +177,7 @@ These fixes apply to the post review interface.  I've listed them separately her
 
 * **[mse172931: Please put answers underneath questions in Close review queue](https://meta.stackexchange.com/q/172931)**
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](https://meta.stackoverflow.com/q/297489)
+* [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
 
 ### MathJax-related fixes:
 
@@ -214,6 +228,7 @@ See also
    [DL]: https://github.com/vyznev/soup/raw/master/SOUP.user.js "Download / install SOUP from GitHub"
    [source]: https://github.com/vyznev/soup/blob/master/SOUP.user.js "View SOUP source code"
    [devel]: https://github.com/vyznev/soup/tree/devel "SOUP development branch on GitHub"
+   [devsrc]: https://github.com/vyznev/soup/blob/devel/SOUP.user.js "View SOUP development branch source code"
    [devDL]: https://github.com/vyznev/soup/raw/devel/SOUP.user.js "Download / install SOUP (development branch) from GitHub"
    [wiki]: https://github.com/vyznev/soup/wiki "SOUP wiki on GitHub"
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.1
+// @version     1.49.2
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1528,6 +1528,38 @@ fixes.mso345590 = {
 		observer.observe( $header[0], { attributes: true } );
 
 		maybeToggleHeaderFix();
+	}
+};
+fixes.mse213709 = {
+	title:	"Allow flagging comments on mobile site",
+	url:	"https://meta.stackexchange.com/q/213709",
+	script:	function () {
+		if ( ! SOUP.isMobile ) return;
+		SOUP.addContentFilter( function (where) {
+			SOUP.log('soup mse213709 fix active');
+			$(where).find('.comment-actions:has(.comment-up, .comment-up-on):not(:has(.comment-flag)) > table > tbody').append(
+				'<tr><td></td><td><a class="comment-flag soup-comment-flag" title="flag this comment"></a></td></tr>'
+			);
+		}, 'mobile comment flag link fix', null, ['load', 'post', 'comments'] );
+		$(document.body).addClass('soup-mse213709');
+	},
+	css:	".soup-comment-flag { display: block; margin: 0 auto; height: 20px; width: 20px; text-indent: -999em;" +
+		" background-repeat: no-repeat; background-position: 2px 6px; background-size: 16px;" +
+		" background-image: url('data:image/svg+xml," +  encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" viewBox="0 0 32 22">' +
+			'<path stroke="#77808E" stroke-width="2" d="M11 1h16v12h-16zM7 0V22" fill="none"/></svg>'
+		) + "') }" +
+		"body.soup-mse213709 .popup-flag-comment { position: absolute; left: 20px; right: 20px; width: auto; text-align: left; z-index: 3 }"
+};
+fixes.mso356880 = {
+	title:	"“This post has been edited x time since you began” persists after saving the question",
+	url:	"https://meta.stackoverflow.com/q/356880",
+	path:	/^\/review\b/,
+	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.notify || ! StackExchange.notify.close ) return;
+		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
+			StackExchange.notify.close(-2);
+		} );
 	}
 };
 
