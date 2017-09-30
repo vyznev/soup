@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.2
+// @version     1.49.4
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -366,8 +366,8 @@ fixes.movies1652 = {
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
 	url:	"https://graphicdesign.meta.stackexchange.com/q/2415",
-//	sites:	/^(meta\.)?graphicdesign\./,
-	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #fcedb1 }"  // "body" added to override SE style
+	sites:	/^(meta\.)?graphicdesign\./,
+	css:	"body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag), body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag):visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 fixes.mse244587 = {
 	title:	"“Top Network Users” should contain themselves!",
@@ -1468,10 +1468,33 @@ fixes.mse299086 = {
 	// and https://meta.stackexchange.com/questions/297042/chat-links-to-meta-sites-have-been-rewritten-with-invalid-https
 	script:	function () {
 		var selector = 'a[href*="//meta."], a[href*="//discuss.area51"]';
-		var regexp   = /^(meta|discuss)\.([^.]+)\.(stackexchange\.com)$/;
-		var fixLink  = function () {
-			if ( ! regexp.test(this.hostname) ) return;
-			this.hostname = this.hostname.replace( regexp, '$2.meta.$3' );
+		var regexp   = /^(meta|discuss)\.([^.]+)\.stackexchange\.com$/;
+		// old site aliases don't have redirects from https://<alias>.meta.stackexchange.com
+		// data source: https://api.stackexchange.com/2.2/sites?pagesize=99999&filter=!6P.EhvnWknhjL
+		var aliases = {
+			"askpatents": "patents",
+			"avp": "video",
+			"beer": "alcohol",
+			"bicycle": "bicycles",
+			"cryptography": "crypto",
+			"garage": "mechanics",
+			"homebrewing": "homebrew",
+			"itsecurity": "security",
+			"linux": "unix",
+			"moderators": "communitybuilding",
+			"photography": "photo",
+			"photos": "photo",
+			"programmers": "softwareengineering",
+			"statistics": "stats",
+			"tv": "movies",
+			"ui": "ux",
+			"vegetarian": "vegetarianism",
+			"webmaster": "webmasters"
+		};
+		var fixLink = function () {
+			var m = regexp.exec( this.hostname );
+			if (!m) return;
+			this.hostname = (aliases[m[2]] || m[2]) + '.meta.stackexchange.com';
 			this.protocol = 'https:';
 		};
 		var fixAllLinks = function (where) { $(where).find(selector).each(fixLink) };

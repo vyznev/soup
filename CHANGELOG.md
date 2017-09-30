@@ -11,6 +11,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 * [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
 
+**Other changes:**
+
+* [mse299086](https://meta.stackexchange.com/q/299086) no longer breaks old links to metas of renamed sites (like http://meta.programmers.stackexchange.com).
+
 
 1.48 (20 Sep 2017)
 ====
@@ -51,6 +55,10 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 **Changes in 1.48.1:**
 
 * Re-enable [mso345590](https://meta.stackoverflow.com/q/345590) fix after a class name change effectively disabled it.
+
+**Changes in 1.48.2:**
+
+* Limit [graphicdesign2415](https://graphicdesign.meta.stackexchange.com/q/2415) CSS fix to graphicdesign.SE only and exclude tag links per https://rpg.meta.stackexchange.com/q/7486.
 
 
 1.46 (11 Feb 2017)
