@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.48.0 -->
+<!-- version: 1.48.2 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -34,7 +34,7 @@ Note that updates to the extension packages available at Firefox Add-ons and Chr
 Included fixes
 --------------
 
-SOUP v1.48
+SOUP v1.48.2
 &#x20;
 includes fixes or workarounds for the following issues.
 
@@ -88,7 +88,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse250407: User signature cards on old revisions look funny](https://meta.stackexchange.com/q/250407) (applied globally)
 * [cooking2049: Ads are cut off on the right](https://cooking.meta.stackexchange.com/q/2049)
 * [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](https://movies.meta.stackexchange.com/q/1652)
-* [graphicdesign2415: Design Bug: Tag alert CSS](https://graphicdesign.meta.stackexchange.com/q/2415) (applied globally)
+* [graphicdesign2415: Design Bug: Tag alert CSS](https://graphicdesign.meta.stackexchange.com/q/2415)
 * [mse244587: “Top Network Users” should contain themselves!](https://meta.stackexchange.com/q/244587)
 * [rpg5812: Post as a guest: CSS bug](https://rpg.meta.stackexchange.com/q/5812) (applied globally)
 * [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574)

@@ -43,6 +43,10 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 
 * Re-enable [mso345590](https://meta.stackoverflow.com/q/345590) fix after a class name change effectively disabled it.
 
+**Changes in 1.48.2:**
+
+* Limit [graphicdesign2415](https://graphicdesign.meta.stackexchange.com/q/2415) CSS fix to graphicdesign.SE only and exclude tag links per https://rpg.meta.stackexchange.com/q/7486.
+
 
 1.46 (11 Feb 2017)
 ====
