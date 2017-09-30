@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.2
+// @version     1.49.3
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -366,8 +366,8 @@ fixes.movies1652 = {
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
 	url:	"https://graphicdesign.meta.stackexchange.com/q/2415",
-//	sites:	/^(meta\.)?graphicdesign\./,
-	css:	"body .message.message-warning a, body .message.message-warning a:visited { color: #fcedb1 }"  // "body" added to override SE style
+	sites:	/^(meta\.)?graphicdesign\./,
+	css:	"body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag), body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag):visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 fixes.mse244587 = {
 	title:	"“Top Network Users” should contain themselves!",
