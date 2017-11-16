@@ -19,6 +19,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse299086](https://meta.stackexchange.com/q/299086) fix no longer breaks old links to metas of renamed sites (like http://meta.programmers.stackexchange.com).
 * Added `@noframes` to userscript header to avoid needlessly loading the script for child frames.  (SOUP already refuses to actually injects its code into child frames since v1.40.)
+* Rewrite [mse243519](https://meta.stackoverflow.com/q/243519) fix to work also in Chrome and to avoid layout jumps ([issue #30](https://github.com/vyznev/soup/issues/30)).
 
 
 1.48 (20 Sep 2017)

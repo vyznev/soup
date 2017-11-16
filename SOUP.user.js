@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.6
+// @version     1.49.7
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -865,11 +865,12 @@ fixes.mse243519 = {
 	title:	"Dangling signature dash in comments",
 	url:	"https://meta.stackoverflow.com/q/243519",
 	script:	function () {
+		var wrapper = $('<div> <span style="white-space:nowrap">– </span></div>').contents();
 		SOUP.addContentFilter( function () {
-			$('.comment-user').each( function () { 
+			$('.comment-body > .comment-user').each( function () { 
 				var prev = this.previousSibling;
-				if ( prev.nodeType != 3 ) return;
-				prev.nodeValue = prev.nodeValue.replace( /^\s*–\xA0\s*$/, " \xA0–\xA0" );
+				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*–[\xA0\s]*$/.test(prev.nodeValue) ) return;
+				wrapper.clone().replaceAll(prev).append(this);
 			} );
 		}, 'mse243519', null, ['load', 'post', 'comments'] );
 	}
