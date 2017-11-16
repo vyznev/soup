@@ -11,9 +11,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 * [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
 
+**Removed fixes:**
+
+* [mse143973: Images can be pushed outside the boundaries of a post by using nested lists](https://meta.stackexchange.com/q/143973) (fixed)
+
 **Other changes:**
 
-* [mse299086](https://meta.stackexchange.com/q/299086) no longer breaks old links to metas of renamed sites (like http://meta.programmers.stackexchange.com).
+* [mse299086](https://meta.stackexchange.com/q/299086) fix no longer breaks old links to metas of renamed sites (like http://meta.programmers.stackexchange.com).
 
 
 1.48 (20 Sep 2017)

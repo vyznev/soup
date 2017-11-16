@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.4
+// @version     1.49.5
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -76,13 +76,6 @@ fixes.mse114109 = {
 	url:	"https://meta.stackexchange.com/q/114109",
 	// NOTE 2014-11-26: this has been mostly fixed by increasing line-height in comments; remove this fix?
 	css:	".comment-copy { position: relative }"
-};
-fixes.mse143973 = {
-	title:	"Images can be pushed outside the boundaries of a post by using nested lists",
-	url:	"https://meta.stackexchange.com/q/143973",
-	credit:	"animuson",
-	// "body" added to increase selector precedence above conflicting SE style
-	css:	"body .post-text img, body .wmd-preview img { max-width: 100% }"
 };
 fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",

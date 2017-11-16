@@ -58,7 +58,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 
 * [mse215473: Add a non-breaking space to “reopen (1)” and its ilk](https://meta.stackexchange.com/q/215473)
 * [mse114109: Background in OP's user name can obscure text in multiline comments](https://meta.stackexchange.com/q/114109)
-* **[mse143973: Images can be pushed outside the boundaries of a post by using nested lists](https://meta.stackexchange.com/q/143973)**
 * [mse145819: &lt;hr/&gt;'s do not get rendered in deleted answers](https://meta.stackexchange.com/q/145819)
 * [mse108046: Mouse cursor doesn't change to pointer when hovering “full site” on mobile](https://meta.stackexchange.com/q/108046)
 * [mse110566: Does the spoiler markdown work on images?](https://meta.stackexchange.com/q/110566)
