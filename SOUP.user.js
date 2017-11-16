@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.5
+// @version     1.49.6
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -19,6 +19,7 @@
 // @icon        https://github.com/vyznev/soup/raw/devel/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
+// @noframes
 // ==/UserScript==
 
 
@@ -51,7 +52,7 @@
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 if ( ! include_re.test( location.hostname ) ) return;
 
-// we don't want to mess with iframes; SE does frame-busting anyway, so any real SE pages should be in top-level frames
+// just in case @noframes doesn't work
 try { if ( window.self !== window.top ) return } catch (e) { return }
 
 // guard against double inclusion (e.g. user script + extension)
