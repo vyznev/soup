@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.48.2
+// @version     1.48.3
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2182,3 +2182,5 @@ else if (window.opera) addEventListener( 'load', injectScripts, false );
 else document.addEventListener( 'DOMContentLoaded', injectScripts );
 
 } )();  // end of anonymous wrapper function
+
+/* extra C-style comment to work around GM4 bug: https://github.com/greasemonkey/greasemonkey/issues/2670 */
