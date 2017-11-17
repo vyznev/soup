@@ -2231,4 +2231,6 @@ if (document.body) injectScripts();
 else if (window.opera) addEventListener( 'load', injectScripts, false );
 else document.addEventListener( 'DOMContentLoaded', injectScripts );
 
-} )();  /* end of anonymous wrapper function */
+} )();  // end of anonymous wrapper function
+
+/* extra C-style comment to work around GM4 bug: https://github.com/greasemonkey/greasemonkey/issues/2670 */
