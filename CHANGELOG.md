@@ -14,12 +14,17 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Removed fixes:**
 
 * [mse143973: Images can be pushed outside the boundaries of a post by using nested lists](https://meta.stackexchange.com/q/143973) (fixed)
+* [mse210165: Extra blue line appearing in the top bar (Firefox only)](https://meta.stackexchange.com/q/210165) (fixed by new top bar)
+* [mse240710: Was the fringe always there on the up-rep icon?](https://meta.stackexchange.com/q/240710) (obsolete due to new top bar)
+* [mse207526: Cannot navigate into the multicollider with keyboard](https://meta.stackexchange.com/q/207526) (no longer works with new top bar, removed pending possible rewrite)
 
 **Other changes:**
 
 * [mse299086](https://meta.stackexchange.com/q/299086) fix no longer breaks old links to metas of renamed sites (like http://meta.programmers.stackexchange.com).
-* Added `@noframes` to userscript header to avoid needlessly loading the script for child frames.  (SOUP already refuses to actually injects its code into child frames since v1.40.)
+* Add `@noframes` to userscript header to avoid needlessly loading the script for child frames.  (SOUP has already refused to actually injects its code into child frames since v1.40.)
 * Rewrite [mse243519](https://meta.stackoverflow.com/q/243519) fix to work also in Chrome and to avoid layout jumps ([issue #30](https://github.com/vyznev/soup/issues/30)).
+* Update [movies1652](https://movies.meta.stackexchange.com/q/1652), [mse210132](https://meta.stackexchange.com/q/210132), [mse121682](https://meta.stackexchange.com/q/121682) and [mse223737](https://meta.stackexchange.com/q/223737) CSS / query selectors for new top bar structure.
+* Remove klugy `SOUP.userRep` property in favor of `StackExchange.options.user.rep`.
 
 
 1.48 (20 Sep 2017)

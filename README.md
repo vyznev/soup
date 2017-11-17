@@ -63,7 +63,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse110566: Does the spoiler markdown work on images?](https://meta.stackexchange.com/q/110566)
 * [mse58760: &lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](https://meta.stackexchange.com/q/58760)
 * [mse203405: Excerpt of privilege is below privilege instead of in front](https://meta.stackexchange.com/q/203405)
-* [mse210165: Extra blue line appearing in the top bar (Firefox only)](https://meta.stackexchange.com/q/210165)
 * **[mse154788: Why are comments overlapping the sidebar?](https://meta.stackexchange.com/q/154788)**
 * [mse214830: Selecting text in profile activity comments causes unexpected clipping](https://meta.stackexchange.com/q/214830)
 * [mse230392: Layout bug while viewing vote count in Meta Stackexchange](https://meta.stackexchange.com/q/230392)
@@ -72,7 +71,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](https://meta.stackexchange.com/q/233517)
 * [mse169225: Why does the bounty award button appear on deleted answers?](https://meta.stackexchange.com/q/169225)
 * **[mse84296: RTL text can mess up comment timestamps](https://meta.stackexchange.com/q/84296)**
-* [mse240710: Was the fringe always there on the up-rep icon?](https://meta.stackexchange.com/q/240710)
 * [mse249859: &lt;kbd&gt; tags in headings are too small](https://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](https://meta.stackexchange.com/q/248156)
 * [mso284049: Small bugs in the Stack Overflow editor](https://meta.stackoverflow.com/q/284049)
@@ -119,7 +117,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 
 * **[mse217779: The CSS for spoilers is a mess. Let's fix it!](https://meta.stackexchange.com/q/217779)**
 * [mse78989: Clicking on tags broken?](https://meta.stackexchange.com/q/78989)
-* [mse207526: Cannot navigate into the multicollider with keyboard](https://meta.stackexchange.com/q/207526)
 * **[mse261721: Un-fade low-score answers on click/tap too](https://meta.stackexchange.com/q/261721)**
 * [mse66646: Confirming context menu entries via Enter triggers comment to be posted](https://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](https://meta.stackexchange.com/q/210132)

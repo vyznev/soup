@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.8
+// @version     1.49.9
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -116,12 +116,6 @@ fixes.mse203405 = {
 		".privileges-page .privilege-table-row div:not(.checkmark)" +
 		" { display: table-cell; padding: 1em 0.2em }"
 }
-fixes.mse210165 = {
-	title:	"Extra blue line appearing in the top bar (Firefox only)",
-	url:	"https://meta.stackexchange.com/q/210165",
-	css:	".topbar .hidden-text { display: none }" +
-		".topbar .topbar-icon, .topbar .profile-me { color: #e0e0e0 }"
-};
 fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"https://meta.stackexchange.com/q/154788",
@@ -179,11 +173,6 @@ fixes.mse84296 = {
 	// NOTE: the #chat-body selectors and the .soup-bidi-isolate class are used by the mse342361 fix
 	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate ' +
 		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
-};
-fixes.mse240710 = {
-	title:	"Was the fringe always there on the up-rep icon?",
-	url:	"https://meta.stackexchange.com/q/240710",
-	css:	".topbar .unread-count { min-height: 11px; min-width: 5px }"
 };
 fixes.mse249859 = {
 	title:	"<kbd> tags in headings are too small",
@@ -353,9 +342,9 @@ fixes.movies1652 = {
 	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
 	url:	"https://movies.meta.stackexchange.com/q/1652",
 	sites:	/^(meta\.)?movies\./,
-	css:	".topbar .topbar-links .topbar-flair .badge1, " +
-		".topbar .topbar-links .topbar-flair .badge2, " +
-		".topbar .topbar-links .topbar-flair .badge3 { margin: 0 }"
+	css:	".top-bar .my-profile .-badges .badge1, " +
+		".top-bar .my-profile .-badges .badge2, " +
+		".top-bar .my-profile .-badges .badge3 { margin: 0 }"
 };
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
@@ -523,44 +512,6 @@ fixes.mse78989 = {
 		}
 	}
 };
-fixes.mse207526 = {
-	title:	"Cannot navigate into the multicollider with keyboard",
-	url:	"https://meta.stackexchange.com/q/207526",
-	script:	function () {
-		if ( !window.StackExchange || !StackExchange.topbar ) return;
-
-		// FIXME: this fix messes up dialog placement on the new SO topbar (https://meta.stackoverflow.com/q/343103)
-		if ( $('body > div.topbar > div.topbar-wrapper > div.js-topbar-dialog-corral').length != 1 ) {
-			// SOUP.log('soup mse207526: expected topbar structure not found, skipping fix to avoid incompatibility with new topbar.');
-			return;
-		}
-        
-		SOUP.hookAjax( /^\/topbar\//, function () {
-			$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
-			$('.js-inbox-button').after($('.inbox-dialog'));
-			$('.js-achievements-button').after($('.achievements-dialog'));
-		} );
-		// fix bug causing clicks on the site search box to close the menu
-		// XXX: this would be a lot easier if jQuery bubbled middle/right clicks :-(
-		var fixTopbarClickHandler = function () {
-			SOUP.getEventHandlers( document, 'click' ).forEach( function (h) {
-				if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
-				var oldHandler = h.handler;
-				h.handler = function (e) {
-					if ( $(e.target).closest('.topbar-dialog').length ) return;
-					return oldHandler.apply(this, arguments);
-				};
-			} );
-		};
-		SOUP.try( 'topbar click handler fix', fixTopbarClickHandler );
-		// XXX: on chat, this fix might run before the topbar is initialized
-		var oldInit = StackExchange.topbar.init;
-		StackExchange.topbar.init = function () {
-			oldInit.apply(this, arguments);
-			SOUP.try( 'topbar click handler fix (deferred)', fixTopbarClickHandler );
-		};
-	}
-};
 fixes.mse261721 = {
 	title:	"Un-fade low-score answers on click/tap too",
 	url:	"https://meta.stackexchange.com/q/261721",
@@ -601,7 +552,7 @@ fixes.mse210132 = {
 	title:	"New top bar should render avatar with a transparent background",
 	url:	"https://meta.stackexchange.com/q/210132",
 	script:	function () {
-		$('.topbar img.avatar-me[src*="//i.stack.imgur.com/"]').attr(
+		$('.top-bar .my-profile .gravatar-wrapper-24 img.js-avatar-me[src*="//i.stack.imgur.com/"]').attr(
 			'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
 		).css( { 'max-width': '24px', 'max-height': '24px' } );
 	}
@@ -697,7 +648,7 @@ fixes.mse115702 = {
 	title:	"Option to delete an answer only visible after a reload",
 	url:	"https://meta.stackexchange.com/q/115702",
 	script:	function () {
-		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
+		if ( StackExchange.options.user.rep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
 		function updateDeleteLinks( postid, score ) {
@@ -900,7 +851,7 @@ fixes.mse121682 = {
 		}
 		// part B: fix inbox links directly
 		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
-			$('.topbar .inbox-item a[href*="/election/"]').attr( 'href', function (i, href) {
+			$('.topbar-dialog.inbox-dialog .inbox-item a[href*="/election/"]').attr( 'href', function (i, href) {
 				return href.replace( regex, repl );
 			} );
 		} );
@@ -1280,7 +1231,7 @@ fixes.mse223737 = {
 	script:	function () {
 		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
 			if ( $('#soup-mse223737-link').length > 0 ) return;
-			$('.topbar .inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar .inbox-dialog h3:first-of-type');
+			$('.topbar-dialog.inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar-dialog.inbox-dialog h3:first-of-type');
 		} ).code();
 	},
 	css:	"#soup-mse223737-link { float: right }"
@@ -2097,9 +2048,8 @@ var soupLateSetup = function () {
 	// basic environment detection, part 2
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
 
-	// detect user rep and site beta status; together, these can be user to determine user privileges
-	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
-	SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
+	// detect site beta status; together with StackExchange.options.user.rep this can be user to guesstimate user privileges
+	// XXX: this may need to be updated if the beta site design is changed in the future
 	SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
 	
 	// run ready queue after jQuery and/or SE framework have loaded
