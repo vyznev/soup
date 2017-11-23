@@ -10,6 +10,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 * [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
+* [mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082) (on aviation, bicycles, gaming, movies, music, scifi, space and video)
 
 **Removed fixes:**
 
@@ -25,6 +26,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Rewrite [mse243519](https://meta.stackoverflow.com/q/243519) fix to work also in Chrome and to avoid layout jumps ([issue #30](https://github.com/vyznev/soup/issues/30)).
 * Update [movies1652](https://movies.meta.stackexchange.com/q/1652), [mse210132](https://meta.stackexchange.com/q/210132), [mse121682](https://meta.stackexchange.com/q/121682) and [mse223737](https://meta.stackexchange.com/q/223737) CSS / query selectors for new top bar structure.
 * Remove klugy `SOUP.userRep` property in favor of `StackExchange.options.user.rep`.
+* Rewrite [mso338932](https://meta.stackoverflow.com/q/338932) fix without using `touchstart` events to avoid [scroll performance issues](https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#the-problem).
 
 
 1.48 (20 Sep 2017)

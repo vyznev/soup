@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.9
+// @version     1.49.10
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1318,19 +1318,22 @@ fixes.mso338932 = {
 	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
 	url:	"https://meta.stackoverflow.com/q/338932",
 	script:	function () {
-		// also fix the citation helper button on MO; see https://meta.mathoverflow.net/a/3295
-		var buttonSelector = '.wmd-snippet-button > span, .wmd-cite-button > span';
 		var bypassTouchBlocker = function () {
+			var $this = $(this);
 			// to minimize risk of unwanted side effects, only disable the preview pane touchend handler if the snippet editor is enabled
-			if ( $(this).is(buttonSelector) || $(this).closest('.post-editor').has('.wmd-snippet-button') ) $(this).off('touchend');
+			if ( $this.has('.wmd-snippet-button') ) $this.find('.wmd-preview').off('touchend');
+			// also fix the citation helper button on MO; see https://meta.mathoverflow.net/a/3295
+			$this.find('.wmd-snippet-button > span, .wmd-cite-button > span').off('touchend');
 		};
+		// the SE prepareWmd() callback adds these handlers, we strip them :)
 		SOUP.addEditorCallback( function ( editor, postfix ) {
-			$('#post-editor' + postfix).on( 'touchstart', buttonSelector, bypassTouchBlocker );
-			$('#wmd-preview' + postfix).on( 'touchstart', bypassTouchBlocker );
+			// the button touch handlers are added in a setTimeout(..., 0) callback
+			setTimeout( function () {
+				$('#post-editor' + postfix).each( bypassTouchBlocker );
+			}, 1 );
 		} );
 		// just in case, also fix any editors that have already been initialized
-		$('.post-editor').on( 'touchstart', buttonSelector, bypassTouchBlocker );
-		$('.wmd-preview').on( 'touchstart', bypassTouchBlocker );
+		$('.post-editor').each( bypassTouchBlocker );
 	}
 };
 fixes.mse287473 = {
@@ -1624,6 +1627,121 @@ fixes.mse264171 = {
 			if ( is404 ) location.replace( location.href.replace( /\/tags\/([0-9A-Za-z]+)-com\b/, '/tags/$1.com' ) );
 		} );
 	}
+};
+fixes.mse299082 = {
+	title:	"Display embedded YouTube videos in markdown preview",
+	url:	"https://meta.stackexchange.com/q/299082",
+	// site list from https://meta.stackexchange.com/a/298854 (TODO: get this info from the API?)
+	sites:	/^(aviation|bicycles|gaming|movies|music|scifi|space|video)\.(meta\.)?stackexchange\.com$/,
+	// XXX: most of the complexity in the code below is for performance reasons:
+	// we defer video loading until 5 seconds of inactivity has passed, use the
+	// YouTube JS API to chain video loading so that multiple embedded videos in
+	// a post get loaded one by one, and try to gracefully abort loading if the
+	// user resumes editing at any moment.
+	// TODO: figure out why we're still getting occasional (harmless??) "Failed
+	// to execute 'postMessage' on 'DOMWindow'" errors despite setting "origin="
+	script:	function () {
+		SOUP.addEditorCallback( function (editor, postfix) {
+			// replace the first remaining placeholder on the page with a video player,
+			// and use the YouTube API to call this function again after it has loaded
+			var idCounter = 1, nowLoading = 0, activePlayers = [];
+			function loadNextVideo () {
+				try {
+					if ( nowLoading ) return;  // there's already a video loader running, abort!
+
+					var wrapper = $('div.youtube-embed.soup-mse299082').not(':has(iframe)').first();
+					if ( ! wrapper.length ) return;  // nothing more to do for now!
+
+					var myIdCounter = nowLoading = idCounter++;
+					var id = 'soup-mse299082-id' + myIdCounter;
+
+					var url = wrapper.data('soup-mse299082-url');
+					url += '&enablejsapi=1&origin=' + encodeURIComponent(location.protocol + '//' + location.host);
+
+					SOUP.log( 'soup loading video', id, 'from', url );
+					wrapper.html('<div><iframe id="' + id + '" width="640px" height="395px" src="' + url + '"></iframe></div>');
+
+					// set up a callback to load the next video, if nobody has messed with nowLoading in the mean time
+					// (which would indicate either a deliberate abort and/or another loader running at the same time)
+					var chainLoad = function () {
+						if ( nowLoading !== myIdCounter ) return;
+						nowLoading = 0;  // this video has been loaded, we can start with the next one
+						setTimeout( loadNextVideo, 0 );
+					};
+					activePlayers.push( new YT.Player( id, { events: { onReady: chainLoad, onError: chainLoad } } ) );
+				} catch (e) {
+					SOUP.log( 'SOUP YouTube embed video loading failed:', e );
+				}
+			}
+
+			// load the YouTube API if needed, and then start a new loader chain
+			var deferredTimeoutID = 0, youTubeApiScript = null;
+			function deferredEmbed () {
+				deferredTimeoutID = 0;
+				if ( ! window.YT ) {
+					if ( youTubeApiScript ) return;  // already waiting for the API to load
+					window.onYouTubePlayerAPIReady = function () {
+						// we're ready to start actually loading the videos now!
+						// (but the user might have edited the post in the mean time, resetting the timer)
+						if ( ! deferredTimeoutID ) loadNextVideo();
+					};
+					youTubeApiScript = $('<script src="https://www.youtube.com/player_api">').appendTo(document.body);
+					return;
+				}
+				// start a new loader chain, if there isn't one running already
+				if ( ! nowLoading ) loadNextVideo();
+			}
+
+			// replace any plain YouTube video links in the preview HTML with embed placeholders, and
+			// set a timer to replace them with real videos if the preview isn't updated in 5 seconds
+			var youTubeLinkRegexp = /<a href="(https?:\/\/(?:(?:www\.|m\.)youtube\.com\/watch|youtu\.be\/([-_0-9A-Za-z]{11}))(\?[^#"]*)?(#[^"]*)?)">\1<\/a>/g;
+			function replaceYouTubeLinks (fullMatch, fullUrl, videoId, queryString) {
+				var params = new URLSearchParams( (queryString || "?").substr(1).replace(/&amp;/g, '&') );
+
+				// youtu.be short URLs have the video ID in the path, otherwise get it from query params
+				// COMPAT: the SE server side code doesn't actually validate the v= parameter value properly!
+				if ( ! videoId ) videoId = params.get('v');
+				if ( ! /^[-_0-9A-Za-z]{11}$/.test(videoId) ) return fullMatch;  // missing / invalid ID
+
+				// get the playback start time, and convert it from XmYYs to plain seconds if needed
+				// COMPAT: if both t= and start= appear in the params, the SE server side code uses whichever comes first
+				var startTime = params.get('t') || params.get('start') || "0";
+				startTime = startTime.replace( /^(\d+)m(\d+)s$/, function (full, mins, secs) { return 60 * mins + 1 * secs } );
+				if ( ! /^[0-9]+$/.test(startTime) ) startTime = "0";  // map any non-numeric start times to zero
+
+				// reloading the iframe takes time, so defer it until the user isn't actively editing
+				if ( ! deferredTimeoutID ) deferredTimeoutID = setTimeout( deferredEmbed, 5000 );
+
+				// yes, this can inject a <div> inside text-level elements; the SE server side code does that too :P
+				var embedUrl = "https://www.youtube.com/embed/" + videoId + "?start=" + Number(startTime);
+				return '<div class="youtube-embed soup-mse299082" data-soup-mse299082-url="' + embedUrl + '"></div>';
+			}
+
+			// set a Markdown converter hook to apply the YouTube link replacement to the preview HTML
+			editor.getConverter().hooks.chain( 'postConversion', function (text) {
+				try {
+					// stop the deferred video loading timer; replaceYouTubeLinks() will restart it if needed
+					if ( deferredTimeoutID ) clearTimeout( deferredTimeoutID );
+					deferredTimeoutID = 0;
+					// if there's an active video loader chain running, tell it to stop
+					nowLoading = 0;
+					// destroy any video players in the old preview that's about to get wiped out
+					for (var i = 0; i < activePlayers.length; i++) activePlayers[i].destroy();
+					activePlayers = [];
+					// actually do the YouTube link replacement
+					text = text.replace( youTubeLinkRegexp, replaceYouTubeLinks );
+				} catch (e) {
+					SOUP.log( 'SOUP YouTube embed postConversion hook failed:', e );
+				}
+				return text;
+			} );
+		}, 'YouTube embed preview', null, ["preview"] );
+	},
+	// style the placeholder divs to look kind of like videos waiting to load
+	// YouTube icon from https://www.youtube.com/yt/about/media/downloads/youtube_full_color_icon.zip
+	css:	"div.youtube-embed.soup-mse299082 { width: 640px; height: 395px; background: url(data:image/svg+xml," +
+		encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 124"><path d="m172.3 104.6c-2.024 7.622-7.987 13.62-15.56 15.66-13.7 3.7-68.7 3.7-68.7 3.7s-55.04 0-68.76-3.7c-7.57-2-13.54-8-15.56-15.7-3.68-13.78-3.68-42.6-3.68-42.6s0-28.82 3.678-42.64c2.024-7.62 7.992-13.62 15.56-15.66 13.72-3.7 68.76-3.7 68.76-3.7s55.04 0 68.76 3.701c7.573 2.038 13.54 8.04 15.56 15.66 3.7 13.82 3.7 42.64 3.7 42.64s0 28.82-3.678 42.64" fill="#f00"/><path d="m70 35.83 46 26.17-46 26.17v-52.34" fill="#fff"/></svg>' ) +
+		") #282828 center/10% no-repeat }"
 };
 
 
