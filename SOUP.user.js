@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.10
+// @version     1.49.11
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1633,67 +1633,30 @@ fixes.mse299082 = {
 	url:	"https://meta.stackexchange.com/q/299082",
 	// site list from https://meta.stackexchange.com/a/298854 (TODO: get this info from the API?)
 	sites:	/^(aviation|bicycles|gaming|movies|music|scifi|space|video)\.(meta\.)?stackexchange\.com$/,
-	// XXX: most of the complexity in the code below is for performance reasons:
-	// we defer video loading until 5 seconds of inactivity has passed, use the
-	// YouTube JS API to chain video loading so that multiple embedded videos in
-	// a post get loaded one by one, and try to gracefully abort loading if the
-	// user resumes editing at any moment.
-	// TODO: figure out why we're still getting occasional (harmless??) "Failed
-	// to execute 'postMessage' on 'DOMWindow'" errors despite setting "origin="
 	script:	function () {
 		SOUP.addEditorCallback( function (editor, postfix) {
-			// replace the first remaining placeholder on the page with a video player,
-			// and use the YouTube API to call this function again after it has loaded
-			var idCounter = 1, nowLoading = 0, activePlayers = [];
+			// replace the first remaining placeholder in this preview with a video player
+			// and add an onload/onerror handler to start the next one after this one has loaded
+			var counter = 1, nowLoading = 0;
+			var wrapperSelector = '#wmd-preview' + postfix + ' div.soup-mse299082:not(.youtube-embed)';
 			function loadNextVideo () {
-				try {
-					if ( nowLoading ) return;  // there's already a video loader running, abort!
+				var wrapper = $(wrapperSelector).first();
+				if ( ! wrapper.length ) return;  // nothing more to do for now!
 
-					var wrapper = $('div.youtube-embed.soup-mse299082').not(':has(iframe)').first();
-					if ( ! wrapper.length ) return;  // nothing more to do for now!
-
-					var myIdCounter = nowLoading = idCounter++;
-					var id = 'soup-mse299082-id' + myIdCounter;
-
-					var url = wrapper.data('soup-mse299082-url');
-					url += '&enablejsapi=1&origin=' + encodeURIComponent(location.protocol + '//' + location.host);
-
-					SOUP.log( 'soup loading video', id, 'from', url );
-					wrapper.html('<div><iframe id="' + id + '" width="640px" height="395px" src="' + url + '"></iframe></div>');
-
-					// set up a callback to load the next video, if nobody has messed with nowLoading in the mean time
-					// (which would indicate either a deliberate abort and/or another loader running at the same time)
-					var chainLoad = function () {
-						if ( nowLoading !== myIdCounter ) return;
-						nowLoading = 0;  // this video has been loaded, we can start with the next one
-						setTimeout( loadNextVideo, 0 );
-					};
-					activePlayers.push( new YT.Player( id, { events: { onReady: chainLoad, onError: chainLoad } } ) );
-				} catch (e) {
-					SOUP.log( 'SOUP YouTube embed video loading failed:', e );
-				}
-			}
-
-			// load the YouTube API if needed, and then start a new loader chain
-			var deferredTimeoutID = 0, youTubeApiScript = null;
-			function deferredEmbed () {
-				deferredTimeoutID = 0;
-				if ( ! window.YT ) {
-					if ( youTubeApiScript ) return;  // already waiting for the API to load
-					window.onYouTubePlayerAPIReady = function () {
-						// we're ready to start actually loading the videos now!
-						// (but the user might have edited the post in the mean time, resetting the timer)
-						if ( ! deferredTimeoutID ) loadNextVideo();
-					};
-					youTubeApiScript = $('<script src="https://www.youtube.com/player_api">').appendTo(document.body);
-					return;
-				}
-				// start a new loader chain, if there isn't one running already
-				if ( ! nowLoading ) loadNextVideo();
+				var url = wrapper.data('soup-mse299082-url');
+				wrapper.html('<div><iframe width="640px" height="395px" src="' + url + '"></iframe></div>');
+				wrapper.addClass('youtube-embed');
+				
+				// make sure we can't have two chains of video loaders running at the same time
+				var savedCounter = nowLoading = counter++;
+				wrapper.find('iframe').on( 'load error', function () {
+					if ( nowLoading === savedCounter) loadNextVideo();
+				} );
 			}
 
 			// replace any plain YouTube video links in the preview HTML with embed placeholders, and
 			// set a timer to replace them with real videos if the preview isn't updated in 5 seconds
+			var timeoutID = 0;
 			var youTubeLinkRegexp = /<a href="(https?:\/\/(?:(?:www\.|m\.)youtube\.com\/watch|youtu\.be\/([-_0-9A-Za-z]{11}))(\?[^#"]*)?(#[^"]*)?)">\1<\/a>/g;
 			function replaceYouTubeLinks (fullMatch, fullUrl, videoId, queryString) {
 				var params = new URLSearchParams( (queryString || "?").substr(1).replace(/&amp;/g, '&') );
@@ -1710,24 +1673,19 @@ fixes.mse299082 = {
 				if ( ! /^[0-9]+$/.test(startTime) ) startTime = "0";  // map any non-numeric start times to zero
 
 				// reloading the iframe takes time, so defer it until the user isn't actively editing
-				if ( ! deferredTimeoutID ) deferredTimeoutID = setTimeout( deferredEmbed, 5000 );
+				if ( ! timeoutID ) timeoutID = setTimeout( loadNextVideo, 5000 );
 
 				// yes, this can inject a <div> inside text-level elements; the SE server side code does that too :P
 				var embedUrl = "https://www.youtube.com/embed/" + videoId + "?start=" + Number(startTime);
-				return '<div class="youtube-embed soup-mse299082" data-soup-mse299082-url="' + embedUrl + '"></div>';
+				return '<div class="soup-mse299082" data-soup-mse299082-url="' + embedUrl + '"></div>';
 			}
 
 			// set a Markdown converter hook to apply the YouTube link replacement to the preview HTML
 			editor.getConverter().hooks.chain( 'postConversion', function (text) {
 				try {
-					// stop the deferred video loading timer; replaceYouTubeLinks() will restart it if needed
-					if ( deferredTimeoutID ) clearTimeout( deferredTimeoutID );
-					deferredTimeoutID = 0;
-					// if there's an active video loader chain running, tell it to stop
-					nowLoading = 0;
-					// destroy any video players in the old preview that's about to get wiped out
-					for (var i = 0; i < activePlayers.length; i++) activePlayers[i].destroy();
-					activePlayers = [];
+					// stop any pending video loading; replaceYouTubeLinks() will restart it if needed
+					if ( timeoutID ) clearTimeout( timeoutID );
+					timeoutID = nowLoading = 0;
 					// actually do the YouTube link replacement
 					text = text.replace( youTubeLinkRegexp, replaceYouTubeLinks );
 				} catch (e) {
@@ -1739,7 +1697,7 @@ fixes.mse299082 = {
 	},
 	// style the placeholder divs to look kind of like videos waiting to load
 	// YouTube icon from https://www.youtube.com/yt/about/media/downloads/youtube_full_color_icon.zip
-	css:	"div.youtube-embed.soup-mse299082 { width: 640px; height: 395px; background: url(data:image/svg+xml," +
+	css:	"div.soup-mse299082 { width: 640px; height: 395px; background: url(data:image/svg+xml," +
 		encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 124"><path d="m172.3 104.6c-2.024 7.622-7.987 13.62-15.56 15.66-13.7 3.7-68.7 3.7-68.7 3.7s-55.04 0-68.76-3.7c-7.57-2-13.54-8-15.56-15.7-3.68-13.78-3.68-42.6-3.68-42.6s0-28.82 3.678-42.64c2.024-7.62 7.992-13.62 15.56-15.66 13.72-3.7 68.76-3.7 68.76-3.7s55.04 0 68.76 3.701c7.573 2.038 13.54 8.04 15.56 15.66 3.7 13.82 3.7 42.64 3.7 42.64s0 28.82-3.678 42.64" fill="#f00"/><path d="m70 35.83 46 26.17-46 26.17v-52.34" fill="#fff"/></svg>' ) +
 		") #282828 center/10% no-repeat }"
 };
