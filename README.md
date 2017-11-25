@@ -82,6 +82,8 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634)
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748)
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496)
+* [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623)
+* [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
 
 ### Site-specific CSS fixes
 

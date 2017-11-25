@@ -11,6 +11,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 * [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
 * [mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082) (on aviation, bicycles, gaming, movies, music, scifi, space and video)
+* [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623) (for mobile view)
+* [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
 
 **Removed fixes:**
 
