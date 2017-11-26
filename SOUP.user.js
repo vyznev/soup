@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.12
+// @version     1.49.13
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1543,6 +1543,46 @@ fixes.mso356880 = {
 			StackExchange.notify.close(-2);
 		} );
 	}
+};
+fixes.mse303599 = {
+	title:	"The “Flag” modal keeps going down",
+	url:	"https://meta.stackexchange.com/q/303599",
+	// override jQuery .offset() to act like .position() for the flag/close popups
+	// XXX: this is tricky because .position() calls .offset() internally
+	script:	function () {
+		var oldOffset = $.fn.offset, inOffset = false;
+		$.fn.offset = function () {
+			if ( inOffset || arguments.length > 0 || this.length > 1 || ! this.is('#popup-flag-post, #popup-close-question') ) {
+				return oldOffset.apply(this, arguments);
+			} else try {
+				inOffset = true;
+				return this.position();
+			} finally {
+				inOffset = false;
+			}
+		};
+	}
+};
+fixes.mse90713 = {
+	title:	"Show “this question has an active bounty and cannot be closed” earlier, when it applies",
+	url:	"https://meta.stackexchange.com/q/90713",
+	// XXX: the bounty detection won't work in review; hopefully bountied questions should rarely appear there
+	path:	/^\/questions\/\d+\b/,
+	script:	function () {
+		if ( $('#question .bounty-notification .question-status.bounty').length == 0 ) return;  // no bounty => nothing to do
+
+		var notice = '<div class="soup-mse90713-notice">This question has an open bounty and cannot be closed.</div>';
+
+		SOUP.hookAjax( /^\/flags\/questions\/\d+\/close\/popup\b/, function () {
+			$('#popup-close-question h2.popup-title-container').after( notice );
+			$('#popup-close-question input[type=radio]:not([data-subpane-name][data-subpane-name!=""])').disable();
+		} );
+		SOUP.hookAjax( /^\/posts\/popup\/close\/search-originals\/\d+\b/, function () {
+			$('#popup-close-question .popup-submit').disable();
+		} );
+	},
+	// the colors are based on the .message.message-error style in all.css on SO
+	css:	".soup-mse90713-notice { color: #F9ECED; background-color: #C04848; text-align: center; padding: 11px; margin-bottom: 4px }"
 };
 
 

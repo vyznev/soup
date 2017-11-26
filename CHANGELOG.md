@@ -13,6 +13,8 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082) (on aviation, bicycles, gaming, movies, music, scifi, space and video)
 * [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623) (for mobile view)
 * [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
+* [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
+* [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/9071)
 
 **Removed fixes:**
 
