@@ -1584,7 +1584,148 @@ fixes.mse90713 = {
 	// the colors are based on the .message.message-error style in all.css on SO
 	css:	".soup-mse90713-notice { color: #F9ECED; background-color: #C04848; text-align: center; padding: 11px; margin-bottom: 4px }"
 };
+fixes.wip = {
+	title:	"Optimize Markdown preview with incremental updates",
+	script:	function () {
+		// helper function for walking a DOM tree
+		function nextNode (node, top) {
+			if ( node.firstChild ) return node.firstChild;
+			while ( node && node !== top && ! node.nextSibling ) node = node.parentNode;
+			return ( (node && node !== top) ? node.nextSibling : null );
+		}
 
+		// update the extra properties used to cache the original HTML of a node and its children
+		// TODO: hash these values to save space?
+		function cacheOriginalHTML (root) {
+			for (var node = root; node; node = nextNode(node, root)) {
+				if ( node.nodeType === 3 ) continue;  // skip text nodes
+				node.soupCachedOuterHTML = node.outerHTML;
+				node.soupCachedWrapperHTML = node.cloneNode(false).outerHTML;
+			}
+		}
+
+		// compare old and new nodes based on the old node's cached original HTML
+		function nodesMatch (oldNode, newNode) {
+			if ( oldNode.nodeType !== newNode.nodeType ) return false;
+			if ( oldNode.nodeType === 3 ) return oldNode.nodeValue === newNode.nodeValue;  // compare text nodes by value
+			var oldHTML = oldNode.soupCachedOuterHTML || oldNode.outerHTML;
+			return oldHTML === newNode.outerHTML;
+		}
+
+		// check if we can (and should) lazily update the old node to match the new node
+		function wrapperMatch (oldNode, newNode) {
+			if ( oldNode.nodeType !== newNode.nodeType ) return false;
+			if ( oldNode.nodeType === 3 ) return false;  // don't bother with lazy updates for text nodes
+			var oldWrapper = oldNode.soupCachedWrapperHTML || oldNode.cloneNode(false).outerHTML;
+			return oldWrapper === newNode.cloneNode(false).outerHTML;
+		}
+
+		// lazily update target element's content to match source
+		var skipCount = 0, insertCount = 0, deleteCount = 0, replaceCount = 0, recurseCount = 0;  // debug stats
+		function lazyReplaceContent (source, target) {
+			// skip matching initial elements
+			var targetStart = target.firstChild, sourceStart = source.firstChild;
+			while ( targetStart && sourceStart ) {
+				if ( ! nodesMatch(targetStart, sourceStart) ) break;
+				skipCount++;
+				targetStart = targetStart.nextSibling;
+				sourceStart = sourceStart.nextSibling;
+			}
+
+			// skip matching final elements
+			var targetEnd = null, sourceEnd = null;
+			if ( sourceStart && targetStart) {
+				targetEnd = target.lastChild;
+				sourceEnd = source.lastChild;
+				while ( true ) {
+					if ( ! nodesMatch(targetEnd, sourceEnd) ) {
+						// advance targetEnd and sourceEnd by one step, so they'll point to the first matched pair
+						targetEnd = targetEnd.nextSibling;
+						sourceEnd = sourceEnd.nextSibling;
+						break;
+					}
+					skipCount++;
+					// don't walk back past targetStart and sourceStart
+					if ( targetEnd === targetStart || sourceEnd === sourceStart ) break;
+					targetEnd = targetEnd.previousSibling;
+					sourceEnd = sourceEnd.previousSibling;
+				}
+			}
+
+			// XXX: There are three common simple cases: pure additions, pure deletions and single-node changes.
+			// More complex cases can appear e.g. if a paragraph is split in two; to handle those optimally, we'd
+			// need to do fuzzy matching to figure out which old child node is the best match for each new child.
+			// Rather than bother with that, we just naively pair off nodes starting from the top.
+
+			// handle replacements
+			while ( targetStart !== targetEnd && sourceStart !== sourceEnd ) {
+				var targetNext = targetStart.nextSibling, sourceNext = sourceStart.nextSibling;
+				if ( wrapperMatch( targetStart, sourceStart) ) {
+					targetStart.soupCachedOuterHTML = sourceStart.outerHTML;  // update cached original HTML
+					lazyReplaceContent(sourceStart, targetStart);
+					recurseCount++;
+				} else {
+					cacheOriginalHTML(sourceStart);
+					target.replaceChild(sourceStart, targetStart);
+					replaceCount++;
+				}
+				targetStart = targetNext;
+				sourceStart = sourceNext;
+			}
+
+			// handle deletions
+			while ( targetStart !== targetEnd ) {
+				var next = targetStart.nextSibling;
+				target.removeChild(targetStart);
+				targetStart = next;
+				deleteCount++;
+			}
+
+			// handle insertions
+			while ( sourceStart !== sourceEnd ) {
+				var next = sourceStart.nextSibling;
+				cacheOriginalHTML(sourceStart);
+				target.insertBefore(sourceStart, targetEnd);
+				sourceStart = next;
+				insertCount++;
+			}
+		}
+				
+		// adds a new setter for a property, preserving existing getters
+		function addSetter (obj, prop, setter) {
+			var proto = obj;
+			while ( proto && ! Object.getOwnPropertyDescriptor(proto, prop) ) {
+				proto = Object.getPrototypeOf(proto);
+			}
+			var desc = ( proto && Object.getOwnPropertyDescriptor(proto, prop) ) || {};
+			desc.set = setter;
+			Object.defineProperty(obj, prop, desc);
+		}
+
+		// KLUGE: override the .innerHTML setter for Markdown editor preview panes
+		// to incrementally update the children instead of just overwriting them
+		var parser = new DOMParser();
+		function makePreviewSmarter () {
+			SOUP.log( 'soup initializing smart preview update for #' + (this.id || '???') );
+			addSetter( this, 'innerHTML', function (html) {
+				var doc = parser.parseFromString( html, 'text/html' );
+				skipCount = insertCount = deleteCount = replaceCount = recurseCount = 0;
+				lazyReplaceContent(doc.body, this);
+				SOUP.log( 'soup updated #' + (this.id || '???') +
+					': skipped ' + skipCount +
+					', inserted ' + insertCount +
+					', deleted ' + deleteCount +
+					', replaced ' + replaceCount +
+					' and recursed into ' + recurseCount +
+					' nodes.' );
+			} );
+		}
+		SOUP.addEditorCallback( function (editor, postfix) {
+			$('#wmd-preview' + postfix).each(makePreviewSmarter);
+		} );
+		$('.wmd-preview').each(makePreviewSmarter);
+	}
+};
 
 //
 // Site-specific JS fixes:
