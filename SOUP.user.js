@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.13
+// @version     1.49.14
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -351,7 +351,7 @@ fixes.cooking2049 = {
 fixes.movies1652 = {
 	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
 	url:	"https://movies.meta.stackexchange.com/q/1652",
-	sites:	/^(meta\.)?movies\./,
+	// enabled globally per https://workplace.meta.stackexchange.com/q/4917
 	css:	".top-bar .my-profile .-badges .badge1, " +
 		".top-bar .my-profile .-badges .badge2, " +
 		".top-bar .my-profile .-badges .badge3 { margin: 0 }"

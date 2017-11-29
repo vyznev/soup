@@ -31,6 +31,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Update [movies1652](https://movies.meta.stackexchange.com/q/1652), [mse210132](https://meta.stackexchange.com/q/210132), [mse121682](https://meta.stackexchange.com/q/121682) and [mse223737](https://meta.stackexchange.com/q/223737) CSS / query selectors for new top bar structure.
 * Remove klugy `SOUP.userRep` property in favor of `StackExchange.options.user.rep`.
 * Rewrite [mso338932](https://meta.stackoverflow.com/q/338932) fix without using `touchstart` events to avoid [scroll performance issues](https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#the-problem).
+* Enabled the [movies1652](https://movies.meta.stackexchange.com/q/1652) fix on all sites, per https://workplace.meta.stackexchange.com/q/4917.
 
 
 1.48 (20 Sep 2017)
