@@ -78,6 +78,14 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 
 * Limit [graphicdesign2415](https://graphicdesign.meta.stackexchange.com/q/2415) CSS fix to graphicdesign.SE only and exclude tag links per https://rpg.meta.stackexchange.com/q/7486.
 
+**Changes in 1.48.3:**
+
+* Work around [GreaseMonkey 4 bug](https://github.com/greasemonkey/greasemonkey/issues/2670) that breaks scripts ending in a `//`-style comment with no newline.
+
+**Changes in 1.48.4:**
+
+* Rewrite over-broad selector in [math11036](https://math.meta.stackexchange.com/q/11036) fix that caused [display math not to work in review](https://math.meta.stackexchange.com/q/27195).
+
 
 1.46 (11 Feb 2017)
 ====
