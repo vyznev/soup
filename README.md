@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.48.2 -->
+<!-- version: 1.48.4 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -34,7 +34,7 @@ Note that updates to the extension packages available at Firefox Add-ons and Chr
 Included fixes
 --------------
 
-SOUP v1.48.2
+SOUP v1.48.4
 &#x20;
 includes fixes or workarounds for the following issues.
 
