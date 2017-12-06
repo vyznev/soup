@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.17
+// @version     1.49.18
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -373,7 +373,7 @@ fixes.movies1652 = {
 	// enabled globally per https://workplace.meta.stackexchange.com/q/4917
 	css:	".top-bar .my-profile .-badges .badge1, " +
 		".top-bar .my-profile .-badges .badge2, " +
-		".top-bar .my-profile .-badges .badge3 { margin: 0 }"
+		".top-bar .my-profile .-badges .badge3 { margin-left: 2px; margin-right: 3px }"
 };
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
