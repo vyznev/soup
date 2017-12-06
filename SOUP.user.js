@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.16
+// @version     1.49.17
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -263,7 +263,21 @@ fixes.mse287196 = {
 fixes.mse302580 = {
 	title:	"Printing an SE page in Firefox shows only the first page",
 	url:	"https://meta.stackexchange.com/q/302580",
-	css:	"@media print { body { display: block !important } }"
+	css:	"@media print {\nbody { display: block !important }}"
+};
+fixes.mse302569 = {
+	title:	"Alignment improvement in the flag dialog",
+	url:	"https://meta.stackexchange.com/q/302569",
+	css:	"body .popup .already-flagged { margin-left: 23px }"
+};
+fixes.mse304096 = {
+	title:	"Comments and answers have huge right margins when printed",
+	url:	"https://meta.stackexchange.com/q/304096",
+	css:	"@media print {\n" +
+		"body .container, body .post-text, body .comments, body #answers-header, body .answer, body pre { width: auto }" +
+		".question > table, .answer > table { width: 100% }" +
+		"body .comment-body { max-width: none }" + // override mse154788
+		"}"
 };
 
 
@@ -487,7 +501,7 @@ fixes.mso342361 = {
 fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
 	url:	"https://meta.stackexchange.com/q/217779",
-	css:	"@media screen {" +
+	css:	"@media screen {\n" +
 		".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
 		// backup to avoid accidentally revealing spoilers while waiting for JS fix to run

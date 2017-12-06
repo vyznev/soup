@@ -84,6 +84,9 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496)
 * [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623)
 * [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
+* [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
+* [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
+* [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 
 ### Site-specific CSS fixes
 

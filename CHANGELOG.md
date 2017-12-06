@@ -15,6 +15,9 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
 * [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
 * [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/9071)
+* [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
+* [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
+* [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 
 **Removed fixes:**
 
@@ -32,6 +35,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Remove klugy `SOUP.userRep` property in favor of `StackExchange.options.user.rep`.
 * Rewrite [mso338932](https://meta.stackoverflow.com/q/338932) fix without using `touchstart` events to avoid [scroll performance issues](https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#the-problem).
 * Enabled the [movies1652](https://movies.meta.stackexchange.com/q/1652) fix on all sites, per https://workplace.meta.stackexchange.com/q/4917.
+* [mse217779](https://meta.stackexchange.com/q/217779): Make spoilers visible in print.
 
 
 1.48 (20 Sep 2017)
@@ -52,7 +56,6 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496) (CSS)
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
 * [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)
-* [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
 
 **Removed fixes:**
 
@@ -70,7 +73,6 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 * [mse217779](https://meta.stackexchange.com/q/217779): Only partially fade out spoilers in diffs, as per https://meta.stackexchange.com/a/300859.
 * [math4130](https://math.meta.stackexchange.com/q/4130): Don't break the loading of other extensions like mhchem on [chemistry.SE](https://chemistry.stackexchange.com).  (Possible regression due to MathJax upgrade.)
 * Add `SOUP.getEventHandlers()` utility wrapper for the undocumented `jQuery._data()` function.
-* [mse217779](https://meta.stackexchange.com/q/217779): Make spoilers visible in print.
 
 **Changes in 1.48.1:**
 
