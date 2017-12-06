@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.15
+// @version     1.49.16
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -260,6 +260,11 @@ fixes.mse287196 = {
 	url:	"https://meta.stackexchange.com/q/287196",
 	css:	"body.badges-page .single-badge-table .single-badge-wrapper .single-badge-badge { vertical-align: baseline }"
 };
+fixes.mse302580 = {
+	title:	"Printing an SE page in Firefox shows only the first page",
+	url:	"https://meta.stackexchange.com/q/302580",
+	css:	"@media print { body { display: block !important } }"
+};
 
 
 // site-specific CSS fixes:
@@ -482,7 +487,8 @@ fixes.mso342361 = {
 fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
 	url:	"https://meta.stackexchange.com/q/217779",
-	css:	".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
+	css:	"@media screen {" +
+		".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
 		// backup to avoid accidentally revealing spoilers while waiting for JS fix to run
 		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
@@ -493,7 +499,8 @@ fixes.mse217779 = {
 		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
 		".diffs .soup-spoiler:not(:hover) > div, .body-diffs .soup-spoiler:not(:hover) > div { opacity: 0.25 }" +
 		".diffs .soup-spoiler:hover > div, .body-diffs .soup-spoiler:hover > div { transition: all 1s }" +
-		".diffs .soup-spoiler::before, .diffs .spoiler::before, .body-diffs .soup-spoiler::before, .body-diffs .spoiler::before { content: '' } ",
+		".diffs .soup-spoiler::before, .diffs .spoiler::before, .body-diffs .soup-spoiler::before, .body-diffs .spoiler::before { content: '' } " +
+		"}",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
