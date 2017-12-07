@@ -165,6 +165,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 * [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
 * [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/9071)
+* [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 
 ### Site-specific fixes
 

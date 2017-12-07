@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.19
+// @version     1.49.20
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1595,16 +1595,54 @@ fixes.mse90713 = {
 
 		var notice = '<div class="soup-mse90713-notice">This question has an open bounty and cannot be closed.</div>';
 
+		// disable any radio buttons that don't open a submenu
+		// TODO: super-disable the submit button instead? (see mso358862 fix below)
 		SOUP.hookAjax( /^\/flags\/questions\/\d+\/close\/popup\b/, function () {
 			$('#popup-close-question h2.popup-title-container').after( notice );
 			$('#popup-close-question input[type=radio]:not([data-subpane-name][data-subpane-name!=""])').disable();
 		} );
+		// also prevent the dupe finder from enabling the submit button
 		SOUP.hookAjax( /^\/posts\/popup\/close\/search-originals\/\d+\b/, function () {
 			$('#popup-close-question .popup-submit').disable();
 		} );
 	},
 	// the colors are based on the .message.message-error style in all.css on SO
 	css:	".soup-mse90713-notice { color: #F9ECED; background-color: #C04848; text-align: center; padding: 11px; margin-bottom: 4px }"
+};
+fixes.mso358862 = {
+	title:	"5 seconds is too long, but if it must be, then give me a visual cue",
+	url:	"https://meta.stackoverflow.com/q/358862",
+	script:	function () {
+		// override the SE jQuery .enable() extension to allow temporarily locking the disable/enable state
+		// TODO: make this a global utility?
+		var oldEnable = $.fn.enable;
+		$.fn.enable = function (enable) {
+			if (arguments.length == 0) enable = true;  // default to true
+			this.filter('.soup-enable-locked').toggleClass('soup-delayed-enable', !!enable);
+			oldEnable.apply(this.not('.soup-enable-locked'), arguments);
+			return this;
+		};
+
+		var flagEnableTimer = 0;
+		SOUP.hookAjax( /^\/flags\/.*\/add\b/, function () {
+			if ( flagEnableTimer > 0 ) clearTimeout( flagEnableTimer );
+			flagEnableTimer = setTimeout( function () {
+				flagEnableTimer = 0;
+				// re-enable any locked submit buttons
+				var buttons = $('.popup-submit.soup-enable-locked');
+				if ( buttons.length < 1 ) return;
+				buttons.removeClass('soup-enable-locked').disable();
+				buttons.filter('.soup-delayed-enable').enable().removeClass('soup-delayed-enable');
+			}, 5000 );
+		} );
+		SOUP.hookAjax( /^\/flags\/.*\/popup\b/, function () {
+			if ( flagEnableTimer <= 0 ) return;
+			// save the current state of the submit button, then disable and lock it
+			var buttons = $('.popup-submit:not(.soup-enable-locked)');
+			buttons.not('[disabled]').addClass('soup-delayed-enable');
+			buttons.disable().addClass('soup-enable-locked');
+		} );
+	}
 };
 
 
