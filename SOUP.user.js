@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.18
+// @version     1.49.19
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -286,7 +286,7 @@ fixes.math12803a = {
 	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 1)",
 	url:	"https://math.meta.stackexchange.com/q/12803",
 	// this part of the fix is only enabled on math.SE, since other sites use different fonts
-	sites:	/^(meta\.)?math\./,
+	sites:	/^math\./,
 	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }"
 };
 fixes.math12803b = {
@@ -298,13 +298,13 @@ fixes.math12803b = {
 fixes.codegolf959 = {
 	title:	"Add line-height shortener to the ascii-art tag",
 	url:	"https://codegolf.meta.stackexchange.com/q/959",
-	sites:	/^(meta\.)?(codegolf|puzzling)\./,
+	sites:	/^(codegolf|puzzling)\./,
 	css:	"pre { line-height: 1.15 }"
 };
 fixes.math12902 = {
 	title:	"Visited questions are practically indistinguishable in search results",
 	url:	"https://math.meta.stackexchange.com/q/12902",
-	sites:	/^math\.stackexchange\./,
+	sites:	/^math\.stackexchange\.com$/,  // XXX: main site only!
 	// "body" added to override conflicting SE styles
 	css:	"body a, body .question-hyperlink { color: #145d8a }" + 
 		"body a:visited, body .question-hyperlink:visited { color: #003b52 }" +
@@ -319,27 +319,27 @@ fixes.math12902 = {
 fixes.math12902_meta = {
 	title:	"Visited questions are practically indistinguishable in search results (meta)",
 	url:	"https://math.meta.stackexchange.com/q/12902",
-	sites:	/^meta\.math\.|^math\.meta\./,
+	sites:	/^math\.meta\.stackexchange\.com$/,
 	// "body" added to override conflicting SE styles
 	css:	"body a { color: #a29131 } body a:visited { color: #736722 }"
 };
 fixes.math16559 = {
 	title:	"Typo in site CSS disables visited link color in community bulletin",
 	url:	"https://math.meta.stackexchange.com/q/16559",
-	sites:	/^math\.stackexchange\./,
+	sites:	/^math\.stackexchange\.com$/,
 	// this rule is already in the site CSS, but without the colon in "a:visited"
 	css:	".module.community-bulletin a:visited { color: #32455d !important }"
 };
 fixes.math16559_meta = {
 	title:	"Typo in site CSS disables visited link color in community bulletin (meta)",
 	url:	"https://math.meta.stackexchange.com/q/16559",
-	sites:	/^meta\.math\.|^math\.meta\./,
+	sites:	/^math\.meta\.stackexchange\.com$/,
 	css:	".module.community-bulletin a:visited { color: #444 !important }"
 };
 fixes.electronics3162 = {
 	title:	"Error for profile less info",
 	url:	"https://electronics.meta.stackexchange.com/q/3162",
-	sites:	/^(meta\.)?electronics\./,
+	sites:	/^electronics\./,
 	// .user-header added to increase specificity over conflicting SE style
 	css:	".user-show-new .user-header.user-header-slim .data { width: auto !important }"
 };
@@ -352,7 +352,7 @@ fixes.electronics4038 = {
 fixes.mso286009 = {
 	title:	"Change [Ask Question] button style",
 	url:	"https://meta.stackoverflow.com/q/286009",
-	sites:	/^(meta\.)?stackoverflow\./,
+	sites:	/^stackoverflow\.com$/,
 	css:	".nav.askquestion { margin-left: 26px }"
 };
 fixes.mse250407 = {
@@ -364,21 +364,22 @@ fixes.cooking2049 = {
 	title:	"Ads are cut off on the right",
 	url:	"https://cooking.meta.stackexchange.com/q/2049",
 	credit:	"Jefromi",
-	sites:	/^(meta\.)?cooking\./,
+	sites:	/^cooking\./,
 	css:	"body .everyonelovesstackoverflow { padding: 0 }"
 };
 fixes.movies1652 = {
 	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
 	url:	"https://movies.meta.stackexchange.com/q/1652",
-	// enabled globally per https://workplace.meta.stackexchange.com/q/4917
+	// see also https://workplace.meta.stackexchange.com/q/4917
+	sites:	/^(movies|workplace)\./,
 	css:	".top-bar .my-profile .-badges .badge1, " +
 		".top-bar .my-profile .-badges .badge2, " +
-		".top-bar .my-profile .-badges .badge3 { margin-left: 2px; margin-right: 3px }"
+		".top-bar .my-profile .-badges .badge3 { margin: 0 }"
 };
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
 	url:	"https://graphicdesign.meta.stackexchange.com/q/2415",
-	sites:	/^(meta\.)?graphicdesign\./,
+	sites:	/^graphicdesign\./,
 	css:	"body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag), body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag):visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 fixes.mse244587 = {
@@ -1614,7 +1615,7 @@ fixes.boardgames1152 = {
 	title:	"Can the Magic card auto link feature be improved?",
 	url:	"https://boardgames.meta.stackexchange.com/q/1152",
 	credit:	"based on idea by Alex P",
-	sites:	/^(meta\.)?boardgames\./,
+	sites:	/^boardgames\./,
 	script:	function () {
 		// rewrite of https://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
 		$('body').on( 'click', 'a.soup-mtg-autocard', function (event) {
@@ -1675,7 +1676,7 @@ fixes.french347 = {
 	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
 	url:	"https://french.meta.stackexchange.com/q/347",
 	credit:	"based on idea by Stéphane Gimenez",
-	sites:	/^(meta\.)?french\./,
+	sites:	/^french\./,
 	script:	function () {
 		SOUP.addContentFilter( function ( where ) {
 			SOUP.forEachTextNode( where, function ( text ) {
@@ -1703,7 +1704,7 @@ fixes.mse299082 = {
 	title:	"Display embedded YouTube videos in markdown preview",
 	url:	"https://meta.stackexchange.com/q/299082",
 	// site list from https://meta.stackexchange.com/a/298854 (TODO: get this info from the API?)
-	sites:	/^(aviation|bicycles|gaming|movies|music|scifi|space|video)\.(meta\.)?stackexchange\.com$/,
+	sites:	/^(aviation|bicycles|gaming|movies|music|scifi|space|video)\./,
 	script:	function () {
 		SOUP.addEditorCallback( function (editor, postfix) {
 			// replace the first remaining placeholder in this preview with a video player
