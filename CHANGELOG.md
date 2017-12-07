@@ -37,6 +37,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Rewrite [mso338932](https://meta.stackoverflow.com/q/338932) fix without using `touchstart` events to avoid [scroll performance issues](https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#the-problem).
 * Enabled the [movies1652](https://movies.meta.stackexchange.com/q/1652) fix also on workplace.SE, per https://workplace.meta.stackexchange.com/q/4917.
 * [mse217779](https://meta.stackexchange.com/q/217779): Make spoilers visible in print.
+* [mso306552](https://meta.stackoverflow.com/q/306552) was broken by new inline SVG icons, reimplement in pure CSS (with a new custom icon design).
 
 
 1.48 (20 Sep 2017)

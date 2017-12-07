@@ -87,6 +87,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
 * [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
+* [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
 
 ### Site-specific CSS fixes
 
@@ -149,7 +150,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](https://meta.stackexchange.com/q/170970)
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](https://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](https://meta.stackexchange.com/q/259325)
-* [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
 * [mse268584: When a user is deleted, OP highlighting is lost](https://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](https://meta.stackoverflow.com/q/310158)
 * [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)

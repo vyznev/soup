@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.20
+// @version     1.49.21
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -278,6 +278,24 @@ fixes.mse304096 = {
 		".question > table, .answer > table { width: 100% }" +
 		"body .comment-body { max-width: none }" + // override mse154788
 		"}"
+};
+fixes.mso306552 = {
+	title:	"Votes cast has upvote-like symbol and is confusing",
+	url:	"https://meta.stackoverflow.com/q/306552",
+	path:	/^\/users\/\d+/,
+	css:	'.p-highlights .-community-stats > .g-row[title$="votes cast"] svg.iconArrowUp { display: none }' +
+		'.p-highlights .-community-stats > .g-row[title$="votes cast"] .-icon { background: url(data:image/svg+xml,' + encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" stroke="#9199a1">' +
+			'<path d="M3 7.5h12L9 1.5z" fill="#9199a1"/>' +
+			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
+			'</svg>'
+		) + '); width: 18px; height: 18px }' +
+		'.p-highlights .-community-stats > .g-row[title$="votes cast"]:hover .-icon { background: url(data:image/svg+xml,' + encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" stroke="#6a737c">' +
+			'<path d="M3 7.5h12L9 1.5z" fill="#6a737c"/>' +
+			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
+			'</svg>'
+		) + ') }'
 };
 
 
@@ -1153,16 +1171,6 @@ fixes.mse259325 = {
 			};
 		} );
 	}
-};
-fixes.mso306552 = {
-	title:	"Votes cast has upvote-like symbol and is confusing",
-	url:	"https://meta.stackoverflow.com/q/306552",
-	credit:	"AgeDeO and misterManSam",
-	path:	/^\/users\/\d+/,
-	script:	function () {
-		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
-	},
-	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
 };
 fixes.mse268584 = {
 	title:	"When a user is deleted, OP highlighting is lost",
