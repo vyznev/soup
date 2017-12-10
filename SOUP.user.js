@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.21
+// @version     1.49.22
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -296,6 +296,11 @@ fixes.mso306552 = {
 			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
 			'</svg>'
 		) + ') }'
+};
+fixes.mse304247 = {
+	title:	"Attempting to use too long tag breaks popup",
+	url:	"https://meta.stackexchange.com/q/304247",
+	css:	".message-text { word-wrap: break-word }"
 };
 
 

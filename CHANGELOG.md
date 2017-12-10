@@ -19,6 +19,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
+* [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
 
 **Removed fixes:**
 

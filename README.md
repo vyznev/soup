@@ -88,6 +88,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 * [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
+* [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
 
 ### Site-specific CSS fixes
 
