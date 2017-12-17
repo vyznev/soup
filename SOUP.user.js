@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.23
+// @version     1.49.24
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -533,7 +533,7 @@ fixes.mse217779 = {
 		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
 		// bonus: differentiate spoilers from empty blockquotes, per https://meta.stackexchange.com/q/104085
 		".soup-spoiler, .spoiler { min-height: 1em }" +  // ensure that the notice is visible even if the spoiler is empty
-		".soup-spoiler::before, .spoiler::before { position: absolute; width: 100%; content: 'spoiler: hover / click to reveal'; color: #bbb; transition: opacity 0.5s ease-in 0.5s } " +
+		".soup-spoiler::before, .spoiler::before { position: absolute; width: 100%; content: 'spoiler: hover / click to reveal'; opacity: 0.25; transition: opacity 0.5s ease-in 0.5s } " +
 		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; width: 0; overflow: hidden; transition: opacity 0.5s ease-in 0s, width 0s 0.5s }" +
 		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
 		".diffs .soup-spoiler:not(:hover) > div, .body-diffs .soup-spoiler:not(:hover) > div { opacity: 0.25 }" +
