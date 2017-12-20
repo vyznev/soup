@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.25
+// @version     1.49.26
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1691,11 +1691,9 @@ fixes.boardgames1652= {
 		var fixCardLinks = function () {
 			var cardLinks = $('a.mtg-autocard');
 			// remove / prevent attachment of standard mtg.js click handler
-			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click');
-			cardLinks.attr( 'href', function (i, href) {
-				var m = cardLinkRegexp.exec(href);
-				if ( !m ) return href;
-				return makeCardLink( decodeURIComponent( m[1] ) );
+			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click').each( function () {
+				var m = cardLinkRegexp.exec(this.href);
+				if ( m ) this.href = makeCardLink( decodeURIComponent( m[1] ) );
 			} );
 		};
 		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', null, ['load', 'post', 'preview'] );
@@ -1726,7 +1724,27 @@ fixes.boardgames1652= {
 				} );
 			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
 		} );
-	}
+
+		// add hover tooltips for card links
+		// inspired by doppelgreener's HoverCard user script: https://boardgames.meta.stackexchange.com/q/1459
+		var tooltip = $('<div id="soup-mtg-tooltip" class="soup-hidden">');
+		var cardLinkRegexp = /^https:\/\/scryfall\.com\/search\?q=%21%22([^&#]+)%22&utm_source=stackexchange$/;
+		$(document).on( 'mouseenter', 'a.soup-mtg-autocard', function (event) {
+			SOUP.log( 'showing mtg tooltip for', this );
+			var m = cardLinkRegexp.exec( this.href );
+			if ( !m ) return;
+			tooltip.html('<img src="https://api.scryfall.com/cards/named?exact=' + m[1] + '&format=image&version=normal&utm_source=stackexchange" alt="">');
+			tooltip.appendTo(this).removeClass("soup-hidden");
+			
+		} );
+		$(document).on( 'mouseleave', 'a.soup-mtg-autocard', function (event) {
+			SOUP.log( 'hiding mtg tooltip for', this );
+			tooltip.addClass("soup-hidden");
+		} );
+	},
+	css:	'#soup-mtg-tooltip { display: inline-block; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777 }' +
+		'#soup-mtg-tooltip.soup-hidden { display: none }' +
+		'#soup-mtg-tooltip img { width: 100%; height: 100% }'
 };
 fixes.french347 = {
 	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
