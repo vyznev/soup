@@ -20,6 +20,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
+* [boardgames1652: Switch Magic autocard over to a different search engine, Scryfall](https://boardgames.meta.stackexchange.com/q/1652) (replaces [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152))
 
 **Removed fixes:**
 
@@ -27,6 +28,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse210165: Extra blue line appearing in the top bar (Firefox only)](https://meta.stackexchange.com/q/210165) (fixed by new top bar)
 * [mse240710: Was the fringe always there on the up-rep icon?](https://meta.stackexchange.com/q/240710) (obsolete due to new top bar)
 * [mse207526: Cannot navigate into the multicollider with keyboard](https://meta.stackexchange.com/q/207526) (no longer works with new top bar, removed pending possible rewrite)
+* [boardgames1152: Can the Magic card auto link feature be improved?](https://boardgames.meta.stackexchange.com/q/1152) (replaced by [boardgames1652](https://boardgames.meta.stackexchange.com/q/1652))
 
 **Other changes:**
 
@@ -39,6 +41,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Enabled the [movies1652](https://movies.meta.stackexchange.com/q/1652) fix also on workplace.SE, per https://workplace.meta.stackexchange.com/q/4917.
 * [mse217779](https://meta.stackexchange.com/q/217779): Make spoilers visible in print, stop the placeholder text from intercepting mouse clicks.
 * [mso306552](https://meta.stackoverflow.com/q/306552) was broken by new inline SVG icons, reimplement in pure CSS (with a new custom icon design).
+* Partially rewrote and renamed [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152) as [boardgames1652](https://boardgames.meta.stackexchange.com/q/1652).
 
 
 1.48 (20 Sep 2017)

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.24
+// @version     1.49.25
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1663,33 +1663,39 @@ fixes.mso358862 = {
 //
 // Site-specific JS fixes:
 //
-fixes.boardgames1152 = {
-	title:	"Can the Magic card auto link feature be improved?",
-	url:	"https://boardgames.meta.stackexchange.com/q/1152",
-	credit:	"based on idea by Alex P",
+fixes.boardgames1652= {
+	title:	"Switch Magic autocard over to a different search engine, Scryfall",
+	url:	"https://boardgames.meta.stackexchange.com/q/1652",
+	// formerly https://boardgames.meta.stackexchange.com/q/1152
+	credit:	"based on idea by Alex P & doppelgreener",
 	sites:	/^boardgames\./,
 	script:	function () {
 		// rewrite of https://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
 		$('body').on( 'click', 'a.soup-mtg-autocard', function (event) {
-			if ( event.button !== 0 ) return;
+			if ( event.button !== 0 ) return true;
 			var link = $(this).attr('href');
-			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=770, height=890");
+			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=400, height=600");
+			event.preventDefault();
 			return false;
 		} );
+
+		// helper function to generate URL from card name
+		var makeCardLink = function (cardName) {
+			cardName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+			cardName = cardName.replace(/\+/g, ' ').replace(/["\[\]]+/g, '').replace(/^\s+/, '');
+			return 'https://scryfall.com/search?q=%21%22' + encodeURIComponent(cardName) + '%22&utm_source=stackexchange';
+		};
 		
-		// change the URLs in server-side generated card links, fix double-escaping
+		// change the URLs in server-side generated card links
+		var cardLinkRegexp = /^https?:\/\/(?:www\.wizards\.com\/magic\/autocard\.asp|gatherer\.wizards\.com\/pages\/search\/default\.aspx)\?name=([^&#]*)$/i;
 		var fixCardLinks = function () {
-			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
+			var cardLinks = $('a.mtg-autocard');
 			// remove / prevent attachment of standard mtg.js click handler
 			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click');
 			cardLinks.attr( 'href', function (i, href) {
-				return href.replace(
-					/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
-					'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
-				).replace( /%26lt%3[Bb]/g, '%3C' ).replace( /%26gt%3[Bb]/g, '%3E' ).replace( /%26amp%3[Bb]/g, '%26' );
-			} );
-			SOUP.forEachTextNode( cardLinks, function ( text ) {
-				return text.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+				var m = cardLinkRegexp.exec(href);
+				if ( !m ) return href;
+				return makeCardLink( decodeURIComponent( m[1] ) );
 			} );
 		};
 		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', null, ['load', 'post', 'preview'] );
@@ -1716,9 +1722,7 @@ fixes.boardgames1152 = {
 						skip = !skip;
 					}
 					if (skip) return fullMatch;
-					var linkName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-					return '<a class="soup-mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
-						encodeURIComponent(linkName) + '">' + cardName + '</a>';
+					return '<a class="soup-mtg-autocard" href="' + makeCardLink(cardName) + '">' + cardName + '</a>';
 				} );
 			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
 		} );
