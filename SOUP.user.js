@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.27
+// @version     1.49.28
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1727,28 +1727,60 @@ fixes.boardgames1652= {
 
 		// add hover tooltips for card links
 		// inspired by doppelgreener's HoverCard user script: https://boardgames.meta.stackexchange.com/q/1459
-		var tooltip = $('<div id="soup-mtg-tooltip">').appendTo(document.body);
-		var $window = $(window);
+		var tooltip = $('<div id="soup-mtg-tooltip">');
+
+		var timeoutID = 0, mouseX = 0, mouseY = 0, cardParam = "", link = null;
+		var showTooltip = function () {
+			timeoutID = 0;
+			if ( !cardParam ) return;
+			tooltip.html('<img src="https://api.scryfall.com/cards/named?exact=' + cardParam + '&format=image&version=normal&utm_source=stackexchange" alt="">');
+			tooltip.find('img').on( 'error', function () { tooltip.html('<div>Card image loading failed.</div>') } );
+
+			// try to keep the tooltip within the viewport
+			var x = mouseX, y = mouseY, xOffset = 0, yOffset = 10;
+			var tipHeight = 340, tipWidth = 244;  // TODO: adjust size for small screens?
+			var winTop = window.scrollY, winHeight = document.documentElement.clientHeight;
+			var winLeft = window.scrollX, winWidth = document.documentElement.clientWidth;
+
+			if ( y + yOffset + tipHeight <= winTop + winHeight ) y = y + yOffset;      // 1st choice: bottom
+			else if ( y - yOffset - tipHeight >= winTop ) y = y - yOffset - tipHeight; // 2nd choice: top
+			else { y = winTop + winHeight/2 - tipHeight/2; xOffset = 10; }             // 3rd choice: center
+
+			if ( x + xOffset + tipWidth <= winLeft + winWidth ) x = x + xOffset;       // 1st choice: right
+			else if ( x - xOffset - tipWidth >= winLeft ) x = x - xOffset - tipWidth;  // 2nd choice: left
+			else x = winLeft + winWidth/2 - tipWidth/2;                                // 3rd choice: middle
+
+			tooltip.appendTo(link);
+			var parentPos = $(link).offsetParent().offset();
+			tooltip.css( { left: x - parentPos.left + 'px', top: y - parentPos.top + 'px', display: 'block' } );
+		};
+
 		var cardLinkRegexp = /^https:\/\/scryfall\.com\/search\?q=%21%22([^&#]+)%22&utm_source=stackexchange$/;
 		$(document).on( 'mouseenter', 'a.soup-mtg-autocard', function (event) {
 			var m = cardLinkRegexp.exec( this.href );
 			if ( !m ) return;
-			tooltip.html('<img src="https://api.scryfall.com/cards/named?exact=' + m[1] + '&format=image&version=normal&utm_source=stackexchange" alt="">');
-			tooltip.css( 'display', 'block' );
+			cardParam = m[1];
+			link = this;
+			if ( !timeoutID ) timeoutID = setTimeout( showTooltip, 500 );
 		} );
-		$(document).on( 'mousemove mouseenter', 'a.soup-mtg-autocard', function (event) {
-			var x = event.pageX + 5, y = event.pageY + 5;
-			// try to keep the tooltip vertically within the viewport (we assume there's always enough space horizontally!)
-			var winTop = $window.scrollTop(), winHeight = $window.height(), tipHeight = 340;
-			if ( y + tipHeight > winTop + winHeight ) y = Math.max(winTop, winTop + winHeight - tipHeight);
-			tooltip.css( { left: x + 'px', top: y + 'px' } );
+		$(document).on( 'mouseenter mousemove', 'a.soup-mtg-autocard', function (event) {
+			mouseX = event.pageX;
+			mouseY = event.pageY;
+			if ( timeoutID ) {
+				clearTimeout( timeoutID );
+				timeoutID = setTimeout( showTooltip, 500 );
+			}
 		} );
 		$(document).on( 'mouseleave', 'a.soup-mtg-autocard', function (event) {
+			if ( timeoutID ) clearTimeout( timeoutID );
+			timeoutID = 0;
+			cardParam = "";
 			tooltip.css( 'display', 'none' );
 		} );
 	},
-	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777 }' +
-		'#soup-mtg-tooltip img { width: 100%; height: 100% }'
+	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777; color: #fff }' +
+		'#soup-mtg-tooltip img { width: 100%; height: 100% }' +
+		'#soup-mtg-tooltip div { width: inherit; height: inherit; text-align: center; display: table-cell; vertical-align: middle }'
 };
 fixes.french347 = {
 	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
