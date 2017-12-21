@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.28
+// @version     1.49.29
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1697,7 +1697,6 @@ fixes.boardgames1652= {
 			} );
 		};
 		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', null, ['load', 'post', 'preview'] );
-		fixCardLinks();
 		
 		// related issue: card links are not parsed in edit preview
 		// this code is loosely based on makeTagLinks() in https://dev.stackoverflow.com/content/Js/wmd.en.js
@@ -1724,19 +1723,32 @@ fixes.boardgames1652= {
 				} );
 			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
 		} );
-
-		// add hover tooltips for card links
-		// inspired by doppelgreener's HoverCard user script: https://boardgames.meta.stackexchange.com/q/1459
+	}
+};
+fixes.boardgames867= {
+	title:	"We should implement Magic the Gathering pop-ups on hover",
+	url:	"https://boardgames.meta.stackexchange.com/q/867",
+	credit:	"inspired by Marc Dingena's HoverCard user script (https://boardgames.meta.stackexchange.com/q/1459)",
+	sites:	/^boardgames\./,
+	script:	function () {
+		// set up the tooltip element; this will be appended to the card link and styled with the CSS below
 		var tooltip = $('<div id="soup-mtg-tooltip">');
 
-		var timeoutID = 0, mouseX = 0, mouseY = 0, cardParam = "", link = null;
+		// show the tooltip after the mouse hasn't been moved for 0.5 seconds, and position it near the cursor
+		var timeoutID = 0, mouseX = 0, mouseY = 0, linkElement = null, tooltipActive = false;
+		var linkRects = [], rectOffsetX = 0, rectOffsetY = 0;
 		var showTooltip = function () {
 			timeoutID = 0;
-			if ( !cardParam ) return;
-			tooltip.html('<img src="https://api.scryfall.com/cards/named?exact=' + cardParam + '&format=image&version=normal&utm_source=stackexchange" alt="">');
+			tooltipActive = true;
+			tooltip.html('<img alt="">').find('img').attr( 'src', $(linkElement).data('soup-mtg-tooltip-url') );
 			tooltip.find('img').on( 'error', function () { tooltip.html('<div>Card image loading failed.</div>') } );
 
-			// try to keep the tooltip within the viewport
+			// save the link bounding rectangles and offset for mousemove handler below
+			linkRects = linkElement.getClientRects();
+			rectOffsetX = window.scrollX;
+			rectOffsetY = window.scrollY;
+
+			// try to keep the tooltip within the viewport, and away from the cursor if possible
 			var x = mouseX, y = mouseY, xOffset = 0, yOffset = 10;
 			var tipHeight = 340, tipWidth = 244;  // TODO: adjust size for small screens?
 			var winTop = window.scrollY, winHeight = document.documentElement.clientHeight;
@@ -1744,43 +1756,74 @@ fixes.boardgames1652= {
 
 			if ( y + yOffset + tipHeight <= winTop + winHeight ) y = y + yOffset;      // 1st choice: bottom
 			else if ( y - yOffset - tipHeight >= winTop ) y = y - yOffset - tipHeight; // 2nd choice: top
-			else { y = winTop + winHeight/2 - tipHeight/2; xOffset = 10; }             // 3rd choice: center
+			else { y = winTop + winHeight/2 - tipHeight/2; xOffset = 10; }             // 3rd choice: center (with x offset)
 
 			if ( x + xOffset + tipWidth <= winLeft + winWidth ) x = x + xOffset;       // 1st choice: right
 			else if ( x - xOffset - tipWidth >= winLeft ) x = x - xOffset - tipWidth;  // 2nd choice: left
 			else x = winLeft + winWidth/2 - tipWidth/2;                                // 3rd choice: middle
 
-			tooltip.appendTo(link);
-			var parentPos = $(link).offsetParent().offset();
+			// attach the tooltip to the card link element
+			// XXX: this keeps the tooltip clickable and stops it from disappearing if the cursor enters it
+			tooltip.appendTo(linkElement);
+			var parentPos = $(linkElement).offsetParent().offset();
 			tooltip.css( { left: x - parentPos.left + 'px', top: y - parentPos.top + 'px', display: 'block' } );
 		};
-
-		var cardLinkRegexp = /^https:\/\/scryfall\.com\/search\?q=%21%22([^&#]+)%22&utm_source=stackexchange$/;
-		$(document).on( 'mouseenter', 'a.soup-mtg-autocard', function (event) {
-			var m = cardLinkRegexp.exec( this.href );
-			if ( !m ) return;
-			cardParam = m[1];
-			link = this;
-			if ( !timeoutID ) timeoutID = setTimeout( showTooltip, 500 );
-		} );
-		$(document).on( 'mouseenter mousemove', 'a.soup-mtg-autocard', function (event) {
-			mouseX = event.pageX;
-			mouseY = event.pageY;
-			if ( timeoutID ) {
-				clearTimeout( timeoutID );
-				timeoutID = setTimeout( showTooltip, 500 );
-			}
-		} );
-		$(document).on( 'mouseleave', 'a.soup-mtg-autocard', function (event) {
+		var hideTooltip = function () {
 			if ( timeoutID ) clearTimeout( timeoutID );
 			timeoutID = 0;
-			cardParam = "";
+			tooltipActive = false;
 			tooltip.css( 'display', 'none' );
+			// SOUP.log( 'soup mtg tooltip hidden' );
+		};
+		$(document).on( 'mouseenter mousemove', 'a.soup-mtg-tooltip', function (event) {
+			mouseX = event.pageX;
+			mouseY = event.pageY;
+			if ( tooltipActive && linkElement !== this ) hideTooltip();
+			linkElement = this;
+			if ( timeoutID ) clearTimeout( timeoutID );
+			timeoutID = ( tooltipActive ? 0 : setTimeout( showTooltip, 500 ) );
 		} );
+		$(document).on( 'mouseleave', 'a.soup-mtg-tooltip', hideTooltip );
+		tooltip.on( 'mouseenter mousemove', function (event) {
+			// check if the cursor is still over the original link
+			var x = event.pageX - rectOffsetX;
+			var y = event.pageY - rectOffsetY;
+			for (var i = 0; i < linkRects.length; i++) {
+				var rect = linkRects[i];
+				if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+					return;  // still over the link, do nothing
+				}
+			}
+			// if not, hide the tooltip
+			hideTooltip();
+		} );
+
+		// locate MtG card links and mark them for tooltip display
+		var cardLinkRegexp = /^(?:https?:)?\/\/(?:(?:www\.|gatherer\.)?wizards\.com\/(?:magic\/autocard\.asp|Pages\/Card\/Details\.aspx|Pages\/Search\/Default\.aspx|Handlers\/Image\.ashx)|scryfall\.com\/search)(\?[^#]+)/i;
+		var setTooltipURL = function (node, apiPath) {
+			var tooltipURL = 'https://api.scryfall.com' + apiPath + 'format=image&version=normal&utm_source=stackexchange';
+			$(node).addClass('soup-mtg-tooltip').data('soup-mtg-tooltip-url', tooltipURL );
+		}
+		var addMtGTooltips = function (where) {
+			$(where).find('a[href*="wizards.com"], a[href*="scryfall.com"]').each( function () {
+				var m = cardLinkRegexp.exec(this.href);
+				if ( !m ) return;
+				var params = new URLSearchParams( m[1] );
+				if ( params.has('multiverseid') ) {
+					setTooltipURL( this, '/cards/multiverse/' + Number( params.get('multiverseid') ) + '?' );
+				} else if ( params.has('page') || params.has('q') ) {
+					var cardName = decodeURIComponent( params.get('page') || params.get('q') );
+					cardName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+					cardName = cardName.replace(/\+/g, ' ').replace(/["\[\]]+/g, '').replace(/^\s*!?/, '');
+					setTooltipURL( this, '/cards/named?exact=' + encodeURIComponent(cardName) + '&' );
+				}
+			} );
+		};
+		SOUP.addContentFilter( addMtGTooltips, 'mtg hover tooltips', null, ['load', 'post', 'comments', 'preview'] );
 	},
 	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777; color: #fff }' +
 		'#soup-mtg-tooltip img { width: 100%; height: 100% }' +
-		'#soup-mtg-tooltip div { width: inherit; height: inherit; text-align: center; display: table-cell; vertical-align: middle }'
+		'#soup-mtg-tooltip div { display: table-cell; width: inherit; height: inherit; text-align: center; vertical-align: middle }'
 };
 fixes.french347 = {
 	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",

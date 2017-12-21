@@ -21,6 +21,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
 * [boardgames1652: Switch Magic autocard over to a different search engine, Scryfall](https://boardgames.meta.stackexchange.com/q/1652) (replaces [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152))
+* [boardgames867: We should implement Magic the Gathering pop-ups on hover](https://boardgames.meta.stackexchange.com/q/867)
 
 **Removed fixes:**
 
