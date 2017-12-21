@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.29
+// @version     1.49.30
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1663,7 +1663,7 @@ fixes.mso358862 = {
 //
 // Site-specific JS fixes:
 //
-fixes.boardgames1652= {
+fixes.boardgames1652 = {
 	title:	"Switch Magic autocard over to a different search engine, Scryfall",
 	url:	"https://boardgames.meta.stackexchange.com/q/1652",
 	// formerly https://boardgames.meta.stackexchange.com/q/1152
@@ -1725,7 +1725,7 @@ fixes.boardgames1652= {
 		} );
 	}
 };
-fixes.boardgames867= {
+fixes.boardgames867 = {
 	title:	"We should implement Magic the Gathering pop-ups on hover",
 	url:	"https://boardgames.meta.stackexchange.com/q/867",
 	credit:	"inspired by Marc Dingena's HoverCard user script (https://boardgames.meta.stackexchange.com/q/1459)",
@@ -1733,6 +1733,9 @@ fixes.boardgames867= {
 	script:	function () {
 		// set up the tooltip element; this will be appended to the card link and styled with the CSS below
 		var tooltip = $('<div id="soup-mtg-tooltip">');
+
+		// constants for tooltip positioning
+		var xOffset = 20, yOffset = 20;
 
 		// show the tooltip after the mouse hasn't been moved for 0.5 seconds, and position it near the cursor
 		var timeoutID = 0, mouseX = 0, mouseY = 0, linkElement = null, tooltipActive = false;
@@ -1745,28 +1748,42 @@ fixes.boardgames867= {
 
 			// save the link bounding rectangles and offset for mousemove handler below
 			linkRects = linkElement.getClientRects();
-			rectOffsetX = window.scrollX;
-			rectOffsetY = window.scrollY;
+			var winLeft = rectOffsetX = window.scrollX;
+			var winTop  = rectOffsetY = window.scrollY;
 
-			// try to keep the tooltip within the viewport, and away from the cursor if possible
-			var x = mouseX, y = mouseY, xOffset = 0, yOffset = 10;
-			var tipHeight = 340, tipWidth = 244;  // TODO: adjust size for small screens?
-			var winTop = window.scrollY, winHeight = document.documentElement.clientHeight;
-			var winLeft = window.scrollX, winWidth = document.documentElement.clientWidth;
+			// scale the tooltip down for very small screens
+			var winWidth = document.documentElement.clientWidth;
+			var winHeight = document.documentElement.clientHeight;
+			var tipWidth = 244, tipHeight = 340, scale = 1;
+			scale = Math.min( scale, winWidth / tipWidth );
+			scale = Math.min( scale, winHeight / tipHeight );
+			tipWidth = Math.floor(tipWidth * scale);
+			tipHeight = Math.floor(tipHeight * scale);
 
-			if ( y + yOffset + tipHeight <= winTop + winHeight ) y = y + yOffset;      // 1st choice: bottom
-			else if ( y - yOffset - tipHeight >= winTop ) y = y - yOffset - tipHeight; // 2nd choice: top
-			else { y = winTop + winHeight/2 - tipHeight/2; xOffset = 10; }             // 3rd choice: center (with x offset)
+			// try to position the tooltip on one side of the cursor, if possible
+			var x = mouseX - tipWidth/2, y = mouseY - tipHeight/2;  // default choice: centered on cursor
 
-			if ( x + xOffset + tipWidth <= winLeft + winWidth ) x = x + xOffset;       // 1st choice: right
-			else if ( x - xOffset - tipWidth >= winLeft ) x = x - xOffset - tipWidth;  // 2nd choice: left
-			else x = winLeft + winWidth/2 - tipWidth/2;                                // 3rd choice: middle
+			if ( mouseY + yOffset + tipHeight <= winTop + winHeight ) y = mouseY + yOffset;       // 1st choice: bottom
+			else if ( mouseY - yOffset - tipHeight >= winTop ) y = mouseY - yOffset - tipHeight;  // 2nd choice: top
+			else if ( mouseX + xOffset + tipWidth <= winLeft + winWidth ) x = mouseX + xOffset;   // 3rd choice: left
+			else if ( mouseX - xOffset - tipWidth >= winLeft ) x = mouseX - xOffset - tipWidth;   // 4th choice: right
 
-			// attach the tooltip to the card link element
+			// adjust coordinates to make sure the tooltip is inside the viewport
+			x = Math.min( Math.max( winLeft, x ), winLeft + winWidth - tipWidth );
+			y = Math.min( Math.max( winTop, y ), winTop + winHeight - tipHeight );
+
+			// attach the tooltip to the card link element and show it
 			// XXX: this keeps the tooltip clickable and stops it from disappearing if the cursor enters it
 			tooltip.appendTo(linkElement);
 			var parentPos = $(linkElement).offsetParent().offset();
-			tooltip.css( { left: x - parentPos.left + 'px', top: y - parentPos.top + 'px', display: 'block' } );
+			tooltip.css( {
+				width: tipWidth + 'px',
+				height: tipHeight + 'px',
+				'border-radius': (12 * scale) + 'px',
+				left: (x - parentPos.left) + 'px',
+				top: (y - parentPos.top) + 'px',
+				display: 'block'
+			} );
 		};
 		var hideTooltip = function () {
 			if ( timeoutID ) clearTimeout( timeoutID );
@@ -1821,7 +1838,7 @@ fixes.boardgames867= {
 		};
 		SOUP.addContentFilter( addMtGTooltips, 'mtg hover tooltips', null, ['load', 'post', 'comments', 'preview'] );
 	},
-	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777; color: #fff }' +
+	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; overflow: hidden; background: #777; color: #fff }' +
 		'#soup-mtg-tooltip img { width: 100%; height: 100% }' +
 		'#soup-mtg-tooltip div { display: table-cell; width: inherit; height: inherit; text-align: center; vertical-align: middle }'
 };
