@@ -89,6 +89,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 * [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
 * [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
+* [mso360855: Margins are off/unbalanced in inbox](https://meta.stackoverflow.com/q/360855)
 
 ### Site-specific CSS fixes
 

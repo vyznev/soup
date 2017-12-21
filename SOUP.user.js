@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.30
+// @version     1.49.31
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -301,6 +301,13 @@ fixes.mse304247 = {
 	title:	"Attempting to use too long tag breaks popup",
 	url:	"https://meta.stackexchange.com/q/304247",
 	css:	".message-text { word-wrap: break-word }"
+};
+fixes.mso360855 = {
+	title:	"Margins are off/unbalanced in inbox",
+	url:	"https://meta.stackoverflow.com/q/360855",
+	css:	".topbar-dialog.inbox-dialog .modal-content ul, " +
+		".topbar-dialog.modInbox-dialog .modal-content ul, " +
+		".topbar-dialog.achievements-dialog .modal-content ul { min-width: 345px }"
 };
 
 
@@ -1838,7 +1845,7 @@ fixes.boardgames867 = {
 		};
 		SOUP.addContentFilter( addMtGTooltips, 'mtg hover tooltips', null, ['load', 'post', 'comments', 'preview'] );
 	},
-	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; overflow: hidden; background: #777; color: #fff }' +
+	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; overflow: hidden; box-shadow: 2px 2px 10px #000; background: #777; color: #fff }' +
 		'#soup-mtg-tooltip img { width: 100%; height: 100% }' +
 		'#soup-mtg-tooltip div { display: table-cell; width: inherit; height: inherit; text-align: center; vertical-align: middle }'
 };
