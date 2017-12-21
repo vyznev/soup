@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.26
+// @version     1.49.27
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1727,23 +1727,27 @@ fixes.boardgames1652= {
 
 		// add hover tooltips for card links
 		// inspired by doppelgreener's HoverCard user script: https://boardgames.meta.stackexchange.com/q/1459
-		var tooltip = $('<div id="soup-mtg-tooltip" class="soup-hidden">');
+		var tooltip = $('<div id="soup-mtg-tooltip">').appendTo(document.body);
+		var $window = $(window);
 		var cardLinkRegexp = /^https:\/\/scryfall\.com\/search\?q=%21%22([^&#]+)%22&utm_source=stackexchange$/;
 		$(document).on( 'mouseenter', 'a.soup-mtg-autocard', function (event) {
-			SOUP.log( 'showing mtg tooltip for', this );
 			var m = cardLinkRegexp.exec( this.href );
 			if ( !m ) return;
 			tooltip.html('<img src="https://api.scryfall.com/cards/named?exact=' + m[1] + '&format=image&version=normal&utm_source=stackexchange" alt="">');
-			tooltip.appendTo(this).removeClass("soup-hidden");
-			
+			tooltip.css( 'display', 'block' );
+		} );
+		$(document).on( 'mousemove mouseenter', 'a.soup-mtg-autocard', function (event) {
+			var x = event.pageX + 5, y = event.pageY + 5;
+			// try to keep the tooltip vertically within the viewport (we assume there's always enough space horizontally!)
+			var winTop = $window.scrollTop(), winHeight = $window.height(), tipHeight = 340;
+			if ( y + tipHeight > winTop + winHeight ) y = Math.max(winTop, winTop + winHeight - tipHeight);
+			tooltip.css( { left: x + 'px', top: y + 'px' } );
 		} );
 		$(document).on( 'mouseleave', 'a.soup-mtg-autocard', function (event) {
-			SOUP.log( 'hiding mtg tooltip for', this );
-			tooltip.addClass("soup-hidden");
+			tooltip.css( 'display', 'none' );
 		} );
 	},
-	css:	'#soup-mtg-tooltip { display: inline-block; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777 }' +
-		'#soup-mtg-tooltip.soup-hidden { display: none }' +
+	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; width: 244px; height: 340px; overflow: hidden; box-shadow: 1px 1px 5px black; border-radius: 12px; background: #777 }' +
 		'#soup-mtg-tooltip img { width: 100%; height: 100% }'
 };
 fixes.french347 = {
