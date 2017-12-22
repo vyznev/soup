@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.32
+// @version     1.49.33
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1739,7 +1739,7 @@ fixes.boardgames867 = {
 	sites:	/^boardgames\./,
 	script:	function () {
 		// set up the tooltip element; this will be appended to the card link and styled with the CSS below
-		var tooltip = $('<div id="soup-mtg-tooltip">');
+		var tooltip = $('<div id="soup-mtg-tooltip">').appendTo(document.body);
 
 		// constants for tooltip positioning
 		var xOffset = 20, yOffset = 20;
@@ -1779,10 +1779,8 @@ fixes.boardgames867 = {
 			x = Math.min( Math.max( winLeft, x ), winLeft + winWidth - tipWidth );
 			y = Math.min( Math.max( winTop, y ), winTop + winHeight - tipHeight );
 
-			// attach the tooltip to the card link element and show it
-			// XXX: this keeps the tooltip clickable and stops it from disappearing if the cursor enters it
-			tooltip.appendTo(linkElement);
-			var parentPos = $(linkElement).offsetParent().offset();
+			// scale, position and show the tooltip
+			var parentPos = tooltip.offsetParent().offset();
 			tooltip.css( {
 				width: tipWidth + 'px',
 				height: tipHeight + 'px',
@@ -1807,7 +1805,11 @@ fixes.boardgames867 = {
 			if ( timeoutID ) clearTimeout( timeoutID );
 			timeoutID = ( tooltipActive ? 0 : setTimeout( showTooltip, 500 ) );
 		} );
-		$(document).on( 'mouseleave', 'a.soup-mtg-tooltip', hideTooltip );
+		$(document).on( 'mouseleave', 'a.soup-mtg-tooltip', function () {
+			// XXX: defer hiding so that the mouseenter handler below can cancel it
+			if ( timeoutID ) clearTimeout( timeoutID );
+			timeoutID = ( tooltipActive ? setTimeout( hideTooltip, 0 ) : 0 );
+		} );
 		tooltip.on( 'mouseenter mousemove', function (event) {
 			// check if the cursor is still over the original link
 			var x = event.pageX - rectOffsetX;
@@ -1815,10 +1817,16 @@ fixes.boardgames867 = {
 			for (var i = 0; i < linkRects.length; i++) {
 				var rect = linkRects[i];
 				if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-					return;  // still over the link, do nothing
+					// still over the link, abort hiding
+					if ( timeoutID ) clearTimeout( timeoutID );
+					timeoutID = 0;
+					return;
 				}
 			}
 			// if not, hide the tooltip
+			hideTooltip();
+		} );
+		tooltip.on( 'click', function (event) {
 			hideTooltip();
 		} );
 
