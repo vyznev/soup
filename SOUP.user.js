@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.31
+// @version     1.49.32
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1823,7 +1823,7 @@ fixes.boardgames867 = {
 		} );
 
 		// locate MtG card links and mark them for tooltip display
-		var cardLinkRegexp = /^(?:https?:)?\/\/(?:(?:www\.|gatherer\.)?wizards\.com\/(?:magic\/autocard\.asp|Pages\/Card\/Details\.aspx|Pages\/Search\/Default\.aspx|Handlers\/Image\.ashx)|scryfall\.com\/search)(\?[^#]+)/i;
+		var cardLinkRegexp = /^(?:https?:)?\/\/((?:www\.|gatherer\.)?wizards\.com\/(?:magic\/autocard\.asp|Pages\/Card\/Details\.aspx|Pages\/Search\/Default\.aspx|Handlers\/Image\.ashx)|scryfall\.com\/search)(\?[^#]+)/i;
 		var setTooltipURL = function (node, apiPath) {
 			var tooltipURL = 'https://api.scryfall.com' + apiPath + 'format=image&version=normal&utm_source=stackexchange';
 			$(node).addClass('soup-mtg-tooltip').data('soup-mtg-tooltip-url', tooltipURL );
@@ -1832,11 +1832,13 @@ fixes.boardgames867 = {
 			$(where).find('a[href*="wizards.com"], a[href*="scryfall.com"]').each( function () {
 				var m = cardLinkRegexp.exec(this.href);
 				if ( !m ) return;
-				var params = new URLSearchParams( m[1] );
+				var params = new URLSearchParams( m[2] );
 				if ( params.has('multiverseid') ) {
 					setTooltipURL( this, '/cards/multiverse/' + Number( params.get('multiverseid') ) + '?' );
-				} else if ( params.has('page') || params.has('q') ) {
-					var cardName = decodeURIComponent( params.get('page') || params.get('q') );
+				} else if ( params.has('name') || params.has('q') ) {
+					var cardName = decodeURIComponent( params.get('name') || params.get('q') );
+					// XXX: ignore scryfall links that aren't exact card name matches
+					if ( /^scryfall/.test( m[1] ) && ! /^!"[^"]+"$/.test( cardName ) ) return;
 					cardName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 					cardName = cardName.replace(/\+/g, ' ').replace(/["\[\]]+/g, '').replace(/^\s*!?/, '');
 					setTooltipURL( this, '/cards/named?exact=' + encodeURIComponent(cardName) + '&' );
