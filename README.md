@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.49 -->
+<!-- version: 1.50 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -46,7 +46,7 @@ Note that the development version of SOUP is currently only available as a user 
 Included fixes
 --------------
 
-SOUP v1.49
+SOUP v1.50
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 
