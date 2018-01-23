@@ -4,7 +4,7 @@
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
 // @version     1.49.34
-// @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
+// @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -23,7 +23,7 @@
 // ==/UserScript==
 
 
-// Copyright (C) 2014-2016 by Ilmari Karonen and other contributors
+// Copyright (C) 2014-2018 by Ilmari Karonen and other contributors
 //
 // Permission to use, copy, modify, and/or distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
