@@ -11,7 +11,7 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-SOUP can be installed either as a stand-alone browser extension or via a user script manager such as [Greasemonkey][GM] or [Tampermonkey][TM].
+SOUP can be installed either as a stand-alone browser extension or via a user script manager such as [Greasemonkey][GM], [Tampermonkey][TM] or [Violentmonkey][VM].
 
 SOUP has been mainly developed and tested on Firefox and Chrome.  It may also run on other browsers with user script support (via Tampermonkey or other compatible extensions), but has not been fully tested on them.  Any reports of cross-browser issues are welcome.
 
@@ -28,10 +28,12 @@ Note that updates to the extension packages available at Firefox Add-ons and Chr
 
 ### Installing as a user script
 
-To install SOUP as a user script, you first need to install a  user script manager such as [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM].  (Other Greasemonkey compatible user script managers should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
+To install SOUP as a user script, you first need to install a  user script manager such as [Greasemonkey][GM] (for Firefox), [Tampermonkey][TM] or [Violentmonkey][VM].  (Other Greasemonkey compatible user script managers should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
 
 > ### [<kbd>Download / Install SOUP</kbd>][DL]  
 > <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
+
+> <sup>NOTE: SOUP is compatible with Firefox 57 / Greasemonkey 4.  However, due to a [known bug](https://github.com/greasemonkey/greasemonkey/issues/2631 "bug #2631: GM 4.0 does not install scripts from GitHub (CSP/sandbox issue)"), installing SOUP (or any other user scripts) from GitHub may fail.  Until the bug is fixed (and until GM4 stabilizes more generally) I recommend using another user script manager (such as [Tampermonkey](https://tampermonkey.net/?ext=dhdg&browser=firefox "Tampermonkey for Firefox") or [Violentmonkey](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/ "Violentmonkey on Firefox Add-ons")) or [the stand-alone version of SOUP](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons") instead.</sup>
 
 ### Installing the development version
 
@@ -242,6 +244,7 @@ See also
    [wiki]: https://github.com/vyznev/soup/wiki "SOUP wiki on GitHub"
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"
    [TM]: https://tampermonkey.net/ "Tampermonkey"
+   [VM]: https://violentmonkey.github.io/about/ "Violentmonkey"
    [chrome-ext]: https://support.google.com/chrome/answer/187443 "Chrome > Help > Manage your extensions"
    [vyznev]: https://meta.stackexchange.com/users/174699/ilmari-karonen "User Ilmari Karonen - Meta Stack Exchange"
    [SA]: https://stackapps.com/questions/4486/stack-overflow-unofficial-patch "Stack Overflow Unofficial Patch on Stack Apps"
