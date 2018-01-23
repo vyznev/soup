@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.49.33
+// @version     1.49.34
 // @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1662,6 +1662,21 @@ fixes.mso358862 = {
 			var buttons = $('.popup-submit:not(.soup-enable-locked)');
 			buttons.not('[disabled]').addClass('soup-delayed-enable');
 			buttons.disable().addClass('soup-enable-locked');
+		} );
+	}
+};
+fixes.mse286345 = {
+	title:	"Mobile search made impossible with keyboard shortcuts enabled",
+	url:	"https://meta.stackexchange.com/q/286345",
+	// XXX: despite the title, this bug is not actually mobile specific
+	script:	function () {
+		var selector = "textarea, input:not([type=checkbox],[type=radio],[type=submit],[type=button],[type=image],[type=reset])";
+		StackExchange.ifUsing( 'keyboardShortcuts', function () {
+			// the SE keyboard shortcuts script installs its own handler on $(document), so we should catch the events first
+			$(document.body).on('keypress', selector, function (event) {
+				event.stopPropagation();
+				return true;
+			} );
 		} );
 	}
 };

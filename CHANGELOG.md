@@ -23,6 +23,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [boardgames1652: Switch Magic autocard over to a different search engine, Scryfall](https://boardgames.meta.stackexchange.com/q/1652) (replaces [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152))
 * [boardgames867: We should implement Magic the Gathering pop-ups on hover](https://boardgames.meta.stackexchange.com/q/867)
 * [mso360855: Margins are off/unbalanced in inbox](https://meta.stackoverflow.com/q/360855)
+* [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
 
 **Removed fixes:**
 
