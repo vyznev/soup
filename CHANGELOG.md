@@ -3,6 +3,50 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
+1.50 (2018-01-23)
+====
+
+**New fixes in 1.50.0:**
+
+* [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
+* [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
+* [mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082) (on aviation, bicycles, gaming, movies, music, scifi, space and video)
+* [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623) (for mobile view)
+* [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
+* [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
+* [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/9071)
+* [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
+* [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
+* [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
+* [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
+* [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
+* [boardgames1652: Switch Magic autocard over to a different search engine, Scryfall](https://boardgames.meta.stackexchange.com/q/1652) (replaces [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152))
+* [boardgames867: We should implement Magic the Gathering pop-ups on hover](https://boardgames.meta.stackexchange.com/q/867)
+* [mso360855: Margins are off/unbalanced in inbox](https://meta.stackoverflow.com/q/360855)
+* [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
+
+**Removed fixes:**
+
+* [mse143973: Images can be pushed outside the boundaries of a post by using nested lists](https://meta.stackexchange.com/q/143973) (fixed)
+* [mse210165: Extra blue line appearing in the top bar (Firefox only)](https://meta.stackexchange.com/q/210165) (fixed by new top bar)
+* [mse240710: Was the fringe always there on the up-rep icon?](https://meta.stackexchange.com/q/240710) (obsolete due to new top bar)
+* [mse207526: Cannot navigate into the multicollider with keyboard](https://meta.stackexchange.com/q/207526) (no longer works with new top bar, removed pending possible rewrite)
+* [boardgames1152: Can the Magic card auto link feature be improved?](https://boardgames.meta.stackexchange.com/q/1152) (replaced by [boardgames1652](https://boardgames.meta.stackexchange.com/q/1652))
+
+**Other changes:**
+
+* [mse299086](https://meta.stackexchange.com/q/299086) fix no longer breaks old links to metas of renamed sites (like http://meta.programmers.stackexchange.com).
+* Add `@noframes` to userscript header to avoid needlessly loading the script for child frames.  (SOUP has already refused to actually injects its code into child frames since v1.40.)
+* Rewrite [mse243519](https://meta.stackoverflow.com/q/243519) fix to work also in Chrome and to avoid layout jumps ([issue #30](https://github.com/vyznev/soup/issues/30)).
+* Update [movies1652](https://movies.meta.stackexchange.com/q/1652), [mse210132](https://meta.stackexchange.com/q/210132), [mse121682](https://meta.stackexchange.com/q/121682) and [mse223737](https://meta.stackexchange.com/q/223737) CSS / query selectors for new top bar structure.
+* Remove klugy `SOUP.userRep` property in favor of `StackExchange.options.user.rep`.
+* Rewrite [mso338932](https://meta.stackoverflow.com/q/338932) fix without using `touchstart` events to avoid [scroll performance issues](https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md#the-problem).
+* Enabled the [movies1652](https://movies.meta.stackexchange.com/q/1652) fix also on workplace.SE, per https://workplace.meta.stackexchange.com/q/4917.
+* [mse217779](https://meta.stackexchange.com/q/217779): Make spoilers visible in print, stop the placeholder text from intercepting mouse clicks.
+* [mso306552](https://meta.stackoverflow.com/q/306552) was broken by new inline SVG icons, reimplement in pure CSS (with a new custom icon design).
+* Partially rewrote and renamed [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152) as [boardgames1652](https://boardgames.meta.stackexchange.com/q/1652).
+
+
 1.48 (20 Sep 2017)
 ====
 
@@ -17,7 +61,7 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748) (CSS)
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
-* [mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/299086)
+* [mse299086: HTTPS certificate error for meta redirect pages (meta.&lt;site&gt;.stackexchange.com)](https://meta.stackexchange.com/q/299086)
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496) (CSS)
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
 * [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)

@@ -3,8 +3,8 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.48.4
-// @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.50.0
+// @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -19,6 +19,7 @@
 // @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
+// @noframes
 // ==/UserScript==
 
 // This metadata block is automatically extracted from SOUP.user.js.

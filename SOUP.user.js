@@ -3,8 +3,8 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.48.4
-// @copyright   2014-2017, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.50.0
+// @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -19,10 +19,11 @@
 // @icon        https://github.com/vyznev/soup/raw/master/icon/SOUP_icon_128.png
 // @grant       none
 // @run-at      document-start
+// @noframes
 // ==/UserScript==
 
 
-// Copyright (C) 2014-2016 by Ilmari Karonen and other contributors
+// Copyright (C) 2014-2018 by Ilmari Karonen and other contributors
 //
 // Permission to use, copy, modify, and/or distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -51,7 +52,7 @@
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 if ( ! include_re.test( location.hostname ) ) return;
 
-// we don't want to mess with iframes; SE does frame-busting anyway, so any real SE pages should be in top-level frames
+// just in case @noframes doesn't work
 try { if ( window.self !== window.top ) return } catch (e) { return }
 
 // guard against double inclusion (e.g. user script + extension)
@@ -76,13 +77,6 @@ fixes.mse114109 = {
 	url:	"https://meta.stackexchange.com/q/114109",
 	// NOTE 2014-11-26: this has been mostly fixed by increasing line-height in comments; remove this fix?
 	css:	".comment-copy { position: relative }"
-};
-fixes.mse143973 = {
-	title:	"Images can be pushed outside the boundaries of a post by using nested lists",
-	url:	"https://meta.stackexchange.com/q/143973",
-	credit:	"animuson",
-	// "body" added to increase selector precedence above conflicting SE style
-	css:	"body .post-text img, body .wmd-preview img { max-width: 100% }"
 };
 fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",
@@ -122,12 +116,6 @@ fixes.mse203405 = {
 		".privileges-page .privilege-table-row div:not(.checkmark)" +
 		" { display: table-cell; padding: 1em 0.2em }"
 }
-fixes.mse210165 = {
-	title:	"Extra blue line appearing in the top bar (Firefox only)",
-	url:	"https://meta.stackexchange.com/q/210165",
-	css:	".topbar .hidden-text { display: none }" +
-		".topbar .topbar-icon, .topbar .profile-me { color: #e0e0e0 }"
-};
 fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"https://meta.stackexchange.com/q/154788",
@@ -185,11 +173,6 @@ fixes.mse84296 = {
 	// NOTE: the #chat-body selectors and the .soup-bidi-isolate class are used by the mse342361 fix
 	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate ' +
 		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
-};
-fixes.mse240710 = {
-	title:	"Was the fringe always there on the up-rep icon?",
-	url:	"https://meta.stackexchange.com/q/240710",
-	css:	".topbar .unread-count { min-height: 11px; min-width: 5px }"
 };
 fixes.mse249859 = {
 	title:	"<kbd> tags in headings are too small",
@@ -266,7 +249,66 @@ fixes.mse290496 = {
 	url:	"https://meta.stackexchange.com/q/290496",
 	css:	"body.badges-page .single-badge-table .single-badge-row-double .single-badge-awarded { width: 100% }"
 };
-
+fixes.mse291623 = {
+	title:	"Links that are italics and bold not showing as links in Mobile Web",
+	url:	"https://meta.stackexchange.com/q/291623",
+	// this fix is only for the mobile view, but should be harmless in the full site view
+	css:	".post-text em, .post-text a>em { color: inherit }"
+};
+fixes.mse287196 = {
+	title:	"Tick sign is not centered on single badge page",
+	url:	"https://meta.stackexchange.com/q/287196",
+	css:	"body.badges-page .single-badge-table .single-badge-wrapper .single-badge-badge { vertical-align: baseline }"
+};
+fixes.mse302580 = {
+	title:	"Printing an SE page in Firefox shows only the first page",
+	url:	"https://meta.stackexchange.com/q/302580",
+	css:	"@media print {\nbody { display: block !important }}"
+};
+fixes.mse302569 = {
+	title:	"Alignment improvement in the flag dialog",
+	url:	"https://meta.stackexchange.com/q/302569",
+	css:	"body .popup .already-flagged { margin-left: 23px }"
+};
+fixes.mse304096 = {
+	title:	"Comments and answers have huge right margins when printed",
+	url:	"https://meta.stackexchange.com/q/304096",
+	css:	"@media print {\n" +
+		"body .container, body .post-text, body .comments, body #answers-header, body .answer, body pre { width: auto }" +
+		".question > table, .answer > table { width: 100% }" +
+		"body .comment-body { max-width: none }" + // override mse154788
+		"}"
+};
+fixes.mso306552 = {
+	title:	"Votes cast has upvote-like symbol and is confusing",
+	url:	"https://meta.stackoverflow.com/q/306552",
+	path:	/^\/users\/\d+/,
+	css:	'.p-highlights .-community-stats > .g-row[title$="votes cast"] svg.iconArrowUp { display: none }' +
+		'.p-highlights .-community-stats > .g-row[title$="votes cast"] .-icon { background: url(data:image/svg+xml,' + encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" stroke="#9199a1">' +
+			'<path d="M3 7.5h12L9 1.5z" fill="#9199a1"/>' +
+			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
+			'</svg>'
+		) + '); width: 18px; height: 18px }' +
+		'.p-highlights .-community-stats > .g-row[title$="votes cast"]:hover .-icon { background: url(data:image/svg+xml,' + encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" stroke="#6a737c">' +
+			'<path d="M3 7.5h12L9 1.5z" fill="#6a737c"/>' +
+			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
+			'</svg>'
+		) + ') }'
+};
+fixes.mse304247 = {
+	title:	"Attempting to use too long tag breaks popup",
+	url:	"https://meta.stackexchange.com/q/304247",
+	css:	".message-text { word-wrap: break-word }"
+};
+fixes.mso360855 = {
+	title:	"Margins are off/unbalanced in inbox",
+	url:	"https://meta.stackoverflow.com/q/360855",
+	css:	".topbar-dialog.inbox-dialog .modal-content ul, " +
+		".topbar-dialog.modInbox-dialog .modal-content ul, " +
+		".topbar-dialog.achievements-dialog .modal-content ul { min-width: 345px }"
+};
 
 
 // site-specific CSS fixes:
@@ -274,7 +316,7 @@ fixes.math12803a = {
 	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 1)",
 	url:	"https://math.meta.stackexchange.com/q/12803",
 	// this part of the fix is only enabled on math.SE, since other sites use different fonts
-	sites:	/^(meta\.)?math\./,
+	sites:	/^math\./,
 	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }"
 };
 fixes.math12803b = {
@@ -286,13 +328,13 @@ fixes.math12803b = {
 fixes.codegolf959 = {
 	title:	"Add line-height shortener to the ascii-art tag",
 	url:	"https://codegolf.meta.stackexchange.com/q/959",
-	sites:	/^(meta\.)?(codegolf|puzzling)\./,
+	sites:	/^(codegolf|puzzling)\./,
 	css:	"pre { line-height: 1.15 }"
 };
 fixes.math12902 = {
 	title:	"Visited questions are practically indistinguishable in search results",
 	url:	"https://math.meta.stackexchange.com/q/12902",
-	sites:	/^math\.stackexchange\./,
+	sites:	/^math\.stackexchange\.com$/,  // XXX: main site only!
 	// "body" added to override conflicting SE styles
 	css:	"body a, body .question-hyperlink { color: #145d8a }" + 
 		"body a:visited, body .question-hyperlink:visited { color: #003b52 }" +
@@ -307,27 +349,27 @@ fixes.math12902 = {
 fixes.math12902_meta = {
 	title:	"Visited questions are practically indistinguishable in search results (meta)",
 	url:	"https://math.meta.stackexchange.com/q/12902",
-	sites:	/^meta\.math\.|^math\.meta\./,
+	sites:	/^math\.meta\.stackexchange\.com$/,
 	// "body" added to override conflicting SE styles
 	css:	"body a { color: #a29131 } body a:visited { color: #736722 }"
 };
 fixes.math16559 = {
 	title:	"Typo in site CSS disables visited link color in community bulletin",
 	url:	"https://math.meta.stackexchange.com/q/16559",
-	sites:	/^math\.stackexchange\./,
+	sites:	/^math\.stackexchange\.com$/,
 	// this rule is already in the site CSS, but without the colon in "a:visited"
 	css:	".module.community-bulletin a:visited { color: #32455d !important }"
 };
 fixes.math16559_meta = {
 	title:	"Typo in site CSS disables visited link color in community bulletin (meta)",
 	url:	"https://math.meta.stackexchange.com/q/16559",
-	sites:	/^meta\.math\.|^math\.meta\./,
+	sites:	/^math\.meta\.stackexchange\.com$/,
 	css:	".module.community-bulletin a:visited { color: #444 !important }"
 };
 fixes.electronics3162 = {
 	title:	"Error for profile less info",
 	url:	"https://electronics.meta.stackexchange.com/q/3162",
-	sites:	/^(meta\.)?electronics\./,
+	sites:	/^electronics\./,
 	// .user-header added to increase specificity over conflicting SE style
 	css:	".user-show-new .user-header.user-header-slim .data { width: auto !important }"
 };
@@ -340,7 +382,7 @@ fixes.electronics4038 = {
 fixes.mso286009 = {
 	title:	"Change [Ask Question] button style",
 	url:	"https://meta.stackoverflow.com/q/286009",
-	sites:	/^(meta\.)?stackoverflow\./,
+	sites:	/^stackoverflow\.com$/,
 	css:	".nav.askquestion { margin-left: 26px }"
 };
 fixes.mse250407 = {
@@ -352,21 +394,22 @@ fixes.cooking2049 = {
 	title:	"Ads are cut off on the right",
 	url:	"https://cooking.meta.stackexchange.com/q/2049",
 	credit:	"Jefromi",
-	sites:	/^(meta\.)?cooking\./,
+	sites:	/^cooking\./,
 	css:	"body .everyonelovesstackoverflow { padding: 0 }"
 };
 fixes.movies1652 = {
 	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
 	url:	"https://movies.meta.stackexchange.com/q/1652",
-	sites:	/^(meta\.)?movies\./,
-	css:	".topbar .topbar-links .topbar-flair .badge1, " +
-		".topbar .topbar-links .topbar-flair .badge2, " +
-		".topbar .topbar-links .topbar-flair .badge3 { margin: 0 }"
+	// see also https://workplace.meta.stackexchange.com/q/4917
+	sites:	/^(movies|workplace)\./,
+	css:	".top-bar .my-profile .-badges .badge1, " +
+		".top-bar .my-profile .-badges .badge2, " +
+		".top-bar .my-profile .-badges .badge3 { margin: 0 }"
 };
 fixes.graphicdesign2415 = {
 	title:	"Design Bug: Tag alert CSS",
 	url:	"https://graphicdesign.meta.stackexchange.com/q/2415",
-	sites:	/^(meta\.)?graphicdesign\./,
+	sites:	/^graphicdesign\./,
 	css:	"body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag), body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag):visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 fixes.mse244587 = {
@@ -489,18 +532,21 @@ fixes.mso342361 = {
 fixes.mse217779 = {
 	title:	"The CSS for spoilers is a mess. Let's fix it!",
 	url:	"https://meta.stackexchange.com/q/217779",
-	css:	".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
+	css:	"@media screen {\n" +
+		".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
 		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
 		// backup to avoid accidentally revealing spoilers while waiting for JS fix to run
 		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
 		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
 		// bonus: differentiate spoilers from empty blockquotes, per https://meta.stackexchange.com/q/104085
-		".soup-spoiler::before, .spoiler::before { position: absolute; content: 'spoiler: hover / click to reveal'; color: #bbb; transition: opacity 0.5s ease-in 0.5s } " +
-		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; transition: opacity 0.5s ease-in 0s }" +
+		".soup-spoiler, .spoiler { min-height: 1em }" +  // ensure that the notice is visible even if the spoiler is empty
+		".soup-spoiler::before, .spoiler::before { position: absolute; width: 100%; content: 'spoiler: hover / click to reveal'; opacity: 0.25; transition: opacity 0.5s ease-in 0.5s } " +
+		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; width: 0; overflow: hidden; transition: opacity 0.5s ease-in 0s, width 0s 0.5s }" +
 		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
 		".diffs .soup-spoiler:not(:hover) > div, .body-diffs .soup-spoiler:not(:hover) > div { opacity: 0.25 }" +
 		".diffs .soup-spoiler:hover > div, .body-diffs .soup-spoiler:hover > div { transition: all 1s }" +
-		".diffs .soup-spoiler::before, .diffs .spoiler::before, .body-diffs .soup-spoiler::before, .body-diffs .spoiler::before { content: '' } ",
+		".diffs .soup-spoiler::before, .diffs .spoiler::before, .body-diffs .soup-spoiler::before, .body-diffs .spoiler::before { content: ''; width: 0 } " +
+		"}",
 	script:	function () {
 		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
 		var fixSpoilers = function (where) {
@@ -527,44 +573,6 @@ fixes.mse78989 = {
 			var href = $('#tabs a[href*="?sort="]:first').attr('href');
 			if ( href ) location.replace( href );
 		}
-	}
-};
-fixes.mse207526 = {
-	title:	"Cannot navigate into the multicollider with keyboard",
-	url:	"https://meta.stackexchange.com/q/207526",
-	script:	function () {
-		if ( !window.StackExchange || !StackExchange.topbar ) return;
-
-		// FIXME: this fix messes up dialog placement on the new SO topbar (https://meta.stackoverflow.com/q/343103)
-		if ( $('body > div.topbar > div.topbar-wrapper > div.js-topbar-dialog-corral').length != 1 ) {
-			// SOUP.log('soup mse207526: expected topbar structure not found, skipping fix to avoid incompatibility with new topbar.');
-			return;
-		}
-        
-		SOUP.hookAjax( /^\/topbar\//, function () {
-			$('.js-site-switcher-button').after($('.siteSwitcher-dialog'));
-			$('.js-inbox-button').after($('.inbox-dialog'));
-			$('.js-achievements-button').after($('.achievements-dialog'));
-		} );
-		// fix bug causing clicks on the site search box to close the menu
-		// XXX: this would be a lot easier if jQuery bubbled middle/right clicks :-(
-		var fixTopbarClickHandler = function () {
-			SOUP.getEventHandlers( document, 'click' ).forEach( function (h) {
-				if ( !/\$corral\b/.test( h.handler.toString() ) ) return;
-				var oldHandler = h.handler;
-				h.handler = function (e) {
-					if ( $(e.target).closest('.topbar-dialog').length ) return;
-					return oldHandler.apply(this, arguments);
-				};
-			} );
-		};
-		SOUP.try( 'topbar click handler fix', fixTopbarClickHandler );
-		// XXX: on chat, this fix might run before the topbar is initialized
-		var oldInit = StackExchange.topbar.init;
-		StackExchange.topbar.init = function () {
-			oldInit.apply(this, arguments);
-			SOUP.try( 'topbar click handler fix (deferred)', fixTopbarClickHandler );
-		};
 	}
 };
 fixes.mse261721 = {
@@ -607,7 +615,7 @@ fixes.mse210132 = {
 	title:	"New top bar should render avatar with a transparent background",
 	url:	"https://meta.stackexchange.com/q/210132",
 	script:	function () {
-		$('.topbar img.avatar-me[src*="//i.stack.imgur.com/"]').attr(
+		$('.top-bar .my-profile .gravatar-wrapper-24 img.js-avatar-me[src*="//i.stack.imgur.com/"]').attr(
 			'src', function (i,v) { return v.replace( /\?.*$/, "" ) }
 		).css( { 'max-width': '24px', 'max-height': '24px' } );
 	}
@@ -640,7 +648,7 @@ fixes.mse172931 = {
 	path:	/^\/review\b/,
 	script:	function () {
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
-			$('.reviewable-post').not(':has(.answer)').each( function () {
+			$('.reviewable-post').not(':has(.answer, .diffs)').each( function () {
 				var post = $(this), question = post.find('.question');
 				
 				// initial check to see if there are any answers to load
@@ -703,7 +711,7 @@ fixes.mse115702 = {
 	title:	"Option to delete an answer only visible after a reload",
 	url:	"https://meta.stackexchange.com/q/115702",
 	script:	function () {
-		if ( SOUP.userRep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
+		if ( StackExchange.options.user.rep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
 		function updateDeleteLinks( postid, score ) {
@@ -871,11 +879,12 @@ fixes.mse243519 = {
 	title:	"Dangling signature dash in comments",
 	url:	"https://meta.stackoverflow.com/q/243519",
 	script:	function () {
+		var wrapper = $('<div> <span style="white-space:nowrap">– </span></div>').contents();
 		SOUP.addContentFilter( function () {
-			$('.comment-user').each( function () { 
+			$('.comment-body > .comment-user').each( function () { 
 				var prev = this.previousSibling;
-				if ( prev.nodeType != 3 ) return;
-				prev.nodeValue = prev.nodeValue.replace( /^\s*–\xA0\s*$/, " \xA0–\xA0" );
+				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*–[\xA0\s]*$/.test(prev.nodeValue) ) return;
+				wrapper.clone().replaceAll(prev).append(this);
 			} );
 		}, 'mse243519', null, ['load', 'post', 'comments'] );
 	}
@@ -905,7 +914,7 @@ fixes.mse121682 = {
 		}
 		// part B: fix inbox links directly
 		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
-			$('.topbar .inbox-item a[href*="/election/"]').attr( 'href', function (i, href) {
+			$('.topbar-dialog.inbox-dialog .inbox-item a[href*="/election/"]').attr( 'href', function (i, href) {
 				return href.replace( regex, repl );
 			} );
 		} );
@@ -1176,16 +1185,6 @@ fixes.mse259325 = {
 		} );
 	}
 };
-fixes.mso306552 = {
-	title:	"Votes cast has upvote-like symbol and is confusing",
-	url:	"https://meta.stackoverflow.com/q/306552",
-	credit:	"AgeDeO and misterManSam",
-	path:	/^\/users\/\d+/,
-	script:	function () {
-		$('body.user-page .impact-card .icon-vote-cast').removeClass('icon-vote-cast').addClass('icon-up-down soup-mso306552-tweak');
-	},
-	css:	"body.user-page .impact-card .icon-up-down.soup-mso306552-tweak { margin: 0 4px 0 -3px }"
-};
 fixes.mse268584 = {
 	title:	"When a user is deleted, OP highlighting is lost",
 	url:	"https://meta.stackexchange.com/q/268584",
@@ -1285,7 +1284,7 @@ fixes.mse223737 = {
 	script:	function () {
 		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
 			if ( $('#soup-mse223737-link').length > 0 ) return;
-			$('.topbar .inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar .inbox-dialog h3:first-of-type');
+			$('.topbar-dialog.inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar-dialog.inbox-dialog h3:first-of-type');
 		} ).code();
 	},
 	css:	"#soup-mse223737-link { float: right }"
@@ -1372,19 +1371,22 @@ fixes.mso338932 = {
 	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
 	url:	"https://meta.stackoverflow.com/q/338932",
 	script:	function () {
-		// also fix the citation helper button on MO; see https://meta.mathoverflow.net/a/3295
-		var buttonSelector = '.wmd-snippet-button > span, .wmd-cite-button > span';
 		var bypassTouchBlocker = function () {
+			var $this = $(this);
 			// to minimize risk of unwanted side effects, only disable the preview pane touchend handler if the snippet editor is enabled
-			if ( $(this).is(buttonSelector) || $(this).closest('.post-editor').has('.wmd-snippet-button') ) $(this).off('touchend');
+			if ( $this.has('.wmd-snippet-button') ) $this.find('.wmd-preview').off('touchend');
+			// also fix the citation helper button on MO; see https://meta.mathoverflow.net/a/3295
+			$this.find('.wmd-snippet-button > span, .wmd-cite-button > span').off('touchend');
 		};
+		// the SE prepareWmd() callback adds these handlers, we strip them :)
 		SOUP.addEditorCallback( function ( editor, postfix ) {
-			$('#post-editor' + postfix).on( 'touchstart', buttonSelector, bypassTouchBlocker );
-			$('#wmd-preview' + postfix).on( 'touchstart', bypassTouchBlocker );
+			// the button touch handlers are added in a setTimeout(..., 0) callback
+			setTimeout( function () {
+				$('#post-editor' + postfix).each( bypassTouchBlocker );
+			}, 1 );
 		} );
 		// just in case, also fix any editors that have already been initialized
-		$('.post-editor').on( 'touchstart', buttonSelector, bypassTouchBlocker );
-		$('.wmd-preview').on( 'touchstart', bypassTouchBlocker );
+		$('.post-editor').each( bypassTouchBlocker );
 	}
 };
 fixes.mse287473 = {
@@ -1468,10 +1470,33 @@ fixes.mse299086 = {
 	// and https://meta.stackexchange.com/questions/297042/chat-links-to-meta-sites-have-been-rewritten-with-invalid-https
 	script:	function () {
 		var selector = 'a[href*="//meta."], a[href*="//discuss.area51"]';
-		var regexp   = /^(meta|discuss)\.([^.]+)\.(stackexchange\.com)$/;
-		var fixLink  = function () {
-			if ( ! regexp.test(this.hostname) ) return;
-			this.hostname = this.hostname.replace( regexp, '$2.meta.$3' );
+		var regexp   = /^(meta|discuss)\.([^.]+)\.stackexchange\.com$/;
+		// old site aliases don't have redirects from https://<alias>.meta.stackexchange.com
+		// data source: https://api.stackexchange.com/2.2/sites?pagesize=99999&filter=!6P.EhvnWknhjL
+		var aliases = {
+			"askpatents": "patents",
+			"avp": "video",
+			"beer": "alcohol",
+			"bicycle": "bicycles",
+			"cryptography": "crypto",
+			"garage": "mechanics",
+			"homebrewing": "homebrew",
+			"itsecurity": "security",
+			"linux": "unix",
+			"moderators": "communitybuilding",
+			"photography": "photo",
+			"photos": "photo",
+			"programmers": "softwareengineering",
+			"statistics": "stats",
+			"tv": "movies",
+			"ui": "ux",
+			"vegetarian": "vegetarianism",
+			"webmaster": "webmasters"
+		};
+		var fixLink = function () {
+			var m = regexp.exec( this.hostname );
+			if (!m) return;
+			this.hostname = (aliases[m[2]] || m[2]) + '.meta.stackexchange.com';
 			this.protocol = 'https:';
 		};
 		var fixAllLinks = function (where) { $(where).find(selector).each(fixLink) };
@@ -1530,42 +1555,170 @@ fixes.mso345590 = {
 		maybeToggleHeaderFix();
 	}
 };
+fixes.mse213709 = {
+	title:	"Allow flagging comments on mobile site",
+	url:	"https://meta.stackexchange.com/q/213709",
+	script:	function () {
+		if ( ! SOUP.isMobile ) return;
+		SOUP.addContentFilter( function (where) {
+			SOUP.log('soup mse213709 fix active');
+			$(where).find('.comment-actions:has(.comment-up, .comment-up-on):not(:has(.comment-flag)) > table > tbody').append(
+				'<tr><td></td><td><a class="comment-flag soup-comment-flag" title="flag this comment"></a></td></tr>'
+			);
+		}, 'mobile comment flag link fix', null, ['load', 'post', 'comments'] );
+		$(document.body).addClass('soup-mse213709');
+	},
+	css:	".soup-comment-flag { display: block; margin: 0 auto; height: 20px; width: 20px; text-indent: -999em;" +
+		" background-repeat: no-repeat; background-position: 2px 6px; background-size: 16px;" +
+		" background-image: url('data:image/svg+xml," +  encodeURIComponent(
+			'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" viewBox="0 0 32 22">' +
+			'<path stroke="#77808E" stroke-width="2" d="M11 1h16v12h-16zM7 0V22" fill="none"/></svg>'
+		) + "') }" +
+		"body.soup-mse213709 .popup-flag-comment { position: absolute; left: 20px; right: 20px; width: auto; text-align: left; z-index: 3 }"
+};
+fixes.mso356880 = {
+	title:	"“This post has been edited x time since you began” persists after saving the question",
+	url:	"https://meta.stackoverflow.com/q/356880",
+	path:	/^\/review\b/,
+	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.notify || ! StackExchange.notify.close ) return;
+		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
+			StackExchange.notify.close(-2);
+		} );
+	}
+};
+fixes.mse303599 = {
+	title:	"The “Flag” modal keeps going down",
+	url:	"https://meta.stackexchange.com/q/303599",
+	// override jQuery .offset() to act like .position() for the flag/close popups
+	// XXX: this is tricky because .position() calls .offset() internally
+	script:	function () {
+		var oldOffset = $.fn.offset, inOffset = false;
+		$.fn.offset = function () {
+			if ( inOffset || arguments.length > 0 || this.length > 1 || ! this.is('#popup-flag-post, #popup-close-question') ) {
+				return oldOffset.apply(this, arguments);
+			} else try {
+				inOffset = true;
+				return this.position();
+			} finally {
+				inOffset = false;
+			}
+		};
+	}
+};
+fixes.mse90713 = {
+	title:	"Show “this question has an active bounty and cannot be closed” earlier, when it applies",
+	url:	"https://meta.stackexchange.com/q/90713",
+	// XXX: the bounty detection won't work in review; hopefully bountied questions should rarely appear there
+	path:	/^\/questions\/\d+\b/,
+	script:	function () {
+		if ( $('#question .bounty-notification .question-status.bounty').length == 0 ) return;  // no bounty => nothing to do
+
+		var notice = '<div class="soup-mse90713-notice">This question has an open bounty and cannot be closed.</div>';
+
+		// disable any radio buttons that don't open a submenu
+		// TODO: super-disable the submit button instead? (see mso358862 fix below)
+		SOUP.hookAjax( /^\/flags\/questions\/\d+\/close\/popup\b/, function () {
+			$('#popup-close-question h2.popup-title-container').after( notice );
+			$('#popup-close-question input[type=radio]:not([data-subpane-name][data-subpane-name!=""])').disable();
+		} );
+		// also prevent the dupe finder from enabling the submit button
+		SOUP.hookAjax( /^\/posts\/popup\/close\/search-originals\/\d+\b/, function () {
+			$('#popup-close-question .popup-submit').disable();
+		} );
+	},
+	// the colors are based on the .message.message-error style in all.css on SO
+	css:	".soup-mse90713-notice { color: #F9ECED; background-color: #C04848; text-align: center; padding: 11px; margin-bottom: 4px }"
+};
+fixes.mso358862 = {
+	title:	"5 seconds is too long, but if it must be, then give me a visual cue",
+	url:	"https://meta.stackoverflow.com/q/358862",
+	script:	function () {
+		// override the SE jQuery .enable() extension to allow temporarily locking the disable/enable state
+		// TODO: make this a global utility?
+		var oldEnable = $.fn.enable;
+		$.fn.enable = function (enable) {
+			if (arguments.length == 0) enable = true;  // default to true
+			this.filter('.soup-enable-locked').toggleClass('soup-delayed-enable', !!enable);
+			oldEnable.apply(this.not('.soup-enable-locked'), arguments);
+			return this;
+		};
+
+		var flagEnableTimer = 0;
+		SOUP.hookAjax( /^\/flags\/.*\/add\b/, function () {
+			if ( flagEnableTimer > 0 ) clearTimeout( flagEnableTimer );
+			flagEnableTimer = setTimeout( function () {
+				flagEnableTimer = 0;
+				// re-enable any locked submit buttons
+				var buttons = $('.popup-submit.soup-enable-locked');
+				if ( buttons.length < 1 ) return;
+				buttons.removeClass('soup-enable-locked').disable();
+				buttons.filter('.soup-delayed-enable').enable().removeClass('soup-delayed-enable');
+			}, 5000 );
+		} );
+		SOUP.hookAjax( /^\/flags\/.*\/popup\b/, function () {
+			if ( flagEnableTimer <= 0 ) return;
+			// save the current state of the submit button, then disable and lock it
+			var buttons = $('.popup-submit:not(.soup-enable-locked)');
+			buttons.not('[disabled]').addClass('soup-delayed-enable');
+			buttons.disable().addClass('soup-enable-locked');
+		} );
+	}
+};
+fixes.mse286345 = {
+	title:	"Mobile search made impossible with keyboard shortcuts enabled",
+	url:	"https://meta.stackexchange.com/q/286345",
+	// XXX: despite the title, this bug is not actually mobile specific
+	script:	function () {
+		var selector = "textarea, input:not([type=checkbox],[type=radio],[type=submit],[type=button],[type=image],[type=reset])";
+		StackExchange.ifUsing( 'keyboardShortcuts', function () {
+			// the SE keyboard shortcuts script installs its own handler on $(document), so we should catch the events first
+			$(document.body).on('keypress', selector, function (event) {
+				event.stopPropagation();
+				return true;
+			} );
+		} );
+	}
+};
 
 
 //
 // Site-specific JS fixes:
 //
-fixes.boardgames1152 = {
-	title:	"Can the Magic card auto link feature be improved?",
-	url:	"https://boardgames.meta.stackexchange.com/q/1152",
-	credit:	"based on idea by Alex P",
-	sites:	/^(meta\.)?boardgames\./,
+fixes.boardgames1652 = {
+	title:	"Switch Magic autocard over to a different search engine, Scryfall",
+	url:	"https://boardgames.meta.stackexchange.com/q/1652",
+	// formerly https://boardgames.meta.stackexchange.com/q/1152
+	credit:	"based on idea by Alex P & doppelgreener",
+	sites:	/^boardgames\./,
 	script:	function () {
 		// rewrite of https://cdn.sstatic.net/js/third-party/mtg.js to make it work in preview too
 		$('body').on( 'click', 'a.soup-mtg-autocard', function (event) {
-			if ( event.button !== 0 ) return;
+			if ( event.button !== 0 ) return true;
 			var link = $(this).attr('href');
-			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=770, height=890");
+			window.open(link, "autocard" + (+new Date()), "scrollbars=1, resizable=1, width=400, height=600");
+			event.preventDefault();
 			return false;
 		} );
+
+		// helper function to generate URL from card name
+		var makeCardLink = function (cardName) {
+			cardName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+			cardName = cardName.replace(/\+/g, ' ').replace(/["\[\]]+/g, '').replace(/^\s+/, '');
+			return 'https://scryfall.com/search?q=%21%22' + encodeURIComponent(cardName) + '%22&utm_source=stackexchange';
+		};
 		
-		// change the URLs in server-side generated card links, fix double-escaping
+		// change the URLs in server-side generated card links
+		var cardLinkRegexp = /^https?:\/\/(?:www\.wizards\.com\/magic\/autocard\.asp|gatherer\.wizards\.com\/pages\/search\/default\.aspx)\?name=([^&#]*)$/i;
 		var fixCardLinks = function () {
-			var cardLinks = $('a.mtg-autocard[href*="autocard.asp"]');
+			var cardLinks = $('a.mtg-autocard');
 			// remove / prevent attachment of standard mtg.js click handler
-			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click');
-			cardLinks.attr( 'href', function (i, href) {
-				return href.replace(
-					/^http:\/\/www\.wizards\.com\/magic\/autocard\.asp\?name=([^&#]+)$/,
-					'http://gatherer.wizards.com/Pages/Card/Details.aspx?name=$1'
-				).replace( /%26lt%3[Bb]/g, '%3C' ).replace( /%26gt%3[Bb]/g, '%3E' ).replace( /%26amp%3[Bb]/g, '%26' );
-			} );
-			SOUP.forEachTextNode( cardLinks, function ( text ) {
-				return text.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+			cardLinks.addClass('soup-mtg-autocard').removeClass('mtg-autocard').off('click').each( function () {
+				var m = cardLinkRegexp.exec(this.href);
+				if ( m ) this.href = makeCardLink( decodeURIComponent( m[1] ) );
 			} );
 		};
 		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', null, ['load', 'post', 'preview'] );
-		fixCardLinks();
 		
 		// related issue: card links are not parsed in edit preview
 		// this code is loosely based on makeTagLinks() in https://dev.stackoverflow.com/content/Js/wmd.en.js
@@ -1588,19 +1741,144 @@ fixes.boardgames1152 = {
 						skip = !skip;
 					}
 					if (skip) return fullMatch;
-					var linkName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-					return '<a class="soup-mtg-autocard" href="http://gatherer.wizards.com/Pages/Card/Details.aspx?name=' +
-						encodeURIComponent(linkName) + '">' + cardName + '</a>';
+					return '<a class="soup-mtg-autocard" href="' + makeCardLink(cardName) + '">' + cardName + '</a>';
 				} );
 			} catch (e) { SOUP.log('SOUP MtG card link converter failed:', e) } } );
 		} );
 	}
 };
+fixes.boardgames867 = {
+	title:	"We should implement Magic the Gathering pop-ups on hover",
+	url:	"https://boardgames.meta.stackexchange.com/q/867",
+	credit:	"inspired by Marc Dingena's HoverCard user script (https://boardgames.meta.stackexchange.com/q/1459)",
+	sites:	/^boardgames\./,
+	script:	function () {
+		// set up the tooltip element; this will be appended to the card link and styled with the CSS below
+		var tooltip = $('<div id="soup-mtg-tooltip">').appendTo(document.body);
+
+		// constants for tooltip positioning
+		var xOffset = 20, yOffset = 20;
+
+		// show the tooltip after the mouse hasn't been moved for 0.5 seconds, and position it near the cursor
+		var timeoutID = 0, mouseX = 0, mouseY = 0, linkElement = null, tooltipActive = false;
+		var linkRects = [], rectOffsetX = 0, rectOffsetY = 0;
+		var showTooltip = function () {
+			timeoutID = 0;
+			tooltipActive = true;
+			tooltip.html('<img alt="">').find('img').attr( 'src', $(linkElement).data('soup-mtg-tooltip-url') );
+			tooltip.find('img').on( 'error', function () { tooltip.html('<div>Card image loading failed.</div>') } );
+
+			// save the link bounding rectangles and offset for mousemove handler below
+			linkRects = linkElement.getClientRects();
+			var winLeft = rectOffsetX = window.scrollX;
+			var winTop  = rectOffsetY = window.scrollY;
+
+			// scale the tooltip down for very small screens
+			var winWidth = document.documentElement.clientWidth;
+			var winHeight = document.documentElement.clientHeight;
+			var tipWidth = 244, tipHeight = 340, scale = 1;
+			scale = Math.min( scale, winWidth / tipWidth );
+			scale = Math.min( scale, winHeight / tipHeight );
+			tipWidth = Math.floor(tipWidth * scale);
+			tipHeight = Math.floor(tipHeight * scale);
+
+			// try to position the tooltip on one side of the cursor, if possible
+			var x = mouseX - tipWidth/2, y = mouseY - tipHeight/2;  // default choice: centered on cursor
+
+			if ( mouseY + yOffset + tipHeight <= winTop + winHeight ) y = mouseY + yOffset;       // 1st choice: bottom
+			else if ( mouseY - yOffset - tipHeight >= winTop ) y = mouseY - yOffset - tipHeight;  // 2nd choice: top
+			else if ( mouseX + xOffset + tipWidth <= winLeft + winWidth ) x = mouseX + xOffset;   // 3rd choice: left
+			else if ( mouseX - xOffset - tipWidth >= winLeft ) x = mouseX - xOffset - tipWidth;   // 4th choice: right
+
+			// adjust coordinates to make sure the tooltip is inside the viewport
+			x = Math.min( Math.max( winLeft, x ), winLeft + winWidth - tipWidth );
+			y = Math.min( Math.max( winTop, y ), winTop + winHeight - tipHeight );
+
+			// scale, position and show the tooltip
+			var parentPos = tooltip.offsetParent().offset();
+			tooltip.css( {
+				width: tipWidth + 'px',
+				height: tipHeight + 'px',
+				'border-radius': (12 * scale) + 'px',
+				left: (x - parentPos.left) + 'px',
+				top: (y - parentPos.top) + 'px',
+				display: 'block'
+			} );
+		};
+		var hideTooltip = function () {
+			if ( timeoutID ) clearTimeout( timeoutID );
+			timeoutID = 0;
+			tooltipActive = false;
+			tooltip.css( 'display', 'none' );
+			// SOUP.log( 'soup mtg tooltip hidden' );
+		};
+		$(document).on( 'mouseenter mousemove', 'a.soup-mtg-tooltip', function (event) {
+			mouseX = event.pageX;
+			mouseY = event.pageY;
+			if ( tooltipActive && linkElement !== this ) hideTooltip();
+			linkElement = this;
+			if ( timeoutID ) clearTimeout( timeoutID );
+			timeoutID = ( tooltipActive ? 0 : setTimeout( showTooltip, 500 ) );
+		} );
+		$(document).on( 'mouseleave', 'a.soup-mtg-tooltip', function () {
+			// XXX: defer hiding so that the mouseenter handler below can cancel it
+			if ( timeoutID ) clearTimeout( timeoutID );
+			timeoutID = ( tooltipActive ? setTimeout( hideTooltip, 0 ) : 0 );
+		} );
+		tooltip.on( 'mouseenter mousemove', function (event) {
+			// check if the cursor is still over the original link
+			var x = event.pageX - rectOffsetX;
+			var y = event.pageY - rectOffsetY;
+			for (var i = 0; i < linkRects.length; i++) {
+				var rect = linkRects[i];
+				if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+					// still over the link, abort hiding
+					if ( timeoutID ) clearTimeout( timeoutID );
+					timeoutID = 0;
+					return;
+				}
+			}
+			// if not, hide the tooltip
+			hideTooltip();
+		} );
+		tooltip.on( 'click', function (event) {
+			hideTooltip();
+		} );
+
+		// locate MtG card links and mark them for tooltip display
+		var cardLinkRegexp = /^(?:https?:)?\/\/((?:www\.|gatherer\.)?wizards\.com\/(?:magic\/autocard\.asp|Pages\/Card\/Details\.aspx|Pages\/Search\/Default\.aspx|Handlers\/Image\.ashx)|scryfall\.com\/search)(\?[^#]+)/i;
+		var setTooltipURL = function (node, apiPath) {
+			var tooltipURL = 'https://api.scryfall.com' + apiPath + 'format=image&version=normal&utm_source=stackexchange';
+			$(node).addClass('soup-mtg-tooltip').data('soup-mtg-tooltip-url', tooltipURL );
+		}
+		var addMtGTooltips = function (where) {
+			$(where).find('a[href*="wizards.com"], a[href*="scryfall.com"]').each( function () {
+				var m = cardLinkRegexp.exec(this.href);
+				if ( !m ) return;
+				var params = new URLSearchParams( m[2] );
+				if ( params.has('multiverseid') ) {
+					setTooltipURL( this, '/cards/multiverse/' + Number( params.get('multiverseid') ) + '?' );
+				} else if ( params.has('name') || params.has('q') ) {
+					var cardName = decodeURIComponent( params.get('name') || params.get('q') );
+					// XXX: ignore scryfall links that aren't exact card name matches
+					if ( /^scryfall/.test( m[1] ) && ! /^!"[^"]+"$/.test( cardName ) ) return;
+					cardName = cardName.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+					cardName = cardName.replace(/\+/g, ' ').replace(/["\[\]]+/g, '').replace(/^\s*!?/, '');
+					setTooltipURL( this, '/cards/named?exact=' + encodeURIComponent(cardName) + '&' );
+				}
+			} );
+		};
+		SOUP.addContentFilter( addMtGTooltips, 'mtg hover tooltips', null, ['load', 'post', 'comments', 'preview'] );
+	},
+	css:	'#soup-mtg-tooltip { display: none; position: absolute; z-index: 1; overflow: hidden; box-shadow: 2px 2px 10px #000; background: #777; color: #fff }' +
+		'#soup-mtg-tooltip img { width: 100%; height: 100% }' +
+		'#soup-mtg-tooltip div { display: table-cell; width: inherit; height: inherit; text-align: center; vertical-align: middle }'
+};
 fixes.french347 = {
 	title:	"Make spaces unbreakable when it's obvious that a line-break should not occur",
 	url:	"https://french.meta.stackexchange.com/q/347",
 	credit:	"based on idea by Stéphane Gimenez",
-	sites:	/^(meta\.)?french\./,
+	sites:	/^french\./,
 	script:	function () {
 		SOUP.addContentFilter( function ( where ) {
 			SOUP.forEachTextNode( where, function ( text ) {
@@ -1623,6 +1901,79 @@ fixes.mse264171 = {
 			if ( is404 ) location.replace( location.href.replace( /\/tags\/([0-9A-Za-z]+)-com\b/, '/tags/$1.com' ) );
 		} );
 	}
+};
+fixes.mse299082 = {
+	title:	"Display embedded YouTube videos in markdown preview",
+	url:	"https://meta.stackexchange.com/q/299082",
+	// site list from https://meta.stackexchange.com/a/298854 (TODO: get this info from the API?)
+	sites:	/^(aviation|bicycles|gaming|movies|music|scifi|space|video)\./,
+	script:	function () {
+		SOUP.addEditorCallback( function (editor, postfix) {
+			// replace the first remaining placeholder in this preview with a video player
+			// and add an onload/onerror handler to start the next one after this one has loaded
+			var counter = 1, nowLoading = 0;
+			var wrapperSelector = '#wmd-preview' + postfix + ' div.soup-mse299082:not(.youtube-embed)';
+			function loadNextVideo () {
+				var wrapper = $(wrapperSelector).first();
+				if ( ! wrapper.length ) return;  // nothing more to do for now!
+
+				var url = wrapper.data('soup-mse299082-url');
+				wrapper.html('<div><iframe width="640px" height="395px" src="' + url + '"></iframe></div>');
+				wrapper.addClass('youtube-embed');
+				
+				// make sure we can't have two chains of video loaders running at the same time
+				var savedCounter = nowLoading = counter++;
+				wrapper.find('iframe').on( 'load error', function () {
+					if ( nowLoading === savedCounter) loadNextVideo();
+				} );
+			}
+
+			// replace any plain YouTube video links in the preview HTML with embed placeholders, and
+			// set a timer to replace them with real videos if the preview isn't updated in 5 seconds
+			var timeoutID = 0;
+			var youTubeLinkRegexp = /<a href="(https?:\/\/(?:(?:www\.|m\.)youtube\.com\/watch|youtu\.be\/([-_0-9A-Za-z]{11}))(\?[^#"]*)?(#[^"]*)?)">\1<\/a>/g;
+			function replaceYouTubeLinks (fullMatch, fullUrl, videoId, queryString) {
+				var params = new URLSearchParams( (queryString || "?").substr(1).replace(/&amp;/g, '&') );
+
+				// youtu.be short URLs have the video ID in the path, otherwise get it from query params
+				// COMPAT: the SE server side code doesn't actually validate the v= parameter value properly!
+				if ( ! videoId ) videoId = params.get('v');
+				if ( ! /^[-_0-9A-Za-z]{11}$/.test(videoId) ) return fullMatch;  // missing / invalid ID
+
+				// get the playback start time, and convert it from XmYYs to plain seconds if needed
+				// COMPAT: if both t= and start= appear in the params, the SE server side code uses whichever comes first
+				var startTime = params.get('t') || params.get('start') || "0";
+				startTime = startTime.replace( /^(\d+)m(\d+)s$/, function (full, mins, secs) { return 60 * mins + 1 * secs } );
+				if ( ! /^[0-9]+$/.test(startTime) ) startTime = "0";  // map any non-numeric start times to zero
+
+				// reloading the iframe takes time, so defer it until the user isn't actively editing
+				if ( ! timeoutID ) timeoutID = setTimeout( loadNextVideo, 5000 );
+
+				// yes, this can inject a <div> inside text-level elements; the SE server side code does that too :P
+				var embedUrl = "https://www.youtube.com/embed/" + videoId + "?start=" + Number(startTime);
+				return '<div class="soup-mse299082" data-soup-mse299082-url="' + embedUrl + '"></div>';
+			}
+
+			// set a Markdown converter hook to apply the YouTube link replacement to the preview HTML
+			editor.getConverter().hooks.chain( 'postConversion', function (text) {
+				try {
+					// stop any pending video loading; replaceYouTubeLinks() will restart it if needed
+					if ( timeoutID ) clearTimeout( timeoutID );
+					timeoutID = nowLoading = 0;
+					// actually do the YouTube link replacement
+					text = text.replace( youTubeLinkRegexp, replaceYouTubeLinks );
+				} catch (e) {
+					SOUP.log( 'SOUP YouTube embed postConversion hook failed:', e );
+				}
+				return text;
+			} );
+		}, 'YouTube embed preview', null, ["preview"] );
+	},
+	// style the placeholder divs to look kind of like videos waiting to load
+	// YouTube icon from https://www.youtube.com/yt/about/media/downloads/youtube_full_color_icon.zip
+	css:	"div.soup-mse299082 { width: 640px; height: 395px; background: url(data:image/svg+xml," +
+		encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 124"><path d="m172.3 104.6c-2.024 7.622-7.987 13.62-15.56 15.66-13.7 3.7-68.7 3.7-68.7 3.7s-55.04 0-68.76-3.7c-7.57-2-13.54-8-15.56-15.7-3.68-13.78-3.68-42.6-3.68-42.6s0-28.82 3.678-42.64c2.024-7.62 7.992-13.62 15.56-15.66 13.72-3.7 68.76-3.7 68.76-3.7s55.04 0 68.76 3.701c7.573 2.038 13.54 8.04 15.56 15.66 3.7 13.82 3.7 42.64 3.7 42.64s0 28.82-3.678 42.64" fill="#f00"/><path d="m70 35.83 46 26.17-46 26.17v-52.34" fill="#fff"/></svg>' ) +
+		") #282828 center/10% no-repeat }"
 };
 
 
@@ -2047,9 +2398,8 @@ var soupLateSetup = function () {
 	// basic environment detection, part 2
 	SOUP.isMobile = !!( window.StackExchange && StackExchange.mobile );
 
-	// detect user rep and site beta status; together, these can be user to determine user privileges
-	// XXX: these may need to be updated if the topbar / beta site design is changed in the future
-	SOUP.userRep = Number( $('.topbar .reputation').text().replace( /[^0-9]+/g, '' ) );
+	// detect site beta status; together with StackExchange.options.user.rep this can be user to guesstimate user privileges
+	// XXX: this may need to be updated if the beta site design is changed in the future
 	SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
 	
 	// run ready queue after jQuery and/or SE framework have loaded

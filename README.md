@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.48.4 -->
+<!-- version: 1.50 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
@@ -11,30 +11,42 @@ The intent of SOUP is not to make any substantial or controversial changes to th
 Installing
 ----------
 
-### Installing as a user script
-
-The easiest way to install SOUP is to use the [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM] (for multiple browsers) extension for managing user scripts.  (Other Greasemonkey compatible user script extensions should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
-
-> ### [<kbd>Download / Install</kbd>][DL]  
-> <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
-
-The "install" link above is for the stable branch of SOUP.  If you like living on the edge, you can also [install][devDL] the [development version][devel], which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
+SOUP can be installed either as a stand-alone browser extension or via a user script manager such as [Greasemonkey][GM] or [Tampermonkey][TM].
 
 SOUP has been mainly developed and tested on Firefox and Chrome.  It may also run on other browsers with user script support (via Tampermonkey or other compatible extensions), but has not been fully tested on them.  Any reports of cross-browser issues are welcome.
 
 ### Installing as a browser extension
 
-As of version 1.46, SOUP can now be installed directly as a browser extension on [Firefox](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons") and [Chrome](https://chrome.google.com/webstore/detail/stack-overflow-unofficial/bagdnnmjfkaolcegcgeohpboeocfalpj "SOUP on Chrome Web Store"), without the need for a user script manager.  In particular, using SOUP as an extension on Firefox for Android is now possible and supported.
+Users of Chrome or Firefox (including Firefox Mobile) can install SOUP as a browser extension:
+
+* [**SOUP on Firefox Add-ons**](https://addons.mozilla.org/en-US/firefox/addon/so-unofficial-patch-soup/ "SOUP on Firefox Add-ons")
+* [**SOUP on Chrome Web Store**](https://chrome.google.com/webstore/detail/stack-overflow-unofficial/bagdnnmjfkaolcegcgeohpboeocfalpj "SOUP on Chrome Web Store")
 
 (An Opera extension may be available at a later date.  In the mean time, Opera users may use the Chrome extension via [Download Chrome Extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/), or just use the user script version with e.g. [Tampermonkey for Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/).)
 
 Note that updates to the extension packages available at Firefox Add-ons and Chrome Web Store may take a few days to appear, even after a new stable user script version is released, due to review and other delays.
 
+### Installing as a user script
+
+To install SOUP as a user script, you first need to install a  user script manager such as [Greasemonkey][GM] (for Firefox) or [Tampermonkey][TM].  (Other Greasemonkey compatible user script managers should also work.)  After installing the extension, clicking the ["download / install"][DL] button below should bring up a dialog asking you if you want to install SOUP.  Answer "yes".
+
+> ### [<kbd>Download / Install SOUP</kbd>][DL]  
+> <sup>[View source][source] / [GitHub repo][github] / [Stack Apps post][SA]</sup>
+
+### Installing the development version
+
+If you like living on the edge, you can also install the development version of SOUP, which gets all the latest fixes and updates as soon as they're written.  Of course, it also gets all the latest bugs, too.  If you do install the development version, please report any bugs or regressions you may find in it below!
+
+> ### [<kbd>Download / Install SOUP (development branch)</kbd>][devDL]  
+> <sup>[View source][devsrc] / [GitHub repo][devel]</sup>
+
+Note that the development version of SOUP is currently only available as a user script.
+
 
 Included fixes
 --------------
 
-SOUP v1.48.4
+SOUP v1.50
 &#x20;
 includes fixes or workarounds for the following issues.
 
@@ -46,13 +58,11 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 
 * [mse215473: Add a non-breaking space to “reopen (1)” and its ilk](https://meta.stackexchange.com/q/215473)
 * [mse114109: Background in OP's user name can obscure text in multiline comments](https://meta.stackexchange.com/q/114109)
-* **[mse143973: Images can be pushed outside the boundaries of a post by using nested lists](https://meta.stackexchange.com/q/143973)**
 * [mse145819: &lt;hr/&gt;'s do not get rendered in deleted answers](https://meta.stackexchange.com/q/145819)
 * [mse108046: Mouse cursor doesn't change to pointer when hovering “full site” on mobile](https://meta.stackexchange.com/q/108046)
 * [mse110566: Does the spoiler markdown work on images?](https://meta.stackexchange.com/q/110566)
 * [mse58760: &lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](https://meta.stackexchange.com/q/58760)
 * [mse203405: Excerpt of privilege is below privilege instead of in front](https://meta.stackexchange.com/q/203405)
-* [mse210165: Extra blue line appearing in the top bar (Firefox only)](https://meta.stackexchange.com/q/210165)
 * **[mse154788: Why are comments overlapping the sidebar?](https://meta.stackexchange.com/q/154788)**
 * [mse214830: Selecting text in profile activity comments causes unexpected clipping](https://meta.stackexchange.com/q/214830)
 * [mse230392: Layout bug while viewing vote count in Meta Stackexchange](https://meta.stackexchange.com/q/230392)
@@ -61,7 +71,6 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](https://meta.stackexchange.com/q/233517)
 * [mse169225: Why does the bounty award button appear on deleted answers?](https://meta.stackexchange.com/q/169225)
 * **[mse84296: RTL text can mess up comment timestamps](https://meta.stackexchange.com/q/84296)**
-* [mse240710: Was the fringe always there on the up-rep icon?](https://meta.stackexchange.com/q/240710)
 * [mse249859: &lt;kbd&gt; tags in headings are too small](https://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](https://meta.stackexchange.com/q/248156)
 * [mso284049: Small bugs in the Stack Overflow editor](https://meta.stackoverflow.com/q/284049)
@@ -73,6 +82,14 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mso342634: “Hot Meta Posts” with a 4-digit score wrap onto a second line](https://meta.stackoverflow.com/q/342634)
 * [mse186748: Duplicate dialog close button causes preview to be too narrow](https://meta.stackexchange.com/q/186748)
 * [mse290496: Minor alignment issue in few of the Badge page's “Awarded to” text](https://meta.stackexchange.com/q/290496)
+* [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623)
+* [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
+* [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
+* [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
+* [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
+* [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
+* [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
+* [mso360855: Margins are off/unbalanced in inbox](https://meta.stackoverflow.com/q/360855)
 
 ### Site-specific CSS fixes
 
@@ -87,7 +104,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mso286009: Change \[Ask Question\] button style](https://meta.stackoverflow.com/q/286009)
 * [mse250407: User signature cards on old revisions look funny](https://meta.stackexchange.com/q/250407) (applied globally)
 * [cooking2049: Ads are cut off on the right](https://cooking.meta.stackexchange.com/q/2049)
-* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](https://movies.meta.stackexchange.com/q/1652)
+* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](https://movies.meta.stackexchange.com/q/1652) (also on [workplace](https://workplace.meta.stackexchange.com/q/4917))
 * [graphicdesign2415: Design Bug: Tag alert CSS](https://graphicdesign.meta.stackexchange.com/q/2415)
 * [mse244587: “Top Network Users” should contain themselves!](https://meta.stackexchange.com/q/244587)
 * [rpg5812: Post as a guest: CSS bug](https://rpg.meta.stackexchange.com/q/5812) (applied globally)
@@ -108,7 +125,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 
 * **[mse217779: The CSS for spoilers is a mess. Let's fix it!](https://meta.stackexchange.com/q/217779)**
 * [mse78989: Clicking on tags broken?](https://meta.stackexchange.com/q/78989)
-* [mse207526: Cannot navigate into the multicollider with keyboard](https://meta.stackexchange.com/q/207526)
 * **[mse261721: Un-fade low-score answers on click/tap too](https://meta.stackexchange.com/q/261721)**
 * [mse66646: Confirming context menu entries via Enter triggers comment to be posted](https://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](https://meta.stackexchange.com/q/210132)
@@ -136,7 +152,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](https://meta.stackexchange.com/q/170970)
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](https://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](https://meta.stackexchange.com/q/259325)
-* [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
 * [mse268584: When a user is deleted, OP highlighting is lost](https://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](https://meta.stackoverflow.com/q/310158)
 * [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)
@@ -146,17 +161,24 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse287473: Tooltip banner blinking for question closed by the user with the golden badge in small screens](https://meta.stackexchange.com/q/287473)
 * [mse135710: Please show changed titles separately in edit diffs](https://meta.stackexchange.com/q/135710)
 * **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
-* **[mse299086: HTTPS certificate error for meta redirect pages (meta.<site>.stackexchange.com)](https://meta.stackexchange.com/q/299086)**
+* **[mse299086: HTTPS certificate error for meta redirect pages (meta.&lt;site&gt;.stackexchange.com)](https://meta.stackexchange.com/q/299086)**
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
 * [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)
+* [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
+* [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
+* [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/9071)
+* [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
+* [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
 
 ### Site-specific fixes
 
 These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer of these, since the SE JavaScript framework is shared between all sites, whereas CSS is different for each site.  Thus, these fixes generally involve either rare site-specific customizations, or simply design fixes that cannot be implemented in pure CSS.
 
-* **[boardgames1152: Can the Magic card auto link feature be improved?](https://boardgames.meta.stackexchange.com/q/1152)**
+* **[boardgames1652: Switch Magic autocard over to a different search engine, Scryfall](https://boardgames.meta.stackexchange.com/q/1652)**
+* **[boardgames867: We should implement Magic the Gathering pop-ups on hover](https://boardgames.meta.stackexchange.com/q/867)**
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](https://french.meta.stackexchange.com/q/347)
 * [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](https://meta.stackexchange.com/q/264171)
+* **[mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082)** (on aviation, bicycles, gaming, movies, music, scifi, space and video)
 
 ### Review fixes
 
@@ -164,6 +186,7 @@ These fixes apply to the post review interface.  I've listed them separately her
 
 * **[mse172931: Please put answers underneath questions in Close review queue](https://meta.stackexchange.com/q/172931)**
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](https://meta.stackoverflow.com/q/297489)
+* [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
 
 ### MathJax-related fixes:
 
@@ -214,6 +237,7 @@ See also
    [DL]: https://github.com/vyznev/soup/raw/master/SOUP.user.js "Download / install SOUP from GitHub"
    [source]: https://github.com/vyznev/soup/blob/master/SOUP.user.js "View SOUP source code"
    [devel]: https://github.com/vyznev/soup/tree/devel "SOUP development branch on GitHub"
+   [devsrc]: https://github.com/vyznev/soup/blob/devel/SOUP.user.js "View SOUP development branch source code"
    [devDL]: https://github.com/vyznev/soup/raw/devel/SOUP.user.js "Download / install SOUP (development branch) from GitHub"
    [wiki]: https://github.com/vyznev/soup/wiki "SOUP wiki on GitHub"
    [GM]: https://addons.mozilla.org/firefox/addon/greasemonkey/ "Mozilla add-ons: Greasemonkey"
