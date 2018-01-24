@@ -132,6 +132,7 @@ These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer 
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](https://french.meta.stackexchange.com/q/347)
 * [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](https://meta.stackexchange.com/q/264171)
 * **[mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082)** (on aviation, bicycles, gaming, movies, music, scifi, space and video)
+* [mse306136: Profiles on Top Network Askers pane are blurred](https://meta.stackexchange.com/q/306136) (on the stackexchange.com portal)
 
 ### Review fixes
 

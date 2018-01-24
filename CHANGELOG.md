@@ -6,6 +6,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.51 (development)
 ====
 
+**New fixes in 1.51.x:**
+
+* * [mse306136: Profiles on Top Network Askers pane are blurred](https://meta.stackexchange.com/q/306136)
+
 **Other changes:**
 
 * Clean up some console noise on chat, SE.com and other non-QA sites that don't have the same `StackExchange` object as normal QA pages.
