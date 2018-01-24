@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.50.0
+// @version     1.51.0
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -711,6 +711,7 @@ fixes.mse115702 = {
 	title:	"Option to delete an answer only visible after a reload",
 	url:	"https://meta.stackexchange.com/q/115702",
 	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.options || ! StackExchange.options.user ) return;
 		if ( StackExchange.options.user.rep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
@@ -1670,6 +1671,7 @@ fixes.mse286345 = {
 	url:	"https://meta.stackexchange.com/q/286345",
 	// XXX: despite the title, this bug is not actually mobile specific
 	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.ifUsing ) return;
 		var selector = "textarea, input:not([type=checkbox],[type=radio],[type=submit],[type=button],[type=image],[type=reset])";
 		StackExchange.ifUsing( 'keyboardShortcuts', function () {
 			// the SE keyboard shortcuts script installs its own handler on $(document), so we should catch the events first
