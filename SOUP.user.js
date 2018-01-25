@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.1
+// @version     1.51.2
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -47,6 +47,7 @@
 
 
 ( function () {  // start of anonymous wrapper function (needed to restrict variable scope on Opera)
+"use strict";
 
 // Opera does not support @match, so re-check that we're on an SE site before doing anything
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
@@ -2494,7 +2495,7 @@ var head = document.head || document.documentElement;
 var initScript = document.createElement( 'script' );
 initScript.id = 'soup-init';
 initScript.type = 'text/javascript';
-var code = "(" + soupInit + ")();\n";
+var code = "'use strict';\n(" + soupInit + ")();\n";
 for (var id in fixes) {
 	if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].early ) continue;
 	code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
@@ -2531,7 +2532,7 @@ var injectScripts = function () {
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
-	var code = "(" + soupLateSetup + ")();\n";
+	var code = "'use strict';\n(" + soupLateSetup + ")();\n";
 	for (var id in fixes) {
 		if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].script ) continue;
 		code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
