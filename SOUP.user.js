@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.3
+// @version     1.51.4
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -167,13 +167,12 @@ fixes.mse169225 = {
 fixes.mse84296 = {
 	title:	"RTL text can mess up comment timestamps",
 	url:	"https://meta.stackexchange.com/q/84296",
-	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
 	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
 	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
+	// TODO: check if the Safari issue still persists now that fallbacks have been removed
 	// SEE ALSO: mso310158 (prevent runaway BiDi overrides in new comments)
 	// NOTE: the #chat-body selectors and the .soup-bidi-isolate class are used by the mse342361 fix
-	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate ' +
-		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
+	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate { unicode-bidi: isolate }'
 };
 fixes.mse249859 = {
 	title:	"<kbd> tags in headings are too small",
