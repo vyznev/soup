@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.2
+// @version     1.51.3
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2244,102 +2244,6 @@ var soupInit = function () {
 		var where = '.topbar-dialog.' + match[1].replace( /site-switcher/, 'siteSwitcher' ) + '-dialog';
 		SOUP.runContentFilters( 'topbar', where );
 	} );
-	SOUP.chatContentFiltersPending = false;
-	SOUP.runChatContentFilters = function () {
-		SOUP.chatContentFiltersPending = false;
-		SOUP.runContentFilters( 'chat', '#chat-body' );
-	};
-
-	// utility for monitoring SE chat events
-	SOUP.chatHooks = [];
-	SOUP.hookChat = function ( code, key ) {
-		key = key || 'chat event hook';
-		SOUP.chatHooks.push( { code: code, key: key } );
-	};
-	SOUP.chatEventsSeen = false;
-	SOUP.runChatHooks = function ( data, source, url ) {
-		// if this looks like an update (not initial request), stop filter polling
-		if ( !SOUP.chatEventsSeen && /^\{"r\d+":/.test( data ) ) {
-			SOUP.log( "soup received chat " + source + " message, stopping filter polling" );
-			SOUP.chatEventsSeen = true;
-			SOUP.stopChatFilterPoll();
-		}
-		// run chat event hooks
-		var hooks = SOUP.chatHooks;
-		for ( var i = 0; i < hooks.length; i++ ) {
-			SOUP.try( hooks[i].key, hooks[i].code, arguments );
-		}
-		// if there seems to be some actual data, run content filters
-		if ( /"e":/.test( data ) ) {
-			if ( document.hidden ) SOUP.chatContentFiltersPending = true;
-			else SOUP.runChatContentFilters();
-		}
-	};
-	// SOUP.hookChat( function ( data, src, url ) { SOUP.log( src, data, url, document.hidden ) }, 'debug chat event hook' );
-
-	// Here's how we handle content filters for chat:
-	// * When the tab is visible, we run content filters on every chat
-	//   event, or every 0.5 seconds if we can't capture chat events.
-	// * When the tab is invisible, we mark filters as pending on chat
-	//   events, and stop the 0.5 second polling loop.
-	// * When the tab becomes visible, we run filters if pending, and
-	//   restart the polling if we haven't seen any chat events.
-
-	SOUP.chatFilterPollID = null;
-	SOUP.runChatFilterPoll = function () {
-		SOUP.chatFilterPollID = null;
-		if ( !SOUP.isChat || document.hidden || SOUP.chatEventsSeen ) return;
-		SOUP.runChatContentFilters();
-		SOUP.chatFilterPollID = setTimeout( SOUP.runChatFilterPoll, 500 );
-	};
-	SOUP.stopChatFilterPoll = function () {
-		if ( SOUP.chatFilterPollID !== null ) clearTimeout( SOUP.chatFilterPollID );
-		SOUP.chatFilterPollID = null;
-	};
-	
-	// hack the WebSocket interface so that we're informed of chat events
-	if ( SOUP.isChat && window.WebSocket ) {
-		var originRegexp = /^wss?:\/\/chat\.sockets\.stackexchange\.com(\/|$)/;
-		var onmessageWrapper = function ( msg ) {
-			var rv = (this._soup_onmessage || function () {}).apply( this, arguments );
-			if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
-			if ( !SOUP.websocketHackActive ) SOUP.log( "soup websocket hack active" );  // It's working!
-			SOUP.websocketHackActive = true;
-			SOUP.runChatHooks( msg.data, 'websocket' );
-			return rv;
-		};
-		try {
-			SOUP.log( "soup initializing websocket hack" );
-			var RealWebSocket = SOUP.RealWebSocket = WebSocket;
-			WebSocket = function FakeWebSocket ( url ) {
-				// call real WebSocket constructor; eww...
-				// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#Using_apply_to_chain_constructors
-				var args = [].slice.apply( arguments );
-				var sock = new ( Function.prototype.bind.apply( RealWebSocket, [{}].concat( args ) ) )();
-				if ( !originRegexp.test( url ) ) return sock;
-				try {
-					sock.onmessage = onmessageWrapper;
-					Object.defineProperty( sock, 'onmessage', {
-						// XXX: defining a getter here stops this from working on Chrome, don't ask me why
-						set: function ( cb ) { if ( cb !== onmessageWrapper ) this._soup_onmessage = cb }
-					} );
-					SOUP.log( "soup applying websocket hack" );
-				}
-				catch (e) { SOUP.log( "applying soup websocket hack failed:", e ) }
-				return sock;
-			};
-			// copy static properties of the real WebSocket
-			for (var prop in RealWebSocket) WebSocket[prop] = RealWebSocket[prop];
-			WebSocket.prototype = RealWebSocket.prototype;
-		}
-		catch (e) { SOUP.log( "soup websocket hack failed:", e ) }		
-	}
-	if ( SOUP.isChat ) {		
-		// hook the non-websocket event interface too, in case websockets are disabled
-		SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, function ( event, xhr, settings ) {
-			SOUP.runChatHooks( xhr.responseText, 'ajax', settings.url );
-		} );
-	}
 
 	// allow fix code to subscribe to SE realtime question events
 	SOUP.questionSubscriptions = [];
@@ -2427,18 +2331,12 @@ var soupLateSetup = function () {
 		}
 	} );
 
-	// start chat content filter polling
-	if ( SOUP.isChat && /^\/rooms\b/.test( location.pathname ) ) $( document ).ready( function () {
-		document.addEventListener( 'visibilitychange', function () {
-			if ( SOUP.chatContentFiltersPending ) SOUP.runChatContentFilters();
-			if ( SOUP.chatEventsSeen ) return;
-			// if we're on chat but haven't seen any chat events, run filters every 0.5 s
-			if ( document.hidden ) SOUP.stopChatFilterPoll();
-			else if ( SOUP.chatFilterPollID === null ) SOUP.runChatFilterPoll(); 
-		} );
-		SOUP.runChatFilterPoll();
+	// trigger content filters on new chat messages
+	if ( window.CHAT && CHAT.addEventHandlerHook ) CHAT.addEventHandlerHook( function (event) {
+		if ( event.message_id ) setTimeout( function () {
+			SOUP.runContentFilters( 'chat', 'message-' + event.message_id );
+		}, 0 );
 	} );
-	
 	// trigger content filters on expanded user card display
 	$(document).on( 'userhovershowing', function ( event ) {
 		SOUP.runContentFilters( 'usercard', event.target );

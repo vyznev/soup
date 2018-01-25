@@ -14,6 +14,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Clean up some console noise on chat, SE.com and other non-QA sites that don't have the same `StackExchange` object as normal QA pages.
 * Add missing `"use strict;"`.  SOUP code should already be strict mode compliant, but this ensures it.
+* Use `CHAT.addEventHandlerHook()` instead of klugy WebSocket hack to apply content filters to new chat events.  Remove `SOUP.hookChat()` as obsolete.s
 
 
 1.50 (2018-01-23)
