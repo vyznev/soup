@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.4
+// @version     1.51.5
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1977,12 +1977,12 @@ fixes.mse299082 = {
 		encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 124"><path d="m172.3 104.6c-2.024 7.622-7.987 13.62-15.56 15.66-13.7 3.7-68.7 3.7-68.7 3.7s-55.04 0-68.76-3.7c-7.57-2-13.54-8-15.56-15.7-3.68-13.78-3.68-42.6-3.68-42.6s0-28.82 3.678-42.64c2.024-7.62 7.992-13.62 15.56-15.66 13.72-3.7 68.76-3.7 68.76-3.7s55.04 0 68.76 3.701c7.573 2.038 13.54 8.04 15.56 15.66 3.7 13.82 3.7 42.64 3.7 42.64s0 28.82-3.678 42.64" fill="#f00"/><path d="m70 35.83 46 26.17-46 26.17v-52.34" fill="#fff"/></svg>' ) +
 		") #282828 center/10% no-repeat }"
 };
-fixes.mse306136 = {
-	title:	"Profiles on Top Network Askers pane are blurred",
-	url:	"https://meta.stackexchange.com/q/306136",
+fixes.mse293413 = {
+	title:	"Let's see the Top Network Askers better",
+	url:	"https://meta.stackexchange.com/q/293413",
 	sites:	/^stackexchange\.com$/,
 	script:	function () {
-		$('.users-sidebar .userDetails img[src*="?s=16&"]').each( function () {
+		$('.users-sidebar .userDetails img[src^="https://i.stack.imgur.com/"][src*="?s=16&"]').each( function () {
 			this.src = this.src.replace(/\?s=16&/, '?s=30&');
 		} );
 	}

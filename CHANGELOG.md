@@ -8,7 +8,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.51.x:**
 
-* * [mse306136: Profiles on Top Network Askers pane are blurred](https://meta.stackexchange.com/q/306136)
+* [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413)
 
 **Other changes:**
 
