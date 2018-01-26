@@ -62,6 +62,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse244587: “Top Network Users” should contain themselves!](https://meta.stackexchange.com/q/244587)
 * [rpg5812: Post as a guest: CSS bug](https://rpg.meta.stackexchange.com/q/5812) (applied globally)
 * [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574)
+* [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254)
 
 ### Chat-only fixes
 

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.6
+// @version     1.51.7
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -432,6 +432,12 @@ fixes.mse294574 = {
 	url:	"https://meta.stackexchange.com/q/294574",
 	sites:	/^stackexchange\.com$/,
 	css:	"#question-list .question { word-wrap: break-word }"
+};
+fixes.mse306254 = {
+	title:	"Annoying animation on reputation leagues",
+	url:	"https://meta.stackexchange.com/q/306254",
+	sites:	/^stackexchange\.com$/,
+	css:	"body .league-container { overflow: hidden }"
 };
 
 

@@ -10,6 +10,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413)
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
+* [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254) (CSS)
 
 **Other changes:**
 
