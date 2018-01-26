@@ -74,6 +74,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse134268: U+0008 inserted into chat @-pings](https://meta.stackexchange.com/q/134268)
 * [mse224233: Problem in css style loading in Search Bar after refresh page when using FF](https://meta.stackexchange.com/q/224233)
 * [mso342361: Minor (funny) chat star bug for Hebrew text](https://meta.stackoverflow.com/q/342361)
+* [mso362554: Why are the chat FAQ in almost identical links different?](https://meta.stackoverflow.com/q/362554)
 
 ### General fixes
 

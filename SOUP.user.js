@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.7
+// @version     1.51.8
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -529,6 +529,21 @@ fixes.mso342361 = {
 		} ).code();
 	},
 	css:	"#starred-posts .relativetime { unicode-bidi: embed }" // fallback
+};
+fixes.mso362554 = {
+	title:	"Why are the chat FAQ in almost identical links different?",
+	url:	"https://meta.stackoverflow.com/q/362554",
+	credit:	"suggested by mjpieters (https://github.com/vyznev/soup/issues/33), shim code by Frédéric Hamidi (https://stackoverflow.com/a/29298828)",
+	sites:	/^chat\./,
+	jqinit:	function () {
+		var slice = Array.prototype.slice;
+		if ( ! jQuery.curCSS ) jQuery.curCSS = function(element) {
+			var args = slice.call(arguments, 1);
+			SOUP.log( 'soup mso362554 jQuery.curCSS shim called on', element, 'with', args );
+			return jQuery.fn.css.apply(jQuery(element), args);
+		};
+		SOUP.log( 'soup mso362554 jQuery.curCSS shim applied' );
+	}
 };
 
 
@@ -2212,7 +2227,32 @@ var soupInit = function () {
 	SOUP.log = function () {
 		if ( window.console ) console.log.apply( console, arguments );
 	};
-	
+
+	// run code immediately after jQuery has loaded
+	// FIXME: this often runs too late on Tampermonkey, see https://github.com/Tampermonkey/tampermonkey/issues/211 :(
+	SOUP.jQueryInitQueue = {};
+	SOUP.jQueryInit = function ( key, code ) {
+		if ( window.jQuery ) SOUP.try( key, code );
+		else SOUP.jQueryInitQueue[key] = code;
+	};
+	if ( ! window.jQuery ) {
+		SOUP.oldjQueryDesc = Object.getOwnPropertyDescriptor( window, 'jQuery' );
+		Object.defineProperty( window, 'jQuery', {
+			configurable: true,
+			set: function ($) {
+				if ( SOUP.oldjQueryDesc ) Object.defineProperty( this, 'jQuery', SOUP.oldjQueryDesc );
+				else delete this.jQuery;
+				this.jQuery = $;
+				for ( var key in SOUP.jQueryInitQueue ) {
+					SOUP.try( key, SOUP.jQueryInitQueue[key] );
+				}
+				SOUP.log( 'soup jQuery init fixes applied' );
+			}
+		} );
+		SOUP.log( 'soup window.jQuery setter initialized' );
+	} else {
+		SOUP.log( 'soup window.jQuery setter not applied, jQuery has already loaded!' );
+	}
 	
 	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
 	// note: use editor.getConverter() to access the Markdown converter
@@ -2448,8 +2488,9 @@ initScript.id = 'soup-init';
 initScript.type = 'text/javascript';
 var code = "'use strict';\n(" + soupInit + ")();\n";
 for (var id in fixes) {
-	if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].early ) continue;
-	code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
+	if ( ! fixIsEnabled( fixes[id] ) ) continue;
+	if ( fixes[id].early ) code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
+	if ( fixes[id].jqinit ) code += "SOUP.jQueryInit(" + JSON.stringify(id) + ", " + fixes[id].jqinit + ");\n";
 }
 initScript.textContent = code;
 head.appendChild( initScript );

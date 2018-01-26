@@ -11,6 +11,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413)
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
 * [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254) (CSS)
+* [mso362554: Why are the chat FAQ in almost identical links different?](https://meta.stackoverflow.com/q/362554)
 
 **Other changes:**
 
@@ -18,6 +19,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Add missing `"use strict;"`.  SOUP code should already be strict mode compliant, but this ensures it.
 * Use `CHAT.addEventHandlerHook()` instead of klugy WebSocket hack to apply content filters to new chat events.  Remove `SOUP.hookChat()` as obsolete.
 * Remove vendor prefix fallbacks from [mse84296](https://meta.stackexchange.com/q/84296) `unicode-bidi` CSS to avoid [weird breakage on Edge](https://github.com/vyznev/soup/issues/32).
+* SOUP now installs a setter on `window.jQuery` to allow fixes that patch jQuery to run immediately after it has loaded.  (Unfortunately some browsers and user script managers have race conditions that make this unreliable; see e.g. [Tampermonkey issue #211](https://github.com/Tampermonkey/tampermonkey/issues/211).)
 
 
 1.50 (2018-01-23)
