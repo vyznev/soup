@@ -61,7 +61,7 @@ SOUP is distributed under the [ISC license][ISC], a permissive BSD-style open so
 
 In addition, permission is given to Stack Exchange, Inc. to make use of SOUP code in any way they see fit, including but not limited to incorporating all or parts of it within the Stack Exchange codebase, with or without credit.
 
-This SOUP version includes a copy of the [punycode.js](https://mths.be/punycode) library v1.2.4 by [Mathias Bynens](https://mathiasbynens.be/), distributed under the [MIT license][MIT].  The additional permissions granted above do not apply to this library.
+SOUP includes a copy of the [punycode.js](https://mths.be/punycode) library v1.2.4 by [Mathias Bynens](https://mathiasbynens.be/), distributed under the [MIT license][MIT].  The additional permissions granted above do not apply to this library.
 
 
 Credits
