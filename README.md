@@ -48,6 +48,12 @@ If you like living on the edge, you can also install the development version of 
 Note that the development version of SOUP is currently only available as a user script.
 
 
+Included fixes
+--------------
+
+The list of issues fixed by the latest version of SOUP is [available on GitHub][fixes] (also [for the development branch][devfixes]).  You can also browse the [change log][changes] ([development][devchanges]) to see which fixes have been added and removed in recent versions of SOUP.
+
+
 License
 -------
 
