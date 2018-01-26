@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.50.0
+// @version     1.50.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -943,9 +943,9 @@ fixes.mse248646 = {
 			if ( comments.length == 0 ) return;
 
 			var ui = StackExchange.comments.uiForPost($this);
-			var count = ui.jtBody.data('remaining-comments-count') + comments.length;
+			var count = ui.remainingCommentsCount() + comments.length;
 			ui.setCommentsMenu(count);
-			ui.jtBody.data('remaining-comments-count', count);
+			ui.remainingCommentsCount(count);
 		} );
 		$(document.body).addClass('soup-mse248646-fixed');
 	}
