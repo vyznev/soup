@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.5
+// @version     1.51.6
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1680,6 +1680,33 @@ fixes.mse286345 = {
 				return true;
 			} );
 		} );
+	}
+};
+fixes.mse178439 = {
+	title:	"Can we exempt downvoted accepted answers from getting the top spot?",
+	url:	"https://meta.stackexchange.com/q/178439",
+	path:	/^\/questions\/\d+/,
+	script:	function () {
+		// TODO: support sorting by age / activity, too?
+		if ( $('#tabs a.youarehere[href*="?answertab=votes"]').length != 1 ) return;
+
+		var answers = $('#answers > .answer'), firstAnswer = answers.first();
+		if ( ! firstAnswer.is('.downvoted-answer.accepted-answer') ) return;
+
+		function getScore (post) {
+			// XXX: we assume that no answers have expanded vote counts yet when this runs
+			return Number( $('.vote-count-post', post).text() );
+		}
+
+		var acceptedScore = getScore( firstAnswer );
+		var betterAnswers = answers.not('.deleted-answer').filter( function () { return getScore(this) > acceptedScore } );
+		// TODO: check that the answers actually are consecutive?
+
+		if ( betterAnswers.length < 1 ) return;
+		SOUP.log( 'soup mse178439 moving accepted answer with score ' + acceptedScore + ' below ' + betterAnswers.length + ' higher scored answers' );
+
+		var anchor = firstAnswer.prev( 'a[name=' + Number( firstAnswer.data('answerid') ) + ']' );
+		betterAnswers.last().after( anchor, firstAnswer );
 	}
 };
 
