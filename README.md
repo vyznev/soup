@@ -35,6 +35,8 @@ To install SOUP as a user script, you first need to install a  user script manag
 
 > <sup>NOTE: SOUP is compatible with Firefox 57 / Greasemonkey 4.  However, due to a [known bug](https://github.com/greasemonkey/greasemonkey/issues/2631 "bug #2631: GM 4.0 does not install scripts from GitHub (CSP/sandbox issue)"), installing SOUP (or any other user scripts) from GitHub may fail.  Until the bug is fixed (and until GM4 stabilizes more generally) I recommend using another user script manager (such as [Tampermonkey][TM] or [Violentmonkey][VM]) or the stand-alone [SOUP extension for Firefox][firefox-ext] instead.</sup>
 
+> <sup>NOTE 2: Tampermonkey on Chrome suffers from [a race condition](https://github.com/Tampermonkey/tampermonkey/issues/211) that can cause some fixes that rely on early loading to fail to apply properly.  To avoid this, you should either use the stand-alone [SOUP Chrome extension][chrome-ext] or set Inject Mode to "Instant" in Tampermonkey preferences (in the Experimental section, only visible when Config Mode is set to "Advanced" above).  Other user script managers on Chrome may also be subject to similar issues.</sup>
+
 
 ### Installing the development version
 

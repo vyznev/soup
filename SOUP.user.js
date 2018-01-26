@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.8
+// @version     1.51.9
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2360,19 +2360,10 @@ var soupInit = function () {
 			}
 		} );
 	};
-	
-	SOUP.log( 'soup init complete' );
-};
 
-// setup code to execute after jQuery has loaded:
-var soupLateSetup = function () {
-	// no jQuery? just give up!
-	if ( !( window.$ && $.fn && $.fn.jquery ) ) {
-		SOUP.log( 'soup found no jQuery, aborting setup' );
-		return;
-	}
 	// XXX: area51 is still using jQuery 1.4, which doesn't have .on()!
-	if ( ! $.fn.on && ! $.fn.off ) {
+	SOUP.jQueryInit( 'jQuery.on()/.off() polyfill', function () {
+		if ( $.fn.on || $.fn.off ) return;
 		SOUP.log( 'soup injecting .on()/.off() polyfill for jQuery ' + $.fn.jquery );
 		$.fn.on = function ( arg1, arg2, arg3, arg4 ) {
 			if ( typeof arg2 === 'string' ) {
@@ -2395,6 +2386,17 @@ var soupLateSetup = function () {
 				return this.unbind.call( this, arg1, arg3 );
 			}
 		};
+	} );
+
+	SOUP.log( 'soup init complete' );
+};
+
+// setup code to execute after jQuery has loaded:
+var soupLateSetup = function () {
+	// no jQuery? just give up!
+	if ( !( window.$ && $.fn && $.fn.jquery ) ) {
+		SOUP.log( 'soup found no jQuery, aborting setup' );
+		return;
 	}
 
 	// utility and compatibility wrapper around the undocumented jQuery._data() function
