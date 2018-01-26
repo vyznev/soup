@@ -1687,9 +1687,6 @@ fixes.mse178439 = {
 	url:	"https://meta.stackexchange.com/q/178439",
 	path:	/^\/questions\/\d+/,
 	script:	function () {
-		// TODO: support sorting by age / activity, too?
-		if ( $('#tabs a.youarehere[href*="?answertab=votes"]').length != 1 ) return;
-
 		var answers = $('#answers > .answer'), firstAnswer = answers.first();
 		if ( ! firstAnswer.is('.downvoted-answer.accepted-answer') ) return;
 
@@ -1697,13 +1694,37 @@ fixes.mse178439 = {
 			// XXX: we assume that no answers have expanded vote counts yet when this runs
 			return Number( $('.vote-count-post', post).text() );
 		}
+		function getTimestamp (post, index) {
+			return $('.post-signature .user-action-time .relativetime', post).eq(index).attr('title') || "";
+		}
 
-		var acceptedScore = getScore( firstAnswer );
-		var betterAnswers = answers.not('.deleted-answer').filter( function () { return getScore(this) > acceptedScore } );
+		var order = /[?&]answertab=([^&#]*)/.exec( $('#tabs a.youarehere').attr('href') );
+		if ( ! order ) return SOUP.log( 'soup mse178439: unable to determine answer sort mode!' );
+
+		var acceptedScore = getScore( firstAnswer );  // XXX: we need this anyway for logging
+		var filterFunc;
+		switch ( order[1] ) {
+			case 'votes':
+				answers = answers.not('.deleted-answer');  // deleted answers always sort last by score!
+				filterFunc = function () { return getScore(this) > acceptedScore };
+				break;
+			case 'active':
+				var acceptedActive = getTimestamp( firstAnswer, 0 );  // assume edit timestamp comes first
+				filterFunc = function () { return getTimestamp(this, 0) > acceptedActive };
+				break;
+			case 'oldest':
+				var acceptedCreated = getTimestamp( firstAnswer, -1 );  // assume creation timestamp comes last
+				// XXX: community wiki answers only show the last edit time, so that's all we get here :(
+				filterFunc = function () { return getTimestamp(this, -1) < acceptedCreated };
+				break;
+			default:
+				SOUP.log( 'soup mse178439: unrecognized answer sort mode', order[1] );
+				return;
+		}
+		var betterAnswers = answers.slice(1).filter( filterFunc );
 		// TODO: check that the answers actually are consecutive?
-
 		if ( betterAnswers.length < 1 ) return;
-		SOUP.log( 'soup mse178439 moving accepted answer with score ' + acceptedScore + ' below ' + betterAnswers.length + ' higher scored answers' );
+		SOUP.log( 'soup mse178439 moving accepted answer with score ' + acceptedScore + ' below ' + betterAnswers.length + ' other answer(s) by ' + order[1] );
 
 		var anchor = firstAnswer.prev( 'a[name=' + Number( firstAnswer.data('answerid') ) + ']' );
 		betterAnswers.last().after( anchor, firstAnswer );
