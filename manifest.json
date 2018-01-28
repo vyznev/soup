@@ -4,8 +4,8 @@
 	"short_name":	"SOUP",
 	"description":	"Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)",
 	"author":	"Ilmari Karonen",
-	"version":	"1.51.11",
-	"version_name":	"1.51.11 (development)",
+	"version":	"1.51.12",
+	"version_name":	"1.51.12 (development)",
 	"homepage_url":	"https://stackapps.com/questions/4486/the-stack-overflow-unofficial-patch-soup",
 	"icons": {
 		"16":	"icon/SOUP_icon_16.png",

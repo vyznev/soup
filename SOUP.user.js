@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.11
+// @version     1.51.12
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2100,6 +2100,15 @@ fixes.math11036 = {
 				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
 			} );
 		}
+	}
+};
+fixes.physics10312 = {
+	title:	"Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?",
+	url:	"https://physics.meta.stackexchange.com/q/10312",
+	script:	function () {
+		SOUP.hookAjax( /^\/filter\/tags-for-index\b/, function () {
+			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, "tags_list"]);
+		} );
 	}
 };
 

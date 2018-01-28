@@ -13,6 +13,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254) (CSS)
 * [mso362554: Why are the chat FAQ in almost identical links different?](https://meta.stackoverflow.com/q/362554)
 * [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449) (CSS, aviation.SE only)
+* [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
 
 **Other changes:**
 
