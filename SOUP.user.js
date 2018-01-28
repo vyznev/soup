@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.10
+// @version     1.51.11
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -438,6 +438,13 @@ fixes.mse306254 = {
 	url:	"https://meta.stackexchange.com/q/306254",
 	sites:	/^stackexchange\.com$/,
 	css:	"body .league-container { overflow: hidden }"
+};
+fixes.aviation3449 = {
+	title:	"Accepted graphic missing in questions tab",
+	url:	"https://aviation.meta.stackexchange.com/q/3449",
+	sites:	/^aviation\./,
+	// these are mostly copied from the SE style for .answered-accepted .mini-counts on the front page
+	css:	".statscontainer .answered-accepted strong { border-radius: 50%; color: #FFF; background-color: #15B58A; width: 36px; height: 36px; line-height: 36px; margin: -10px auto 0 auto }"
 };
 
 

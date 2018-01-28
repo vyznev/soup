@@ -12,6 +12,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
 * [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254) (CSS)
 * [mso362554: Why are the chat FAQ in almost identical links different?](https://meta.stackoverflow.com/q/362554)
+* [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449) (CSS, aviation.SE only)
 
 **Other changes:**
 
