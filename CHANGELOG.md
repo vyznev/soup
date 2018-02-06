@@ -14,6 +14,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso362554: Why are the chat FAQ in almost identical links different?](https://meta.stackoverflow.com/q/362554)
 * [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449) (CSS, aviation.SE only)
 * [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
+* [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470)
 
 **Other changes:**
 
@@ -22,6 +23,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Use `CHAT.addEventHandlerHook()` instead of klugy WebSocket hack to apply content filters to new chat events.  Remove `SOUP.hookChat()` as obsolete.
 * Remove vendor prefix fallbacks from [mse84296](https://meta.stackexchange.com/q/84296) `unicode-bidi` CSS to avoid [weird breakage on Edge](https://github.com/vyznev/soup/issues/32).
 * SOUP now installs a setter on `window.jQuery` to allow fixes that patch jQuery to run immediately after it has loaded.  (Unfortunately some browsers and user script managers have race conditions that make this unreliable; see e.g. [Tampermonkey issue #211](https://github.com/Tampermonkey/tampermonkey/issues/211).)
+* Fix CSS bug in [mse217779](https://meta.stackexchange.com/q/217779) fix causing pages with spoilers to have an unnecessary horizontal scroll bar.
 
 
 1.50 (2018-01-23)

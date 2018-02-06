@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.12
+// @version     1.51.13
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -567,7 +567,7 @@ fixes.mse217779 = {
 		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
 		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
 		// bonus: differentiate spoilers from empty blockquotes, per https://meta.stackexchange.com/q/104085
-		".soup-spoiler, .spoiler { min-height: 1em }" +  // ensure that the notice is visible even if the spoiler is empty
+		".soup-spoiler, .spoiler { position: relative; min-height: 1em }" +  // limit notice width to spoiler width; ensure that the notice is visible even if the spoiler is empty
 		".soup-spoiler::before, .spoiler::before { position: absolute; width: 100%; content: 'spoiler: hover / click to reveal'; opacity: 0.25; transition: opacity 0.5s ease-in 0.5s } " +
 		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; width: 0; overflow: hidden; transition: opacity 0.5s ease-in 0s, width 0s 0.5s }" +
 		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
@@ -2109,6 +2109,21 @@ fixes.physics10312 = {
 		SOUP.hookAjax( /^\/filter\/tags-for-index\b/, function () {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, "tags_list"]);
 		} );
+	}
+};
+fixes.math27470 = {
+	title:	"MathJax preview does not work when editing from review (or when editing a deleted question)",
+	url:	"https://math.meta.stackexchange.com/q/27470",
+	script:	function () {
+		if ( ! window.MathJax ) return;
+		// XXX: the code below is copied verbatim from a script tag included on math.SE question pages
+		StackExchange.ifUsing("editor", function () {
+			return StackExchange.using("mathjaxEditing", function () {
+				StackExchange.MarkdownEditor.creationCallbacks.add(function (editor, postfix) {
+					StackExchange.mathjaxEditing.prepareWmdForMathJax(editor, postfix, [["$", "$"], ["\\\\(","\\\\)"]]);
+				});
+			});
+		}, "mathjax-editing");
 	}
 };
 
