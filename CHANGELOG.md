@@ -24,6 +24,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Remove vendor prefix fallbacks from [mse84296](https://meta.stackexchange.com/q/84296) `unicode-bidi` CSS to avoid [weird breakage on Edge](https://github.com/vyznev/soup/issues/32).
 * SOUP now installs a setter on `window.jQuery` to allow fixes that patch jQuery to run immediately after it has loaded.  (Unfortunately some browsers and user script managers have race conditions that make this unreliable; see e.g. [Tampermonkey issue #211](https://github.com/Tampermonkey/tampermonkey/issues/211).)
 * Fix CSS bug in [mse217779](https://meta.stackexchange.com/q/217779) fix causing pages with spoilers to have an unnecessary horizontal scroll bar.
+* Update [mse213709](https://meta.stackexchange.com/q/213709) fix to work with the new mobile comment HTML.
 
 
 1.50 (2018-01-23)

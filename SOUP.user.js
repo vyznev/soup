@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.13
+// @version     1.51.14
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1591,11 +1591,14 @@ fixes.mse213709 = {
 		if ( ! SOUP.isMobile ) return;
 		SOUP.addContentFilter( function (where) {
 			SOUP.log('soup mse213709 fix active');
-			$(where).find('.comment-actions:has(.comment-up, .comment-up-on):not(:has(.comment-flag)) > table > tbody').append(
-				'<tr><td></td><td><a class="comment-flag soup-comment-flag" title="flag this comment"></a></td></tr>'
+			$(where).find('div.comment-voting:has(a.comment-up, a.comment-up-on):not(:has(.comment-flag))').append(
+				'<a class="comment-flag soup-comment-flag" title="flag this comment"></a>'
 			);
 		}, 'mobile comment flag link fix', null, ['load', 'post', 'comments'] );
-		$(document.body).addClass('soup-mse213709');
+		SOUP.hookAjax( /^\/flags\/comments\/\d+\/popup\b/, function () {
+			var popup = $('div.comment-voting > .popup-flag-comment');
+			popup.closest('.comment').after(popup);
+		} );
 	},
 	css:	".soup-comment-flag { display: block; margin: 0 auto; height: 20px; width: 20px; text-indent: -999em;" +
 		" background-repeat: no-repeat; background-position: 2px 6px; background-size: 16px;" +
@@ -1603,7 +1606,7 @@ fixes.mse213709 = {
 			'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" viewBox="0 0 32 22">' +
 			'<path stroke="#77808E" stroke-width="2" d="M11 1h16v12h-16zM7 0V22" fill="none"/></svg>'
 		) + "') }" +
-		"body.soup-mse213709 .popup-flag-comment { position: absolute; left: 20px; right: 20px; width: auto; text-align: left; z-index: 3 }"
+		".popup-flag-comment { color: #0C0D0E }"  // default body text color
 };
 fixes.mso356880 = {
 	title:	"“This post has been edited x time since you began” persists after saving the question",
