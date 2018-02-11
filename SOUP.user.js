@@ -1606,7 +1606,7 @@ fixes.mse213709 = {
 			'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" viewBox="0 0 32 22">' +
 			'<path stroke="#77808E" stroke-width="2" d="M11 1h16v12h-16zM7 0V22" fill="none"/></svg>'
 		) + "') }" +
-		".popup-flag-comment { color: #0C0D0E }"  // default body text color
+		".comment + .popup-flag-comment { color: #0C0D0E }"  // default body text color
 };
 fixes.mso356880 = {
 	title:	"“This post has been edited x time since you began” persists after saving the question",
