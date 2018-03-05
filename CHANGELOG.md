@@ -25,6 +25,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * SOUP now installs a setter on `window.jQuery` to allow fixes that patch jQuery to run immediately after it has loaded.  (Unfortunately some browsers and user script managers have race conditions that make this unreliable; see e.g. [Tampermonkey issue #211](https://github.com/Tampermonkey/tampermonkey/issues/211).)
 * Fix CSS bug in [mse217779](https://meta.stackexchange.com/q/217779) fix causing pages with spoilers to have an unnecessary horizontal scroll bar.
 * Update [mse213709](https://meta.stackexchange.com/q/213709) fix to work with the new mobile comment HTML.
+* Tweak [mse154788](https://meta.stackexchange.com/q/154788) and [mse243519](https://meta.stackoverflow.com/q/243519) to (try to) avoid [a Chrome HTML rendering bug](https://bugs.chromium.org/p/chromium/issues/detail?id=813345) that can trigger spurious scroll bars on comments.
 
 
 1.50 (2018-01-23)

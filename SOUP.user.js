@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.14
+// @version     1.51.15
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -120,8 +120,8 @@ fixes.mse203405 = {
 fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"https://meta.stackexchange.com/q/154788",
-	// XXX: padding added to work around issue with spurious scroll bars in Chrome; see https://meta.stackexchange.com/q/240352
-	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
+	// XXX: this sometimes triggers spurious scroll bars in Chrome; see https://bugs.chromium.org/p/chromium/issues/detail?id=813345
+	css:	".comment-body { max-width: 628px; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
@@ -907,12 +907,15 @@ fixes.mse240417 = {
 fixes.mse243519 = {
 	title:	"Dangling signature dash in comments",
 	url:	"https://meta.stackoverflow.com/q/243519",
+	// FIXME: this is kind of broken on Chrome, and can trigger spurious scroll bars; see https://bugs.chromium.org/p/chromium/issues/detail?id=813345
+	// using a non-breaking space instead of normal space after the dash seems to mitigate the issue somewhat, but not entirely :(
+	// getting rid of white-space:nowrap would make this do nothing at all on Chrome, which might actually be preferable...
 	script:	function () {
-		var wrapper = $('<div> <span style="white-space:nowrap">– </span></div>').contents();
+		var wrapper = $('<div> <span style="white-space:nowrap">\u2013\xA0</span></div>').contents();
 		SOUP.addContentFilter( function () {
 			$('.comment-body > .comment-user').each( function () { 
 				var prev = this.previousSibling;
-				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*–[\xA0\s]*$/.test(prev.nodeValue) ) return;
+				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*\u2013[\xA0\s]*$/.test(prev.nodeValue) ) return;
 				wrapper.clone().replaceAll(prev).append(this);
 			} );
 		}, 'mse243519', null, ['load', 'post', 'comments'] );
