@@ -137,6 +137,7 @@ These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer 
 * [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](https://meta.stackexchange.com/q/264171)
 * **[mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082)** (on aviation, bicycles, gaming, movies, music, scifi, space and video)
 * [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413) (on the stackexchange.com portal)
+* [mse293413: Sorting SEDE output is unstable](https://meta.stackexchange.com/q/307605) (on [SEDE](https://data.stackechage.com))
 
 ### Review fixes
 

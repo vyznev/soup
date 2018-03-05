@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449) (CSS, aviation.SE only)
 * [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
 * [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470)
+* [mse293413: Sorting SEDE output is unstable](https://meta.stackexchange.com/q/307605) (SEDE only)
 
 **Other changes:**
 

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.15
+// @version     1.51.16
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2067,6 +2067,38 @@ fixes.mse293413 = {
 		$('.users-sidebar .userDetails img[src^="https://i.stack.imgur.com/"][src*="?s=16&"]').each( function () {
 			this.src = this.src.replace(/\?s=16&/, '?s=30&');
 		} );
+	}
+};
+fixes.mse307605 = {
+	title:	"Sorting SEDE output is unstable",
+	url:	"https://meta.stackexchange.com/q/307605",
+	sites:	/^data\.stackexchange\.com$/,
+	early:	function () {
+		var oldSort = Array.prototype.sort;
+		var defaultCompare = function (a, b) {
+			a = String(a);
+			b = String(b);
+			if (a < b) return -1;
+			if (a > b) return +1;
+			else return 0;
+		};
+		Array.prototype.sort = function (compare) {
+			var values = new Array (this.length);
+			var indexes = new Array (this.length);
+			for (var i = 0; i < this.length; i++) {
+				values[i] = this[i];
+				indexes[i] = i;
+			}
+			if ( ! compare ) compare = defaultCompare;
+			oldSort.call( indexes, function (a, b) {
+				if (a === b) return 0;  // shouldn't happen, but...
+				return compare(values[a], values[b]) || (a < b ? -1 : 1);
+			} );
+			for (var i = 0; i < this.length; i++) {
+				this[i] = values[indexes[i]];
+			}
+			return this;
+		};
 	}
 };
 
