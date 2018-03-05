@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.16
+// @version     1.51.17
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2074,28 +2074,48 @@ fixes.mse307605 = {
 	url:	"https://meta.stackexchange.com/q/307605",
 	sites:	/^data\.stackexchange\.com$/,
 	early:	function () {
-		var oldSort = Array.prototype.sort;
-		var defaultCompare = function (a, b) {
-			a = String(a);
-			b = String(b);
-			if (a < b) return -1;
-			if (a > b) return +1;
-			else return 0;
-		};
-		Array.prototype.sort = function (compare) {
-			var values = new Array (this.length);
-			var indexes = new Array (this.length);
-			for (var i = 0; i < this.length; i++) {
-				values[i] = this[i];
-				indexes[i] = i;
-			}
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort:
+		// "If omitted, the array is sorted according to each character's Unicode code point value, according to the string conversion of each element."
+		// XXX: The merge sort implementation below always provides the arguments to compare() in their original order, so we can treat a == b and a < b the same way!
+		function defaultCompare (a, b) {
+			return String(a) > String(b);
+		}
+
+		// merge the arrays left and right into output, based on the given comparison function
+		function merge (left, right, output, compare) {
 			if ( ! compare ) compare = defaultCompare;
-			oldSort.call( indexes, function (a, b) {
-				if (a === b) return 0;  // shouldn't happen, but...
-				return compare(values[a], values[b]) || (a < b ? -1 : 1);
-			} );
-			for (var i = 0; i < this.length; i++) {
-				this[i] = values[indexes[i]];
+			var i = 0, j = 0, k = 0;
+			while ( i < left.length && j < right.length ) {
+				var cmp = compare( left[i], right[j] );
+				output[k++] = ( cmp <= 0 ? left[i++] : right[j++] );
+			}
+			while ( i < left.length ) output[k++] = left[i++];
+			while ( j < right.length ) output[k++] = right[j++];
+		}
+
+		// sort an array in-place using insertion sort, based on the given comparison function
+		function insort (array, compare) {
+			if ( ! compare ) compare = defaultCompare;
+			for ( var i = 1; i < array.length; i++ ) {
+				var j = i, x = array[i];
+				while ( j > 0 && compare( array[j-1], x ) > 0 ) {
+					array[j] = array[j-1]; j--;
+				}
+				array[j] = x;
+			}
+		}
+
+		// custom stable .sort() method
+		Array.prototype.sort = function (compare) {
+			if ( this.length < 16) {
+				// use an insertion sort for short arrays (TODO: optimize threshold)
+				insort(this, compare);
+			} else {
+				// recursively sort and merge subarrays
+				var midpoint = this.length >> 1;
+				var left = this.slice(0, midpoint).sort(compare);
+				var right = this.slice(midpoint).sort(compare);
+				merge(left, right, this, compare);
 			}
 			return this;
 		};
