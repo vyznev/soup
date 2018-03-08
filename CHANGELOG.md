@@ -16,6 +16,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
 * [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470)
 * [mse293413: Sorting SEDE output is unstable](https://meta.stackexchange.com/q/307605) (SEDE only)
+* [mse307120: I cannot get bold or italics to work](https://meta.stackexchange.com/q/307120) (on android, codereview, crypto, cs, graphicdesign, japanese, magento, music and salesforce; loads CSS from Google Fonts)
 
 **Other changes:**
 

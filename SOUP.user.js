@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.17
+// @version     1.51.18
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -445,6 +445,47 @@ fixes.aviation3449 = {
 	sites:	/^aviation\./,
 	// these are mostly copied from the SE style for .answered-accepted .mini-counts on the front page
 	css:	".statscontainer .answered-accepted strong { border-radius: 50%; color: #FFF; background-color: #15B58A; width: 36px; height: 36px; line-height: 36px; margin: -10px auto 0 auto }"
+};
+fixes.mse307120 = {
+	title:	"I cannot get bold or italics to work",
+	url:	"https://meta.stackexchange.com/q/307120",
+	sites:	/^(android|codereview|crypto|cs|graphicdesign|japanese|magento|music|salesforce)\./,
+	// Google Fonts generates correct CSS; just let it override the SE style
+	// XXX: this causes Chrome to always use webfonts, even if a local font is present; this is a bug in Chrome, see https://bugs.chromium.org/p/chromium/issues/detail?id=627143 for more details
+	// TODO: a bunch of other sites are using font faces that aren't on Google Fonts or have nonstandard family names
+	early:	function () {
+		var fontFamily = 'Open+Sans:regular,italic,bold,bolditalic,semibold,semibolditalic,light,lightitalic|Inconsolata:regular,bold';
+		if ( /^(android|magento)\./.test( location.hostname ) ) fontFamily = 'Roboto:regular,italic,bold,bolditalic';
+		if ( /^(salesforce)\./.test( location.hostname ) ) fontFamily = 'PT+Sans:regular,italic,bold,bolditalic';
+
+		function injectCSS () {
+			SOUP.log('soup mse307120 loading ' + fontFamily + ' from Google Fonts');
+			var link = document.createElement('link');
+			link.setAttribute('rel', 'stylesheet');
+			link.setAttribute('href', 'https://fonts.googleapis.com/css?family=' + fontFamily);
+			document.head.appendChild(link);
+		}
+
+		// use a mutation observer to inject our style immediately after SE styles; with luck, the SE webfonts may never get loaded at all
+		// TODO: make this a generic helper function?
+		// FIXME: this may race with other user scripts using similar hacks, like https://gist.github.com/vyznev/9a3c5ddac714ac199166, producing unpredictable results
+		function observeElement ( element, callback ) {
+			if ( callback() ) return;
+			var observer = new MutationObserver( function () {
+				if ( callback() ) observer.disconnect();
+			} );
+			observer.observe( element, { childList: true, subtree: false } );
+		}
+		observeElement( document.documentElement, function () {
+			var head = document.head;
+			if (head) observeElement( head, function () {
+				var link = head.querySelector('link[rel=stylesheet][href*="/primary.css?"]');
+				if ( link ) injectCSS();
+				return link;
+			} );
+			return head;
+		} );
+	}
 };
 
 

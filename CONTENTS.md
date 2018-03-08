@@ -64,6 +64,7 @@ These pure CSS fixes are for issues specific to certain sites on the Stack Excha
 * [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574)
 * [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254)
 * [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449)
+* [mse307120: I cannot get bold or italics to work](https://meta.stackexchange.com/q/307120) (on android, codereview, crypto, cs, graphicdesign, japanese, magento, music and salesforce; loads CSS from Google Fonts)
 
 ### Chat-only fixes
 
