@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.18
+// @version     1.51.19
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2118,8 +2118,9 @@ fixes.mse307605 = {
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort:
 		// "If omitted, the array is sorted according to each character's Unicode code point value, according to the string conversion of each element."
 		// XXX: The merge sort implementation below always provides the arguments to compare() in their original order, so we can treat a == b and a < b the same way!
+		// XXX: ("" + x) is almost 10 times faster than String(x) on Firefox 58, especially when the input is already a string!
 		function defaultCompare (a, b) {
-			return String(a) > String(b);
+			return ("" + a) > ("" + b);
 		}
 
 		// merge the arrays left and right into output, based on the given comparison function
