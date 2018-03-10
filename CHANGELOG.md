@@ -74,6 +74,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mso306552](https://meta.stackoverflow.com/q/306552) was broken by new inline SVG icons, reimplement in pure CSS (with a new custom icon design).
 * Partially rewrote and renamed [boardgames1152](https://boardgames.meta.stackexchange.com/q/1152) as [boardgames1652](https://boardgames.meta.stackexchange.com/q/1652).
 
+**Changes in 1.50.1:**
+
+* Update [mse248646](https://meta.stackexchange.com/q/248646) fix to work with new `.remainingCommentsCount()` method in SE comments UI.
+
 
 1.48 (20 Sep 2017)
 ====
@@ -125,7 +129,7 @@ This release fixes a regression that broke the mhchem MathJax extension on sites
 
 **Changes in 1.48.4:**
 
-* Rewrite over-broad selector in [math11036](https://math.meta.stackexchange.com/q/11036) fix that caused [display math not to work in review](https://math.meta.stackexchange.com/q/27195).
+* Rewrite over-broad selector in [math19650](https://math.meta.stackexchange.com/q/19650) fix that caused [display math not to work in review](https://math.meta.stackexchange.com/q/27195).
 
 
 1.46 (11 Feb 2017)
