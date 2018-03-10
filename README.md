@@ -1,5 +1,5 @@
 <!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.51 -->
+<!-- version: 1.52 -->
 
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
