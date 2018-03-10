@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.50.1
+// @version     1.52.0
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -47,6 +47,7 @@
 
 
 ( function () {  // start of anonymous wrapper function (needed to restrict variable scope on Opera)
+"use strict";
 
 // Opera does not support @match, so re-check that we're on an SE site before doing anything
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
@@ -119,8 +120,8 @@ fixes.mse203405 = {
 fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"https://meta.stackexchange.com/q/154788",
-	// XXX: padding added to work around issue with spurious scroll bars in Chrome; see https://meta.stackexchange.com/q/240352
-	css:	".comment-body { max-width: 628px; padding: 0 2px 2px 0; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
+	// XXX: this sometimes triggers spurious scroll bars in Chrome; see https://bugs.chromium.org/p/chromium/issues/detail?id=813345
+	css:	".comment-body { max-width: 628px; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
@@ -166,13 +167,12 @@ fixes.mse169225 = {
 fixes.mse84296 = {
 	title:	"RTL text can mess up comment timestamps",
 	url:	"https://meta.stackexchange.com/q/84296",
-	// XXX: once browser support for unicode-bidi: isolate improves, the embed fallback and vendor prefixes can be removed
 	// FIXME: this apparently breaks stuff on Safari, but SOUP doesn't really have proper Safari support anyway yet
 	// (this was briefly enabled on SE, but was reverted due to the Safari issue; re-adding it to SOUP for now)
+	// TODO: check if the Safari issue still persists now that fallbacks have been removed
 	// SEE ALSO: mso310158 (prevent runaway BiDi overrides in new comments)
 	// NOTE: the #chat-body selectors and the .soup-bidi-isolate class are used by the mse342361 fix
-	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate ' +
-		"{ unicode-bidi: embed; unicode-bidi: -moz-isolate; unicode-bidi: -webkit-isolate; unicode-bidi: isolate }"
+	css:	'.comment-copy, .comment-user, .user-details a, a[href^="/users/"], #chat-body .user-name, #chat-body .text, .soup-bidi-isolate { unicode-bidi: isolate }'
 };
 fixes.mse249859 = {
 	title:	"<kbd> tags in headings are too small",
@@ -433,6 +433,60 @@ fixes.mse294574 = {
 	sites:	/^stackexchange\.com$/,
 	css:	"#question-list .question { word-wrap: break-word }"
 };
+fixes.mse306254 = {
+	title:	"Annoying animation on reputation leagues",
+	url:	"https://meta.stackexchange.com/q/306254",
+	sites:	/^stackexchange\.com$/,
+	css:	"body .league-container { overflow: hidden }"
+};
+fixes.aviation3449 = {
+	title:	"Accepted graphic missing in questions tab",
+	url:	"https://aviation.meta.stackexchange.com/q/3449",
+	sites:	/^aviation\./,
+	// these are mostly copied from the SE style for .answered-accepted .mini-counts on the front page
+	css:	".statscontainer .answered-accepted strong { border-radius: 50%; color: #FFF; background-color: #15B58A; width: 36px; height: 36px; line-height: 36px; margin: -10px auto 0 auto }"
+};
+fixes.mse307120 = {
+	title:	"I cannot get bold or italics to work",
+	url:	"https://meta.stackexchange.com/q/307120",
+	sites:	/^(android|codereview|crypto|cs|graphicdesign|japanese|magento|music|salesforce)\./,
+	// Google Fonts generates correct CSS; just let it override the SE style
+	// XXX: this causes Chrome to always use webfonts, even if a local font is present; this is a bug in Chrome, see https://bugs.chromium.org/p/chromium/issues/detail?id=627143 for more details
+	// TODO: a bunch of other sites are using font faces that aren't on Google Fonts or have nonstandard family names
+	early:	function () {
+		var fontFamily = 'Open+Sans:regular,italic,bold,bolditalic,semibold,semibolditalic,light,lightitalic|Inconsolata:regular,bold';
+		if ( /^(android|magento)\./.test( location.hostname ) ) fontFamily = 'Roboto:regular,italic,bold,bolditalic';
+		if ( /^(salesforce)\./.test( location.hostname ) ) fontFamily = 'PT+Sans:regular,italic,bold,bolditalic';
+
+		function injectCSS () {
+			SOUP.log('soup mse307120 loading ' + fontFamily + ' from Google Fonts');
+			var link = document.createElement('link');
+			link.setAttribute('rel', 'stylesheet');
+			link.setAttribute('href', 'https://fonts.googleapis.com/css?family=' + fontFamily);
+			document.head.appendChild(link);
+		}
+
+		// use a mutation observer to inject our style immediately after SE styles; with luck, the SE webfonts may never get loaded at all
+		// TODO: make this a generic helper function?
+		// FIXME: this may race with other user scripts using similar hacks, like https://gist.github.com/vyznev/9a3c5ddac714ac199166, producing unpredictable results
+		function observeElement ( element, callback ) {
+			if ( callback() ) return;
+			var observer = new MutationObserver( function () {
+				if ( callback() ) observer.disconnect();
+			} );
+			observer.observe( element, { childList: true, subtree: false } );
+		}
+		observeElement( document.documentElement, function () {
+			var head = document.head;
+			if (head) observeElement( head, function () {
+				var link = head.querySelector('link[rel=stylesheet][href*="/primary.css?"]');
+				if ( link ) injectCSS();
+				return link;
+			} );
+			return head;
+		} );
+	}
+};
 
 
 
@@ -524,6 +578,21 @@ fixes.mso342361 = {
 	},
 	css:	"#starred-posts .relativetime { unicode-bidi: embed }" // fallback
 };
+fixes.mso362554 = {
+	title:	"Why are the chat FAQ in almost identical links different?",
+	url:	"https://meta.stackoverflow.com/q/362554",
+	credit:	"suggested by mjpieters (https://github.com/vyznev/soup/issues/33), shim code by Frédéric Hamidi (https://stackoverflow.com/a/29298828)",
+	sites:	/^chat\./,
+	jqinit:	function () {
+		var slice = Array.prototype.slice;
+		if ( ! jQuery.curCSS ) jQuery.curCSS = function(element) {
+			var args = slice.call(arguments, 1);
+			SOUP.log( 'soup mso362554 jQuery.curCSS shim called on', element, 'with', args );
+			return jQuery.fn.css.apply(jQuery(element), args);
+		};
+		SOUP.log( 'soup mso362554 jQuery.curCSS shim applied' );
+	}
+};
 
 
 //
@@ -539,7 +608,7 @@ fixes.mse217779 = {
 		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
 		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
 		// bonus: differentiate spoilers from empty blockquotes, per https://meta.stackexchange.com/q/104085
-		".soup-spoiler, .spoiler { min-height: 1em }" +  // ensure that the notice is visible even if the spoiler is empty
+		".soup-spoiler, .spoiler { position: relative; min-height: 1em }" +  // limit notice width to spoiler width; ensure that the notice is visible even if the spoiler is empty
 		".soup-spoiler::before, .spoiler::before { position: absolute; width: 100%; content: 'spoiler: hover / click to reveal'; opacity: 0.25; transition: opacity 0.5s ease-in 0.5s } " +
 		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; width: 0; overflow: hidden; transition: opacity 0.5s ease-in 0s, width 0s 0.5s }" +
 		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
@@ -711,6 +780,7 @@ fixes.mse115702 = {
 	title:	"Option to delete an answer only visible after a reload",
 	url:	"https://meta.stackexchange.com/q/115702",
 	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.options || ! StackExchange.options.user ) return;
 		if ( StackExchange.options.user.rep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
@@ -838,7 +908,9 @@ fixes.mse266852 = {
 		SOUP.addContentFilter( function () {
 			$('div[id^="comments-link-"] .js-link-separator:not(.lsep)').addClass('lsep').text('|');
 		}, 'mse266852', null, ['load', 'post'] );
-	}
+	},
+	// pure CSS fallback to minimize visibility changes on page load
+	css:	'div[id^="comments-link-"] .js-link-separator:not(.lsep) { visibility: hidden }'
 };
 fixes.mse239549 = {
 	title:	"Mobile user profile page sort selectors stop working after first change",
@@ -878,12 +950,15 @@ fixes.mse240417 = {
 fixes.mse243519 = {
 	title:	"Dangling signature dash in comments",
 	url:	"https://meta.stackoverflow.com/q/243519",
+	// FIXME: this is kind of broken on Chrome, and can trigger spurious scroll bars; see https://bugs.chromium.org/p/chromium/issues/detail?id=813345
+	// using a non-breaking space instead of normal space after the dash seems to mitigate the issue somewhat, but not entirely :(
+	// getting rid of white-space:nowrap would make this do nothing at all on Chrome, which might actually be preferable...
 	script:	function () {
-		var wrapper = $('<div> <span style="white-space:nowrap">– </span></div>').contents();
+		var wrapper = $('<div> <span style="white-space:nowrap">\u2013\xA0</span></div>').contents();
 		SOUP.addContentFilter( function () {
 			$('.comment-body > .comment-user').each( function () { 
 				var prev = this.previousSibling;
-				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*–[\xA0\s]*$/.test(prev.nodeValue) ) return;
+				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*\u2013[\xA0\s]*$/.test(prev.nodeValue) ) return;
 				wrapper.clone().replaceAll(prev).append(this);
 			} );
 		}, 'mse243519', null, ['load', 'post', 'comments'] );
@@ -1562,11 +1637,14 @@ fixes.mse213709 = {
 		if ( ! SOUP.isMobile ) return;
 		SOUP.addContentFilter( function (where) {
 			SOUP.log('soup mse213709 fix active');
-			$(where).find('.comment-actions:has(.comment-up, .comment-up-on):not(:has(.comment-flag)) > table > tbody').append(
-				'<tr><td></td><td><a class="comment-flag soup-comment-flag" title="flag this comment"></a></td></tr>'
+			$(where).find('div.comment-voting:has(a.comment-up, a.comment-up-on):not(:has(.comment-flag))').append(
+				'<a class="comment-flag soup-comment-flag" title="flag this comment"></a>'
 			);
 		}, 'mobile comment flag link fix', null, ['load', 'post', 'comments'] );
-		$(document.body).addClass('soup-mse213709');
+		SOUP.hookAjax( /^\/flags\/comments\/\d+\/popup\b/, function () {
+			var popup = $('div.comment-voting > .popup-flag-comment');
+			popup.closest('.comment').after(popup);
+		} );
 	},
 	css:	".soup-comment-flag { display: block; margin: 0 auto; height: 20px; width: 20px; text-indent: -999em;" +
 		" background-repeat: no-repeat; background-position: 2px 6px; background-size: 16px;" +
@@ -1574,7 +1652,7 @@ fixes.mse213709 = {
 			'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" viewBox="0 0 32 22">' +
 			'<path stroke="#77808E" stroke-width="2" d="M11 1h16v12h-16zM7 0V22" fill="none"/></svg>'
 		) + "') }" +
-		"body.soup-mse213709 .popup-flag-comment { position: absolute; left: 20px; right: 20px; width: auto; text-align: left; z-index: 3 }"
+		".comment + .popup-flag-comment { color: #0C0D0E }"  // default body text color
 };
 fixes.mso356880 = {
 	title:	"“This post has been edited x time since you began” persists after saving the question",
@@ -1670,6 +1748,7 @@ fixes.mse286345 = {
 	url:	"https://meta.stackexchange.com/q/286345",
 	// XXX: despite the title, this bug is not actually mobile specific
 	script:	function () {
+		if ( ! window.StackExchange || ! StackExchange.ifUsing ) return;
 		var selector = "textarea, input:not([type=checkbox],[type=radio],[type=submit],[type=button],[type=image],[type=reset])";
 		StackExchange.ifUsing( 'keyboardShortcuts', function () {
 			// the SE keyboard shortcuts script installs its own handler on $(document), so we should catch the events first
@@ -1678,6 +1757,54 @@ fixes.mse286345 = {
 				return true;
 			} );
 		} );
+	}
+};
+fixes.mse178439 = {
+	title:	"Can we exempt downvoted accepted answers from getting the top spot?",
+	url:	"https://meta.stackexchange.com/q/178439",
+	path:	/^\/questions\/\d+/,
+	script:	function () {
+		var answers = $('#answers > .answer'), firstAnswer = answers.first();
+		if ( ! firstAnswer.is('.downvoted-answer.accepted-answer') ) return;
+
+		function getScore (post) {
+			// XXX: we assume that no answers have expanded vote counts yet when this runs
+			return Number( $('.vote-count-post', post).text() );
+		}
+		function getTimestamp (post, index) {
+			return $('.post-signature .user-action-time .relativetime', post).eq(index).attr('title') || "";
+		}
+
+		var order = /[?&]answertab=([^&#]*)/.exec( $('#tabs a.youarehere').attr('href') );
+		if ( ! order ) return SOUP.log( 'soup mse178439: unable to determine answer sort mode!' );
+
+		var acceptedScore = getScore( firstAnswer );  // XXX: we need this anyway for logging
+		var filterFunc;
+		switch ( order[1] ) {
+			case 'votes':
+				answers = answers.not('.deleted-answer');  // deleted answers always sort last by score!
+				filterFunc = function () { return getScore(this) > acceptedScore };
+				break;
+			case 'active':
+				var acceptedActive = getTimestamp( firstAnswer, 0 );  // assume edit timestamp comes first
+				filterFunc = function () { return getTimestamp(this, 0) > acceptedActive };
+				break;
+			case 'oldest':
+				var acceptedCreated = getTimestamp( firstAnswer, -1 );  // assume creation timestamp comes last
+				// XXX: community wiki answers only show the last edit time, so that's all we get here :(
+				filterFunc = function () { return getTimestamp(this, -1) < acceptedCreated };
+				break;
+			default:
+				SOUP.log( 'soup mse178439: unrecognized answer sort mode', order[1] );
+				return;
+		}
+		var betterAnswers = answers.slice(1).filter( filterFunc );
+		// TODO: check that the answers actually are consecutive?
+		if ( betterAnswers.length < 1 ) return;
+		SOUP.log( 'soup mse178439 moving accepted answer with score ' + acceptedScore + ' below ' + betterAnswers.length + ' other answer(s) by ' + order[1] );
+
+		var anchor = firstAnswer.prev( 'a[name=' + Number( firstAnswer.data('answerid') ) + ']' );
+		betterAnswers.last().after( anchor, firstAnswer );
 	}
 };
 
@@ -1975,6 +2102,69 @@ fixes.mse299082 = {
 		encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 124"><path d="m172.3 104.6c-2.024 7.622-7.987 13.62-15.56 15.66-13.7 3.7-68.7 3.7-68.7 3.7s-55.04 0-68.76-3.7c-7.57-2-13.54-8-15.56-15.7-3.68-13.78-3.68-42.6-3.68-42.6s0-28.82 3.678-42.64c2.024-7.62 7.992-13.62 15.56-15.66 13.72-3.7 68.76-3.7 68.76-3.7s55.04 0 68.76 3.701c7.573 2.038 13.54 8.04 15.56 15.66 3.7 13.82 3.7 42.64 3.7 42.64s0 28.82-3.678 42.64" fill="#f00"/><path d="m70 35.83 46 26.17-46 26.17v-52.34" fill="#fff"/></svg>' ) +
 		") #282828 center/10% no-repeat }"
 };
+fixes.mse293413 = {
+	title:	"Let's see the Top Network Askers better",
+	url:	"https://meta.stackexchange.com/q/293413",
+	sites:	/^stackexchange\.com$/,
+	script:	function () {
+		$('.users-sidebar .userDetails img[src^="https://i.stack.imgur.com/"][src*="?s=16&"]').each( function () {
+			this.src = this.src.replace(/\?s=16&/, '?s=30&');
+		} );
+	}
+};
+fixes.mse307605 = {
+	title:	"Sorting SEDE output is unstable",
+	url:	"https://meta.stackexchange.com/q/307605",
+	sites:	/^data\.stackexchange\.com$/,
+	early:	function () {
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort:
+		// "If omitted, the array is sorted according to each character's Unicode code point value, according to the string conversion of each element."
+		// XXX: The merge sort implementation below always provides the arguments to compare() in their original order, so we can treat a == b and a < b the same way!
+		// XXX: ("" + x) is almost 10 times faster than String(x) on Firefox 58, especially when the input is already a string!
+		function defaultCompare (a, b) {
+			return ("" + a) > ("" + b);
+		}
+
+		// merge the arrays left and right into output, based on the given comparison function
+		function merge (left, right, output, compare) {
+			if ( ! compare ) compare = defaultCompare;
+			var i = 0, j = 0, k = 0;
+			while ( i < left.length && j < right.length ) {
+				var cmp = compare( left[i], right[j] );
+				output[k++] = ( cmp <= 0 ? left[i++] : right[j++] );
+			}
+			while ( i < left.length ) output[k++] = left[i++];
+			while ( j < right.length ) output[k++] = right[j++];
+		}
+
+		// sort an array in-place using insertion sort, based on the given comparison function
+		function insort (array, compare) {
+			if ( ! compare ) compare = defaultCompare;
+			for ( var i = 1; i < array.length; i++ ) {
+				var j = i, x = array[i];
+				while ( j > 0 && compare( array[j-1], x ) > 0 ) {
+					array[j] = array[j-1]; j--;
+				}
+				array[j] = x;
+			}
+		}
+
+		// custom stable .sort() method
+		Array.prototype.sort = function (compare) {
+			if ( this.length < 16) {
+				// use an insertion sort for short arrays (TODO: optimize threshold)
+				insort(this, compare);
+			} else {
+				// recursively sort and merge subarrays
+				var midpoint = this.length >> 1;
+				var left = this.slice(0, midpoint).sort(compare);
+				var right = this.slice(midpoint).sort(compare);
+				merge(left, right, this, compare);
+			}
+			return this;
+		};
+	}
+};
 
 
 
@@ -2012,6 +2202,30 @@ fixes.math11036 = {
 				window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'user-tab-activity']);
 			} );
 		}
+	}
+};
+fixes.physics10312 = {
+	title:	"Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?",
+	url:	"https://physics.meta.stackexchange.com/q/10312",
+	script:	function () {
+		SOUP.hookAjax( /^\/filter\/tags-for-index\b/, function () {
+			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, "tags_list"]);
+		} );
+	}
+};
+fixes.math27470 = {
+	title:	"MathJax preview does not work when editing from review (or when editing a deleted question)",
+	url:	"https://math.meta.stackexchange.com/q/27470",
+	script:	function () {
+		if ( ! window.MathJax ) return;
+		// XXX: the code below is copied verbatim from a script tag included on math.SE question pages
+		StackExchange.ifUsing("editor", function () {
+			return StackExchange.using("mathjaxEditing", function () {
+				StackExchange.MarkdownEditor.creationCallbacks.add(function (editor, postfix) {
+					StackExchange.mathjaxEditing.prepareWmdForMathJax(editor, postfix, [["$", "$"], ["\\\\(","\\\\)"]]);
+				});
+			});
+		}, "mathjax-editing");
 	}
 };
 
@@ -2146,7 +2360,32 @@ var soupInit = function () {
 	SOUP.log = function () {
 		if ( window.console ) console.log.apply( console, arguments );
 	};
-	
+
+	// run code immediately after jQuery has loaded
+	// FIXME: this often runs too late on Tampermonkey, see https://github.com/Tampermonkey/tampermonkey/issues/211 :(
+	SOUP.jQueryInitQueue = {};
+	SOUP.jQueryInit = function ( key, code ) {
+		if ( window.jQuery ) SOUP.try( key, code );
+		else SOUP.jQueryInitQueue[key] = code;
+	};
+	if ( ! window.jQuery ) {
+		SOUP.oldjQueryDesc = Object.getOwnPropertyDescriptor( window, 'jQuery' );
+		Object.defineProperty( window, 'jQuery', {
+			configurable: true,
+			set: function ($) {
+				if ( SOUP.oldjQueryDesc ) Object.defineProperty( this, 'jQuery', SOUP.oldjQueryDesc );
+				else delete this.jQuery;
+				this.jQuery = $;
+				for ( var key in SOUP.jQueryInitQueue ) {
+					SOUP.try( key, SOUP.jQueryInitQueue[key] );
+				}
+				SOUP.log( 'soup jQuery init fixes applied' );
+			}
+		} );
+		SOUP.log( 'soup window.jQuery setter initialized' );
+	} else {
+		SOUP.log( 'soup window.jQuery setter not applied, jQuery has already loaded!' );
+	}
 	
 	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
 	// note: use editor.getConverter() to access the Markdown converter
@@ -2231,102 +2470,6 @@ var soupInit = function () {
 		var where = '.topbar-dialog.' + match[1].replace( /site-switcher/, 'siteSwitcher' ) + '-dialog';
 		SOUP.runContentFilters( 'topbar', where );
 	} );
-	SOUP.chatContentFiltersPending = false;
-	SOUP.runChatContentFilters = function () {
-		SOUP.chatContentFiltersPending = false;
-		SOUP.runContentFilters( 'chat', '#chat-body' );
-	};
-
-	// utility for monitoring SE chat events
-	SOUP.chatHooks = [];
-	SOUP.hookChat = function ( code, key ) {
-		key = key || 'chat event hook';
-		SOUP.chatHooks.push( { code: code, key: key } );
-	};
-	SOUP.chatEventsSeen = false;
-	SOUP.runChatHooks = function ( data, source, url ) {
-		// if this looks like an update (not initial request), stop filter polling
-		if ( !SOUP.chatEventsSeen && /^\{"r\d+":/.test( data ) ) {
-			SOUP.log( "soup received chat " + source + " message, stopping filter polling" );
-			SOUP.chatEventsSeen = true;
-			SOUP.stopChatFilterPoll();
-		}
-		// run chat event hooks
-		var hooks = SOUP.chatHooks;
-		for ( var i = 0; i < hooks.length; i++ ) {
-			SOUP.try( hooks[i].key, hooks[i].code, arguments );
-		}
-		// if there seems to be some actual data, run content filters
-		if ( /"e":/.test( data ) ) {
-			if ( document.hidden ) SOUP.chatContentFiltersPending = true;
-			else SOUP.runChatContentFilters();
-		}
-	};
-	// SOUP.hookChat( function ( data, src, url ) { SOUP.log( src, data, url, document.hidden ) }, 'debug chat event hook' );
-
-	// Here's how we handle content filters for chat:
-	// * When the tab is visible, we run content filters on every chat
-	//   event, or every 0.5 seconds if we can't capture chat events.
-	// * When the tab is invisible, we mark filters as pending on chat
-	//   events, and stop the 0.5 second polling loop.
-	// * When the tab becomes visible, we run filters if pending, and
-	//   restart the polling if we haven't seen any chat events.
-
-	SOUP.chatFilterPollID = null;
-	SOUP.runChatFilterPoll = function () {
-		SOUP.chatFilterPollID = null;
-		if ( !SOUP.isChat || document.hidden || SOUP.chatEventsSeen ) return;
-		SOUP.runChatContentFilters();
-		SOUP.chatFilterPollID = setTimeout( SOUP.runChatFilterPoll, 500 );
-	};
-	SOUP.stopChatFilterPoll = function () {
-		if ( SOUP.chatFilterPollID !== null ) clearTimeout( SOUP.chatFilterPollID );
-		SOUP.chatFilterPollID = null;
-	};
-	
-	// hack the WebSocket interface so that we're informed of chat events
-	if ( SOUP.isChat && window.WebSocket ) {
-		var originRegexp = /^wss?:\/\/chat\.sockets\.stackexchange\.com(\/|$)/;
-		var onmessageWrapper = function ( msg ) {
-			var rv = (this._soup_onmessage || function () {}).apply( this, arguments );
-			if ( !msg || !msg.data || !originRegexp.test( msg.origin ) ) return rv;
-			if ( !SOUP.websocketHackActive ) SOUP.log( "soup websocket hack active" );  // It's working!
-			SOUP.websocketHackActive = true;
-			SOUP.runChatHooks( msg.data, 'websocket' );
-			return rv;
-		};
-		try {
-			SOUP.log( "soup initializing websocket hack" );
-			var RealWebSocket = SOUP.RealWebSocket = WebSocket;
-			WebSocket = function FakeWebSocket ( url ) {
-				// call real WebSocket constructor; eww...
-				// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#Using_apply_to_chain_constructors
-				var args = [].slice.apply( arguments );
-				var sock = new ( Function.prototype.bind.apply( RealWebSocket, [{}].concat( args ) ) )();
-				if ( !originRegexp.test( url ) ) return sock;
-				try {
-					sock.onmessage = onmessageWrapper;
-					Object.defineProperty( sock, 'onmessage', {
-						// XXX: defining a getter here stops this from working on Chrome, don't ask me why
-						set: function ( cb ) { if ( cb !== onmessageWrapper ) this._soup_onmessage = cb }
-					} );
-					SOUP.log( "soup applying websocket hack" );
-				}
-				catch (e) { SOUP.log( "applying soup websocket hack failed:", e ) }
-				return sock;
-			};
-			// copy static properties of the real WebSocket
-			for (var prop in RealWebSocket) WebSocket[prop] = RealWebSocket[prop];
-			WebSocket.prototype = RealWebSocket.prototype;
-		}
-		catch (e) { SOUP.log( "soup websocket hack failed:", e ) }		
-	}
-	if ( SOUP.isChat ) {		
-		// hook the non-websocket event interface too, in case websockets are disabled
-		SOUP.hookAjax( /^\/((chats\/\d+\/)events|user\/info)(\/|$)/, function ( event, xhr, settings ) {
-			SOUP.runChatHooks( xhr.responseText, 'ajax', settings.url );
-		} );
-	}
 
 	// allow fix code to subscribe to SE realtime question events
 	SOUP.questionSubscriptions = [];
@@ -2350,19 +2493,10 @@ var soupInit = function () {
 			}
 		} );
 	};
-	
-	SOUP.log( 'soup init complete' );
-};
 
-// setup code to execute after jQuery has loaded:
-var soupLateSetup = function () {
-	// no jQuery? just give up!
-	if ( !( window.$ && $.fn && $.fn.jquery ) ) {
-		SOUP.log( 'soup found no jQuery, aborting setup' );
-		return;
-	}
 	// XXX: area51 is still using jQuery 1.4, which doesn't have .on()!
-	if ( ! $.fn.on && ! $.fn.off ) {
+	SOUP.jQueryInit( 'jQuery.on()/.off() polyfill', function () {
+		if ( $.fn.on || $.fn.off ) return;
 		SOUP.log( 'soup injecting .on()/.off() polyfill for jQuery ' + $.fn.jquery );
 		$.fn.on = function ( arg1, arg2, arg3, arg4 ) {
 			if ( typeof arg2 === 'string' ) {
@@ -2385,6 +2519,17 @@ var soupLateSetup = function () {
 				return this.unbind.call( this, arg1, arg3 );
 			}
 		};
+	} );
+
+	SOUP.log( 'soup init complete' );
+};
+
+// setup code to execute after jQuery has loaded:
+var soupLateSetup = function () {
+	// no jQuery? just give up!
+	if ( !( window.$ && $.fn && $.fn.jquery ) ) {
+		SOUP.log( 'soup found no jQuery, aborting setup' );
+		return;
 	}
 
 	// utility and compatibility wrapper around the undocumented jQuery._data() function
@@ -2414,18 +2559,12 @@ var soupLateSetup = function () {
 		}
 	} );
 
-	// start chat content filter polling
-	if ( SOUP.isChat && /^\/rooms\b/.test( location.pathname ) ) $( document ).ready( function () {
-		document.addEventListener( 'visibilitychange', function () {
-			if ( SOUP.chatContentFiltersPending ) SOUP.runChatContentFilters();
-			if ( SOUP.chatEventsSeen ) return;
-			// if we're on chat but haven't seen any chat events, run filters every 0.5 s
-			if ( document.hidden ) SOUP.stopChatFilterPoll();
-			else if ( SOUP.chatFilterPollID === null ) SOUP.runChatFilterPoll(); 
-		} );
-		SOUP.runChatFilterPoll();
+	// trigger content filters on new chat messages
+	if ( window.CHAT && CHAT.addEventHandlerHook ) CHAT.addEventHandlerHook( function (event) {
+		if ( event.message_id ) setTimeout( function () {
+			SOUP.runContentFilters( 'chat', 'message-' + event.message_id );
+		}, 0 );
 	} );
-	
 	// trigger content filters on expanded user card display
 	$(document).on( 'userhovershowing', function ( event ) {
 		SOUP.runContentFilters( 'usercard', event.target );
@@ -2482,10 +2621,11 @@ var head = document.head || document.documentElement;
 var initScript = document.createElement( 'script' );
 initScript.id = 'soup-init';
 initScript.type = 'text/javascript';
-var code = "(" + soupInit + ")();\n";
+var code = "'use strict';\n(" + soupInit + ")();\n";
 for (var id in fixes) {
-	if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].early ) continue;
-	code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
+	if ( ! fixIsEnabled( fixes[id] ) ) continue;
+	if ( fixes[id].early ) code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
+	if ( fixes[id].jqinit ) code += "SOUP.jQueryInit(" + JSON.stringify(id) + ", " + fixes[id].jqinit + ");\n";
 }
 initScript.textContent = code;
 head.appendChild( initScript );
@@ -2519,7 +2659,7 @@ var injectScripts = function () {
 	var scriptElem = document.createElement( 'script' );
 	scriptElem.id = 'soup-scripts';
 	scriptElem.type = 'text/javascript';
-	var code = "(" + soupLateSetup + ")();\n";
+	var code = "'use strict';\n(" + soupLateSetup + ")();\n";
 	for (var id in fixes) {
 		if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].script ) continue;
 		code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";

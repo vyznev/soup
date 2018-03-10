@@ -3,6 +3,34 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
+1.52 (2018-03-10)
+====
+
+**New fixes in 1.52.0:**
+
+* [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413)
+* [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
+* [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254) (CSS)
+* [mso362554: Why are the chat FAQ in almost identical links different?](https://meta.stackoverflow.com/q/362554)
+* [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449) (CSS, aviation.SE only)
+* [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
+* [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470)
+* [mse293413: Sorting SEDE output is unstable](https://meta.stackexchange.com/q/307605) (SEDE only)
+* [mse307120: I cannot get bold or italics to work](https://meta.stackexchange.com/q/307120) (on android, codereview, crypto, cs, graphicdesign, japanese, magento, music and salesforce; loads CSS from Google Fonts)
+
+**Other changes:**
+
+* Clean up some console noise on chat, SE.com and other non-QA sites that don't have the same `StackExchange` object as normal QA pages.
+* Add missing `"use strict;"`.  SOUP code should already be strict mode compliant, but this ensures it.
+* Use `CHAT.addEventHandlerHook()` instead of klugy WebSocket hack to apply content filters to new chat events.  Remove `SOUP.hookChat()` as obsolete.
+* Remove vendor prefix fallbacks from [mse84296](https://meta.stackexchange.com/q/84296) `unicode-bidi` CSS to avoid [weird breakage on Edge](https://github.com/vyznev/soup/issues/32).
+* SOUP now installs a setter on `window.jQuery` to allow fixes that patch jQuery to run immediately after it has loaded.  (Unfortunately some browsers and user script managers have race conditions that make this unreliable; see e.g. [Tampermonkey issue #211](https://github.com/Tampermonkey/tampermonkey/issues/211).)
+* Fix CSS bug in [mse217779](https://meta.stackexchange.com/q/217779) fix causing pages with spoilers to have an unnecessary horizontal scroll bar.
+* Update [mse213709](https://meta.stackexchange.com/q/213709) fix to work with the new mobile comment HTML.
+* Tweak [mse154788](https://meta.stackexchange.com/q/154788) and [mse243519](https://meta.stackoverflow.com/q/243519) to (try to) avoid [a Chrome HTML rendering bug](https://bugs.chromium.org/p/chromium/issues/detail?id=813345) that can trigger spurious scroll bars on comments.
+* The [mse266852](https://meta.stackoverflow.com/q/266852) fix now uses a pure CSS fallback to hide the separators before the script runs.
+
+
 1.50 (2018-01-23)
 ====
 
@@ -14,7 +42,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [mse291623: Links that are italics and bold not showing as links in Mobile Web](https://meta.stackexchange.com/q/291623) (for mobile view)
 * [mse287196: Tick sign is not centered on single badge page](https://meta.stackexchange.com/q/287196)
 * [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
-* [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/9071)
+* [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/90713)
 * [mse302580: Printing an SE page in Firefox shows only the first page](https://meta.stackexchange.com/q/302580)
 * [mse302569: Alignment improvement in the flag dialog](https://meta.stackexchange.com/q/302569)
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
