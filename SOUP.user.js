@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.51.19
+// @version     1.51.20
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -908,7 +908,9 @@ fixes.mse266852 = {
 		SOUP.addContentFilter( function () {
 			$('div[id^="comments-link-"] .js-link-separator:not(.lsep)').addClass('lsep').text('|');
 		}, 'mse266852', null, ['load', 'post'] );
-	}
+	},
+	// pure CSS fallback to minimize visibility changes on page load
+	css:	'div[id^="comments-link-"] .js-link-separator:not(.lsep) { visibility: hidden }'
 };
 fixes.mse239549 = {
 	title:	"Mobile user profile page sort selectors stop working after first change",

@@ -28,6 +28,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Fix CSS bug in [mse217779](https://meta.stackexchange.com/q/217779) fix causing pages with spoilers to have an unnecessary horizontal scroll bar.
 * Update [mse213709](https://meta.stackexchange.com/q/213709) fix to work with the new mobile comment HTML.
 * Tweak [mse154788](https://meta.stackexchange.com/q/154788) and [mse243519](https://meta.stackoverflow.com/q/243519) to (try to) avoid [a Chrome HTML rendering bug](https://bugs.chromium.org/p/chromium/issues/detail?id=813345) that can trigger spurious scroll bars on comments.
+* The [mse266852](https://meta.stackoverflow.com/q/266852) fix now uses a pure CSS fallback to hide the separators before the script runs.
 
 
 1.50 (2018-01-23)
