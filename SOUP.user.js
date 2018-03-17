@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.52.0
+// @version     1.53.0
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2163,6 +2163,18 @@ fixes.mse307605 = {
 			}
 			return this;
 		};
+	}
+};
+fixes.mse308072 = {
+	title:	"Clicking on tags in global search results is broken",
+	url:	"https://meta.stackexchange.com/q/308072",
+	sites:	/^stackexchange\.com$/,
+	path:	/^\/search\b/,
+	script:	function () {
+		$('.summary a.post-tag[href^="/questions/"]').attr( 'href', function ( i, href ) {
+			var q = $(this).closest('.summary').find('.result-link a[href^="https://"]')[0];
+			return ( q ? q.origin : "" ) + href;
+		} );
 	}
 };
 
