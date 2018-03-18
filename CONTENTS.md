@@ -148,6 +148,7 @@ These fixes apply to the post review interface.  I've listed them separately her
 * **[mse172931: Please put answers underneath questions in Close review queue](https://meta.stackexchange.com/q/172931)**
 * [mso297489: Add close option to the “Help and Improvement” queue to avoid cluttering flags?](https://meta.stackoverflow.com/q/297489)
 * [mso356880: “This post has been edited x time since you began” persists after saving the question](https://meta.stackoverflow.com/q/356880)
+* [mse307976: Can't see all the options while reviewing with a small screen](https://meta.stackexchange.com/q/307976)
 
 ### MathJax-related fixes:
 

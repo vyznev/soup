@@ -8,6 +8,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.53.x:**
 
 * [mse308072: Clicking on tags in global search results is broken](https://meta.stackexchange.com/q/308072)
+* [mse307976: Can't see all the options while reviewing with a small screen](https://meta.stackexchange.com/q/307976)
 
 
 1.52 (2018-03-10)

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.53.0
+// @version     1.53.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1807,7 +1807,17 @@ fixes.mse178439 = {
 		betterAnswers.last().after( anchor, firstAnswer );
 	}
 };
-
+fixes.mse307976 = {
+	title:	"Can't see all the options while reviewing with a small screen",
+	url:	"https://meta.stackexchange.com/q/307976",
+	path:	/^\/review\b/,
+	script:	function () {
+		var $window = $(window), $header = $('.review-bar-container'), $bar = $('.review-bar');
+		$window.on( 'scroll resize', function () {
+			$bar.css( 'left', $header.offset().left - $window.scrollLeft() );
+		} )
+	}
+};
 
 //
 // Site-specific JS fixes:
@@ -2009,8 +2019,8 @@ fixes.french347 = {
 	script:	function () {
 		SOUP.addContentFilter( function ( where ) {
 			SOUP.forEachTextNode( where, function ( text ) {
-				text = text.replace(/(\S) ([:;!?»])/g, '$1\u202F$2');
-				text = text.replace(/(«) (\S)/g, '$1\u202F$2');
+				text = text.replace(/(\S) ([:;!?\xBB])/g, '$1\u202F$2');
+				text = text.replace(/(\xAB) (\S)/g, '$1\u202F$2');
 				return text;
 			} );
 		}, 'French space fix' );
