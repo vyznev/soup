@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.52.0
+// @version     1.52.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -13,6 +13,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
+// @exclude     https://stackoverflow.com/c/*
 // @homepageURL https://stackapps.com/questions/4486/the-stack-overflow-unofficial-patch-soup
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
@@ -52,6 +53,9 @@
 // Opera does not support @match, so re-check that we're on an SE site before doing anything
 var include_re = /(^|\.)((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
 if ( ! include_re.test( location.hostname ) ) return;
+
+// also re-check Teams exclusion here, just in case
+if ( /^\/c\//.test( location.pathname ) ) return;
 
 // just in case @noframes doesn't work
 try { if ( window.self !== window.top ) return } catch (e) { return }
@@ -785,6 +789,9 @@ fixes.mse115702 = {
 		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 		var lsep = '<span class="lsep">|</span>';
 		function updateDeleteLinks( postid, score ) {
+			if ( /[^0-9]/.test(postid) ) {
+				return SOUP.log('SOUP mse115702 received invalid postid = "' + postid + '", aborting!');
+			}
 			var isAnswer = $('#answer-' + postid).length > 0;
 			if ( ! isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
 
@@ -1098,6 +1105,9 @@ fixes.mso300679 = {
 			return tag;
 		}
 		SOUP.addEditorCallback( function (editor, postfix) {
+			if ( /[^0-9A-Za-z\-_]/.test(postfix) ) {
+				return SOUP.log('SOUP mso300679 received invalid postfix = "' + postfix + '", aborting!');
+			}
 			var $body = $('#wmd-input' + postfix), $popup;
 			var options = StackExchange.postValidation.getSidebarPopupOptions();
 			options.type = 'warning';
@@ -1455,6 +1465,9 @@ fixes.mso338932 = {
 		};
 		// the SE prepareWmd() callback adds these handlers, we strip them :)
 		SOUP.addEditorCallback( function ( editor, postfix ) {
+			if ( /[^0-9A-Za-z\-_]/.test(postfix) ) {
+				return SOUP.log('SOUP mso338932 received invalid postfix = "' + postfix + '", aborting!');
+			}
 			// the button touch handlers are added in a setTimeout(..., 0) callback
 			setTimeout( function () {
 				$('#post-editor' + postfix).each( bypassTouchBlocker );

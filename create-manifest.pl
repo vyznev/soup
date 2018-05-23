@@ -36,6 +36,7 @@ $version_name .= " (development)" if (split /\./, $version_name)[1] % 2 == 1;
 
 # build URL match list for manifest
 my $matches = join ",\n\t\t\t", map qq("$_"), @{ $metadata{match} };
+my $exclude = join ",\n\t\t\t", map qq("$_"), @{ $metadata{exclude} };
 
 # output manifest
 print <<"END";
@@ -59,6 +60,9 @@ print <<"END";
 		"js":        [ $sources ],
 		"matches":   [
 			$matches
+		],
+		"exclude_globs":   [
+			$exclude
 		],
 		"run_at":    "document_start"
 	} ]

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.52.0
+// @version     1.52.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -13,6 +13,7 @@
 // @match       *://*.stackapps.com/*
 // @match       *://*.mathoverflow.net/*
 // @match       *://*.askubuntu.com/*
+// @exclude     https://stackoverflow.com/c/*
 // @homepageURL https://stackapps.com/questions/4486/the-stack-overflow-unofficial-patch-soup
 // @updateURL   https://github.com/vyznev/soup/raw/master/SOUP.meta.js
 // @downloadURL https://github.com/vyznev/soup/raw/master/SOUP.user.js
