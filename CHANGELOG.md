@@ -38,6 +38,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Tweak [mse154788](https://meta.stackexchange.com/q/154788) and [mse243519](https://meta.stackoverflow.com/q/243519) to (try to) avoid [a Chrome HTML rendering bug](https://bugs.chromium.org/p/chromium/issues/detail?id=813345) that can trigger spurious scroll bars on comments.
 * The [mse266852](https://meta.stackoverflow.com/q/266852) fix now uses a pure CSS fallback to hide the separators before the script runs.
 
+**Changes in 1.52.1:**
+
+* Added an `@exclude` line to prevent SOUP from running on SO Teams pages due to [reports](https://github.com/vyznev/soup/issues/36) of breakage.  (Thanks, Monica Cellio!)  Unfortunately, SOUP is not currently supported on Teams due to the author's inability to test it in that environment.
+* Also added regexp validation for partial HTML element IDs (e.g. editor postfixes) provided by SE code to callbacks before they're fed to jQuery.  This should hopefully prevent the same issue from coming up in other contexts.
 
 1.50 (2018-01-23)
 ====
