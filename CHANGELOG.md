@@ -35,6 +35,11 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Added an `@exclude` line to prevent SOUP from running on SO Teams pages due to [reports](https://github.com/vyznev/soup/issues/36) of breakage.  (Thanks, Monica Cellio!)  Unfortunately, SOUP is not currently supported on Teams due to the author's inability to test it in that environment.
 * Also added regexp validation for partial HTML element IDs (e.g. editor postfixes) provided by SE code to callbacks before they're fed to jQuery.  This should hopefully prevent the same issue from coming up in other contexts.
 
+**Changes in 1.52.2:**
+
+* Disable the [mso345590](https://meta.stackoverflow.com/q/345590) fix on sites using the new [responsive design](https://meta.stackexchange.com/q/310908), pending possible removal or reimplementation once the new design stabilizes and is deployed globally.  (The new design mostly solves the issue, except on *very* narrow displays, and the current fix implementation is not fully compatible with it.)
+
+
 1.50 (2018-01-23)
 ====
 
