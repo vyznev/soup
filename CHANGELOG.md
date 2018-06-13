@@ -13,6 +13,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **Removed fixes:**
 
 * [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)
+* [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
 
 
 1.52 (2018-03-10)

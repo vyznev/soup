@@ -121,7 +121,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
 * [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
-* [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
 * [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/90713)
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)

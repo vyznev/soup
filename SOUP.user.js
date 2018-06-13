@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.53.4
+// @version     1.53.5
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1665,25 +1665,6 @@ fixes.mso356880 = {
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			StackExchange.notify.close(-2);
 		} );
-	}
-};
-fixes.mse303599 = {
-	title:	"The “Flag” modal keeps going down",
-	url:	"https://meta.stackexchange.com/q/303599",
-	// override jQuery .offset() to act like .position() for the flag/close popups
-	// XXX: this is tricky because .position() calls .offset() internally
-	script:	function () {
-		var oldOffset = $.fn.offset, inOffset = false;
-		$.fn.offset = function () {
-			if ( inOffset || arguments.length > 0 || this.length > 1 || ! this.is('#popup-flag-post, #popup-close-question') ) {
-				return oldOffset.apply(this, arguments);
-			} else try {
-				inOffset = true;
-				return this.position();
-			} finally {
-				inOffset = false;
-			}
-		};
 	}
 };
 fixes.mse90713 = {
