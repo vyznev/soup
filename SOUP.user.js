@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.53.3
+// @version     1.53.4
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1362,17 +1362,6 @@ fixes.mso310158 = {
 		}
 		// TODO: figure out how to make this work in chat too
 	}
-};
-fixes.mse223737 = {
-	title:	"Inbox heading should be a link",
-	url:	"https://meta.stackexchange.com/q/223737",
-	script:	function () {
-		SOUP.hookAjax( /^\/topbar\/inbox\b/, function () {
-			if ( $('#soup-mse223737-link').length > 0 ) return;
-			$('.topbar-dialog.inbox-dialog .inbox-se-link a').clone().attr('id', 'soup-mse223737-link').insertAfter('.topbar-dialog.inbox-dialog h3:first-of-type');
-		} ).code();
-	},
-	css:	"#soup-mse223737-link { float: right }"
 };
 fixes.mso313853 = {
 	title:	"“Per page” pagination returns no results when increasing limit on last page",

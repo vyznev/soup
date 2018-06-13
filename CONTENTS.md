@@ -111,7 +111,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](https://meta.stackexchange.com/q/259325)
 * [mse268584: When a user is deleted, OP highlighting is lost](https://meta.stackexchange.com/q/268584)
 * [mso310158: Right to left marker in comment shouldn't cause the rest of the line to change](https://meta.stackoverflow.com/q/310158)
-* [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)
 * [mso313853: “Per page” pagination returns no results when increasing limit on last page](https://meta.stackoverflow.com/q/313853)
 * **[mse74274: Privacy leak in permalink?](https://meta.stackexchange.com/q/74274)**
 * [mso338932: Touch laptop – “The snippet editor does not support touch devices.”](https://meta.stackoverflow.com/q/338932)
