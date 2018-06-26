@@ -120,7 +120,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * **[mse223725: All internal links on Stack Exchange sites should be protocol-relative](https://meta.stackexchange.com/q/223725)**
 * **[mse299086: HTTPS certificate error for meta redirect pages (meta.&lt;site&gt;.stackexchange.com)](https://meta.stackexchange.com/q/299086)**
 * [mse295065: Clicking “flags remaining” should link to a user's flag history page](https://meta.stackexchange.com/q/295065)
-* [mso345590: The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow](https://meta.stackoverflow.com/q/345590)
 * [mse213709: Allow flagging comments on mobile site](https://meta.stackexchange.com/q/213709)
 * [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
 * [mse90713: Show “this question has an active bounty and cannot be closed” earlier, when it applies](https://meta.stackexchange.com/q/90713)

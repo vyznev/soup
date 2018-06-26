@@ -39,6 +39,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Disable the [mso345590](https://meta.stackoverflow.com/q/345590) fix on sites using the new [responsive design](https://meta.stackexchange.com/q/310908), pending possible removal or reimplementation once the new design stabilizes and is deployed globally.  (The new design mostly solves the issue, except on *very* narrow displays, and the current fix implementation is not fully compatible with it.)
 
+**Changes in 1.52.3:**
+
+* Remove [mso345590](https://meta.stackoverflow.com/q/345590) entirely to avoid edge cases like [issue #41](https://github.com/vyznev/soup/issues/41).
+
 
 1.50 (2018-01-23)
 ====
