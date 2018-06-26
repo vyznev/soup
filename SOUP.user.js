@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.53.5
+// @version     1.53.6
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1590,46 +1590,6 @@ fixes.mse295065 = {
 		SOUP.hookAjax( /^\/flags\/(posts|comments)\/\d+\/popup/,  function () {
 			$('#popup-flag-post .flag-remaining-inform, .popup-flag-comment .flag-remaining-spam').not(':has(a)').wrapInner(link);
 		} );
-	}
-};
-fixes.mso345590 = {
-	title:	"The Stack Exchange menu is partly covered by the scrollbar when the window is too narrow",
-	url:	"https://meta.stackoverflow.com/q/345590",
-	script:	function () {
-		var $window = $(window), $header = $('.js-top-bar');
-		if ( $header.length != 1 || $('html').hasClass('html__responsive') ) return;
-
-		// override unwanted .so-header._fixed{ max-width: auto } style
-		$header.css( 'min-width', $('#content').outerWidth() );
-
-		// based on https://stackoverflow.com/a/12958987
-		var lastOffset = 0;
-		function scrollHeader () {
-			var newOffset = -$window.scrollLeft();
-			if ( newOffset === lastOffset ) return;
-			$header.css( 'left', newOffset );
-			lastOffset = newOffset;
-		}
-
-		var isActive = false;
-		function maybeToggleHeaderFix () {
-			var isFixed = $header.hasClass('_fixed');
-			if ( isFixed === isActive ) return;
-			if ( isFixed ) {
-				lastOffset = $header.position().left;
-				$window.on( 'scroll resize', scrollHeader );
-				scrollHeader();
-			} else {
-				$window.off( 'scroll resize', scrollHeader );
-				$header.css( 'left', 0 );
-			}
-			isActive = isFixed;
-		}
-		// set up an observer in case the _fixed class is dynamically added or removed
-		var observer = new MutationObserver( maybeToggleHeaderFix );
-		observer.observe( $header[0], { attributes: true } );
-
-		maybeToggleHeaderFix();
 	}
 };
 fixes.mse213709 = {
