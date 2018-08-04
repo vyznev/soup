@@ -9,11 +9,13 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse308072: Clicking on tags in global search results is broken](https://meta.stackexchange.com/q/308072)
 * [mse307976: Can't see all the options while reviewing with a small screen](https://meta.stackexchange.com/q/307976)
+* [mso371327: Edit a comment, again and again and again](https://meta.stackoverflow.com/q/371327)
 
 **Removed fixes:**
 
 * [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)
 * [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
+* [mse239549: Mobile user profile page sort selectors stop working after first change](https://meta.stackexchange.com/q/239549)
 
 
 1.52 (2018-03-10)

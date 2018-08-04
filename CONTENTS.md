@@ -91,7 +91,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse231150: Clicking the top bar sometimes loads the SE homepage, sometimes shows the site switcher](https://meta.stackexchange.com/q/231150)
 * **[mse234680: Domain names in an URL are incorrectly encoded as escaped ASCII characters instead of punycode](https://meta.stackexchange.com/q/234680)**
 * [mse266852: Bar between “add a comment” and “show more comments” is inconsistent](https://meta.stackoverflow.com/q/266852)
-* [mse239549: Mobile user profile page sort selectors stop working after first change](https://meta.stackexchange.com/q/239549)
 * [mse240417: Should moderator diamonds be inside or outside the highlight box?](https://meta.stackoverflow.com/q/240417)
 * [mse243519: Dangling signature dash in comments](https://meta.stackoverflow.com/q/243519)
 * [mse220611: Blue background on nominee comments only when expanded](https://meta.stackexchange.com/q/220611)
@@ -124,6 +123,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
+* [mso371327: Edit a comment, again and again and again](https://meta.stackoverflow.com/q/371327)
 
 ### Site-specific fixes
 

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.53.6
+// @version     1.53.7
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -340,7 +340,7 @@ fixes.math12902 = {
 	url:	"https://math.meta.stackexchange.com/q/12902",
 	sites:	/^math\.stackexchange\.com$/,  // XXX: main site only!
 	// "body" added to override conflicting SE styles
-	css:	"body a, body .question-hyperlink { color: #145d8a }" + 
+	css:	"body a, body .question-hyperlink { color: #145d8a }" +
 		"body a:visited, body .question-hyperlink:visited { color: #003b52 }" +
 		// stupid reduntant styles...
 		"body .user-show-new .question-hyperlink," +
@@ -723,17 +723,17 @@ fixes.mse172931 = {
 		SOUP.hookAjax( /^\/review\/(next-task|task-reviewed)\b/, function () {
 			$('.reviewable-post').not(':has(.answer, .diffs)').each( function () {
 				var post = $(this), question = post.find('.question');
-				
+
 				// initial check to see if there are any answers to load
 				var label = post.find('.reviewable-post-stats td.label-key:contains("answers")');
 				var count = label.first().next('td.label-value').text().trim();
 				var shown = $('.reviewable-answer').length;  // XXX: don't needlessly reload sole answers in answer review
 				if ( count - shown < 1 ) return;
-				
+
 				// find question URL
 				var url = post.find('h1 a.question-hyperlink').attr('href');
 				SOUP.log( 'soup loading ' + (count - shown) + ' missing answers from ' + url );
-				
+
 				var injectAnswers = function ( html ) {
 					// new cleaner parsing!
 					var parser = new DOMParser();
@@ -747,13 +747,13 @@ fixes.mse172931 = {
 					}
 					answers = answers.children();
 					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
-					
+
 					// mangle the answer wrappers to look like the review page before injecting them
 					answers.find('.votecell a[class^="vote-"], .post-menu > *, .comments, .comments-link').remove();
 					answers.find('.vote-count-post').after( function () {
 						return '<div>vote' + ( this.textContent.trim() == 1 ? '' : 's' ) + '</div>';
 					} );
-					
+
 					// inject answers into the review page
 					var header = $('<div id="answers-header"><div class="subheader answers-subheader"><h2></h2></div></div>');
 					header.find('h2').text( n + ( shown ? ' Other' : '') + ' Answer' + ( n == 1 ? '' : 's' ) );
@@ -848,14 +848,14 @@ fixes.mse234680 = {
 			exports==n&&module,p="object"==typeof global&&global;(p.global===p||p.window===p)&&(a=p);var q,r,s=2147483647,t=36,u=1,v=26,w=38,x=700,y=72,z=128,A="-",B=/^xn--/,C=/[^ -~]/,D=/\x2E|\u3002|\uFF0E|\uFF61/g,E={overflow:"Overflow: input needs wider integers to process","not-basic":"Illegal input >= 0x80 (not a basic code point)","invalid-input":"Invalid input"},F=t-u,G=Math.floor,H=String.fromCharCode;if(q={version:"1.2.4",ucs2:{decode:e,encode:f},decode:j,encode:k,toASCII:m,
 			toUnicode:l},"function"==typeof define&&"object"==typeof define.amd&&define.amd)define("punycode",function(){return q});else if(n&&!n.nodeType)if(o)o.exports=q;else for(r in q)q.hasOwnProperty(r)&&(n[r]=q[r]);else a.punycode=q}(SOUP);
 		}
-		
+
 		var link = document.createElement('a');  // work-around for cross-browser access to URLUtils
 		var fixURLInput = function (where) {
 			$(where).find('input[type=text]').val( function (i, text) {
 				// The following two lines are copied from ui.prompt() in wmd.en.js:
 				text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
 				if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;
-				
+
 				// Separate URL and optional title, fix possibly broken % encoding in URL
 				// (based on properlyEncoded() from wmd.en.js, but simplified and debugged):
 				// XXX: this also fixes https://meta.stackexchange.com/q/285366
@@ -877,7 +877,7 @@ fixes.mse234680 = {
 				return typeof(title) === 'undefined' ? fixed : fixed + ' "' + title + '"';
 			} );
 		};
-		
+
 		// rebind the submit / click handlers for the "Insert Hyperlink" dialog
 		// FIXME: this doesn't work with the new-style hyperlink dialog on SO
 		$(document).on( 'focus', '.wmd-prompt-dialog form:not(.soup-punycode-fixed) input', function (e) {
@@ -895,7 +895,7 @@ fixes.mse234680 = {
 				};
 			} );
 		} );
-		
+
 		// backup content filter for existing broken links with percent-encoded hostnames
 		SOUP.addContentFilter( function ( where ) {
 			var percentRegexp = /%[0-9A-Fa-f]{2}/;
@@ -919,32 +919,6 @@ fixes.mse266852 = {
 	// pure CSS fallback to minimize visibility changes on page load
 	css:	'div[id^="comments-link-"] .js-link-separator:not(.lsep) { visibility: hidden }'
 };
-fixes.mse239549 = {
-	title:	"Mobile user profile page sort selectors stop working after first change",
-	url:	"https://meta.stackexchange.com/q/239549",
-	// FIXME: The linked bug report is mostly about another bug, since fixed; this should be reported separately
-	script:	function () {
-		// make the event handler live
-		var selector = '.user-panel-subtabs select'; var matches = $(selector);
-		if ( ! matches.length ) return;
-		SOUP.getEventHandlers( matches[0], 'change' ).forEach( function ( h ) {
-			if ( h.selector || ! /"div\[class='subheader'\]"/.test( h.handler.toString() ) ) return;
-			$('body').on( 'change', selector, h.handler );
-			matches.off( 'change', h.handler );
-		} );
-		
-		// sync the selector with the visible content
-		// XXX: this will only work on English sites, and may break if the title text is changed
-		matches.each( function () {
-			var title = $(this).closest('.user-panel').find('div.subheader').text().toLowerCase();
-			for (var i = 0; i < this.options.length; i++ ) {
-				if ( title.indexOf( this.options[i].value ) < 0 ) continue;
-				this.options[i].selected = true;
-			}
-		} )
-
-	}
-};
 fixes.mse240417 = {
 	title:	"Should moderator diamonds be inside or outside the highlight box?",
 	url:	"https://meta.stackoverflow.com/q/240417",
@@ -963,7 +937,7 @@ fixes.mse243519 = {
 	script:	function () {
 		var wrapper = $('<div> <span style="white-space:nowrap">\u2013\xA0</span></div>').contents();
 		SOUP.addContentFilter( function () {
-			$('.comment-body > .comment-user').each( function () { 
+			$('.comment-body > .comment-user').each( function () {
 				var prev = this.previousSibling;
 				if ( ! prev || prev.nodeType != 3 || ! /^[\xA0\s]*\u2013[\xA0\s]*$/.test(prev.nodeValue) ) return;
 				wrapper.clone().replaceAll(prev).append(this);
@@ -1411,7 +1385,7 @@ fixes.mse74274 = {
 	url:	"https://meta.stackexchange.com/q/74274",
 	script:	function () {
 		if ( ! window.StackExchange || ! StackExchange.question || ! StackExchange.question.showShareTip ) return;
-		
+
 		// TODO: we should strip the user ID from the share link URL itself!
 		// The problem is that showShareTip() pulls the URL from the link,
 		// so this would anonymize the popup *too* completely. :-(
@@ -1481,7 +1455,7 @@ fixes.mse287473 = {
 			if ( options && options.position && options.position.my && ! ( options.css && options.css['max-width'] ) ) {
 				$elem = $( $elem );
 				if ( $elem.length < 1 ) return;
-				
+
 				// calculate horizontal position of the message tip
 				var tipLeft = $elem.offset().left;
 				if ( /right/.test( options.position.at ) ) tipLeft += $elem.outerWidth(true);
@@ -1494,7 +1468,7 @@ fixes.mse287473 = {
 				else if ( /center/.test( options.position.my ) ) maxWidth = Math.min(tipLeft, tipRight) * 2;
 				else if ( /right/.test( options.position.my ) ) maxWidth = tipLeft;
 				if ( /^(left|right)/.test( options.position.my ) ) maxWidth -= tipSize;
-				
+
 				// XXX: refuse to set an absurdly small max-width
 				if ( maxWidth >= 50 ) {
 					if ( ! options.css ) options.css = {};
@@ -1760,6 +1734,24 @@ fixes.mse307976 = {
 			$bar.css( 'left', $header.offset().left - $window.scrollLeft() );
 		} )
 	}
+};
+fixes.mso371327 = {
+	title:	"Edit a comment, again and again and again",
+	url:	"https://meta.stackoverflow.com/q/371327",
+	script:	function () {
+        if ( !window.$ || !$.fn || !$.fn.show || !$.fn.hide ) return;
+		var show = $.fn.show, hide = $.fn.hide;
+        $.fn.show = function () {
+            this.removeClass('soup-d-none');
+            return show.apply(this, arguments);
+        };
+        $.fn.hide = function () {
+            // only add soup-d-none if there's already a d-whatever class present!
+            this.addClass( (index, className) => ( /(^|\s)d-/.test(className) ? 'soup-d-none' : '' ) );
+            return hide.apply(this, arguments);
+        };
+	},
+	css:	'.soup-d-none[class^="d-"], .soup-d-none[class*=" d-"] { display: none !important }'
 };
 
 //
