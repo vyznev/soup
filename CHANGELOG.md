@@ -9,13 +9,44 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * [mse308072: Clicking on tags in global search results is broken](https://meta.stackexchange.com/q/308072)
 * [mse307976: Can't see all the options while reviewing with a small screen](https://meta.stackexchange.com/q/307976)
-* [mso371327: Edit a comment, again and again and again](https://meta.stackoverflow.com/q/371327)
 
 **Removed fixes:**
 
 * [mse223737: Inbox heading should be a link](https://meta.stackexchange.com/q/223737)
 * [mse303599: The “Flag” modal keeps going down](https://meta.stackexchange.com/q/303599)
 * [mse239549: Mobile user profile page sort selectors stop working after first change](https://meta.stackexchange.com/q/239549)
+* [mse215473: Add a non-breaking space to “reopen (1)” and its ilk](https://meta.stackexchange.com/q/215473) (CSS)
+* [mse114109: Background in OP's user name can obscure text in multiline comments](https://meta.stackexchange.com/q/114109) (CSS)
+* [mse108046: Mouse cursor doesn't change to pointer when hovering “full site” on mobile](https://meta.stackexchange.com/q/108046) (CSS)
+* [mse110566: Does the spoiler markdown work on images?](https://meta.stackexchange.com/q/110566) (CSS)
+* [mse203405: Excerpt of privilege is below privilege instead of in front](https://meta.stackexchange.com/q/203405) (CSS)
+* [physics5773: Bounty icon is poorly placed](https://physics.meta.stackexchange.com/q/5773) (CSS)
+* [mso284049: Small bugs in the Stack Overflow editor](https://meta.stackoverflow.com/q/284049) (CSS)
+* [mso360855: Margins are off/unbalanced in inbox](https://meta.stackoverflow.com/q/360855) (CSS)
+* [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](https://math.meta.stackexchange.com/q/12803) (CSS)
+* [math16559: Typo in site CSS disables visited link color in community bulletin](https://math.meta.stackexchange.com/q/16559) (CSS)
+* [electronics3162: Error for profile less info](https://electronics.meta.stackexchange.com/q/3162) (CSS)
+* [electronics4038: About Me box on user page not in the right place](https://electronics.meta.stackexchange.com/q/4038) (CSS)
+* [mso286009: Change \[Ask Question\] button style](https://meta.stackoverflow.com/q/286009) (CSS)
+* [cooking2049: Ads are cut off on the right](https://cooking.meta.stackexchange.com/q/2049) (CSS)
+* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](https://movies.meta.stackexchange.com/q/1652) (CSS)
+* [graphicdesign2415: Design Bug: Tag alert CSS](https://graphicdesign.meta.stackexchange.com/q/2415) (CSS)
+* [rpg5812: Post as a guest: CSS bug](https://rpg.meta.stackexchange.com/q/5812) (CSS)
+* [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449) (CSS)
+* [mse307120: I cannot get bold or italics to work](https://meta.stackexchange.com/q/307120)
+* [mse217779: The CSS for spoilers is a mess. Let's fix it!](https://meta.stackexchange.com/q/217779)
+* [mse78989: Clicking on tags broken?](https://meta.stackexchange.com/q/78989)
+* [mso295666: Disable annoying autofocus when clicking preview](https://meta.stackoverflow.com/questions/295666)
+* [mse240787: Inconsistent reputation mouse-over text](https://meta.stackexchange.com/q/240787)
+* [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](https://meta.stackexchange.com/q/170970)
+* [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](https://meta.stackexchange.com/q/264171)
+* [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413)
+
+**Other changes:**
+
+* Removed hardcoded maximum comment pixel width from [mse154788](https://meta.stackexchange.com/q/154788) styles, as it no longer seems to be needed with the new responsive design.
+* Temporarily disabled [math12902](https://math.meta.stackexchange.com/q/12902) fix due to conflicts with new site CSS.
+* Updated [mse234680](https://meta.stackexchange.com/q/234680) fix to work with the new-style "add link" editor dialog.
 
 
 1.52 (2018-03-10)
@@ -797,7 +828,7 @@ This is just an incremental release to push out a few updates that missed v1.20 
 * [mse214706: The branch prediction answer is overflowing](https://meta.stackexchange.com/q/214706)
 * [mse66646: Confirming context menu entries via Enter triggers comment to be posted](https://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](https://meta.stackexchange.com/q/210132)
-* [mse150069: Can we have the "50 more" link return items of the same type, please?](https://meta.stackexchange.com/q/150069) 
+* [mse150069: Can we have the "50 more" link return items of the same type, please?](https://meta.stackexchange.com/q/150069)
 * [math11392: MathJax preview broken when equations contain `\label`s](https://math.meta.stackexchange.com/q/11392) (math)
 
 1.2 (17 Jan 2014)

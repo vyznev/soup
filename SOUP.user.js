@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.53.7
+// @version     1.53.8
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -71,39 +71,12 @@ var fixes = {};
 //
 // CSS-only fixes (injected *before* site CSS!):
 //
-fixes.mse215473 = {
-	title:	"Add a non-breaking space to “reopen (1)” and its ilk",
-	url:	"https://meta.stackexchange.com/q/215473",
-	css:	".post-menu > a { white-space: nowrap }" +
-		".post-menu > .lsep:after { content: ' '; font-size: 0px }"
-};
-fixes.mse114109 = {
-	title:	"Background in OP's user name can obscure text in multiline comments",
-	url:	"https://meta.stackexchange.com/q/114109",
-	// NOTE 2014-11-26: this has been mostly fixed by increasing line-height in comments; remove this fix?
-	css:	".comment-copy { position: relative }"
-};
 fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",
 	url:	"https://meta.stackexchange.com/q/145819",
 	css:	".wmd-preview hr { background-color: #ddd; color: #ddd }" +
 		".deleted-answer .post-text hr, .deleted-answer .wmd-preview hr " +
 		"{ background-color: #c3c3c3; color: #c3c3c3 }"
-};
-fixes.mse108046 = {
-	title:	"Mouse cursor doesn't change to pointer when hovering “full site” on mobile",
-	url:	"https://meta.stackexchange.com/q/108046",
-	// NOTE 2014-11-26: this is also partially fixed, but e.g. comment delete links still have the wrong cursor
-	css:	"a[onclick], a:not([name]) { cursor: pointer }"
-};
-// The following fix is mostly made redundant by mse217779, but is included for
-// users with site JS disabled, and to mitigate the loading delay of the JS
-// component of mse217779:
-fixes.mse110566 = {
-	title:	"Does the spoiler markdown work on images?",
-	url:	"https://meta.stackexchange.com/q/110566",
-	// NOTE 2014-11-26: this is fixed on some sites, but still broken e.g. on SO
-	css:	".spoiler:not(:hover) img { visibility: hidden }"
 };
 fixes.mse58760 = {
 	title:	"<kbd> (yes, still <kbd>) doesn't play nice with lists",
@@ -113,23 +86,15 @@ fixes.mse58760 = {
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body kbd { display: inline-block; max-width: 100%; white-space: normal }"
 };
-fixes.mse203405 = {
-	title:	"Excerpt of privilege is below privilege instead of in front",
-	url:	"https://meta.stackexchange.com/q/203405",
-	css:	".privileges-page #privilege-table { display: table }" +
-		".privileges-page .privilege-table-row { display: table-row }" +
-		".privileges-page .privilege-table-row div:not(.checkmark)" +
-		" { display: table-cell; padding: 1em 0.2em }"
-}
 fixes.mse154788 = {
 	title:	"Why are comments overlapping the sidebar?",
 	url:	"https://meta.stackexchange.com/q/154788",
-	// XXX: this sometimes triggers spurious scroll bars in Chrome; see https://bugs.chromium.org/p/chromium/issues/detail?id=813345
-	css:	".comment-body { max-width: 628px; overflow: auto; overflow-y: hidden; word-wrap: break-word }"
+	css:	".comment-body { overflow: auto; overflow-y: hidden; word-wrap: break-word }"
 };
 fixes.mse214830 = {
 	title:	"Selecting text in profile activity comments causes unexpected clipping",
 	url:	"https://meta.stackexchange.com/q/214830",
+	// TODO: Is this still reproducible?
 	css:	"span.comments { padding-bottom: 0 }"
 };
 fixes.mse230392 = {
@@ -137,15 +102,10 @@ fixes.mse230392 = {
 	url:	"https://meta.stackexchange.com/q/230392",
 	css:	"div.vote-count-separator { margin: 5px auto }"
 };
-fixes.physics5773 = {
-	title:	"Bounty icon is poorly placed",
-	url:	"https://physics.meta.stackexchange.com/q/5773",
-	css:	".vote .bounty-award-container { margin: 13px 0; text-align: center }" +
-		".vote .bounty-award, span.bounty-award { margin: 0; display: inline-block; padding: 0.2em 0.5em }"
-};
 fixes.mse224185 = {
 	title:	"Links sometimes float above text in vote-to-close dialog on Firefox",
 	url:	"https://meta.stackexchange.com/q/224185",
+	// TODO: Is this still reproducible on Firefox?
 	// "body" added to increase selector precedence over conflicting SE style
 	css:	"body .close-as-off-topic-pane .action-name a, " +
 		"body .close-as-off-topic-pane .action-name { vertical-align: baseline }" +
@@ -190,13 +150,6 @@ fixes.mse248156 = {
 	url:	"https://meta.stackexchange.com/q/248156",
 	css:	"#user-tab-bounties #bounties-table .started { display: none }"
 };
-fixes.mso284049 = {
-	title:	"Small bugs in the Stack Overflow editor",
-	url:	"https://meta.stackoverflow.com/q/284049",
-	css:	".wmd-help-button { left: auto !important }" +  // !important needed to override inline style
-		"body .wmd-help-button.active-help { background: transparent }" +
-		"body .answer-help-background { padding-top: 10px }"
-};
 fixes.mse250081 = {
 	title:	"Retract close vote UI",
 	url:	"https://meta.stackexchange.com/q/250081",
@@ -208,8 +161,7 @@ fixes.mso287222 = {
 	title:	"Clicking between lines fails",
 	url:	"https://meta.stackoverflow.com/q/287222",
 	credit:	"Travis J",
-	// ISSUE: this looks kind of ugly on gaming.SE, cooking.SE and maybe some other sites
-	// that use a border-bottom hack for dotted underlines on links
+	// TODO: Are the bottom margin/border hacks still needed?
 	// list of problem sites: cooking cstheory english gamedev gaming math photo programmers stats tex unix webapps
 	// see also: https://gaming.meta.stackexchange.com/questions/10227/sidebar-links-wobble-when-hovered
 	css:	".question-summary .answer-hyperlink, " +
@@ -221,6 +173,7 @@ fixes.mso287222 = {
 fixes.mso297678 = {
 	title:	"Comment anchor links get “visited” highlighting",
 	url:	"https://meta.stackoverflow.com/q/297678",
+	// TODO: Is this still reproducible?
 	// XXX: this selector needs to be more specific than ".comment-text a:not(.comment-user):visited"
 	css:	"body .comment-date a.comment-link, " +
 		"body .comment-date a.comment-link:visited { color: inherit }"
@@ -228,6 +181,7 @@ fixes.mso297678 = {
 fixes.mse242944 = {
 	title:	"Long display name with no spaces breaks design of review history pages",
 	url:	"https://meta.stackexchange.com/q/242944",
+	// TODO: Should the width:120px style be removed?
 	css:	"body.review-page .history-table td:nth-child(1) " +
 		"{ width: 120px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; color: #999 }"
 };
@@ -267,78 +221,55 @@ fixes.mse287196 = {
 fixes.mse302580 = {
 	title:	"Printing an SE page in Firefox shows only the first page",
 	url:	"https://meta.stackexchange.com/q/302580",
+	// TODO: Is this still reproducible on Firefox?
 	css:	"@media print {\nbody { display: block !important }}"
 };
 fixes.mse302569 = {
 	title:	"Alignment improvement in the flag dialog",
 	url:	"https://meta.stackexchange.com/q/302569",
+	// TODO: Is this still reproducible?
 	css:	"body .popup .already-flagged { margin-left: 23px }"
 };
 fixes.mse304096 = {
 	title:	"Comments and answers have huge right margins when printed",
 	url:	"https://meta.stackexchange.com/q/304096",
 	css:	"@media print {\n" +
-		"body .container, body .post-text, body .comments, body #answers-header, body .answer, body pre { width: auto }" +
+		"body .container, body #mainbar, body .mainbar, body .post-text, body .comments, body #answers-header, body .answer, body pre { width: auto }" +
 		".question > table, .answer > table { width: 100% }" +
-		"body .comment-body { max-width: none }" + // override mse154788
 		"}"
 };
 fixes.mso306552 = {
 	title:	"Votes cast has upvote-like symbol and is confusing",
 	url:	"https://meta.stackoverflow.com/q/306552",
 	path:	/^\/users\/\d+/,
-	css:	'.p-highlights .-community-stats > .g-row[title$="votes cast"] svg.iconArrowUp { display: none }' +
-		'.p-highlights .-community-stats > .g-row[title$="votes cast"] .-icon { background: url(data:image/svg+xml,' + encodeURIComponent(
+	css:	'.profile-cards div[title$="votes cast"] > div:nth-child(1) svg.iconArrowUp { display: none }' +
+		'.profile-cards div[title$="votes cast"] > div:nth-child(1) { background: url(data:image/svg+xml,' + encodeURIComponent(
 			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" stroke="#9199a1">' +
 			'<path d="M3 7.5h12L9 1.5z" fill="#9199a1"/>' +
 			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
 			'</svg>'
-		) + '); width: 18px; height: 18px }' +
-		'.p-highlights .-community-stats > .g-row[title$="votes cast"]:hover .-icon { background: url(data:image/svg+xml,' + encodeURIComponent(
-			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" stroke="#6a737c">' +
-			'<path d="M3 7.5h12L9 1.5z" fill="#6a737c"/>' +
-			'<path d="M3 10.5h12L9 16.5z" fill="none"/>' +
-			'</svg>'
-		) + ') }'
+		) + '); width: 18px; height: 18px }'
 };
 fixes.mse304247 = {
 	title:	"Attempting to use too long tag breaks popup",
 	url:	"https://meta.stackexchange.com/q/304247",
-	css:	".message-text { word-wrap: break-word }"
-};
-fixes.mso360855 = {
-	title:	"Margins are off/unbalanced in inbox",
-	url:	"https://meta.stackoverflow.com/q/360855",
-	css:	".topbar-dialog.inbox-dialog .modal-content ul, " +
-		".topbar-dialog.modInbox-dialog .modal-content ul, " +
-		".topbar-dialog.achievements-dialog .modal-content ul { min-width: 345px }"
+	// TODO: Is the .message-text class still used anywhere?
+	css:	".message-text, .js-stacks-validation-message { word-wrap: break-word }"
 };
 
 
 // site-specific CSS fixes:
-fixes.math12803a = {
-	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 1)",
-	url:	"https://math.meta.stackexchange.com/q/12803",
-	// this part of the fix is only enabled on math.SE, since other sites use different fonts
-	sites:	/^math\./,
-	css:	"#newsletter-signup { font-family: 'Liberation Sans', Helvetica, Arial, sans-serif }"
-};
-fixes.math12803b = {
-	title:	"“Sign up for the newsletter” button overflows the frame on Firefox / Linux (part 2)",
-	url:	"https://math.meta.stackexchange.com/q/12803",
-	// this part of the fix is enabled globally, to fix minor overflows on various SE sites
-	css:	"#newsletter-signup-container { margin-left: -15px; margin-right: -15px }"
-};
 fixes.codegolf959 = {
 	title:	"Add line-height shortener to the ascii-art tag",
 	url:	"https://codegolf.meta.stackexchange.com/q/959",
 	sites:	/^(codegolf|puzzling)\./,
 	css:	"pre { line-height: 1.15 }"
 };
-fixes.math12902 = {
+if (false) fixes.math12902 = {
 	title:	"Visited questions are practically indistinguishable in search results",
 	url:	"https://math.meta.stackexchange.com/q/12902",
 	sites:	/^math\.stackexchange\.com$/,  // XXX: main site only!
+	// FIXME: Disabled temporarily due to conflicts with new CSS; fix or remove!
 	// "body" added to override conflicting SE styles
 	css:	"body a, body .question-hyperlink { color: #145d8a }" +
 		"body a:visited, body .question-hyperlink:visited { color: #003b52 }" +
@@ -350,71 +281,18 @@ fixes.math12902 = {
 		"body .user-show-new .answer-hyperlink:visited," +
 		"body .user-show-new .site-hyperlink:visited { color: #003b52 !important }"
 };
-fixes.math12902_meta = {
+if (false) fixes.math12902_meta = {
 	title:	"Visited questions are practically indistinguishable in search results (meta)",
 	url:	"https://math.meta.stackexchange.com/q/12902",
 	sites:	/^math\.meta\.stackexchange\.com$/,
+	// FIXME: Disabled temporarily due to conflicts with new CSS; fix or remove!
 	// "body" added to override conflicting SE styles
 	css:	"body a { color: #a29131 } body a:visited { color: #736722 }"
-};
-fixes.math16559 = {
-	title:	"Typo in site CSS disables visited link color in community bulletin",
-	url:	"https://math.meta.stackexchange.com/q/16559",
-	sites:	/^math\.stackexchange\.com$/,
-	// this rule is already in the site CSS, but without the colon in "a:visited"
-	css:	".module.community-bulletin a:visited { color: #32455d !important }"
-};
-fixes.math16559_meta = {
-	title:	"Typo in site CSS disables visited link color in community bulletin (meta)",
-	url:	"https://math.meta.stackexchange.com/q/16559",
-	sites:	/^math\.meta\.stackexchange\.com$/,
-	css:	".module.community-bulletin a:visited { color: #444 !important }"
-};
-fixes.electronics3162 = {
-	title:	"Error for profile less info",
-	url:	"https://electronics.meta.stackexchange.com/q/3162",
-	sites:	/^electronics\./,
-	// .user-header added to increase specificity over conflicting SE style
-	css:	".user-show-new .user-header.user-header-slim .data { width: auto !important }"
-};
-fixes.electronics4038 = {
-	title:	"About Me box on user page not in the right place",
-	url:	"https://electronics.meta.stackexchange.com/q/4038",
-	// should be safe to apply on all sites, even if the issue has only been reported on electronics.SE
-	css:	".user-show-new #large-user-info.user-header .user-header-left { margin-right: 0 }"
-};
-fixes.mso286009 = {
-	title:	"Change [Ask Question] button style",
-	url:	"https://meta.stackoverflow.com/q/286009",
-	sites:	/^stackoverflow\.com$/,
-	css:	".nav.askquestion { margin-left: 26px }"
 };
 fixes.mse250407 = {
 	title:	"User signature cards on old revisions look funny",
 	url:	"https://meta.stackexchange.com/q/250407",
 	css:	"#revisions table.postcell { width: auto }" // for SO, applied globally
-};
-fixes.cooking2049 = {
-	title:	"Ads are cut off on the right",
-	url:	"https://cooking.meta.stackexchange.com/q/2049",
-	credit:	"Jefromi",
-	sites:	/^cooking\./,
-	css:	"body .everyonelovesstackoverflow { padding: 0 }"
-};
-fixes.movies1652 = {
-	title:	"/users and profile pages (/users/…) space the link to the current profile (in the top bar) differently",
-	url:	"https://movies.meta.stackexchange.com/q/1652",
-	// see also https://workplace.meta.stackexchange.com/q/4917
-	sites:	/^(movies|workplace)\./,
-	css:	".top-bar .my-profile .-badges .badge1, " +
-		".top-bar .my-profile .-badges .badge2, " +
-		".top-bar .my-profile .-badges .badge3 { margin: 0 }"
-};
-fixes.graphicdesign2415 = {
-	title:	"Design Bug: Tag alert CSS",
-	url:	"https://graphicdesign.meta.stackexchange.com/q/2415",
-	sites:	/^graphicdesign\./,
-	css:	"body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag), body .message.message-warning a:not(.badge-tag):not(.button):not(.btn):not(.post-tag):visited { color: #fcedb1 }"  // "body" added to override SE style
 };
 fixes.mse244587 = {
 	title:	"“Top Network Users” should contain themselves!",
@@ -424,12 +302,6 @@ fixes.mse244587 = {
 		// XXX: these extra rules are not really needed, but they make the layout more robust
 		"body .users-sidebar .userDetails img { margin-right: 0 }" +
 		"body .users-sidebar .userDetails { overflow: hidden }"
-};
-fixes.rpg5812 = {
-	title:	"Post as a guest: CSS bug",
-	url:	"https://rpg.meta.stackexchange.com/q/5812",
-	credit:	"polkovnikov.ph",
-	css:	".new-login-form .new-login-right input, .new-login-form .new-login-right table  { width: 100%; box-sizing: border-box }"
 };
 fixes.mse294574 = {
 	title:	"Unbroken line in preview text causes whole post block to side scroll",
@@ -441,57 +313,9 @@ fixes.mse306254 = {
 	title:	"Annoying animation on reputation leagues",
 	url:	"https://meta.stackexchange.com/q/306254",
 	sites:	/^stackexchange\.com$/,
+	// TODO: Is this still reproducible? (Should be safe to keep this fix anyway.)
 	css:	"body .league-container { overflow: hidden }"
 };
-fixes.aviation3449 = {
-	title:	"Accepted graphic missing in questions tab",
-	url:	"https://aviation.meta.stackexchange.com/q/3449",
-	sites:	/^aviation\./,
-	// these are mostly copied from the SE style for .answered-accepted .mini-counts on the front page
-	css:	".statscontainer .answered-accepted strong { border-radius: 50%; color: #FFF; background-color: #15B58A; width: 36px; height: 36px; line-height: 36px; margin: -10px auto 0 auto }"
-};
-fixes.mse307120 = {
-	title:	"I cannot get bold or italics to work",
-	url:	"https://meta.stackexchange.com/q/307120",
-	sites:	/^(android|codereview|crypto|cs|graphicdesign|japanese|magento|music|salesforce)\./,
-	// Google Fonts generates correct CSS; just let it override the SE style
-	// XXX: this causes Chrome to always use webfonts, even if a local font is present; this is a bug in Chrome, see https://bugs.chromium.org/p/chromium/issues/detail?id=627143 for more details
-	// TODO: a bunch of other sites are using font faces that aren't on Google Fonts or have nonstandard family names
-	early:	function () {
-		var fontFamily = 'Open+Sans:regular,italic,bold,bolditalic,semibold,semibolditalic,light,lightitalic|Inconsolata:regular,bold';
-		if ( /^(android|magento)\./.test( location.hostname ) ) fontFamily = 'Roboto:regular,italic,bold,bolditalic';
-		if ( /^(salesforce)\./.test( location.hostname ) ) fontFamily = 'PT+Sans:regular,italic,bold,bolditalic';
-
-		function injectCSS () {
-			SOUP.log('soup mse307120 loading ' + fontFamily + ' from Google Fonts');
-			var link = document.createElement('link');
-			link.setAttribute('rel', 'stylesheet');
-			link.setAttribute('href', 'https://fonts.googleapis.com/css?family=' + fontFamily);
-			document.head.appendChild(link);
-		}
-
-		// use a mutation observer to inject our style immediately after SE styles; with luck, the SE webfonts may never get loaded at all
-		// TODO: make this a generic helper function?
-		// FIXME: this may race with other user scripts using similar hacks, like https://gist.github.com/vyznev/9a3c5ddac714ac199166, producing unpredictable results
-		function observeElement ( element, callback ) {
-			if ( callback() ) return;
-			var observer = new MutationObserver( function () {
-				if ( callback() ) observer.disconnect();
-			} );
-			observer.observe( element, { childList: true, subtree: false } );
-		}
-		observeElement( document.documentElement, function () {
-			var head = document.head;
-			if (head) observeElement( head, function () {
-				var link = head.querySelector('link[rel=stylesheet][href*="/primary.css?"]');
-				if ( link ) injectCSS();
-				return link;
-			} );
-			return head;
-		} );
-	}
-};
-
 
 
 //
@@ -508,6 +332,7 @@ fixes.mse216760 = {
 	title:	"The reply buttons in chat shouldn't reposition themselves on pinged messages",
 	url:	"https://meta.stackexchange.com/q/216760",
 	sites:	/^chat\./,
+	// TODO: Is this still reproducible?
 	// "body" added to increase selector precedence above conflicting SE style
 	css:	"body .message.highlight { margin-right: 0px }" +
 		"body .message.highlight .flash { right: -38px }"  // regression: https://meta.stackexchange.com/q/221733
@@ -528,6 +353,7 @@ fixes.mse134268 = {
 	title:	"U+0008 inserted into chat @-pings",
 	url:	"https://meta.stackexchange.com/q/134268",
 	sites:	/^chat\./,
+	// TODO: Is this still reproducible on Firefox?
 	script:	function () {
 		$('body#chat-body').on( 'keypress', function (e) {
 			if ( e.ctrlKey || e.altKey || e.metaKey ) return;
@@ -553,6 +379,7 @@ fixes.mso342361 = {
 	title:	"Minor (funny) chat star bug for Hebrew text",
 	url:	"https://meta.stackoverflow.com/q/342361",
 	sites:	/^chat\./,
+	// TODO: Has this really been fixed?
 	script:	function () {
 		SOUP.hookAjax( /^\/chats\/stars\/\d+\b/, function () {
 			$('#starred-posts li').each( function () {
@@ -602,52 +429,6 @@ fixes.mso362554 = {
 //
 // General fixes that need scripting (run in page context after jQuery / SE framework is ready):
 //
-fixes.mse217779 = {
-	title:	"The CSS for spoilers is a mess. Let's fix it!",
-	url:	"https://meta.stackexchange.com/q/217779",
-	css:	"@media screen {\n" +
-		".soup-spoiler > div { opacity: 0; transition: opacity 0.5s ease-in }" +
-		".soup-spoiler:hover > div, .soup-spoiler.visible > div { opacity: 1; transition: opacity 1s ease-in 0.5s }" +
-		// backup to avoid accidentally revealing spoilers while waiting for JS fix to run
-		"blockquote.spoiler, blockquote.spoiler * { transition: all 0s }" +
-		"blockquote.spoiler:hover, blockquote.spoiler:hover * { transition: all 1s ease-in 0.5s }" +
-		// bonus: differentiate spoilers from empty blockquotes, per https://meta.stackexchange.com/q/104085
-		".soup-spoiler, .spoiler { position: relative; min-height: 1em }" +  // limit notice width to spoiler width; ensure that the notice is visible even if the spoiler is empty
-		".soup-spoiler::before, .spoiler::before { position: absolute; width: 100%; content: 'spoiler: hover / click to reveal'; opacity: 0.25; transition: opacity 0.5s ease-in 0.5s } " +
-		".soup-spoiler:hover::before, .soup-spoiler.visible::before, .spoiler:hover::before { opacity: 0; width: 0; overflow: hidden; transition: opacity 0.5s ease-in 0s, width 0s 0.5s }" +
-		// only partially fade out spoilers in diffs, see https://meta.stackexchange.com/a/300859
-		".diffs .soup-spoiler:not(:hover) > div, .body-diffs .soup-spoiler:not(:hover) > div { opacity: 0.25 }" +
-		".diffs .soup-spoiler:hover > div, .body-diffs .soup-spoiler:hover > div { transition: all 1s }" +
-		".diffs .soup-spoiler::before, .diffs .spoiler::before, .body-diffs .soup-spoiler::before, .body-diffs .spoiler::before { content: ''; width: 0 } " +
-		"}",
-	script:	function () {
-		if ( SOUP.isMobile ) return;  // mobile theme handles spoilers differently
-		var fixSpoilers = function (where) {
-			var spoiler = $(where);
-			if ( ! spoiler.hasClass('spoiler') ) spoiler = spoiler.find('.spoiler');
-			spoiler.addClass('soup-spoiler').removeClass('spoiler').wrapInner('<div></div>').off('click');
-		};
-		SOUP.addContentFilter( fixSpoilers, 'spoiler fix', null, ['load', 'post', 'preview'] );
-		$(document).on( 'mouseover', '.spoiler', function () {
-			SOUP.try( 'spoiler fix fallback', fixSpoilers, [this] );
-		} ).on( 'click', '.soup-spoiler', function () {
-			// XXX: re-remove .spoiler, in case the SE spoiler click handler didn't get properly disabled
-			$(this).toggleClass('visible').removeClass('spoiler');
-		} );
-	}
-};
-fixes.mse78989 = {
-	title:	"Clicking on tags broken?",
-	url:	"https://meta.stackexchange.com/q/78989",
-	script:	function () {
-		if ( !/[?&]sort[=]/.test( location.search ) &&
-			$('body').hasClass('tagged-questions-page') &&
-			$('#tabs a.youarehere').length == 0 ) {
-			var href = $('#tabs a[href*="?sort="]:first').attr('href');
-			if ( href ) location.replace( href );
-		}
-	}
-};
 fixes.mse261721 = {
 	title:	"Un-fade low-score answers on click/tap too",
 	url:	"https://meta.stackexchange.com/q/261721",
@@ -663,6 +444,7 @@ fixes.mse261721 = {
 fixes.mse66646 = {
 	title:	"Confirming context menu entries via Enter triggers comment to be posted",
 	url:	"https://meta.stackexchange.com/q/66646",
+	// TODO: Is this still reproducible on Firefox?
 	script:	function () {
 		if ( !window.StackExchange || !StackExchange.helpers ) return;
 		// this function is copied from https://cdn-dev.sstatic.net/Js/stub.en.js, but with s/keyup/keydown/
@@ -849,51 +631,47 @@ fixes.mse234680 = {
 			toUnicode:l},"function"==typeof define&&"object"==typeof define.amd&&define.amd)define("punycode",function(){return q});else if(n&&!n.nodeType)if(o)o.exports=q;else for(r in q)q.hasOwnProperty(r)&&(n[r]=q[r]);else a.punycode=q}(SOUP);
 		}
 
-		var link = document.createElement('a');  // work-around for cross-browser access to URLUtils
-		var fixURLInput = function (where) {
-			$(where).find('input[type=text]').val( function (i, text) {
-				// The following two lines are copied from ui.prompt() in wmd.en.js:
-				text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
-				if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;
+		var fixIDNLink = function (text) {
+			// The following two lines are copied from ui.prompt() in wmd.en.js:
+			text = text.replace(/^http:\/\/(https?|ftp):\/\//, '$1://');
+			if (!/^(?:https?|ftp):\/\//.test(text)) text = 'http://' + text;
 
-				// Separate URL and optional title, fix possibly broken % encoding in URL
-				// (based on properlyEncoded() from wmd.en.js, but simplified and debugged):
-				// XXX: this also fixes https://meta.stackexchange.com/q/285366
-				var m = /^\s*(.*?)(?:\s+"(.*)")?\s*$/.exec(text);
-				var url = m[1], title = m[2];
-				var normalized = url.replace(/%(?:[\da-fA-F]{2})|[^\w\d\-./[\]%?+]+/g, function (match) {
-					if (match.length === 3 && match.charAt(0) == "%") return match;
-					else return encodeURI(match);
-				} );
-
-				// On Chrome, link.hostname / link.href return Punycode host names, so
-				// just returning link.href would be enough; on Firefox, they return
-				// Unicode, so we need to use the punycode.js library to convert them.
-				// Either way, the following code should produce what we want:
-				link.href = normalized;
-				var host = SOUP.punycode.toASCII( link.hostname );
-				var fixed = link.href.replace( link.hostname, host );
-				if (url !== fixed) SOUP.log('soup mse234680 fixed ' + url + ' -> ' + normalized + ' -> ' + link.href + ' -> ' + fixed);
-				return typeof(title) === 'undefined' ? fixed : fixed + ' "' + title + '"';
+			// Separate URL and optional title, fix possibly broken % encoding in URL
+			// (based on properlyEncoded() from wmd.en.js, but simplified and debugged):
+			// XXX: this also fixes https://meta.stackexchange.com/q/285366
+			var m = /^\s*(.*?)(?:\s+"(.*)")?\s*$/.exec(text);
+			var url = m[1], title = m[2];
+			var normalized = url.replace(/%(?:[\da-fA-F]{2})|[^\w\d\-./[\]%?+]+/g, function (match) {
+				if (match.length === 3 && match.charAt(0) == "%") return match;
+				else return encodeURI(match);
 			} );
+
+			var link = document.createElement('a');  // work-around for cross-browser access to URLUtils
+
+			// On Chrome, link.hostname / link.href return Punycode host names, so
+			// just returning link.href would be enough; on Firefox, they return
+			// Unicode, so we need to use the punycode.js library to convert them.
+			// Either way, the following code should produce what we want:
+			link.href = normalized;
+			var host = SOUP.punycode.toASCII( link.hostname );
+			var fixed = link.href.replace( link.hostname, host );
+			if (url !== fixed) SOUP.log('soup mse234680 fixed ' + url + ' -> ' + normalized + ' -> ' + link.href + ' -> ' + fixed);
+			return typeof(title) === 'undefined' ? fixed : fixed + ' "' + title + '"';
 		};
 
-		// rebind the submit / click handlers for the "Insert Hyperlink" dialog
-		// FIXME: this doesn't work with the new-style hyperlink dialog on SO
-		$(document).on( 'focus', '.wmd-prompt-dialog form:not(.soup-punycode-fixed) input', function (e) {
-			$(this).closest('form').addClass('soup-punycode-fixed').each( function () {
-				var oldSubmit = this.onsubmit;
-				this.onsubmit = function () {
-					fixURLInput(this);
-					if (oldSubmit) return oldSubmit.apply(this, arguments);
-				};
-			} ).find('input[type=button]').each( function () {
-				var oldClick = this.onclick;
-				this.onclick = function () {
-					fixURLInput( $(this).closest('form') );
-					if (oldClick) return oldClick.apply(this, arguments);
-				};
-			} );
+		SOUP.addEditorCallback( function (editor, postfix) {
+			// The insertLinkDialog hook takes a callback to insert the link into the
+			// post, and returns true/false. We want to modify the callback so that it
+			// punycode-encodes the hostname first. There is no HookCollection method
+			// to chain a new hook _before_ existing ones, but we can roll our own.
+			var originalHook = editor.hooks.insertLinkDialog;
+			if ( !originalHook ) return;
+			editor.hooks.insertLinkDialog = function (callback) {
+				return originalHook.call(this, function (text) {
+					return callback(fixIDNLink(text));
+				} );
+			};
+			SOUP.log( 'soup mse234680 patched insertLinkDialog hook for editor', postfix );
 		} );
 
 		// backup content filter for existing broken links with percent-encoded hostnames
@@ -931,9 +709,6 @@ fixes.mse240417 = {
 fixes.mse243519 = {
 	title:	"Dangling signature dash in comments",
 	url:	"https://meta.stackoverflow.com/q/243519",
-	// FIXME: this is kind of broken on Chrome, and can trigger spurious scroll bars; see https://bugs.chromium.org/p/chromium/issues/detail?id=813345
-	// using a non-breaking space instead of normal space after the dash seems to mitigate the issue somewhat, but not entirely :(
-	// getting rid of white-space:nowrap would make this do nothing at all on Chrome, which might actually be preferable...
 	script:	function () {
 		var wrapper = $('<div> <span style="white-space:nowrap">\u2013\xA0</span></div>').contents();
 		SOUP.addContentFilter( function () {
@@ -950,7 +725,7 @@ fixes.mse220611 = {
 	url:	"https://meta.stackexchange.com/q/220611",
 	path:	/^\/election\b/,
 	script:	function () {
-		// XXX: This seems to only happen on the initialpage view, so no need to make it a content filter.
+		// XXX: This seems to only happen on the initial page view, so no need to make it a content filter.
 		$('body.election-page div[id^="post-"]').each( function () {
 			var $this = $(this), href = $this.find('.post-signature.owner .user-details > a:first').attr('href');
 			var match = /^\/users\/[0-9]+\//.exec( href );
@@ -982,7 +757,7 @@ fixes.mse230536 = {
 	script:	function () {
 		SOUP.hookAjax( /^\/posts\/\d+\/vote-counts\b/, function () {
 			// XXX: the downvote element has no class, hence the silly selector
-			$('.vote-count-post > .vote-count-separator + div[style*="maroon"]').each( function () {
+			$('.js-vote-count > .vote-count-separator + div[style*="maroon"]').each( function () {
 				if ( $(this).children().length > 0 ) return;
 				this.textContent = this.textContent.replace( /^(\s*)([1-9])/, '$1-$2' );
 			} );
@@ -1028,42 +803,6 @@ fixes.mso297489 = {
 			StackExchange.vote_closingAndFlagging.init();
 			$('.post-menu .close-question-link').show();
 		} );
-	}
-};
-fixes.mso295666 = {
-	title:	"Disable annoying autofocus when clicking preview",
-	url:	"https://meta.stackoverflow.com/q/295666",
-	credit:	"based on code by Oriol (https://meta.stackoverflow.com/users/1529630/oriol)",
-	script:	function () {
-		$( '.wmd-preview' ).off( 'click' );
-		// KLUGE: block installation of further click handlers
-		var oldClick = $.fn.click;
-		$.fn.click = function () {
-			// XXX: $(document).not('.wmd-preview').length == 0!
-			var that = ( arguments.length > 0 ? this.not( $('.wmd-preview') ) : this );
-			oldClick.apply( that, arguments );
-			return this;
-		};
-		// add replacement double-click handler
-		$( document ).on( 'dblclick', '.wmd-preview', function () {
-			$( 'textarea', this.parentNode ).focus();
-		} );
-	}
-};
-fixes.mse240787 = {
-	title:	"Inconsistent reputation mouse-over text",
-	url:	"https://meta.stackexchange.com/q/240787",
-	script:	function () {
-		SOUP.addContentFilter( function ( where ) {
-			$( '.reputation-score[title]', where ).attr( 'title', function ( i, title ) {
-				if ( ! /\d/.test( title ) ) {
-					title = title.replace( /\s*$/, " " ) + this.textContent;
-				}
-				return title.replace( /[0-9]{4,}/g, function ( digits ) {
-					return Number( digits ).toLocaleString( 'en-US' );
-				} );
-			} );
-		}, 'mse240787', '.user-info', ["load", "post", "usercard"] );
 	}
 };
 fixes.mso300679 = {
@@ -1169,6 +908,7 @@ fixes.mse265889 = {
 fixes.mse266523 = {
 	title:	"Uploading an image from the web can leave paste broken in editor",
 	url:	"https://meta.stackexchange.com/q/266523",
+	// TODO: Is this still reproducible?
 	script:	function () {
 		$('#content').on('paste', function () {
 			if ( $('.modal-dropzone').length > 0 ) return;
@@ -1182,6 +922,7 @@ fixes.mse266523 = {
 fixes.mse264307 = {
 	title:	"Down arrow key won't work after using the Hyperlink button",
 	url:	"https://meta.stackexchange.com/q/264307",
+	// TODO: Is this still reproducible on Firefox?
 	script:	function () {
 		var proto = document.body;
 		while ( proto && proto.removeChild && !proto.hasOwnProperty('removeChild') ) {
@@ -1196,17 +937,6 @@ fixes.mse264307 = {
 			if ( node ) active.blur();
 			return oldRemoveChild.apply( this, arguments );
 		};
-	}
-};
-fixes.mse170970 = {
-	title:	"Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments",
-	url:	"https://meta.stackexchange.com/q/170970",
-	script:	function () {
-		SOUP.addContentFilter( function ( where ) {
-			SOUP.forEachTextNode( $('.comment-copy', where), function ( text ) {
-				return text.replace( /\u200c\u200b/g, '' );
-			} );
-		}, 'mse170970', null, ['load', 'post', 'comments'] );
 	}
 };
 fixes.mse153528 = {
@@ -1418,6 +1148,7 @@ fixes.mse74274 = {
 fixes.mso338932 = {
 	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
 	url:	"https://meta.stackoverflow.com/q/338932",
+	// TODO: Actually fix the CodeMirror editor so it doesn't swallow text when used with one-screen keyboards.
 	script:	function () {
 		var bypassTouchBlocker = function () {
 			var $this = $(this);
@@ -1474,6 +1205,7 @@ fixes.mse287473 = {
 					if ( ! options.css ) options.css = {};
 					options.css['max-width'] = Math.floor(maxWidth) + 'px';
 				}
+				// TODO: if the tip is very close to the left/right edge of the screen, we should flip its position
 			}
 			return oldShowMessage.call( this, $elem, message, options );
 		};
@@ -1503,6 +1235,7 @@ fixes.mse135710 = {
 fixes.mse223725 = {
 	title:	"All internal links on Stack Exchange sites should be protocol-relative",
 	url:	"https://meta.stackexchange.com/q/223725",
+	// TODO: Is this still needed?
 	script:	function () {
 		var selector = 'a[href^="http://"]';
 		var regexp   = /^([^.]+\.)?(meta\.)?((stack(exchange|overflow|apps)|superuser|serverfault|askubuntu)\.com|mathoverflow\.net)$/;
@@ -1735,24 +1468,7 @@ fixes.mse307976 = {
 		} )
 	}
 };
-fixes.mso371327 = {
-	title:	"Edit a comment, again and again and again",
-	url:	"https://meta.stackoverflow.com/q/371327",
-	script:	function () {
-        if ( !window.$ || !$.fn || !$.fn.show || !$.fn.hide ) return;
-		var show = $.fn.show, hide = $.fn.hide;
-        $.fn.show = function () {
-            this.removeClass('soup-d-none');
-            return show.apply(this, arguments);
-        };
-        $.fn.hide = function () {
-            // only add soup-d-none if there's already a d-whatever class present!
-            this.addClass( (index, className) => ( /(^|\s)d-/.test(className) ? 'soup-d-none' : '' ) );
-            return hide.apply(this, arguments);
-        };
-	},
-	css:	'.soup-d-none[class^="d-"], .soup-d-none[class*=" d-"] { display: none !important }'
-};
+
 
 //
 // Site-specific JS fixes:
@@ -1779,7 +1495,7 @@ fixes.boardgames1652 = {
 			cardName = cardName.replace(/\+/g, ' ').replace(/["\[\]]+/g, '').replace(/^\s+/, '');
 			return 'https://scryfall.com/search?q=%21%22' + encodeURIComponent(cardName) + '%22&utm_source=stackexchange';
 		};
-		
+
 		// change the URLs in server-side generated card links
 		var cardLinkRegexp = /^https?:\/\/(?:www\.wizards\.com\/magic\/autocard\.asp|gatherer\.wizards\.com\/pages\/search\/default\.aspx)\?name=([^&#]*)$/i;
 		var fixCardLinks = function () {
@@ -1791,15 +1507,15 @@ fixes.boardgames1652 = {
 			} );
 		};
 		SOUP.addContentFilter( fixCardLinks, 'mtg card link fix', null, ['load', 'post', 'preview'] );
-		
+
 		// related issue: card links are not parsed in edit preview
 		// this code is loosely based on makeTagLinks() in https://dev.stackoverflow.com/content/Js/wmd.en.js
 		SOUP.addEditorCallback( function (editor, postfix) {
 			editor.getConverter().hooks.chain( 'postConversion', function (text) { try {
 				var excludeRanges = null;
-				return text.replace( /\[mtg:([^\[\]]+)\]/g, function (fullMatch, cardName, offset) { 
+				return text.replace( /\[mtg:([^\[\]]+)\]/g, function (fullMatch, cardName, offset) {
 					// don't replace [mtg:] links inside <a> or <code> tags;
-					// but don't bother looking for them unless we actually see such a link 
+					// but don't bother looking for them unless we actually see such a link
 					if ( excludeRanges === null ) {
 						var re = /<(a|code)\b[^>]*>.*?<\/\1>/ig, match;
 						excludeRanges = [];
@@ -1961,19 +1677,6 @@ fixes.french347 = {
 		}, 'French space fix' );
 	}
 };
-fixes.mse264171 = {
-	title:	"SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'",
-	url:	"https://meta.stackexchange.com/q/264171",
-	sites:	/^blog\./,
-	path:	/^\/tags\/[0-9A-Za-z]+-com\/?$/,
-	early:	function () {
-		// bah, no jQuery in the blogs :(
-		document.addEventListener( 'DOMContentLoaded', function (event) { 
-			var is404 = document.head.querySelector( 'meta[property="og:url"][content="/404/"]' );
-			if ( is404 ) location.replace( location.href.replace( /\/tags\/([0-9A-Za-z]+)-com\b/, '/tags/$1.com' ) );
-		} );
-	}
-};
 fixes.mse299082 = {
 	title:	"Display embedded YouTube videos in markdown preview",
 	url:	"https://meta.stackexchange.com/q/299082",
@@ -1992,7 +1695,7 @@ fixes.mse299082 = {
 				var url = wrapper.data('soup-mse299082-url');
 				wrapper.html('<div><iframe width="640px" height="395px" src="' + url + '"></iframe></div>');
 				wrapper.addClass('youtube-embed');
-				
+
 				// make sure we can't have two chains of video loaders running at the same time
 				var savedCounter = nowLoading = counter++;
 				wrapper.find('iframe').on( 'load error', function () {
@@ -2047,20 +1750,11 @@ fixes.mse299082 = {
 		encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 124"><path d="m172.3 104.6c-2.024 7.622-7.987 13.62-15.56 15.66-13.7 3.7-68.7 3.7-68.7 3.7s-55.04 0-68.76-3.7c-7.57-2-13.54-8-15.56-15.7-3.68-13.78-3.68-42.6-3.68-42.6s0-28.82 3.678-42.64c2.024-7.62 7.992-13.62 15.56-15.66 13.72-3.7 68.76-3.7 68.76-3.7s55.04 0 68.76 3.701c7.573 2.038 13.54 8.04 15.56 15.66 3.7 13.82 3.7 42.64 3.7 42.64s0 28.82-3.678 42.64" fill="#f00"/><path d="m70 35.83 46 26.17-46 26.17v-52.34" fill="#fff"/></svg>' ) +
 		") #282828 center/10% no-repeat }"
 };
-fixes.mse293413 = {
-	title:	"Let's see the Top Network Askers better",
-	url:	"https://meta.stackexchange.com/q/293413",
-	sites:	/^stackexchange\.com$/,
-	script:	function () {
-		$('.users-sidebar .userDetails img[src^="https://i.stack.imgur.com/"][src*="?s=16&"]').each( function () {
-			this.src = this.src.replace(/\?s=16&/, '?s=30&');
-		} );
-	}
-};
 fixes.mse307605 = {
 	title:	"Sorting SEDE output is unstable",
 	url:	"https://meta.stackexchange.com/q/307605",
 	sites:	/^data\.stackexchange\.com$/,
+	// TODO: Is this still reproducible on any common browser?
 	early:	function () {
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort:
 		// "If omitted, the array is sorted according to each character's Unicode code point value, according to the string conversion of each element."
@@ -2288,12 +1982,12 @@ fixes.math19650 = {
 //
 var soupInit = function () {
 	window.SOUP = {};
-	
+
 	// basic environment detection, part 1
 	// (for MathJax detection, just check window.MathJax, and note that it may be loaded late due to mse215450)
 	SOUP.isChat = /^chat\./.test( location.hostname );
 	SOUP.isMeta = /(^|\.)meta\./.test( location.hostname );
-	
+
 	// run code after jQuery and/or SE framework have loaded
 	SOUP.readyQueue = {};
 	SOUP.ready = function ( key, code ) {
@@ -2343,7 +2037,7 @@ var soupInit = function () {
 	} else {
 		SOUP.log( 'soup window.jQuery setter not applied, jQuery has already loaded!' );
 	}
-	
+
 	// wrapper for defining Markdown editor hooks, used by SOUP.hookEditPreview()
 	// note: use editor.getConverter() to access the Markdown converter
 	// see https://dev.stackoverflow.com/content/Js/wmd.en.js for details
@@ -2362,7 +2056,7 @@ var soupInit = function () {
 			} );
 		} );
 	}
-	
+
 	// utility: run code after any matching AJAX request
 	SOUP.hookAjax = function ( regex, code, delay ) {
 		if ( typeof(delay) === 'undefined' ) delay = 0;
@@ -2380,7 +2074,7 @@ var soupInit = function () {
 		if ( !hook.delay ) tryIt();
 		else setTimeout( tryIt, hook.delay );
 	};
-	
+
 	// utility: set a function to be called 1) immediately, 2) whenever a
 	// new post is loaded via AJAX, and 3) when the edit preview is updated.
 	// the function will be passed a jQuery selector to process.
@@ -2433,7 +2127,7 @@ var soupInit = function () {
 	SOUP.subscribeToQuestion = function ( code, key ) {
 		SOUP.questionSubscriptions.push( { code: code, key: key || "soup realtime handler" } );
 	};
-	
+
 	// utility: iterate over text nodes inside an element / selector (TODO: extend jQuery?)
 	SOUP.forEachTextNode = function ( where, code ) {
 		$(where).each( function () {
@@ -2503,11 +2197,11 @@ var soupLateSetup = function () {
 	// detect site beta status; together with StackExchange.options.user.rep this can be user to guesstimate user privileges
 	// XXX: this may need to be updated if the beta site design is changed in the future
 	SOUP.isBeta = /(^|\/)beta(meta)?\//.test( $('<span class="feed-icon" />').css('background-image') );
-	
+
 	// run ready queue after jQuery and/or SE framework have loaded
 	if ( window.StackExchange && StackExchange.ready ) StackExchange.ready( SOUP.runReadyQueue );
 	else $(document).ready( SOUP.runReadyQueue );
-	
+
 	// attach global AJAX hooks
 	$( document ).ajaxComplete( function( event, xhr, settings ) {
 		for ( var i = 0; i < SOUP.ajaxHooks.length; i++ ) {
@@ -2539,7 +2233,7 @@ var soupLateSetup = function () {
 			var sid = StackExchange.options.site.id;
 			var qid = $('.question').data('questionid');
 			if ( !sid || !qid ) return;
-		
+
 			StackExchange.realtime.genericSubscribe( sid + '-question-' + qid, function ( json ) {
 				var data = $.parseJSON( json );
 				var hooks = SOUP.questionSubscriptions;
@@ -2552,7 +2246,7 @@ var soupLateSetup = function () {
 			SOUP.log( 'soup failed to subscribe to realtime feed:', e );
 		}
 	} );
-	
+
 	SOUP.log( 'soup setup complete' );
 };
 

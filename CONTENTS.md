@@ -9,24 +9,17 @@ The fixes highlighted in **boldface** include particularly major interface impro
 
 These are pure CSS fixes.  They will be applied even if JavaScript is disabled on the site.  Most of these are fairly minor, but sometimes pervasive, issues.
 
-* [mse215473: Add a non-breaking space to “reopen (1)” and its ilk](https://meta.stackexchange.com/q/215473)
-* [mse114109: Background in OP's user name can obscure text in multiline comments](https://meta.stackexchange.com/q/114109)
 * [mse145819: &lt;hr/&gt;'s do not get rendered in deleted answers](https://meta.stackexchange.com/q/145819)
-* [mse108046: Mouse cursor doesn't change to pointer when hovering “full site” on mobile](https://meta.stackexchange.com/q/108046)
-* [mse110566: Does the spoiler markdown work on images?](https://meta.stackexchange.com/q/110566)
 * [mse58760: &lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](https://meta.stackexchange.com/q/58760)
-* [mse203405: Excerpt of privilege is below privilege instead of in front](https://meta.stackexchange.com/q/203405)
 * **[mse154788: Why are comments overlapping the sidebar?](https://meta.stackexchange.com/q/154788)**
 * [mse214830: Selecting text in profile activity comments causes unexpected clipping](https://meta.stackexchange.com/q/214830)
 * [mse230392: Layout bug while viewing vote count in Meta Stackexchange](https://meta.stackexchange.com/q/230392)
-* [physics5773: Bounty icon is poorly placed](https://physics.meta.stackexchange.com/q/5773)
 * [mse224185: Links sometimes float above text in vote-to-close dialog on Firefox](https://meta.stackexchange.com/q/224185)
 * [mse233517: Badge symbol in notification is of the site you're on, not where badge was earned](https://meta.stackexchange.com/q/233517)
 * [mse169225: Why does the bounty award button appear on deleted answers?](https://meta.stackexchange.com/q/169225)
 * **[mse84296: RTL text can mess up comment timestamps](https://meta.stackexchange.com/q/84296)**
 * [mse249859: &lt;kbd&gt; tags in headings are too small](https://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](https://meta.stackexchange.com/q/248156)
-* [mso284049: Small bugs in the Stack Overflow editor](https://meta.stackoverflow.com/q/284049)
 * [mse250081: Retract close vote UI](https://meta.stackexchange.com/q/250081)
 * **[mso287222: Clicking between lines fails](https://meta.stackoverflow.com/q/287222)**
 * [mso297678: Comment anchor links get “visited” highlighting](https://meta.stackoverflow.com/q/297678)
@@ -42,29 +35,17 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * [mse304096: Comments and answers have huge right margins when printed](https://meta.stackexchange.com/q/304096)
 * [mso306552: Votes cast has upvote-like symbol and is confusing](https://meta.stackoverflow.com/q/306552)
 * [mse304247: Attempting to use too long tag breaks popup](https://meta.stackexchange.com/q/304247)
-* [mso360855: Margins are off/unbalanced in inbox](https://meta.stackoverflow.com/q/360855)
 
 ### Site-specific CSS fixes
 
 These pure CSS fixes are for issues specific to certain sites on the Stack Exchange network.  Most of them are restricted to the affected site(s), but a few are applied globally, even though the issue they fix is only apparent on some sites.
 
-* [math12803: “Sign up for the newsletter” button overflows the frame on Firefox / Linux](https://math.meta.stackexchange.com/q/12803) (partially applied globally)
 * **[codegolf959: Add line-height shortener to the ascii-art tag](https://codegolf.meta.stackexchange.com/q/959)**
-* [math12902: Visited questions are practically indistinguishable in search results](https://math.meta.stackexchange.com/q/12902)
-* [math16559: Typo in site CSS disables visited link color in community bulletin](https://math.meta.stackexchange.com/q/16559)
-* [electronics3162: Error for profile less info](https://electronics.meta.stackexchange.com/q/3162)
-* [electronics4038: About Me box on user page not in the right place](https://electronics.meta.stackexchange.com/q/4038) (applied globally)
-* [mso286009: Change \[Ask Question\] button style](https://meta.stackoverflow.com/q/286009)
+* <s>[math12902: Visited questions are practically indistinguishable in search results](https://math.meta.stackexchange.com/q/12902)</s> (temporarily disabled)
 * [mse250407: User signature cards on old revisions look funny](https://meta.stackexchange.com/q/250407) (applied globally)
-* [cooking2049: Ads are cut off on the right](https://cooking.meta.stackexchange.com/q/2049)
-* [movies1652: /users and profile pages (/users/…) space the link to the current profile (in the top bar) differently](https://movies.meta.stackexchange.com/q/1652) (also on [workplace](https://workplace.meta.stackexchange.com/q/4917))
-* [graphicdesign2415: Design Bug: Tag alert CSS](https://graphicdesign.meta.stackexchange.com/q/2415)
 * [mse244587: “Top Network Users” should contain themselves!](https://meta.stackexchange.com/q/244587)
-* [rpg5812: Post as a guest: CSS bug](https://rpg.meta.stackexchange.com/q/5812) (applied globally)
 * [mse294574: Unbroken line in preview text causes whole post block to side scroll](https://meta.stackexchange.com/q/294574)
 * [mse306254: Annoying animation on reputation leagues](https://meta.stackexchange.com/q/306254)
-* [aviation3449: Accepted graphic missing in questions tab](https://aviation.meta.stackexchange.com/q/3449)
-* [mse307120: I cannot get bold or italics to work](https://meta.stackexchange.com/q/307120) (on android, codereview, crypto, cs, graphicdesign, japanese, magento, music and salesforce; loads CSS from Google Fonts)
 
 ### Chat-only fixes
 
@@ -80,8 +61,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 
 ### General fixes
 
-* **[mse217779: The CSS for spoilers is a mess. Let's fix it!](https://meta.stackexchange.com/q/217779)**
-* [mse78989: Clicking on tags broken?](https://meta.stackexchange.com/q/78989)
 * **[mse261721: Un-fade low-score answers on click/tap too](https://meta.stackexchange.com/q/261721)**
 * [mse66646: Confirming context menu entries via Enter triggers comment to be posted](https://meta.stackexchange.com/q/66646)
 * [mse210132: New top bar should render avatar with a transparent background](https://meta.stackexchange.com/q/210132)
@@ -98,7 +77,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse230536: Large down-vote count doesn't display negative sign](https://meta.stackexchange.com/q/230536)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](https://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](https://meta.stackoverflow.com/q/284223)
-* **[mso295666: Disable annoying autofocus when clicking preview](https://meta.stackoverflow.com/questions/295666)**
 * [mse240787: Inconsistent reputation mouse-over text](https://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](https://meta.stackoverflow.com/q/300679)**
 * [mse266034: Link the title of the linked questions sidebar to the list of linked questions](https://meta.stackexchange.com/q/266034)
@@ -158,4 +136,3 @@ These fixes apply only to sites using [MathJax](https://www.mathjax.org) for LaT
 * **[math4130: The scope of \newcommand is the entire page](https://math.meta.stackexchange.com/q/4130)**
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](https://meta.stackexchange.com/q/229363)
 * **[math19650: Post with many lines of display math takes up most of the Questions page](https://math.meta.stackexchange.com/q/19650)**
-
