@@ -77,13 +77,11 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse230536: Large down-vote count doesn't display negative sign](https://meta.stackexchange.com/q/230536)
 * [mse248646: Comments left by the author of a spam/offensive post should be deleted from the post too](https://meta.stackexchange.com/q/248646)
 * [mso284223: Newly upvoted cool comments get an uncolored score](https://meta.stackoverflow.com/q/284223)
-* [mse240787: Inconsistent reputation mouse-over text](https://meta.stackexchange.com/q/240787)
 * **[mso300679: Please block posts containing unsupported HTML](https://meta.stackoverflow.com/q/300679)**
 * [mse266034: Link the title of the linked questions sidebar to the list of linked questions](https://meta.stackexchange.com/q/266034)
 * [mse265889: Improve answer navigation for screen readers](https://meta.stackexchange.com/q/265889)
 * [mse266523: Uploading an image from the web can leave paste broken in editor](https://meta.stackexchange.com/q/266523)
 * [mse264307: Down arrow key won't work after using the Hyperlink button](https://meta.stackexchange.com/q/264307)
-* [mse170970: Occasionally, the Unicode character sequence U+200C U+200B (ZWNJ ZWSP) is inserted into comments](https://meta.stackexchange.com/q/170970)
 * [mse153528: Don't ask for a comment when downvoting, if the user just voted on a comment](https://meta.stackexchange.com/q/153528)
 * [mse259325: Answer flashes orange when I click the “edit (1)” link to review a suggested edit](https://meta.stackexchange.com/q/259325)
 * [mse268584: When a user is deleted, OP highlighting is lost](https://meta.stackexchange.com/q/268584)
@@ -101,7 +99,6 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
-* [mso371327: Edit a comment, again and again and again](https://meta.stackoverflow.com/q/371327)
 
 ### Site-specific fixes
 
@@ -110,9 +107,7 @@ These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer 
 * **[boardgames1652: Switch Magic autocard over to a different search engine, Scryfall](https://boardgames.meta.stackexchange.com/q/1652)**
 * **[boardgames867: We should implement Magic the Gathering pop-ups on hover](https://boardgames.meta.stackexchange.com/q/867)**
 * [french347: Make spaces unbreakable when it's obvious that a line-break should not occur](https://french.meta.stackexchange.com/q/347)
-* [mse264171: SE new blog: Broken link on 'serverfault.com' and 'superuser.com' under 'TAGS'](https://meta.stackexchange.com/q/264171)
 * **[mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082)** (on aviation, bicycles, gaming, movies, music, scifi, space and video)
-* [mse293413: Let's see the Top Network Askers better](https://meta.stackexchange.com/q/293413) (on the stackexchange.com portal)
 * [mse293413: Sorting SEDE output is unstable](https://meta.stackexchange.com/q/307605) (on [SEDE](https://data.stackechage.com))
 * [mse308072: Clicking on tags in global search results is broken](https://meta.stackexchange.com/q/308072) (on the stackexchange.com portal)
 
