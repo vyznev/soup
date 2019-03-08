@@ -1,6 +1,3 @@
-<!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.52 -->
-
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
 The [Stack Overflow Unofficial Patch (SOUP)][SA] is a project to collect various minor client-side bug fixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
@@ -81,10 +78,8 @@ If you'd like to help me out by contributing new fixes directly to SOUP, the [SO
 See also
 --------
 
-* [SE Modifications — Username autocomplete in comments, inline revision source, and utility links](https://stackapps.com/questions/2138/se-modifications-username-autocomplete-in-comments-inline-revision-source-a)
 * [SE Chat Modifications — Keyboard navigation and commands for chat](https://stackapps.com/questions/2105/se-chat-modifications-keyboard-navigation-and-commands-for-chat)
-* [Official keyboard shortcuts](https://stackapps.com/questions/2567/official-keyboard-shortcuts)
-* [SE Additional Optional Features](https://stackapps.com/questions/6091/se-additional-optional-features)
+* [Stack Overflow Extras (SOX)](https://stackapps.com/q/6091)
 * ...and other [popular user scripts on Stack Apps](https://stackapps.com/?tab=scripts)
 
 
