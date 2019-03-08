@@ -3,9 +3,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
-1.53 (development)
+1.54 (2019-03-08)
+====
 
-**New fixes in 1.53.x:**
+It's been almost a year since the last SOUP release.  With the introduction of the new responsive SE design across the network and the adoption of the [Stacks](https://stackoverflow.design/) CSS library, a lot of old CSS bugs have finally been fixed (and, I'm sure, new ones have been introduced).  As I have not had much time to develop new fixes for SOUP over the past year, this release mostly involves trimming down the code and removing a number of old fixes that have become obsolete.
+
+**New fixes in 1.54.0:**
 
 * [mse308072: Clicking on tags in global search results is broken](https://meta.stackexchange.com/q/308072)
 * [mse307976: Can't see all the options while reviewing with a small screen](https://meta.stackexchange.com/q/307976)

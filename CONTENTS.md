@@ -1,5 +1,5 @@
 
-SOUP v1.52
+SOUP v1.54
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 

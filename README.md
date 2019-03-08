@@ -1,6 +1,3 @@
-<!-- thumbnail: https://i.stack.imgur.com/8EphO.png -->
-<!-- version: 1.52 -->
-
 ![](https://i.stack.imgur.com/IzzhJ.png "SOUP logo")
 
 The [Stack Overflow Unofficial Patch (SOUP)][SA] is a project to collect various minor client-side bug fixes, work-arounds and usability improvements for [Stack Overflow][SO] and other Q&A sites on the [Stack Exchange Network][SE] into a single user script.
