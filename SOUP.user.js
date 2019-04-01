@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.54.0
+// @version     1.55.0
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -71,6 +71,16 @@ var fixes = {};
 //
 // CSS-only fixes (injected *before* site CSS!):
 //
+fixes.mse326027 = {
+	title:	"The April Fools HNQ broken image icons are broken (on high-DPI screens)",
+	url:	"https://meta.stackexchange.com/q/326027",
+	// unfortunately, we can't reliably detect the April Fools theme using CSS only
+	script: function () {
+		$('.container:has(.tm-unicorn-back) .favicon').filter( function () {
+			return /april-fools-2019\/broken-image\.png/.test($(this).css('background-image'));
+		} ).css('background-size', 'auto');
+	}
+};
 fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",
 	url:	"https://meta.stackexchange.com/q/145819",

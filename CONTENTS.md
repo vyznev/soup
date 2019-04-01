@@ -1,5 +1,5 @@
 
-SOUP v1.54
+SOUP v1.55
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 
@@ -9,6 +9,7 @@ The fixes highlighted in **boldface** include particularly major interface impro
 
 These are pure CSS fixes.  They will be applied even if JavaScript is disabled on the site.  Most of these are fairly minor, but sometimes pervasive, issues.
 
+* [mse326027: The April Fools HNQ broken image icons are broken (on high-DPI screens)](https://meta.stackexchange.com/q/326027)
 * [mse145819: &lt;hr/&gt;'s do not get rendered in deleted answers](https://meta.stackexchange.com/q/145819)
 * [mse58760: &lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](https://meta.stackexchange.com/q/58760)
 * **[mse154788: Why are comments overlapping the sidebar?](https://meta.stackexchange.com/q/154788)**
