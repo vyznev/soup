@@ -6,9 +6,14 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 1.55 (development)
 ====
 
-**New fixes in 1.55.0 (2019-04-01):**
+**New fixes in 1.55.x:**
 
-* [mse326027: The April Fools HNQ broken image icons are broken (on high-DPI screens)](https://meta.stackexchange.com/q/326027)
+* [mse326346: MathJax is (inappropriately) parsed in Markdown diffs](https://meta.stackexchange.com/q/326346)
+
+**Removed fixes:**
+
+* [math4130: The scope of \newcommand is the entire page](https://math.meta.stackexchange.com/q/4130)
+* [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](https://meta.stackexchange.com/q/229363)
 
 
 1.54 (2019-03-08)

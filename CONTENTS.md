@@ -9,7 +9,6 @@ The fixes highlighted in **boldface** include particularly major interface impro
 
 These are pure CSS fixes.  They will be applied even if JavaScript is disabled on the site.  Most of these are fairly minor, but sometimes pervasive, issues.
 
-* [mse326027: The April Fools HNQ broken image icons are broken (on high-DPI screens)](https://meta.stackexchange.com/q/326027)
 * [mse145819: &lt;hr/&gt;'s do not get rendered in deleted answers](https://meta.stackexchange.com/q/145819)
 * [mse58760: &lt;kbd&gt; (yes, still &lt;kbd&gt;) doesn't play nice with lists](https://meta.stackexchange.com/q/58760)
 * **[mse154788: Why are comments overlapping the sidebar?](https://meta.stackexchange.com/q/154788)**
@@ -129,6 +128,5 @@ These fixes apply only to sites using [MathJax](https://www.mathjax.org) for LaT
 * [math11036: Can we have the suggested questions' titles parsed by default?](https://math.meta.stackexchange.com/q/11036)
 * [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
 * [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470)
-* **[math4130: The scope of \newcommand is the entire page](https://math.meta.stackexchange.com/q/4130)**
-* [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](https://meta.stackexchange.com/q/229363)
 * **[math19650: Post with many lines of display math takes up most of the Questions page](https://math.meta.stackexchange.com/q/19650)**
+* [mse326346: MathJax is (inappropriately) parsed in Markdown diffs](https://meta.stackexchange.com/q/326346)

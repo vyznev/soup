@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.0
+// @version     1.55.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -71,16 +71,6 @@ var fixes = {};
 //
 // CSS-only fixes (injected *before* site CSS!):
 //
-fixes.mse326027 = {
-	title:	"The April Fools HNQ broken image icons are broken (on high-DPI screens)",
-	url:	"https://meta.stackexchange.com/q/326027",
-	// unfortunately, we can't reliably detect the April Fools theme using CSS only
-	script: function () {
-		$('.container:has(.tm-unicorn-back) .favicon').filter( function () {
-			return /april-fools-2019\/broken-image\.png/.test($(this).css('background-image'));
-		} ).css('background-size', 'auto');
-	}
-};
 fixes.mse145819 = {
 	title:	"<hr/>'s do not get rendered in deleted answers",
 	url:	"https://meta.stackexchange.com/q/145819",
@@ -1894,79 +1884,6 @@ fixes.math27470 = {
 //
 // MathJax config tweaks (need to be injected early):
 //
-fixes.math4130 = {
-	title:	"The scope of \\newcommand is the entire page",
-	url:	"https://math.meta.stackexchange.com/q/4130",
-	credit:	"idea by Davide Cervone",
-	mathjax:	function () {
-		var resetCmd = "resetstack";
-		MathJax.Hub.Register.StartupHook( "TeX Jax Ready", function () {
-			MathJax.Hub.Insert( MathJax.InputJax.TeX.Definitions.macros, {
-				resetstack: ["Extension", "begingroup"]
-			} );
-		} );
-		MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
-			var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
-				NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
-			// make sure user defs on stack can't clobber system defs in TEXDEF
-			NSSTACK.Augment( {
-				// don't store system defs on root stack...
-				Init: function (eqn) {
-					this.isEqn = eqn; this.stack = []; this.Push(NSFRAME());
-				},
-				// ...but fall back to them if nothing is found on the root stack
-				Find: function (name, type) {
-					// kluge: don't let the reset command be redefined
-					if (type == "macros" && name == resetCmd) return "SoupResetStack";
-					for (var i = this.top-1; i >= 0; i--) {
-						var def = this.stack[i].Find(name,type);
-						if (def) {return def}
-					}
-					// somebody needs to be hit with a giant "S"...
-					if (type == "environments") type = "environment";
-					return (this.isEqn ? null : TEXDEF[type][name]);
-				}
-			} );
-			// reset definition stack and prevent further changes to system defs
-			var resetStack = function () {
-				TEX.rootStack.Init();
-				TEX.eqnStack.Init(true);
-			};
-			resetStack();
-			TEX.Parse.Augment( { SoupResetStack: resetStack } );
-			MathJax.Hub.Startup.signal.Post("TeX SOUP reset Ready");
-		} );
-		// before processing, inject the reset command to any elements that should be isolated
-		var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
-		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' +
-			resetCmd + '</script></span>';
-		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
-			var elements = message[1];
-			if ( !(elements instanceof Array) ) elements = [elements];
-			for (var i = 0; i < elements.length; i++) {
-				if (!elements[i]) continue;  // should not happen, but...
-				$(elements[i]).find(select).andSelf().not('.soup-math4130-fixed').has('script').prepend(reset).addClass('soup-math4130-fixed');
-			}
-		} );
-	},
-	css:	".soup-mathjax-reset { display: none }"
-};
-fixes.mse229363 = {
-	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
-	url:	"https://meta.stackexchange.com/q/229363",
-	mathjax:	function () {
-		// list of MathJax enabled sites from https://meta.stackexchange.com/a/216607
-		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|computergraphics|crypto|cs|cstheory|datascience|dsp|earthscience|economics|engineering|ham|hsm|math|matheducators|mathematica|physics|puzzling|quant|robotics|rpg|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
-		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
-			SOUP.try( 'mse229363', function () {
-				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
-					return mathJaxSites.test( this.hostname );
-				} ).addClass('tex2jax_ignore');
-			} );
-		} );
-	}
-};
 fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"https://math.meta.stackexchange.com/q/19650",
@@ -1981,6 +1898,20 @@ fixes.math19650 = {
 					this.type = this.type.replace(/;\s*mode=display$/, "");
 				} );
 			} catch (e) { SOUP.log('math19650 hook failed:', e) }
+		} );
+	}
+};
+fixes.mse326346 = {
+	title:	"MathJax is (inappropriately) parsed in Markdown diffs",
+	url:	"https://meta.stackexchange.com/q/326346",
+	// also enabled in suggested edit review, even though I haven't actually seen the bug occur there
+	path:	/^\/(posts\/\d+\/revisions|review\/suggested-edits)\b/,
+	mathjax:	function () {
+		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
+			SOUP.try( 'mse326346', function () {
+				$('.markdown-diff:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
+				$('.suggested-edit .full-diff:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
+			} );
 		} );
 	}
 };
