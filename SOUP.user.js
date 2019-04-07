@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.1
+// @version     1.55.2
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1466,6 +1466,16 @@ fixes.mse307976 = {
 		$window.on( 'scroll resize', function () {
 			$bar.css( 'left', $header.offset().left - $window.scrollLeft() );
 		} )
+	}
+};
+fixes.mse322619 = {
+	title:	"Can't see other pages of answers on a certain deleted question",
+	url:	"https://meta.stackexchange.com/q/322619",
+	script:	function () {
+		if ( $('.hidden-deleted-question').length < 1 ) return;
+		$('.pager-answers a[href], #tabs a[href]').attr( 'href', function (i, href) {
+			return href.replace( /^(\/questions\/\d+)\/[^?#]*/, '$1' );
+		} );
 	}
 };
 

@@ -99,6 +99,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
+* [mse322619: Can't see other pages of answers on a certain deleted question](https://meta.stackexchange.com/q/322619)
 
 ### Site-specific fixes
 
