@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.54.0
+// @version     1.54.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1862,21 +1862,6 @@ fixes.physics10312 = {
 		SOUP.hookAjax( /^\/filter\/tags-for-index\b/, function () {
 			window.MathJax && MathJax.Hub.Queue(['Typeset', MathJax.Hub, "tags_list"]);
 		} );
-	}
-};
-fixes.math27470 = {
-	title:	"MathJax preview does not work when editing from review (or when editing a deleted question)",
-	url:	"https://math.meta.stackexchange.com/q/27470",
-	script:	function () {
-		if ( ! window.MathJax ) return;
-		// XXX: the code below is copied verbatim from a script tag included on math.SE question pages
-		StackExchange.ifUsing("editor", function () {
-			return StackExchange.using("mathjaxEditing", function () {
-				StackExchange.MarkdownEditor.creationCallbacks.add(function (editor, postfix) {
-					StackExchange.mathjaxEditing.prepareWmdForMathJax(editor, postfix, [["$", "$"], ["\\\\(","\\\\)"]]);
-				});
-			});
-		}, "mathjax-editing");
 	}
 };
 

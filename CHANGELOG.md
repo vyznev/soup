@@ -51,6 +51,10 @@ It's been almost a year since the last SOUP release.  With the introduction of t
 * Temporarily disabled [math12902](https://math.meta.stackexchange.com/q/12902) fix due to conflicts with new site CSS.
 * Updated [mse234680](https://meta.stackexchange.com/q/234680) fix to work with the new-style "add link" editor dialog.
 
+**Removed fixes in 1.54.1:**
+
+* [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470) (fixed by SE, SOUP fix now crashes editor when a backtick is typed!)
+
 
 1.52 (2018-03-10)
 ====

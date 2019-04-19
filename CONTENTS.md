@@ -127,7 +127,6 @@ These fixes apply only to sites using [MathJax](https://www.mathjax.org) for LaT
 * [mse209393: Render MathJax in the 10k tools](https://meta.stackexchange.com/q/209393)
 * [math11036: Can we have the suggested questions' titles parsed by default?](https://math.meta.stackexchange.com/q/11036)
 * [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
-* [math27470: MathJax preview does not work when editing from review (or when editing a deleted question)](https://math.meta.stackexchange.com/q/27470)
 * **[math4130: The scope of \newcommand is the entire page](https://math.meta.stackexchange.com/q/4130)**
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](https://meta.stackexchange.com/q/229363)
 * **[math19650: Post with many lines of display math takes up most of the Questions page](https://math.meta.stackexchange.com/q/19650)**
