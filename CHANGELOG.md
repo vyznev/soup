@@ -16,6 +16,10 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * [math4130: The scope of \newcommand is the entire page](https://math.meta.stackexchange.com/q/4130)
 * [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](https://meta.stackexchange.com/q/229363)
 
+**Other changes:**
+
+* The [mse234680](https://meta.stackexchange.com/q/234680) fix now also fixes IRIs pasted into the edit box. (EXPERIMENTAL!)
+
 
 1.54 (2019-03-08)
 ====

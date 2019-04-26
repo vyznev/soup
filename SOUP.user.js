@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.3
+// @version     1.55.4
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -671,7 +671,15 @@ fixes.mse234680 = {
 					return callback(fixIDNLink(text));
 				} );
 			};
-			SOUP.log( 'soup mse234680 patched insertLinkDialog hook for editor', postfix );
+		} );
+
+		// also fix any links paste into the textarea
+		SOUP.addPasteFilter( function (text) {
+			// TODO: better link matching regexp?
+			var fixed = text.replace( /^(?:https?|ftp):\/\/[.\-\/0-9A-Za-z]*[^\s\/!-~]\S+$/, fixIDNLink );
+			if (text !== fixed) SOUP.log( 'soup mse234680 fixed pasted text', JSON.stringify(text), 'to', JSON.stringify(fixed) );
+			return fixed;
+
 		} );
 
 		// backup content filter for existing broken links with percent-encoded hostnames
@@ -2032,6 +2040,13 @@ var soupInit = function () {
 		}
 	};
 
+	// utility: modify pasted text in an input element or a textarea
+	SOUP.pasteFilters = [];
+	SOUP.addPasteFilter = function ( filter, key ) {
+		if ( SOUP.pasteFilters.length === 0 && SOUP.enablePasteHandler ) SOUP.enablePasteHandler();
+		SOUP.pasteFilters.push( { key: key, filter: filter } );
+	}
+
 	SOUP.hookAjax( /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings, match ) {
 		var where = '#content';
 		if ( match && match[1] ) where = '#answer-' + match[1] + ', .question[data-questionid=' + match[1] + ']';
@@ -2161,6 +2176,35 @@ var soupLateSetup = function () {
 		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
 	} );
 
+	// trigger paste filters on Markdown & comment editors and chat input
+	SOUP.enablePasteHandler = function () {
+		if ( ! SOUP.pasteHandler ) SOUP.pasteHandler = function (event) {
+			var $this = $(this), start = $this.prop('selectionStart'), end = $this.prop('selectionEnd'), oldText = $this.val();
+			// wait for the content to change...
+			setTimeout( function () {
+				var newText = $this.val(), newEnd = end + (newText.length - oldText.length);
+				if ( newText === oldText ) return;
+
+				var oldPrefix = oldText.substring(0, start), oldSuffix = oldText.substring(end);
+				var newPrefix = newText.substring(0, start), newSuffix = newText.substring(newEnd);
+				if ( newPrefix !== oldPrefix || newSuffix !== oldSuffix ) {
+					SOUP.log( 'SOUP paste event handler detected prefix / suffix mismatch, not running paste filters!' );
+					return;
+				}
+
+				var pastedText = newText.substring(start, newEnd), filteredText = pastedText, filters = SOUP.pasteFilters;
+				for ( var i = 0; i < filters.length; i++ ) {
+					var filter = filters[i];
+					try { filteredText = filter.filter( filteredText ) }
+					catch (err) { SOUP.log( 'SOUP paste filter', filter.key, 'failed:', err) }
+				}
+				if ( filteredText === pastedText ) return;
+				$this.val( newPrefix + filteredText + newSuffix );
+			}, 1 );
+		};
+		$(document).on( 'paste', '.wmd-input, .js-comment-text-input, #chat-body #input', SOUP.pasteHandler );
+	};
+	if ( SOUP.pasteFilters.length > 0 ) SOUP.enablePasteHandler();
 
 	// subscribe to SE realtime question events
 	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
