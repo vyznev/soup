@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.4
+// @version     1.55.5
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -673,13 +673,10 @@ fixes.mse234680 = {
 			};
 		} );
 
-		// also fix any links paste into the textarea
+		// also fix any links pasted into the textarea
 		SOUP.addPasteFilter( function (text) {
-			// TODO: better link matching regexp?
-			var fixed = text.replace( /^(?:https?|ftp):\/\/[.\-\/0-9A-Za-z]*[^\s\/!-~]\S+$/, fixIDNLink );
-			if (text !== fixed) SOUP.log( 'soup mse234680 fixed pasted text', JSON.stringify(text), 'to', JSON.stringify(fixed) );
-			return fixed;
-
+			// AFAICT, [ "<>] are the only printable ASCII characters that no standard ever allows in URLs
+			return text.replace( /^(?:https?|ftp):\/\/[!#-;=?-~]*[^\0-\x9F][^\0- "<>\x7F-\x9F]*$/, fixIDNLink );
 		} );
 
 		// backup content filter for existing broken links with percent-encoded hostnames
@@ -2180,6 +2177,7 @@ var soupLateSetup = function () {
 	SOUP.enablePasteHandler = function () {
 		if ( ! SOUP.pasteHandler ) SOUP.pasteHandler = function (event) {
 			var $this = $(this), start = $this.prop('selectionStart'), end = $this.prop('selectionEnd'), oldText = $this.val();
+			var eventText = (event.originalEvent.clipboardData || window.clipboardData).getData('text');
 			// wait for the content to change...
 			setTimeout( function () {
 				var newText = $this.val(), newEnd = end + (newText.length - oldText.length);
@@ -2187,12 +2185,14 @@ var soupLateSetup = function () {
 
 				var oldPrefix = oldText.substring(0, start), oldSuffix = oldText.substring(end);
 				var newPrefix = newText.substring(0, start), newSuffix = newText.substring(newEnd);
-				if ( newPrefix !== oldPrefix || newSuffix !== oldSuffix ) {
-					SOUP.log( 'SOUP paste event handler detected prefix / suffix mismatch, not running paste filters!' );
+				var pastedText = newText.substring(start, newEnd);
+				if ( newPrefix !== oldPrefix || newSuffix !== oldSuffix || pastedText !== eventText ) {
+					SOUP.log( 'SOUP paste event handler detected content mismatch, not running paste filters!' );
+					SOUP.log( 'expected:', [oldPrefix, eventText, oldSuffix], 'found:', [newPrefix, pastedText, newSuffix] );
 					return;
 				}
 
-				var pastedText = newText.substring(start, newEnd), filteredText = pastedText, filters = SOUP.pasteFilters;
+				var filteredText = pastedText, filters = SOUP.pasteFilters;
 				for ( var i = 0; i < filters.length; i++ ) {
 					var filter = filters[i];
 					try { filteredText = filter.filter( filteredText ) }
@@ -2200,6 +2200,8 @@ var soupLateSetup = function () {
 				}
 				if ( filteredText === pastedText ) return;
 				$this.val( newPrefix + filteredText + newSuffix );
+				var newPos = newPrefix.length + filteredText.length;  // place cursor after pasted text
+				$this.prop( { selectionStart: newPos, selectionEnd: newPos } );
 			}, 1 );
 		};
 		$(document).on( 'paste', '.wmd-input, .js-comment-text-input, #chat-body #input', SOUP.pasteHandler );
