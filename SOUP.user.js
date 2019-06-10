@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.5
+// @version     1.55.6
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -950,15 +950,15 @@ fixes.mse153528 = {
 	script:	function () {
 		if ( ! window.StackExchange ) return;
 		// TODO: add localized message variants?
-		var re = /^Please consider adding a comment if you think this post can be improved\.$/;
-		var oldShowInfoMsg = StackExchange.helpers.showInfoMessage;
-		StackExchange.helpers.showInfoMessage = function ( elem, message, options ) {
-			if ( re.test(message) ) {
-				var post = $(elem).closest('.question, .answer');
-				if ( post.has('.comment-up-on').length ) return null;
+		var message = "Please consider adding a comment if you think this post can be improved.";
+		SOUP.hookAjax( /^\/posts\/(\d+)\/vote\/3$/, function ( event, xhr, settings, match ) {
+			var postid = match[1], data = $.parseJSON( xhr.responseText );
+			if ( data.Success && data.Message === message && $('#comments-' + postid + ' .comment-up-on').length > 0 ) {
+				$('.js-toast').filter( function () {
+					return this.textContent.trim() === message;
+				} ).remove();
 			}
-			return oldShowInfoMsg.apply( this, arguments );
-		};
+		} );
 	}
 };
 fixes.mse259325 = {
