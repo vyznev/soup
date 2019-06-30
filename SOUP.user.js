@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.6
+// @version     1.55.7
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1119,7 +1119,7 @@ fixes.mse74274 = {
 	title:	"Privacy leak in permalink?",
 	url:	"https://meta.stackexchange.com/q/74274",
 	script:	function () {
-		if ( ! window.StackExchange || ! StackExchange.question || ! StackExchange.question.showShareTip ) return;
+		if ( ! window.StackExchange ) return;
 
 		// TODO: we should strip the user ID from the share link URL itself!
 		// The problem is that showShareTip() pulls the URL from the link,
@@ -1136,14 +1136,14 @@ fixes.mse74274 = {
 			} ) }
 			catch (e) { SOUP.log( 'SOUP anonShareTip():', e ) }
 		};
-		// inject call to anonShareTip() after StackExchange.question.showShareTip()
-		var oldShareTip = StackExchange.question.showShareTip;
-		StackExchange.question.showShareTip = function () {
+		// inject call to anonShareTip() after StackExchange.helpers.showShareTip()
+		var oldShareTip = StackExchange.helpers && StackExchange.helpers.showShareTip;
+		if (oldShareTip) StackExchange.helpers.showShareTip = function () {
 			var rv = oldShareTip.apply(this, arguments);
 			anonShareTip();
 			return rv;
 		};
-		// the share link click handler calls the original showShareTip() directly
+		// just in case, also call anonShareTip() directly after the share link is clicked
 		$(document).on( 'click', '.post-menu a.short-link', anonShareTip );
 	},
 	// minor CSS tweak to make the close link take up less vertical space
