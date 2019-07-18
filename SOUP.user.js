@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.7
+// @version     1.55.8
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -531,9 +531,9 @@ fixes.mse172931 = {
 					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
 
 					// mangle the answer wrappers to look like the review page before injecting them
-					answers.find('.votecell a[class^="vote-"], .post-menu > *, .comments, .comments-link').remove();
-					answers.find('.vote-count-post').after( function () {
-						return '<div>vote' + ( this.textContent.trim() == 1 ? '' : 's' ) + '</div>';
+					answers.find('.votecell button, .post-menu > *, .comments, .comments-link').remove();
+					answers.find('.votecell .js-vote-count').after( function () {
+						return '<div class="fs-caption fc-black-500 ta-center">vote' + ( this.textContent.trim() == 1 ? '' : 's' ) + '</div>';
 					} );
 
 					// inject answers into the review page
