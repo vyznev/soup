@@ -22,6 +22,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 * Rewrote the [mse153528](https://meta.stackexchange.com/q/153528) fix to work with the new "toast" style notification boxes.
 * The [mse74274](https://meta.stackexchange.com/q/74274) fix stopped working after changes to SE code, made it work again.
 * Tweak the [mse172931](https://meta.stackexchange.com/q/172931) fix to correctly hide vote buttons on answers in review again.
+* Tweak the [mse291623](https://meta.stackexchange.com/q/291623) CSS selector to only apply to the mobile view. (Avoids color mismatch for italic text in visited links on Chrome.)
 
 
 1.54 (2019-03-08)

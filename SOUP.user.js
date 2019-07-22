@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.8
+// @version     1.55.9
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -210,8 +210,8 @@ fixes.mse290496 = {
 fixes.mse291623 = {
 	title:	"Links that are italics and bold not showing as links in Mobile Web",
 	url:	"https://meta.stackexchange.com/q/291623",
-	// this fix is only for the mobile view, but should be harmless in the full site view
-	css:	".post-text em, .post-text a>em { color: inherit }"
+	// only the mobile view uses <main> tags
+	css:	"main .post-text em, main .post-text a > em { color: inherit }"
 };
 fixes.mse287196 = {
 	title:	"Tick sign is not centered on single badge page",
