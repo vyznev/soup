@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.9
+// @version     1.55.10
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -168,7 +168,8 @@ fixes.mso287222 = {
 		".question-summary .question-hyperlink, " +
 		".module.community-bulletin .question-hyperlink, " +
 		".question-summary .result-link a { " +
-		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }"
+		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }" +
+		".question-summary .activity-indicator { float: left; margin-top: 4px }"  // https://github.com/vyznev/soup/issues/44
 };
 fixes.mso297678 = {
 	title:	"Comment anchor links get “visited” highlighting",
