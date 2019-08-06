@@ -3,10 +3,12 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
-1.55 (development)
+1.56 (2019-08-06)
 ====
 
-**New fixes in 1.55.x:**
+This release mostly fixes regressions introduced by changes to the SE user interface.  The main new feature is the ability to intercept text pasted into the Markdown editor, which is currently used for the [mse234680](https://meta.stackexchange.com/q/234680) Unicode URL fix.
+
+**New fixes in 1.56.0:**
 
 * [mse322619: Can't see other pages of answers on a certain deleted question](https://meta.stackexchange.com/q/322619)
 
@@ -17,7 +19,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **Other changes:**
 
-* The [mse234680](https://meta.stackexchange.com/q/234680) fix now also fixes IRIs pasted into the edit box. (EXPERIMENTAL!)
+* The [mse234680](https://meta.stackexchange.com/q/234680) fix now also fixes IRIs pasted into the edit box.
 * Rewrote the [mse153528](https://meta.stackexchange.com/q/153528) fix to work with the new "toast" style notification boxes.
 * The [mse74274](https://meta.stackexchange.com/q/74274) fix stopped working after changes to SE code, made it work again.
 * Tweaked the [mse172931](https://meta.stackexchange.com/q/172931) fix to correctly hide vote buttons on answers in review again.
