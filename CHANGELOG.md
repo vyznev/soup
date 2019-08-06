@@ -8,7 +8,6 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 **New fixes in 1.55.x:**
 
-* [mse326346: MathJax is (inappropriately) parsed in Markdown diffs](https://meta.stackexchange.com/q/326346)
 * [mse322619: Can't see other pages of answers on a certain deleted question](https://meta.stackexchange.com/q/322619)
 
 **Removed fixes:**

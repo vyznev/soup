@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.55.10
+// @version     1.55.11
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1902,21 +1902,6 @@ fixes.math19650 = {
 		} );
 	}
 };
-fixes.mse326346 = {
-	title:	"MathJax is (inappropriately) parsed in Markdown diffs",
-	url:	"https://meta.stackexchange.com/q/326346",
-	// also enabled in suggested edit review, even though I haven't actually seen the bug occur there
-	path:	/^\/(posts\/\d+\/revisions|review\/suggested-edits)\b/,
-	mathjax:	function () {
-		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
-			SOUP.try( 'mse326346', function () {
-				$('.markdown-diff:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
-				$('.suggested-edit .full-diff:not(.tex2jax_ignore)').addClass('tex2jax_ignore');
-			} );
-		} );
-	}
-};
-
 
 
 //
