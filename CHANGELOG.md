@@ -3,6 +3,18 @@ This is a list of new fixes and other changes made to SOUP during its continued 
 SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd minor versions (1.1.x, 1.3.x, 1.5.x, etc.) are reserved for unstable development versions ("devel" branch on [GitHub][github]), while even ones denote stable releases ("master" branch on [GitHub][github]).  The change log below thus only includes even version numbers, as changes between development versions are too numerous to list.
 
 
+1.57 (development)
+====
+
+**New fixes in 1.57.x:**
+
+* [mse331640: Syntax highlight and MathJax is not rendered after reloading an edited post](https://meta.stackexchange.com/q/33164)
+
+**Other changes:**
+
+* Added a new `SOUP.loadPrivileges()` helper method to fetch user privilege thresholds from the SE API (and cache them in LocalStorage).  This is currently used by the [mse115702](https://meta.stackexchange.com/q/115702) fix to detect access to "trusted user" features (specifically, being able to vote to delete negatively scored answers).  This replaces the old `SOUP.isBeta` flag, which no longer exists.
+
+
 1.56 (2019-08-06)
 ====
 

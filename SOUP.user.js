@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.56.0
+// @version     1.57.0
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -566,41 +566,45 @@ fixes.mse224533 = {
 fixes.mse115702 = {
 	title:	"Option to delete an answer only visible after a reload",
 	url:	"https://meta.stackexchange.com/q/115702",
+	path:	/^\/(questions\/\d+|review\b)/,
 	script:	function () {
 		if ( ! window.StackExchange || ! StackExchange.options || ! StackExchange.options.user ) return;
-		if ( StackExchange.options.user.rep < ( SOUP.isBeta ? 4000 : 20000 ) ) return;
-		var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
-		var lsep = '<span class="lsep">|</span>';
-		function updateDeleteLinks( postid, score ) {
-			if ( /[^0-9]/.test(postid) ) {
-				return SOUP.log('SOUP mse115702 received invalid postid = "' + postid + '", aborting!');
-			}
-			var isAnswer = $('#answer-' + postid).length > 0;
-			if ( ! isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
+		SOUP.loadPrivileges( function (privileges) {
+			if ( StackExchange.options.user.rep < privileges["access 'trusted user' tools"] || 20000 ) return;
 
-			var deleteLinks = $('[id="delete-post-' + postid + '"]');  // XXX: there might be several
-			if ( score >= (isAnswer ? 0 : -2) ) {
-				// XXX: just to be safe, don't remove any delete links that we didn't add
-				deleteLinks = deleteLinks.filter('.soup-delete-link');
-				deleteLinks.next('span.lsep').andSelf().hide();
-			} else if ( deleteLinks.length ) {
-				deleteLinks.next('span.lsep').andSelf().show();  // show existing links
-			} else {
-				// need to create a new delete link from scratch and slip it into the menu
-				var target = $('.flag-post-link[data-postid=' + postid + ']');
-				var lsep = target.prev('span.lsep').clone(true);
-				if (lsep.length == 0) lsep = $('<span class="lsep">|</span>');
-				$(html).attr('id', 'delete-post-' + postid).insertBefore(target).after(lsep);
+			var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
+			var lsep = '<span class="lsep">|</span>';
+			function updateDeleteLinks( postid, score ) {
+				if ( /[^0-9]/.test(postid) ) {
+					return SOUP.log('SOUP mse115702 received invalid postid = "' + postid + '", aborting!');
+				}
+				var isAnswer = $('#answer-' + postid).length > 0;
+				if ( ! isAnswer ) return;  // XXX: proper question handling requires detecting closed questions
+
+				var deleteLinks = $('[id="delete-post-' + postid + '"]');  // XXX: there might be several
+				if ( score >= (isAnswer ? 0 : -2) ) {
+					// XXX: just to be safe, don't remove any delete links that we didn't add
+					deleteLinks = deleteLinks.filter('.soup-delete-link');
+					deleteLinks.next('span.lsep').andSelf().hide();
+				} else if ( deleteLinks.length ) {
+					deleteLinks.next('span.lsep').andSelf().show();  // show existing links
+				} else {
+					// need to create a new delete link from scratch and slip it into the menu
+					var target = $('.flag-post-link[data-postid=' + postid + ']');
+					var lsep = target.prev('span.lsep').clone(true);
+					if (lsep.length == 0) lsep = $('<span class="lsep">|</span>');
+					$(html).attr('id', 'delete-post-' + postid).insertBefore(target).after(lsep);
+				}
 			}
-		}
-		SOUP.subscribeToQuestion( function (data) {
-			if ( data.a === 'score' ) updateDeleteLinks( data.id, data.score );
-		} );
-		// fallback to make this fix work in review too (TODO: hook the button clicks directly?)
-		SOUP.hookAjax( /^\/posts\/(\d+)\/vote\/[023]\b/, function ( event, xhr, settings, match ) {
-			var score = $.parseJSON( xhr.responseText ).NewScore;
-			var postid = match[1];
-			updateDeleteLinks( postid, score );
+			SOUP.subscribeToQuestion( function (data) {
+				if ( data.a === 'score' ) updateDeleteLinks( data.id, data.score );
+			} );
+			// fallback to make this fix work in review too (TODO: hook the button clicks directly?)
+			SOUP.hookAjax( /^\/posts\/(\d+)\/vote\/[023]\b/, function ( event, xhr, settings, match ) {
+				var score = $.parseJSON( xhr.responseText ).NewScore;
+				var postid = match[1];
+				updateDeleteLinks( postid, score );
+			} );
 		} );
 	}
 };
@@ -1484,6 +1488,15 @@ fixes.mse322619 = {
 		} );
 	}
 };
+fixes.mse331640 = {
+	title:	"Syntax highlight and MathJax is not rendered after reloading an edited post",
+	url:	"https://meta.stackexchange.com/q/331640",
+	script:	function () {
+		SOUP.hookAjax( /^\/posts\/ajax-load-realtime\/[\d;]+\?title=true/, function () {
+			styleCode();
+		}, 200 );  // the old content fades out for 150ms before it's replaced
+	}
+};
 
 
 //
@@ -2214,6 +2227,135 @@ var soupLateSetup = function () {
 			SOUP.log( 'soup failed to subscribe to realtime feed:', e );
 		}
 	} );
+
+	// load data from SE API, handle errors, pagination and backoffs
+	// XXX: we use jQuery.ajax internally, but wrap it in a vanilla JS promise
+	// TODO: this works, but is way overcomplicated for what we use it for; simplify!
+	SOUP.apiRequest = function ( path, filter, page ) {
+		if ( ! page ) page = 1;
+		var backoffKey = 'soup-api-backoff-until';
+		return new Promise( function ( resolve, reject ) {
+			var now = Date.now(), backoffUntil = Number( localStorage.getItem( backoffKey ) ) || 0;
+			if ( backoffUntil > now ) {
+				SOUP.log( 'soup deferring SE API request for', path, 'page', page, 'until', new Date( backoffUntil ) );
+				setTimeout( function () {
+					SOUP.apiRequest( path, filter, page ).then( resolve, reject );
+				}, backoffUntil - now + 100 );  // add a minimum 0.1 second delay
+				return;
+			}
+			// make sure no-one fires another request for 0.1 seconds
+			localStorage.setItem( backoffKey, now + 100 );
+
+			var handleResponse = function ( response ) {
+				// handle quota and backoff
+				if ( response.quota_remaining !== undefined && response.quota_remaining <= 0 ) {
+					SOUP.log( 'soup: SE API quota exhausted:', response.quota_remaining, '/', response.quota_max );
+					if ( response.backoff <= 60*60 ) response.backoff = 60*60;  // enforce a minimum 1 hour wait after quota exhaustion
+				}
+				if ( response.backoff > 0 ) {
+					var backoffUntil = Math.max( Date.now() + 1000 * response.backoff, Number( localStorage.getItem( backoffKey ) ) || 0 );
+					SOUP.log( 'soup deferring further SE API requests for', response.backoff, 'seconds until', new Date( backoffUntil ) );
+					localStorage.setItem( backoffKey, backoffUntil );
+				}
+				// reject or resolve the promise
+				if ( response.error_id ) {
+					SOUP.log( 'soup: SE API error', response.error_id, response.error_name, response.error_message, 'for', path, 'page', page );
+					reject( response );
+				}
+				else if ( response.has_more && response.quota_remaining > 0 ) {
+					SOUP.apiRequest( path, filter, page + 1 ).then( function ( more ) {
+						resolve( response.items.concat( more ) );
+					}, reject );
+				}
+				else if ( response.items && ! response.has_more ) resolve( response.items );
+				else reject( response );
+			};
+
+			SOUP.log( 'soup loading SE API', path, 'page', page );
+			$.ajax( {
+				url: 'https://api.stackexchange.com/2.2/' + path,
+				data: {
+					key: '1p33SrBhD0f2V1zSOa)xfQ((',  // hi SE, it's me, SOUP! :)
+					pagesize: 100,
+					page: page,
+					site: location.hostname,
+					filter: filter
+				},
+				dataType: 'json'
+			} ).then( handleResponse, function ( xhr, status, thrown ) {
+				SOUP.log( 'soup: SE API request failed (' + status + '): ' + thrown + ', xhr =', xhr );
+				var response = {
+					error_id: -1,  // there most definitely was an error
+					backoff: 60,  // let's wait a minute at least
+				};
+				if ( status === 'error' ) try {
+					Object.assign( response, JSON.parse( xhr.responseText || "{}" ) );
+				} catch (e) {
+					// ignore JSON parse errors
+				}
+				handleResponse( response );
+			} );
+		} );
+	}
+
+	// load and cache the rep thresholds for user privileges on this site
+	// see https://api.stackexchange.com/docs/privileges#filter=default&site=stackoverflow&run=true
+	SOUP.userPrivileges = null;
+	SOUP.privilegesQueue = null;
+	SOUP.loadPrivileges = function ( callback ) {
+		// have we loaded the privileges already?
+		if ( SOUP.userPrivileges ) {
+			callback( SOUP.userPrivileges );
+			return;
+		}
+
+		// do we have them cached in LocalStorage?
+		var cacheKey = 'soup-privileges-' + location.hostname;
+		var cacheTimeMillis = 24*60*60*1000;  // 24 hours
+		var cacheVersion = 1;
+		var data = JSON.parse( localStorage.getItem( cacheKey ) || "{}" );
+		if ( data.version === cacheVersion && data.timestamp >= Date.now() - cacheTimeMillis ) {
+			callback( SOUP.userPrivileges = data.privileges );
+			return;
+		}
+
+		// start an API request unless one is already in progress
+		if ( ! SOUP.privilegesQueue ) {
+			SOUP.privilegesQueue = [];
+			SOUP.apiRequest( 'privileges', '12nhBxey' ).then( function ( list ) {
+				// convert list of privileges into a desc-to-rep map
+				var privileges = {};
+				list.forEach( function ( item ) {
+					privileges[item.short_description] = item.reputation;
+				} );
+				SOUP.userPrivileges = privileges;
+				// cache result in LocalStorage
+				localStorage.setItem( cacheKey, JSON.stringify( {
+					privileges: privileges,
+					version: cacheVersion,
+					timestamp: Date.now(),
+				} ) );
+				// run deferred callbacks
+				SOUP.privilegesQueue.forEach( function ( callback ) {
+					callback( privileges );
+				} );
+				SOUP.privilegesQueue = null;
+			}, function ( error ) {
+				SOUP.log( 'soup loading user privileges failed', error );
+				if ( data.version === cacheVersion ) {
+					SOUP.log( 'soup using stale cached privileges from', new Date( data.timestamp ) );
+					SOUP.userPrivileges = data.privileges;
+					SOUP.privilegesQueue.forEach( function ( callback ) {
+						callback( data.privileges );
+					} );
+					SOUP.privilegesQueue = null;
+				}
+			} );
+		}
+
+		// defer callback until API request completes
+		SOUP.privilegesQueue.push( callback );
+	};
 
 	SOUP.log( 'soup setup complete' );
 };
