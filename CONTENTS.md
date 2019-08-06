@@ -1,5 +1,5 @@
 
-SOUP v1.54
+SOUP v1.56
 &#x20;
 (development) includes fixes or workarounds for the following issues.
 
@@ -99,6 +99,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mso358862: 5 seconds is too long, but if it must be, then give me a visual cue](https://meta.stackoverflow.com/q/358862)
 * [mse286345: Mobile search made impossible with keyboard shortcuts enabled](https://meta.stackexchange.com/q/286345)
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
+* [mse322619: Can't see other pages of answers on a certain deleted question](https://meta.stackexchange.com/q/322619)
 
 ### Site-specific fixes
 
@@ -127,6 +128,5 @@ These fixes apply only to sites using [MathJax](https://www.mathjax.org) for LaT
 * [mse209393: Render MathJax in the 10k tools](https://meta.stackexchange.com/q/209393)
 * [math11036: Can we have the suggested questions' titles parsed by default?](https://math.meta.stackexchange.com/q/11036)
 * [physics10312: Why doesn't the LaTeX code under the tag “operators” shows what it's supposed to show?](https://physics.meta.stackexchange.com/q/10312)
-* **[math4130: The scope of \newcommand is the entire page](https://math.meta.stackexchange.com/q/4130)**
-* [mse229363: Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions](https://meta.stackexchange.com/q/229363)
 * **[math19650: Post with many lines of display math takes up most of the Questions page](https://math.meta.stackexchange.com/q/19650)**
+* [mse326346: MathJax is (inappropriately) parsed in Markdown diffs](https://meta.stackexchange.com/q/326346)

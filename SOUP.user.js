@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.54.1
+// @version     1.56.0
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -168,7 +168,8 @@ fixes.mso287222 = {
 		".question-summary .question-hyperlink, " +
 		".module.community-bulletin .question-hyperlink, " +
 		".question-summary .result-link a { " +
-		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }"
+		" display: block; margin-bottom: -1px; border-bottom: 1px solid transparent }" +
+		".question-summary .activity-indicator { float: left; margin-top: 4px }"  // https://github.com/vyznev/soup/issues/44
 };
 fixes.mso297678 = {
 	title:	"Comment anchor links get “visited” highlighting",
@@ -210,8 +211,8 @@ fixes.mse290496 = {
 fixes.mse291623 = {
 	title:	"Links that are italics and bold not showing as links in Mobile Web",
 	url:	"https://meta.stackexchange.com/q/291623",
-	// this fix is only for the mobile view, but should be harmless in the full site view
-	css:	".post-text em, .post-text a>em { color: inherit }"
+	// only the mobile view uses <main> tags
+	css:	"main .post-text em, main .post-text a > em { color: inherit }"
 };
 fixes.mse287196 = {
 	title:	"Tick sign is not centered on single badge page",
@@ -531,9 +532,9 @@ fixes.mse172931 = {
 					SOUP.log( 'soup loaded ' + n + ' missing answers from ' + url );
 
 					// mangle the answer wrappers to look like the review page before injecting them
-					answers.find('.votecell a[class^="vote-"], .post-menu > *, .comments, .comments-link').remove();
-					answers.find('.vote-count-post').after( function () {
-						return '<div>vote' + ( this.textContent.trim() == 1 ? '' : 's' ) + '</div>';
+					answers.find('.votecell button, .post-menu > *, .comments, .comments-link').remove();
+					answers.find('.votecell .js-vote-count').after( function () {
+						return '<div class="fs-caption fc-black-500 ta-center">vote' + ( this.textContent.trim() == 1 ? '' : 's' ) + '</div>';
 					} );
 
 					// inject answers into the review page
@@ -671,7 +672,12 @@ fixes.mse234680 = {
 					return callback(fixIDNLink(text));
 				} );
 			};
-			SOUP.log( 'soup mse234680 patched insertLinkDialog hook for editor', postfix );
+		} );
+
+		// also fix any links pasted into the textarea
+		SOUP.addPasteFilter( function (text) {
+			// AFAICT, [ "<>] are the only printable ASCII characters that no standard ever allows in URLs
+			return text.replace( /^(?:https?|ftp):\/\/[!#-;=?-~]*[^\0-\x9F][^\0- "<>\x7F-\x9F]*$/, fixIDNLink );
 		} );
 
 		// backup content filter for existing broken links with percent-encoded hostnames
@@ -945,15 +951,15 @@ fixes.mse153528 = {
 	script:	function () {
 		if ( ! window.StackExchange ) return;
 		// TODO: add localized message variants?
-		var re = /^Please consider adding a comment if you think this post can be improved\.$/;
-		var oldShowInfoMsg = StackExchange.helpers.showInfoMessage;
-		StackExchange.helpers.showInfoMessage = function ( elem, message, options ) {
-			if ( re.test(message) ) {
-				var post = $(elem).closest('.question, .answer');
-				if ( post.has('.comment-up-on').length ) return null;
+		var message = "Please consider adding a comment if you think this post can be improved.";
+		SOUP.hookAjax( /^\/posts\/(\d+)\/vote\/3$/, function ( event, xhr, settings, match ) {
+			var postid = match[1], data = $.parseJSON( xhr.responseText );
+			if ( data.Success && data.Message === message && $('#comments-' + postid + ' .comment-up-on').length > 0 ) {
+				$('.js-toast').filter( function () {
+					return this.textContent.trim() === message;
+				} ).remove();
 			}
-			return oldShowInfoMsg.apply( this, arguments );
-		};
+		} );
 	}
 };
 fixes.mse259325 = {
@@ -1114,7 +1120,7 @@ fixes.mse74274 = {
 	title:	"Privacy leak in permalink?",
 	url:	"https://meta.stackexchange.com/q/74274",
 	script:	function () {
-		if ( ! window.StackExchange || ! StackExchange.question || ! StackExchange.question.showShareTip ) return;
+		if ( ! window.StackExchange ) return;
 
 		// TODO: we should strip the user ID from the share link URL itself!
 		// The problem is that showShareTip() pulls the URL from the link,
@@ -1131,14 +1137,14 @@ fixes.mse74274 = {
 			} ) }
 			catch (e) { SOUP.log( 'SOUP anonShareTip():', e ) }
 		};
-		// inject call to anonShareTip() after StackExchange.question.showShareTip()
-		var oldShareTip = StackExchange.question.showShareTip;
-		StackExchange.question.showShareTip = function () {
+		// inject call to anonShareTip() after StackExchange.helpers.showShareTip()
+		var oldShareTip = StackExchange.helpers && StackExchange.helpers.showShareTip;
+		if (oldShareTip) StackExchange.helpers.showShareTip = function () {
 			var rv = oldShareTip.apply(this, arguments);
 			anonShareTip();
 			return rv;
 		};
-		// the share link click handler calls the original showShareTip() directly
+		// just in case, also call anonShareTip() directly after the share link is clicked
 		$(document).on( 'click', '.post-menu a.short-link', anonShareTip );
 	},
 	// minor CSS tweak to make the close link take up less vertical space
@@ -1466,6 +1472,16 @@ fixes.mse307976 = {
 		$window.on( 'scroll resize', function () {
 			$bar.css( 'left', $header.offset().left - $window.scrollLeft() );
 		} )
+	}
+};
+fixes.mse322619 = {
+	title:	"Can't see other pages of answers on a certain deleted question",
+	url:	"https://meta.stackexchange.com/q/322619",
+	script:	function () {
+		if ( $('.hidden-deleted-question').length < 1 ) return;
+		$('.pager-answers a[href], #tabs a[href]').attr( 'href', function (i, href) {
+			return href.replace( /^(\/questions\/\d+)\/[^?#]*/, '$1' );
+		} );
 	}
 };
 
@@ -1869,79 +1885,6 @@ fixes.physics10312 = {
 //
 // MathJax config tweaks (need to be injected early):
 //
-fixes.math4130 = {
-	title:	"The scope of \\newcommand is the entire page",
-	url:	"https://math.meta.stackexchange.com/q/4130",
-	credit:	"idea by Davide Cervone",
-	mathjax:	function () {
-		var resetCmd = "resetstack";
-		MathJax.Hub.Register.StartupHook( "TeX Jax Ready", function () {
-			MathJax.Hub.Insert( MathJax.InputJax.TeX.Definitions.macros, {
-				resetstack: ["Extension", "begingroup"]
-			} );
-		} );
-		MathJax.Hub.Register.StartupHook( "TeX begingroup Ready", function () {
-			var TEX = MathJax.InputJax.TeX, TEXDEF = TEX.Definitions,
-				NSSTACK = TEX.nsStack, NSFRAME = NSSTACK.nsFrame;
-			// make sure user defs on stack can't clobber system defs in TEXDEF
-			NSSTACK.Augment( {
-				// don't store system defs on root stack...
-				Init: function (eqn) {
-					this.isEqn = eqn; this.stack = []; this.Push(NSFRAME());
-				},
-				// ...but fall back to them if nothing is found on the root stack
-				Find: function (name, type) {
-					// kluge: don't let the reset command be redefined
-					if (type == "macros" && name == resetCmd) return "SoupResetStack";
-					for (var i = this.top-1; i >= 0; i--) {
-						var def = this.stack[i].Find(name,type);
-						if (def) {return def}
-					}
-					// somebody needs to be hit with a giant "S"...
-					if (type == "environments") type = "environment";
-					return (this.isEqn ? null : TEXDEF[type][name]);
-				}
-			} );
-			// reset definition stack and prevent further changes to system defs
-			var resetStack = function () {
-				TEX.rootStack.Init();
-				TEX.eqnStack.Init(true);
-			};
-			resetStack();
-			TEX.Parse.Augment( { SoupResetStack: resetStack } );
-			MathJax.Hub.Startup.signal.Post("TeX SOUP reset Ready");
-		} );
-		// before processing, inject the reset command to any elements that should be isolated
-		var select = '.post-text, .comment-text, .summary, .wmd-preview, .question-hyperlink';
-		var reset = '<span class="soup-mathjax-reset"><script type="math/tex">\\' +
-			resetCmd + '</script></span>';
-		MathJax.Hub.Register.MessageHook( "Begin Process", function (message) {
-			var elements = message[1];
-			if ( !(elements instanceof Array) ) elements = [elements];
-			for (var i = 0; i < elements.length; i++) {
-				if (!elements[i]) continue;  // should not happen, but...
-				$(elements[i]).find(select).andSelf().not('.soup-math4130-fixed').has('script').prepend(reset).addClass('soup-math4130-fixed');
-			}
-		} );
-	},
-	css:	".soup-mathjax-reset { display: none }"
-};
-fixes.mse229363 = {
-	title:	"Exclude TeX.SE question titles from MathJax parsing in Hot Network Questions",
-	url:	"https://meta.stackexchange.com/q/229363",
-	mathjax:	function () {
-		// list of MathJax enabled sites from https://meta.stackexchange.com/a/216607
-		// (codereview.SE and electronics.SE excluded due to non-standard math delimiters)
-		var mathJaxSites = /(^|\.)((astronomy|aviation|biology|chemistry|cogsci|computergraphics|crypto|cs|cstheory|datascience|dsp|earthscience|economics|engineering|ham|hsm|math|matheducators|mathematica|physics|puzzling|quant|robotics|rpg|scicomp|space|stats|worldbuilding)\.stackexchange\.com|mathoverflow\.net)$/;
-		MathJax.Hub.Register.MessageHook( "Begin PreProcess", function (message) {
-			SOUP.try( 'mse229363', function () {
-				$('#hot-network-questions a:not(.tex2jax_ignore)').not( function () {
-					return mathJaxSites.test( this.hostname );
-				} ).addClass('tex2jax_ignore');
-			} );
-		} );
-	}
-};
 fixes.math19650 = {
 	title:	"Post with many lines of display math takes up most of the Questions page",
 	url:	"https://math.meta.stackexchange.com/q/19650",
@@ -1959,7 +1902,6 @@ fixes.math19650 = {
 		} );
 	}
 };
-
 
 
 //
@@ -2080,6 +2022,13 @@ var soupInit = function () {
 			SOUP.try( filters[i].key, filters[i].filter, [where] );
 		}
 	};
+
+	// utility: modify pasted text in an input element or a textarea
+	SOUP.pasteFilters = [];
+	SOUP.addPasteFilter = function ( filter, key ) {
+		if ( SOUP.pasteFilters.length === 0 && SOUP.enablePasteHandler ) SOUP.enablePasteHandler();
+		SOUP.pasteFilters.push( { key: key, filter: filter } );
+	}
 
 	SOUP.hookAjax( /^\/posts\/(\d+)\/(body|edit-submit)\b|^\/review\/(next-task|task-reviewed)\b/, function ( event, xhr, settings, match ) {
 		var where = '#content';
@@ -2210,6 +2159,40 @@ var soupLateSetup = function () {
 		SOUP.runContentFilters( 'preview', '#wmd-preview' + postfix );
 	} );
 
+	// trigger paste filters on Markdown & comment editors and chat input
+	SOUP.enablePasteHandler = function () {
+		if ( ! SOUP.pasteHandler ) SOUP.pasteHandler = function (event) {
+			var $this = $(this), start = $this.prop('selectionStart'), end = $this.prop('selectionEnd'), oldText = $this.val();
+			var eventText = (event.originalEvent.clipboardData || window.clipboardData).getData('text');
+			// wait for the content to change...
+			setTimeout( function () {
+				var newText = $this.val(), newEnd = end + (newText.length - oldText.length);
+				if ( newText === oldText ) return;
+
+				var oldPrefix = oldText.substring(0, start), oldSuffix = oldText.substring(end);
+				var newPrefix = newText.substring(0, start), newSuffix = newText.substring(newEnd);
+				var pastedText = newText.substring(start, newEnd);
+				if ( newPrefix !== oldPrefix || newSuffix !== oldSuffix || pastedText !== eventText ) {
+					SOUP.log( 'SOUP paste event handler detected content mismatch, not running paste filters!' );
+					SOUP.log( 'expected:', [oldPrefix, eventText, oldSuffix], 'found:', [newPrefix, pastedText, newSuffix] );
+					return;
+				}
+
+				var filteredText = pastedText, filters = SOUP.pasteFilters;
+				for ( var i = 0; i < filters.length; i++ ) {
+					var filter = filters[i];
+					try { filteredText = filter.filter( filteredText ) }
+					catch (err) { SOUP.log( 'SOUP paste filter', filter.key, 'failed:', err) }
+				}
+				if ( filteredText === pastedText ) return;
+				$this.val( newPrefix + filteredText + newSuffix );
+				var newPos = newPrefix.length + filteredText.length;  // place cursor after pasted text
+				$this.prop( { selectionStart: newPos, selectionEnd: newPos } );
+			}, 1 );
+		};
+		$(document).on( 'paste', '.wmd-input, .js-comment-text-input, #chat-body #input', SOUP.pasteHandler );
+	};
+	if ( SOUP.pasteFilters.length > 0 ) SOUP.enablePasteHandler();
 
 	// subscribe to SE realtime question events
 	// TODO: eavesdrop on SE event traffic by hacking WebSocket or EventEmitter instead (would make this work in review too!)
