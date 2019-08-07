@@ -9,6 +9,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 **New fixes in 1.57.x:**
 
 * [mse331640: Syntax highlight and MathJax is not rendered after reloading an edited post](https://meta.stackexchange.com/q/33164)
+* [music396: jTab needs to render in Markdown preview](https://music.meta.stackexchange.com/q/396) (music.SE only)
 
 **Other changes:**
 

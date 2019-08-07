@@ -112,6 +112,7 @@ These non-CSS fixes are applied only on specific SE sites.  There's a lot fewer 
 * **[mse299082: Display embedded YouTube videos in markdown preview](https://meta.stackexchange.com/q/299082)** (on aviation, bicycles, gaming, movies, music, scifi, space and video)
 * [mse293413: Sorting SEDE output is unstable](https://meta.stackexchange.com/q/307605) (on [SEDE](https://data.stackechage.com))
 * [mse308072: Clicking on tags in global search results is broken](https://meta.stackexchange.com/q/308072) (on the stackexchange.com portal)
+* **[music396: jTab needs to render in Markdown preview](https://music.meta.stackexchange.com/q/396)**
 
 ### Review fixes
 

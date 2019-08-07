@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.1
+// @version     1.57.2
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1843,6 +1843,58 @@ fixes.mse308072 = {
 			var q = $(this).closest('.summary').find('.result-link a[href^="https://"]')[0];
 			return ( q ? q.origin : "" ) + href;
 		} );
+	}
+};
+fixes.music396 = {
+	title:	"jTab needs to render in Markdown preview",
+	url:	"https://music.meta.stackexchange.com/q/396",
+	sites:	/^music\./,
+	// partially reimplementation of https://cdn.sstatic.net/js/third-party/abcjs/abcjs-loader.js
+	script:	function () {
+		// XXX: for consistency, these filters need to match the corresponding ones in abcjs-loader.js
+		function looksLikeAbc () {
+			// starts with "X:", 3 or more lines, exactly one line starts with "K:"
+			var text = $(this).text();
+			return /^X:.*\n.*\n./.test( text ) && text.match( /\nK:/g ).length === 1;
+		}
+		function looksLikeJTab () {
+			// at most two, and less than 50%, of all tokens are longer than 3 characters and have less than 50% digits and dollar signs
+			// (we depart slightly from the SE reference implementation by also requiring at least one token; also, the reference
+			// implementation actually contains a typo that turns the "less than 50% digits and dollar signs" check into a no-op!)
+			var tokens = $(this).text().split(/[\s\/|.:]+/);
+			var invalid = tokens.filter( token => token.length > Math.max( 3, 2 * token.replace(/[^\d$]+/g, '').length ) );
+			return tokens.length > 0 && invalid.length < Math.min( 3, tokens.length / 2 );
+		}
+
+		var counter = 0;
+		function renderAbcBlock () {
+			var targetID = 'soup-notation-' + (++counter), $this = $(this);
+			$this.after( '<div id="' + targetID + '">' );
+			ABCJS.renderAbc( targetID, '%%staffwidth 450\n' + $this.text() );
+			$this.hide();
+		}
+
+		var abcURL = "/content/js/third-party/abcjs/abcjs_basic_noraphael_2.3-min.js?v=1";
+		function loadAndRenderAbc ( $blocks ) {
+			if ( window.ABCJS ) $blocks.each( renderAbcBlock );
+			if ( $('script[src*="/abcjs_basic_"]').length > 0 ) return;  // assume ABCJS is already loading
+			SOUP.log( 'soup music396 loading', abcURL );
+			var abcJsScript = document.createElement( 'script' );
+			abcJsScript.onload = function () { $('.abc').each( renderAbcBlock ) };
+			abcJsScript.src = abcURL;
+			document.head.appendChild( abcJsScript );
+		}
+
+		function updateAbcAndJTab ( where ) {
+			var $abc = $(where).find('pre code:not(.abc):not(.jtab)').filter(looksLikeAbc).addClass('abc');
+			var $jtab = $(where).find('pre code:not(.jtab):not(.abc)').filter(looksLikeJTab).addClass('jtab');
+			// SOUP.log( 'soup music396 found', $abc.length, 'ABC and', $jtab.length, 'jTab blocks in', $elements );
+
+			if ( $abc.length > 0 ) loadAndRenderAbc( $abc );
+			if ( $jtab.length > 0 && window.jtab ) $jtab.each( function () { jtab.render(this) } );
+		}
+
+		SOUP.addContentFilter( updateAbcAndJTab, 'music396', null, ['post', 'preview'] );
 	}
 };
 
