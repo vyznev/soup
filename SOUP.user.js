@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.0
+// @version     1.57.1
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -2119,6 +2119,7 @@ var soupInit = function () {
 		};
 	} );
 
+	if ( document.body ) SOUP.log( 'soup warning: body already loaded, early fixes may not work properly' );
 	SOUP.log( 'soup init complete' );
 };
 
@@ -2228,76 +2229,6 @@ var soupLateSetup = function () {
 		}
 	} );
 
-	// load data from SE API, handle errors, pagination and backoffs
-	// XXX: we use jQuery.ajax internally, but wrap it in a vanilla JS promise
-	// TODO: this works, but is way overcomplicated for what we use it for; simplify!
-	SOUP.apiRequest = function ( path, filter, page ) {
-		if ( ! page ) page = 1;
-		var backoffKey = 'soup-api-backoff-until';
-		return new Promise( function ( resolve, reject ) {
-			var now = Date.now(), backoffUntil = Number( localStorage.getItem( backoffKey ) ) || 0;
-			if ( backoffUntil > now ) {
-				SOUP.log( 'soup deferring SE API request for', path, 'page', page, 'until', new Date( backoffUntil ) );
-				setTimeout( function () {
-					SOUP.apiRequest( path, filter, page ).then( resolve, reject );
-				}, backoffUntil - now + 100 );  // add a minimum 0.1 second delay
-				return;
-			}
-			// make sure no-one fires another request for 0.1 seconds
-			localStorage.setItem( backoffKey, now + 100 );
-
-			var handleResponse = function ( response ) {
-				// handle quota and backoff
-				if ( response.quota_remaining !== undefined && response.quota_remaining <= 0 ) {
-					SOUP.log( 'soup: SE API quota exhausted:', response.quota_remaining, '/', response.quota_max );
-					if ( response.backoff <= 60*60 ) response.backoff = 60*60;  // enforce a minimum 1 hour wait after quota exhaustion
-				}
-				if ( response.backoff > 0 ) {
-					var backoffUntil = Math.max( Date.now() + 1000 * response.backoff, Number( localStorage.getItem( backoffKey ) ) || 0 );
-					SOUP.log( 'soup deferring further SE API requests for', response.backoff, 'seconds until', new Date( backoffUntil ) );
-					localStorage.setItem( backoffKey, backoffUntil );
-				}
-				// reject or resolve the promise
-				if ( response.error_id ) {
-					SOUP.log( 'soup: SE API error', response.error_id, response.error_name, response.error_message, 'for', path, 'page', page );
-					reject( response );
-				}
-				else if ( response.has_more && response.quota_remaining > 0 ) {
-					SOUP.apiRequest( path, filter, page + 1 ).then( function ( more ) {
-						resolve( response.items.concat( more ) );
-					}, reject );
-				}
-				else if ( response.items && ! response.has_more ) resolve( response.items );
-				else reject( response );
-			};
-
-			SOUP.log( 'soup loading SE API', path, 'page', page );
-			$.ajax( {
-				url: 'https://api.stackexchange.com/2.2/' + path,
-				data: {
-					key: '1p33SrBhD0f2V1zSOa)xfQ((',  // hi SE, it's me, SOUP! :)
-					pagesize: 100,
-					page: page,
-					site: location.hostname,
-					filter: filter
-				},
-				dataType: 'json'
-			} ).then( handleResponse, function ( xhr, status, thrown ) {
-				SOUP.log( 'soup: SE API request failed (' + status + '): ' + thrown + ', xhr =', xhr );
-				var response = {
-					error_id: -1,  // there most definitely was an error
-					backoff: 60,  // let's wait a minute at least
-				};
-				if ( status === 'error' ) try {
-					Object.assign( response, JSON.parse( xhr.responseText || "{}" ) );
-				} catch (e) {
-					// ignore JSON parse errors
-				}
-				handleResponse( response );
-			} );
-		} );
-	}
-
 	// load and cache the rep thresholds for user privileges on this site
 	// see https://api.stackexchange.com/docs/privileges#filter=default&site=stackoverflow&run=true
 	SOUP.userPrivileges = null;
@@ -2311,21 +2242,34 @@ var soupLateSetup = function () {
 
 		// do we have them cached in LocalStorage?
 		var cacheKey = 'soup-privileges-' + location.hostname;
-		var cacheTimeMillis = 24*60*60*1000;  // 24 hours
+		var cacheTimeMillis = 7*24*60*60*1000;  // one week
 		var cacheVersion = 1;
 		var data = JSON.parse( localStorage.getItem( cacheKey ) || "{}" );
 		if ( data.version === cacheVersion && data.timestamp >= Date.now() - cacheTimeMillis ) {
+			SOUP.log( 'soup using cached site privileges from', new Date( data.timestamp ) );
 			callback( SOUP.userPrivileges = data.privileges );
 			return;
 		}
 
 		// start an API request unless one is already in progress
+		// XXX: we ignore API backoff and quota issues, since we're only making one query per week per site anyway
+		// TODO: use a LocalStorage lock item to make sure multiple tabs can't possibly start simultaneous queries?
 		if ( ! SOUP.privilegesQueue ) {
 			SOUP.privilegesQueue = [];
-			SOUP.apiRequest( 'privileges', '12nhBxey' ).then( function ( list ) {
+			SOUP.log( 'soup loading site privileges data from SE API' );
+			$.ajax( {
+				url: 'https://api.stackexchange.com/2.2/privileges',
+				data: {
+					key: '1p33SrBhD0f2V1zSOa)xfQ((',  // hi SE, it's me, SOUP! :)
+					pagesize: 100,  // should be plenty, no need to handle pagination
+					site: location.hostname,
+					filter: '12nhBxey'
+				},
+				dataType: 'json'
+			} ).then( function ( response ) {
 				// convert list of privileges into a desc-to-rep map
 				var privileges = {};
-				list.forEach( function ( item ) {
+				response.items.forEach( function ( item ) {
 					privileges[item.short_description] = item.reputation;
 				} );
 				SOUP.userPrivileges = privileges;
@@ -2340,8 +2284,9 @@ var soupLateSetup = function () {
 					callback( privileges );
 				} );
 				SOUP.privilegesQueue = null;
-			}, function ( error ) {
-				SOUP.log( 'soup loading user privileges failed', error );
+				SOUP.log( 'soup site privileges loaded and cached' );
+			}, function ( xhr, errorType, message ) {
+				SOUP.log( 'soup loading site privileges failed:', errorType, message, xhr );
 				if ( data.version === cacheVersion ) {
 					SOUP.log( 'soup using stale cached privileges from', new Date( data.timestamp ) );
 					SOUP.userPrivileges = data.privileges;
@@ -2371,66 +2316,78 @@ var fixIsEnabled = function ( fix ) {
 	return true;
 };
 
-
 //
 // Inject scripts and styles into the page:
 //
-if ( window.console ) console.log( 'soup injecting fixes' );
-var head = document.head || document.documentElement;
+var injectEarlyFixes = function () {
+	var head = document.head || document.documentElement;
+	if ( window.console ) console.log( 'soup injecting fixes into', head );
 
-// SOUP object init and early scripts:
-var initScript = document.createElement( 'script' );
-initScript.id = 'soup-init';
-initScript.type = 'text/javascript';
-var code = "'use strict';\n(" + soupInit + ")();\n";
-for (var id in fixes) {
-	if ( ! fixIsEnabled( fixes[id] ) ) continue;
-	if ( fixes[id].early ) code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
-	if ( fixes[id].jqinit ) code += "SOUP.jQueryInit(" + JSON.stringify(id) + ", " + fixes[id].jqinit + ");\n";
-}
-initScript.textContent = code;
-head.appendChild( initScript );
-
-// MathJax config:
-var mathjaxScript = document.createElement( 'script' );
-mathjaxScript.id = 'soup-mathjax-config';
-mathjaxScript.type = 'text/x-mathjax-config';
-var code = "SOUP.log( 'soup mathjax config loading' );\n";
-for (var id in fixes) {
-	if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].mathjax ) continue;
-	code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].mathjax + ");\n";
-}
-mathjaxScript.textContent = code;
-head.appendChild( mathjaxScript );
-
-// CSS styles:
-var styleElem = document.createElement( 'style' );
-styleElem.id = 'soup-styles';
-styleElem.type = 'text/css';
-var code = "";
-for (var id in fixes) {
-	if ( ! fixIsEnabled( fixes[id] ) ) continue;
-	if ( fixes[id].css ) code += "/* " + id + " */\n" + fixes[id].css;
-}
-styleElem.textContent = code.replace( /[}] */g, "}\n" )
-head.appendChild( styleElem );
-
-// JS fixes (injected on document load, run after SE framework is ready):
-var injectScripts = function () {
-	var scriptElem = document.createElement( 'script' );
-	scriptElem.id = 'soup-scripts';
-	scriptElem.type = 'text/javascript';
-	var code = "'use strict';\n(" + soupLateSetup + ")();\n";
+	// SOUP object init and early scripts:
+	var initScript = document.createElement( 'script' );
+	initScript.id = 'soup-init';
+	initScript.type = 'text/javascript';
+	var code = "'use strict';\n(" + soupInit + ")();\n";
 	for (var id in fixes) {
-		if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].script ) continue;
-		code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
+		if ( ! fixIsEnabled( fixes[id] ) ) continue;
+		if ( fixes[id].early ) code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].early + ");\n";
+		if ( fixes[id].jqinit ) code += "SOUP.jQueryInit(" + JSON.stringify(id) + ", " + fixes[id].jqinit + ");\n";
 	}
-	scriptElem.textContent = code;
-	document.body.appendChild( scriptElem );
+	initScript.textContent = code;
+	head.appendChild( initScript );
+
+	// MathJax config:
+	var mathjaxScript = document.createElement( 'script' );
+	mathjaxScript.id = 'soup-mathjax-config';
+	mathjaxScript.type = 'text/x-mathjax-config';
+	var code = "SOUP.log( 'soup mathjax config loading' );\n";
+	for (var id in fixes) {
+		if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].mathjax ) continue;
+		code += "SOUP.try(" + JSON.stringify(id) + ", " + fixes[id].mathjax + ");\n";
+	}
+	mathjaxScript.textContent = code;
+	head.appendChild( mathjaxScript );
+
+	// CSS styles:
+	var styleElem = document.createElement( 'style' );
+	styleElem.id = 'soup-styles';
+	styleElem.type = 'text/css';
+	var code = "";
+	for (var id in fixes) {
+		if ( ! fixIsEnabled( fixes[id] ) ) continue;
+		if ( fixes[id].css ) code += "/* " + id + " */\n" + fixes[id].css;
+	}
+	styleElem.textContent = code.replace( /[}] */g, "}\n" )
+	head.appendChild( styleElem );
+
+	// JS fixes (injected on document load, run after SE framework is ready):
+	var injectScripts = function () {
+		var scriptElem = document.createElement( 'script' );
+		scriptElem.id = 'soup-scripts';
+		scriptElem.type = 'text/javascript';
+		var code = "'use strict';\n(" + soupLateSetup + ")();\n";
+		for (var id in fixes) {
+			if ( ! fixIsEnabled( fixes[id] ) || ! fixes[id].script ) continue;
+			code += "SOUP.ready(" + JSON.stringify(id) + ", " + fixes[id].script + ");\n";
+		}
+		scriptElem.textContent = code;
+		document.body.appendChild( scriptElem );
+	};
+	if (document.body) injectScripts();
+	else if (window.opera) addEventListener( 'load', injectScripts, false );
+	else document.addEventListener( 'DOMContentLoaded', injectScripts );
 };
-if (document.body) injectScripts();
-else if (window.opera) addEventListener( 'load', injectScripts, false );
-else document.addEventListener( 'DOMContentLoaded', injectScripts );
+if ( document.head || document.documentElement ) injectEarlyFixes();
+else {
+	// GM4 sometimes runs document-start scripts before any DOM element exists: https://github.com/greasemonkey/greasemonkey/issues/2996
+	if ( window.console ) console.log( 'soup deferring initialization until documentElement exists' );
+	var obs = new MutationObserver( function () {
+		if ( ! document.head && ! document.documentElement ) return;
+		obs.disconnect();
+		injectEarlyFixes();
+	} );
+	obs.observe( document, { childList: true } );
+}
 
 } )();  // end of anonymous wrapper function
 
