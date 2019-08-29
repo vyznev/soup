@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.3
+// @version     1.57.4
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -571,7 +571,7 @@ fixes.mse115702 = {
 		if ( ! window.StackExchange || ! StackExchange.options || ! StackExchange.options.user ) return;
 		if ( StackExchange.options.user.rep < 4000 ) return;  // skip the API call on sites where the user definitely doesn't have enough rep
 		SOUP.loadPrivileges( function (privileges) {
-			if ( StackExchange.options.user.rep < privileges["access 'trusted user' tools"] || 20000 ) return;
+			if ( StackExchange.options.user.rep < (privileges["access 'trusted user' tools"] || 20000) ) return;
 
 			var html = '<a href="#" class="soup-delete-link" title="vote to delete this post">delete</a>';
 			var lsep = '<span class="lsep">|</span>';
