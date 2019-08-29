@@ -15,6 +15,7 @@ SOUP version numbering generally follows the _major.minor.patch_ scheme.  Odd mi
 
 * Added a new `SOUP.loadPrivileges()` helper method to fetch user privilege thresholds from the SE API (and cache them in LocalStorage).  This is currently used by the [mse115702](https://meta.stackexchange.com/q/115702) fix to detect access to "trusted user" features (specifically, being able to vote to delete negatively scored answers).  This replaces the old `SOUP.isBeta` flag, which no longer exists.
 * Worked around Greasemonkey 4 sometimes running `document-start` scripts before `document.documentElement` exists (https://github.com/greasemonkey/greasemonkey/issues/2996).
+* Rewrote the [mse74274](https://meta.stackexchange.com/q/74274) fix to work with the new share popup implementation.
 
 
 1.56 (2019-08-06)

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.2
+// @version     1.57.3
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -569,6 +569,7 @@ fixes.mse115702 = {
 	path:	/^\/(questions\/\d+|review\b)/,
 	script:	function () {
 		if ( ! window.StackExchange || ! StackExchange.options || ! StackExchange.options.user ) return;
+		if ( StackExchange.options.user.rep < 4000 ) return;  // skip the API call on sites where the user definitely doesn't have enough rep
 		SOUP.loadPrivileges( function (privileges) {
 			if ( StackExchange.options.user.rep < privileges["access 'trusted user' tools"] || 20000 ) return;
 
@@ -1124,36 +1125,39 @@ fixes.mse74274 = {
 	title:	"Privacy leak in permalink?",
 	url:	"https://meta.stackexchange.com/q/74274",
 	script:	function () {
-		if ( ! window.StackExchange ) return;
+		var anonymizeShareSheet = function () {
+			var $sheet = $(this), input = $sheet.find('.js-input');
+			if ( input.length !== 1 ) return;
 
-		// TODO: we should strip the user ID from the share link URL itself!
-		// The problem is that showShareTip() pulls the URL from the link,
-		// so this would anonymize the popup *too* completely. :-(
+			var url = input.val(), anonUrl = url.replace( /(\/[qa]\/\d+)\/\d+$/, '$1' );
+			if ( anonUrl === url ) return;
 
-		var anonShareTip = function () {
-			// there should be only one share tip, but let's play it safe
-			try { $('.share-tip:not(:has(.share-anon))').each( function () {
-				var input = $(this).find('input').first(), anon = input.clone();
-				anon.val( input.val().replace(/(\/[qa]\/\d+)\/\d+$/, '$1') );
-				if (anon.val() === input.val()) return;
-				anon.addClass('share-anon');
-				input.after(anon).after('anonymous');  // TODO: localize?
-			} ) }
-			catch (e) { SOUP.log( 'SOUP anonShareTip():', e ) }
+			var anon = $sheet.find('.soup-share-anon');
+			if ( anon.length === 0 ) {
+				anon = input.clone().addClass('soup-share-anon').removeClass('js-input');
+				input.after(anon).after('<div class="my8 soup-share-anon-title">anonymous</div>');
+			}
+			anon.val(anonUrl);
+
+			// also tweak the copy button text a bit
+			// duplicating the button would be nice, but would require reimplementing all the clipboard handling code that SE doesn't expose :(
+			var copyButton = $sheet.find('button.js-copy-link-btn');
+			if ( copyButton.text() === 'Copy link' ) copyButton.text( 'Copy link (with user id)' );
+
 		};
-		// inject call to anonShareTip() after StackExchange.helpers.showShareTip()
-		var oldShareTip = StackExchange.helpers && StackExchange.helpers.showShareTip;
-		if (oldShareTip) StackExchange.helpers.showShareTip = function () {
-			var rv = oldShareTip.apply(this, arguments);
-			anonShareTip();
-			return rv;
-		};
-		// just in case, also call anonShareTip() directly after the share link is clicked
-		$(document).on( 'click', '.post-menu a.short-link', anonShareTip );
-	},
-	// minor CSS tweak to make the close link take up less vertical space
-	css:	".share-tip #share-icons { float: left }" +
-		".share-tip .close-share-tip { position: relative; top: 4px }"
+
+		$(document).on( 'se-share-sheet:update', function ( e ) {
+			// defer until the SE updateSheet() code has run
+			setTimeout( function () {
+				var sheetId = e.target.getAttribute( 'aria-controls' );
+				var sheet = sheetId && document.getElementById( sheetId );
+				if ( sheet ) anonymizeShareSheet.call( sheet );
+			}, 0 );
+		} );
+
+		// some share sheets have probably already been created
+		$('div[id^=se-share-sheet]').each( anonymizeShareSheet );
+	}
 };
 fixes.mso338932 = {
 	title:	"Touch laptop – “The snippet editor does not support touch devices.”",
