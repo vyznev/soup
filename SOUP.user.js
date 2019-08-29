@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.4
+// @version     1.57.5
 // @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1141,9 +1141,7 @@ fixes.mse74274 = {
 
 			// also tweak the copy button text a bit
 			// duplicating the button would be nice, but would require reimplementing all the clipboard handling code that SE doesn't expose :(
-			var copyButton = $sheet.find('button.js-copy-link-btn');
-			if ( copyButton.text() === 'Copy link' ) copyButton.text( 'Copy link (with user id)' );
-
+			$sheet.find('button.js-copy-link-btn:not(.soup-mse74274-fixed)').addClass('soup-mse74274-fixed').append(' (with user id)');
 		};
 
 		$(document).on( 'se-share-sheet:update', function ( e ) {
