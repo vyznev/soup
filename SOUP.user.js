@@ -3,8 +3,8 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.6
-// @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.57.7
+// @copyright   2014-2019, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -1487,6 +1487,20 @@ fixes.mse331640 = {
 		SOUP.hookAjax( /^\/posts\/ajax-load-realtime\/[\d;]+\?title=true/, function () {
 			styleCode();
 		}, 200 );  // the old content fades out for 150ms before it's replaced
+	}
+};
+fixes.mse333808 = {
+	title:	"Text nodes directly inside spoilers are broken in mobile view",
+	url:	"https://meta.stackexchange.com/q/333808",
+	jqinit:	function () {
+		var oldChildren = $.fn.children;
+		$.fn.children = function () {
+			if ( SOUP.isMobile && this.length === 1 && this.is('blockquote.spoiler-overlay') ) {
+				return $.fn.contents.apply(this, arguments);
+			} else {
+				return oldChildren.apply(this, arguments);
+			}
+		};
 	}
 };
 
