@@ -3,8 +3,8 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites
 // @author      Ilmari Karonen
-// @version     1.56.1
-// @copyright   2014-2018, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
+// @version     1.56.2
+// @copyright   2014-2019, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
 // @match       *://*.stackoverflow.com/*
@@ -811,7 +811,8 @@ fixes.mso297489 = {
 		} );
 	}
 };
-fixes.mso300679 = {
+if (false) fixes.mso300679 = {
+	// temporarily disabled per https://github.com/vyznev/soup/issues/47
 	title:	"Please block posts containing unsupported HTML",
 	url:	"https://meta.stackoverflow.com/q/300679",
 	script:	function () {

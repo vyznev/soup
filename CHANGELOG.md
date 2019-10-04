@@ -26,6 +26,10 @@ This release mostly fixes regressions introduced by changes to the SE user inter
 * Tweaked the [mse291623](https://meta.stackexchange.com/q/291623) CSS selector to only apply to the mobile view. (Avoids color mismatch for italic text in visited links on Chrome.)
 * Added CSS to stop the [mso287222](https://meta.stackoverflow.com/q/287222) fix from pushing the new activity indicator on custom question filters to a separate line ([issue #44](https://github.com/vyznev/soup/issues/44)).
 
+**Changes in 1.56.2:**
+
+* Temporarily disabled the [mso300679](https://meta.stackoverflow.com/q/300679) fix due to changes in SE code.
+
 
 1.54 (2019-03-08)
 ====
