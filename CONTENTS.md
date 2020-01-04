@@ -101,6 +101,7 @@ These fixes apply only to the [Stack Exchange Network chat](https://chat.stackex
 * [mse178439: Can we exempt downvoted accepted answers from getting the top spot?](https://meta.stackexchange.com/q/178439)
 * [mse331640: Syntax highlight and MathJax is not rendered after reloading an edited post](https://meta.stackexchange.com/q/331640)
 * [mse333808: Text nodes directly inside spoilers are broken in mobile view](https://meta.stackexchange.com/q/333808)
+* [mse341498: Spoilers in user profiles don't show permanently once they are clicked, unlike for posts](https://meta.stackexchange.com/q/341498)
 
 ### Site-specific fixes
 

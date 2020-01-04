@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.8
+// @version     1.57.9
 // @copyright   2014-2019, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1485,7 +1485,9 @@ fixes.mse331640 = {
 	title:	"Syntax highlight and MathJax is not rendered after reloading an edited post",
 	url:	"https://meta.stackexchange.com/q/331640",
 	script:	function () {
+		if ( ! window.styleCode ) return;
 		SOUP.hookAjax( /^\/posts\/ajax-load-realtime\/[\d;]+\?title=true/, function () {
+			$('.spoiler').off('click');  // avoid adding duplicate click handlers
 			styleCode();
 		}, 200 );  // the old content fades out for 150ms before it's replaced
 	}
@@ -1502,6 +1504,16 @@ fixes.mse333808 = {
 				return oldChildren.apply(this, arguments);
 			}
 		};
+	}
+};
+fixes.mse341498 = {
+	title:	"Spoilers in user profiles don't show permanently once they are clicked, unlike for posts",
+	url:	"https://meta.stackexchange.com/q/341498",
+	path: /^\/users\/\d+/,
+	script: function () {
+		if ( ! window.styleCode ) return;
+		$('.spoiler').off('click');  // for safety, in case SE ever fixes this bug
+		styleCode();
 	}
 };
 
