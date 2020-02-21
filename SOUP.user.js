@@ -1353,7 +1353,7 @@ fixes.mse90713 = {
 	// XXX: the bounty detection won't work in review; hopefully bountied questions should rarely appear there
 	path:	/^\/questions\/\d+\b/,
 	script:	function () {
-		if ( $('#question .bounty-notification .question-status.bounty').length == 0 ) return;  // no bounty => nothing to do
+		if ( ! $('.js-post-notice').length || ! $('.js-post-notice').find('b').text().match(/bounty/) ) return; // no bounty notice => nothing to do
 
 		var notice = '<div class="soup-mse90713-notice">This question has an open bounty and cannot be closed.</div>';
 
@@ -1365,7 +1365,7 @@ fixes.mse90713 = {
 		} );
 		// also prevent the dupe finder from enabling the submit button
 		SOUP.hookAjax( /^\/posts\/popup\/close\/search-originals\/\d+\b/, function () {
-			$('#popup-close-question .popup-submit').disable();
+			$('.popup-submit').disable();
 		} );
 	},
 	// the colors are based on the .message.message-error style in all.css on SO
