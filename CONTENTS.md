@@ -20,7 +20,7 @@ These are pure CSS fixes.  They will be applied even if JavaScript is disabled o
 * **[mse84296: RTL text can mess up comment timestamps](https://meta.stackexchange.com/q/84296)**
 * [mse249859: &lt;kbd&gt; tags in headings are too small](https://meta.stackexchange.com/q/249859)
 * [mse248156: What's the purpose of the tagline in the Bounties section of the profile?](https://meta.stackexchange.com/q/248156)
-* [mse250081: Retract close vote UI](https://meta.stackexchange.com/q/250081)
+* [mse250081: Make it more clear on the close button if I've voted to close a question](https://meta.stackexchange.com/q/250081)
 * **[mso287222: Clicking between lines fails](https://meta.stackoverflow.com/q/287222)**
 * [mso297678: Comment anchor links get “visited” highlighting](https://meta.stackoverflow.com/q/297678)
 * [mse242944: Long display name with no spaces breaks design of review history pages](https://meta.stackexchange.com/q/242944)
