@@ -3,7 +3,7 @@
 // @namespace   https://github.com/vyznev/
 // @description Miscellaneous client-side fixes for bugs on Stack Exchange sites (development)
 // @author      Ilmari Karonen
-// @version     1.57.9
+// @version     1.57.10
 // @copyright   2014-2019, Ilmari Karonen (https://stackapps.com/users/10283/ilmari-karonen)
 // @license     ISC; https://opensource.org/licenses/ISC
 // @match       *://*.stackexchange.com/*
@@ -1432,13 +1432,13 @@ fixes.mse178439 = {
 
 		function getScore (post) {
 			// XXX: we assume that no answers have expanded vote counts yet when this runs
-			return Number( $('.vote-count-post', post).text() );
+			return Number( $('.js-vote-count', post).text() );
 		}
 		function getTimestamp (post, index) {
 			return $('.post-signature .user-action-time .relativetime', post).eq(index).attr('title') || "";
 		}
 
-		var order = /[?&]answertab=([^&#]*)/.exec( $('#tabs a.youarehere').attr('href') );
+		var order = /[?&]answertab=([^&#]*)/.exec( $('a.youarehere').attr('href') );
 		if ( ! order ) return SOUP.log( 'soup mse178439: unable to determine answer sort mode!' );
 
 		var acceptedScore = getScore( firstAnswer );  // XXX: we need this anyway for logging
