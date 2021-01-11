@@ -155,7 +155,7 @@ fixes.mse250081 = {
 	url:	"https://meta.stackexchange.com/q/250081",
 	credit:	"style suggested by AstroCB",
 	// FIXME: This doesn't work on pt.SO or ja.SO; should find out how this tooltip is translated there
-	css:	".close-question-link[title^=\"You voted to\"] { color: #444 }"
+	css:	".js-close-question-link[title^=\"You voted to\"] { color: #444 }"
 };
 fixes.mso287222 = {
 	title:	"Clicking between lines fails",
