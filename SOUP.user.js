@@ -151,7 +151,7 @@ fixes.mse248156 = {
 	css:	"#user-tab-bounties #bounties-table .started { display: none }"
 };
 fixes.mse250081 = {
-	title:	"Retract close vote UI",
+	title:	"Make it clearer when looking at a question if I've already voted to close it",
 	url:	"https://meta.stackexchange.com/q/250081",
 	credit:	"style suggested by AstroCB",
 	// FIXME: This doesn't work on pt.SO or ja.SO; should find out how this tooltip is translated there
